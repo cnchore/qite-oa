@@ -68,4 +68,10 @@ npm run build
 ```bash
 npm run lint
 ```
+### 更新日志
 
+#### 2017-6-1
+
+1. 修复dva的Warning：Accessing PropTypes via the main React package is deprecated. Use the prop-types package from npm instead.（指定react版本为15.0.0）
+
+2. 修复dva的Warning：AnimateChild: React.createClass is deprecated and will be removed in version 16. Use plain JavaScript classes instead. If you're not yet ready to migrate, create-react-class is available on npm as a drop-in replacement.（指定react-router版本为4.4.1）

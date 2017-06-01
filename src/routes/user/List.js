@@ -70,6 +70,7 @@ const List = ({ onDeleteItem, onEditItem, isMotion, location, ...tableProps }) =
     }, {
       title: 'Operation',
       key: 'operation',
+      fixed:'right',
       width: 100,
       render: (text, record) => {
         return <DropOption onMenuClick={e => handleMenuClick(record, e)} menuOptions={[{ key: '1', name: 'Update' }, { key: '2', name: 'Delete' }]} />

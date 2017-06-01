@@ -168,7 +168,7 @@ export default {
   namespace: 'dashboard',
   state: {
     weather: {
-      city: '成都',
+      city: '广州',
       temperature: '5',
       name: '晴',
       icon: 'http://www.zuimeitianqi.com/res/icon/0_big.png',
@@ -204,7 +204,8 @@ export default {
     *queryWeather ({
       payload,
     }, { call, put }) {
-      const myCityResult = yield call(myCity, { flg: 0 })
+      const myCityResult = yield call(myCity, { cityCode:'01010704',flg: 1 })
+      //console.log('myCityResult',myCityResult);
       const result = yield call(queryWeather, { cityCode: myCityResult.selectCityCode })
       const weather = zuimei.parseActualData(result.data.actual)
       weather.city = myCityResult.selectCityName

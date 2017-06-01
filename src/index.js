@@ -11,8 +11,9 @@ const app = dva({
     effects: true,
   }),
   history: browserHistory,
+  //全局错误抛出
   onError (error) {
-    message.error(error.message)
+    message.error(error.message,5)
   },
 })
 
