@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
-import { Row, Col, Card } from 'antd'
+import { Row, Col, Card, BackTop } from 'antd'
 import { NumberCard, Quote, Sales, Weather, RecentSales, Comments, Completed, Browser, Cpu, User } from './components'
 import styles from './index.less'
 import { color } from '../../utils'
@@ -81,6 +81,9 @@ function Dashboard ({ dashboard }) {
       <Col lg={8} md={24}>
         <Card bordered={false} bodyStyle={{ ...bodyStyle.bodyStyle, padding: 0 }}>
           <User {...user} />
+          <div>
+          <BackTop style={{ bottom: 50 }}/>
+          </div>
         </Card>
       </Col>
     </Row>

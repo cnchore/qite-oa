@@ -7,6 +7,8 @@ import { Helmet } from 'react-helmet'
 import '../themes/index.less'
 import './app.less'
 import NProgress from 'nprogress'
+
+
 const { prefix } = config
 
 const { Header, Bread, Footer, Sider, styles } = Layout
@@ -69,12 +71,12 @@ const App = ({ children, location, dispatch, app, loading }) => {
     return <div>{children}</div>
   }
 
-  const { iconFontJS, iconFontCSS, logo } = config
+  const  { iconFontJS, iconFontCSS, logo, name } = config
 
   return (
     <div>
       <Helmet>
-        <title>ANTD ADMIN</title>
+        <title>{name}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href={logo} type="image/x-icon" />
         {iconFontJS && <script src={iconFontJS}></script>}
@@ -89,9 +91,11 @@ const App = ({ children, location, dispatch, app, loading }) => {
           <Bread {...breadProps} location={location} />
           <div className={styles.container}>
             <div className={styles.content}>
+             
               {children}
             </div>
           </div>
+
           <Footer />
         </div>
       </div>

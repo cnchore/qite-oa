@@ -70,6 +70,10 @@ npm run lint
 ```
 ### 更新日志
 
+#### 2017-6-2
+
+1. build优化：添加webpack，使用户hash打包文件名
+
 #### 2017-6-1
 
 1. 修复dva的Warning：Accessing PropTypes via the main React package is deprecated. Use the prop-types package from npm instead.（指定react版本为15.0.0）

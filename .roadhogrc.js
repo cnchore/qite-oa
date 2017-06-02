@@ -11,10 +11,25 @@ export default {
   "theme": "./theme.config.js",
   "env": {
       "development": {
+        
+        "extraBabelPlugins": [
+          "transform-runtime",
+          ["import", { "libraryName": "antd", "style": true}]
+        ]
+      },
+      "production": {
+        "publicPath": "/",
+        "extraBabelPlugins": [
+          "transform-runtime",
+          ["import", { "libraryName": "antd", "style": true}]
+        ]
+      }
+      /*
+      "development": {
         "extraBabelPlugins": [
           "dva-hmr",
           "transform-runtime",
-  		    ["import", { "libraryName": "antd", "style": true }]
+          ["import", { "libraryName": "antd", "style": true }]
         ]
       },
       "production": {
@@ -23,5 +38,6 @@ export default {
   		    ["import", { "libraryName": "antd", "style": true}]
         ]
       }
+      */
   }
 }

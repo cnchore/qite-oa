@@ -107,7 +107,9 @@ const Filter = ({
             <Button size="large" onClick={handleReset}>Reset</Button>
           </div>
           <div>
-            <Switch style={{ marginRight: 16 }} size="large" defaultChecked={isMotion} onChange={switchIsMotion} checkedChildren={'Motion'} unCheckedChildren={'Motion'} />
+            { true?'':
+            <Switch style={{ marginRight: 16,display:'none' }} size="large" defaultChecked={isMotion} onChange={switchIsMotion} checkedChildren={'Motion'} unCheckedChildren={'Motion'} />
+            }
             <Button size="large" type="ghost" onClick={onAdd}>Create</Button>
           </div>
         </div>
