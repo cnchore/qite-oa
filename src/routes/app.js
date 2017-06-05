@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet'
 import '../themes/index.less'
 import './app.less'
 import NProgress from 'nprogress'
-
+import {Icon} from 'antd'
 
 const { prefix } = config
 
@@ -90,8 +90,8 @@ const App = ({ children, location, dispatch, app, loading }) => {
           <Header {...headerProps} />
           <Bread {...breadProps} location={location} />
           <div className={styles.container}>
-            <div className={styles.content}>
-             
+            <div className={styles.content} id="backtop">
+              
               {children}
             </div>
           </div>

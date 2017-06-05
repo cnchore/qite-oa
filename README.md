@@ -70,6 +70,11 @@ npm run lint
 ```
 ### 更新日志
 
+#### 2017-6-5
+
+1. 添加treeTable
+2. build优化：取消mock；
+
 #### 2017-6-2
 
 1. build优化：添加webpack，使用户hash打包文件名

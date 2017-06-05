@@ -91,6 +91,7 @@ const Filter = ({
             options={city}
             placeholder="Please pick an address"
             onChange={handleChange.bind(null, 'address')}
+            showSearch
           />)}
       </Col>
       <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} sm={{ span: 12 }}>

@@ -40,6 +40,7 @@ function User ({ avatar, name, email, sales, sold }) {
     </div>
     <div className={styles.footer}>
       <Button type="ghost" size="large">View Profile</Button>
+     
     </div>
   </div>)
 }

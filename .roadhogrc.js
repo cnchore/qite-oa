@@ -13,6 +13,7 @@ export default {
       "development": {
         
         "extraBabelPlugins": [
+           "dva-hmr",
           "transform-runtime",
           ["import", { "libraryName": "antd", "style": true}]
         ]
