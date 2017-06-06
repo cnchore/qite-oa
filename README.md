@@ -70,6 +70,11 @@ npm run lint
 ```
 ### 更新日志
 
+#### 2017-6-6
+
+1. 添加BackTop公共方法；
+2. TreeTable父子递归选择实现摸索；
+
 #### 2017-6-5
 
 1. 添加treeTable

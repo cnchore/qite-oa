@@ -129,10 +129,11 @@ module.exports = {
 
   [`GET ${apiPrefix}/users`] (req, res) {
     const { query } = req
+
     let { pageSize, page, ...other } = query
     pageSize = pageSize || 10
     page = page || 1
-
+    //console.log('req:other',other);
     let newData = database
     for (let key in other) {
       if ({}.hasOwnProperty.call(other, key)) {

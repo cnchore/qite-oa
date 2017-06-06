@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet'
 import '../themes/index.less'
 import './app.less'
 import NProgress from 'nprogress'
-import {Icon} from 'antd'
+import {BackTop} from 'antd'
 
 const { prefix } = config
 
@@ -72,7 +72,8 @@ const App = ({ children, location, dispatch, app, loading }) => {
   }
 
   const  { iconFontJS, iconFontCSS, logo, name } = config
-
+ 
+ 
   return (
     <div>
       <Helmet>
@@ -86,12 +87,14 @@ const App = ({ children, location, dispatch, app, loading }) => {
         {!isNavbar ? <aside className={classnames(styles.sider, { [styles.light]: !darkTheme })}>
           <Sider {...siderProps} />
         </aside> : ''}
-        <div className={styles.main}>
+        <div className={styles.main} id="layout-main">
           <Header {...headerProps} />
           <Bread {...breadProps} location={location} />
           <div className={styles.container}>
-            <div className={styles.content} id="backtop">
-              
+            <div className={styles.content}>
+              <BackTop target={()=>document.getElementById('layout-main')}>
+                <div className="ant-back-top-inner">UP</div>
+              </BackTop>
               {children}
             </div>
           </div>

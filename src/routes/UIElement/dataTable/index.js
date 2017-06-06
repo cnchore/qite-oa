@@ -1,13 +1,15 @@
 import React from 'react'
 import { DataTable } from '../../../components'
 import { Table, Row, Col, Card, Select } from 'antd'
+import { getFamliy } from '../../../utils'
 
 class DataTablePage extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { filterCase: {
-      gender: '',
-    } }
+    this.state = { 
+      filterCase: {gender: '',},
+      selectedRowKeys:[13,131,1311]
+    }
   }
 
   handleSelectChange = (gender) => {
@@ -17,8 +19,9 @@ class DataTablePage extends React.Component {
       },
     })
   }
+  
   render () {
-    const { filterCase } = this.state
+    const { filterCase,selectedRowKeys } = this.state
     const staticDataTableProps = {
       dataSource: [{ key: '1', name: 'John Brown', age: 24, address: 'New York' }, { key: '2', name: 'Jim Green', age: 23, address: 'London' }],
       columns: [{ title: 'name', dataIndex: 'name' }, { title: 'Age', dataIndex: 'age' }, { title: 'Address', dataIndex: 'address' }],
@@ -102,6 +105,11 @@ class DataTablePage extends React.Component {
               address: 'London No. 4 Lake Park',
             }],
           }],
+        },{
+          key: 14,
+          name: 'Susan sr.',
+          age: 72,
+          address: 'London No. 1 Lake Park'
         }],
       }, {
         key: 2,
@@ -110,14 +118,22 @@ class DataTablePage extends React.Component {
         address: 'Sidney No. 1 Lake Park',
       }];
     const rowSelection = {
+      selectedRowKeys,
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        this.setState({ selectedRowKeys: selectedRowKeys });
+        
+        console.log('onChange:',`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
       },
       onSelect: (record, selected, selectedRows) => {
-        console.log(record, selected, selectedRows);
+        let list=selectedRows.map((item)=>item.key);
+        this.setState({ selectedRowKeys:list});
+        //let _list=getFamliy(data,record.key)
+        //console.log('getFamliy:',record.key,_list);
+        console.log('onSelect:',record, selected, selectedRows,'list:',list);
       },
       onSelectAll: (selected, selectedRows, changeRows) => {
-        console.log(selected, selectedRows, changeRows);
+        this.setState({ selectedRowKeys: selectedRows.map((item)=>item.key) });
+        console.log('onSelectAll:',selected, selectedRows, changeRows);
       },
     };
     const treeTableProps={
@@ -136,6 +152,7 @@ class DataTablePage extends React.Component {
         dataIndex: 'address',
         key: 'address',
       }],
+      defaultExpandAllRows:true,
       rowSelection:rowSelection,
       dataSource:data,
       Pagination:{showSizeChanger:true,showQuickJumper:true}

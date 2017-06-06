@@ -98,7 +98,72 @@ const arrayToTree = (array, id = 'id', pid = 'pid', children = 'children') => {
   })
   return result
 }
-
+/**
+ * 根据NodeKey查找当前节点以及父节点
+ * 
+ * @param  {[json]}
+ * @param  {[key]}
+ * @return {{}}
+ */
+const getParentNode=(json,key)=>{
+    var parentNode = null;
+    var node = null;
+    let getNode= function(json, key) { 
+        //1.第一层 root 深度遍历整个JSON
+        for (var i = 0; i < json.length; i++) {
+            if (node) {
+                break;
+            }
+            var obj = json[i];
+            //没有就下一个
+            if (!obj || !obj.key) {
+                continue;
+            }
+            //2.有节点就开始找，一直递归下去
+            if (obj.key === key) {
+                //找到了与nodeId匹配的节点，结束递归
+                node = obj;
+                break;
+            } else {
+                //3.如果有子节点就开始找
+                if (obj.children) {
+                    //4.递归前，记录当前节点，作为parent 父亲
+                    parentNode = obj;
+                    //递归往下找
+                    getNode(obj.children, key);
+                } else {
+                    //跳出当前递归，返回上层递归
+                    continue;
+                }
+            }
+        }
+        //5.如果木有找到父节点，置为null，因为没有父亲  
+        if (!node) {
+            parentNode = null;
+        }
+    }
+    getNode(json,key);
+    console.log('-----getParentNode:',key,parentNode,node);
+    return {parentNode,node};
+}
+const getFamliy=(json,key)=>{
+  let trees=[key];
+  let _do=true;
+  let _key=key;
+  do{
+    //console.log('json:',json,'--key:',_key);
+    let _node=getParentNode(json,_key);
+    if(_node && _node.parentNode){
+      trees.push(_node.parentNode.key);
+      _key=_node.parentNode.key;
+    }else{
+      _do=false;
+      
+    }
+  }
+  while(_do)
+  return trees;
+}
 module.exports = {
   config,
   menu,
@@ -108,4 +173,5 @@ module.exports = {
   queryURL,
   queryArray,
   arrayToTree,
+  getFamliy
 }
