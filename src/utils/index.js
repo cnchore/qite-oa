@@ -106,29 +106,19 @@ const arrayToTree = (array, id = 'id', pid = 'pid', children = 'children') => {
  * @return {{}}
  */
 const getParentNode=(json,key)=>{
-    var parentNode = null;
-    var node = null;
+    var parentKey = null;
     let getNode= function(json, key) { 
         //1.第一层 root 深度遍历整个JSON
         for (var i = 0; i < json.length; i++) {
-            if (node) {
-                break;
-            }
             var obj = json[i];
-            //没有就下一个
-            if (!obj || !obj.key) {
-                continue;
-            }
             //2.有节点就开始找，一直递归下去
             if (obj.key === key) {
                 //找到了与nodeId匹配的节点，结束递归
-                node = obj;
+                parentKey=obj.parent;
                 break;
             } else {
                 //3.如果有子节点就开始找
                 if (obj.children) {
-                    //4.递归前，记录当前节点，作为parent 父亲
-                    parentNode = obj;
                     //递归往下找
                     getNode(obj.children, key);
                 } else {
@@ -137,25 +127,20 @@ const getParentNode=(json,key)=>{
                 }
             }
         }
-        //5.如果木有找到父节点，置为null，因为没有父亲  
-        if (!node) {
-            parentNode = null;
-        }
+        
     }
     getNode(json,key);
-    console.log('-----getParentNode:',key,parentNode,node);
-    return {parentNode,node};
+    return parentKey;
 }
 const getFamliy=(json,key)=>{
   let trees=[key];
   let _do=true;
   let _key=key;
   do{
-    //console.log('json:',json,'--key:',_key);
-    let _node=getParentNode(json,_key);
-    if(_node && _node.parentNode){
-      trees.push(_node.parentNode.key);
-      _key=_node.parentNode.key;
+    let parentkey=getParentNode(json,_key);
+    if(parentkey && parentkey>-1){
+      trees.push(parentkey);
+      _key=parentkey;
     }else{
       _do=false;
       
@@ -163,6 +148,36 @@ const getFamliy=(json,key)=>{
   }
   while(_do)
   return trees;
+}
+const getChildren=(json,key)=>{
+  let keys=[];
+  let forFun=(json,key)=>{
+    for(let i=0;i<json.length;i++){
+      if(json[i].key===key){
+        if(json[i].children){
+          let _list=json[i].children;
+          keys.push(..._list);
+          _list.forEach((item)=>{
+            forFun(json,item.key);
+          })
+        }
+      }else if(json[i].children){
+        forFun(json[i].children,key)
+      }
+    }
+  }
+  forFun(json,key);
+  return keys.length>0?keys.map((item)=>item.key):[];
+}
+const getAnotB=(a,b)=>{
+  //console.log(...a,'------',...b);
+  return a.filter((v)=>{
+    if(b.findIndex((o)=>o===v)>-1){
+      return false;
+    }else{
+      return true;
+    }
+  })
 }
 module.exports = {
   config,
@@ -173,5 +188,7 @@ module.exports = {
   queryURL,
   queryArray,
   arrayToTree,
-  getFamliy
+  getFamliy,
+  getChildren,
+  getAnotB
 }
