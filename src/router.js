@@ -46,6 +46,15 @@ const Routers = function ({ history, app }) {
             }, 'user-detail')
           },
         }, {
+          
+          path: '/setting/organization',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/organization'))
+              cb(null, require('./routes/organization/'))
+            }, 'setting-organization')
+          },
+        }, {
           path: 'login',
           getComponent (nextState, cb) {
             require.ensure([], require => {

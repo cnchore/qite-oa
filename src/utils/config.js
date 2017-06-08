@@ -21,5 +21,6 @@ module.exports = {
     users: '/users',
     user: '/user/:id',
     dashboard: '/dashboard',
+    organization:'/setting/organization/:id',
   },
 }
