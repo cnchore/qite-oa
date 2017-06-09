@@ -8,20 +8,34 @@ import { Link } from 'dva/router'
 
 const confirm = Modal.confirm
 
-const List = ({ onDeleteItem, onEditItem, location, ...tableProps }) => {
+const List = ({ onDeleteItem, onEditItem,onAddChild, location, ...tableProps }) => {
   const handleMenuClick = (record, e) => {
-    if (e.key === '1') {
-      onEditItem(record)
-    } else if (e.key === '2') {
-      confirm({
-        title: '你确定删除该机构么?',
-        onOk () {
-          onDeleteItem(record.id)
-        },
-      })
-    }
-  }
+    switch(e.key){
+      case '1':
+        onAddChild(record.id)
+        break;
+      case '2':
+        onEditItem(record);
+        break;
+      case '3':
+        confirm({
+          title: '你确定删除该机构么?',
+          onOk () {
+            onDeleteItem(record.id)
+          },
+        })
+        break;
 
+    }
+    
+  }
+  const menuOptions=[{ 
+    key: '1', name: '添加下级' 
+  }, { 
+    key: '2', name: '编辑' 
+  }, { 
+    key: '3', name: '删除' 
+  }]
   const columns = [
     {
       title: '机构名称',
@@ -53,7 +67,8 @@ const List = ({ onDeleteItem, onEditItem, location, ...tableProps }) => {
       fixed:'right',
       width: 100,
       render: (text, record) => {
-        return <DropOption onMenuClick={e => handleMenuClick(record, e)} menuOptions={[{ key: '1', name: '编辑' }, { key: '2', name: '删除' }]} />
+        return <DropOption onMenuClick={e => handleMenuClick(record, e)} 
+        menuOptions={menuOptions} />
       },
     },
   ]
@@ -75,6 +90,7 @@ const List = ({ onDeleteItem, onEditItem, location, ...tableProps }) => {
 }
 
 List.propTypes = {
+  onAddChild:PropTypes.func,
   onDeleteItem: PropTypes.func,
   onEditItem: PropTypes.func,
   location: PropTypes.object,

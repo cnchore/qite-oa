@@ -86,6 +86,17 @@ export default {
         throw data
       }
     },
+    *addChild ({ payload }, { select, call, put }) {
+      const id = yield select(({ organization }) => organization.currentItem.id)
+      const newOrganization = { ...payload, id }
+      const data = yield call(create, newOrganization)
+      if (data.success) {
+        yield put({ type: 'hideModal' })
+        yield put({ type: 'query' })
+      } else {
+        throw data
+      }
+    },
 
   },
 

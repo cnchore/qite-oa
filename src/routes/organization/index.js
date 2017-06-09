@@ -62,6 +62,15 @@ const Organization = ({ location, dispatch, organization, loading }) => {
         },
       })
     },
+    onAddChild (id) {
+      dispatch({
+        type: 'organization/showModal',
+        payload: {
+          modalType: 'addChild',
+          currentItem: {id},
+        },
+      })
+    },
   }
 
   const filterProps = {
