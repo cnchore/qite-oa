@@ -64,6 +64,9 @@ const fetch = (options) => {
         data: cloneData,
       })
     case 'post':
+      if(url.indexOf('qite/sys')>-1){
+        return axios.post(url,qs.stringify(cloneData));
+      }
       return axios.post(url, cloneData)
     case 'put':
       return axios.put(url, cloneData)

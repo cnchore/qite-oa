@@ -125,7 +125,7 @@ const Organization = ({ location, dispatch, organization, loading }) => {
 }
 
 Organization.propTypes = {
-  user: PropTypes.object,
+  organization: PropTypes.object,
   location: PropTypes.object,
   dispatch: PropTypes.func,
   loading: PropTypes.object,

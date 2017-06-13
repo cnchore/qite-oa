@@ -160,7 +160,7 @@ module.exports = {
       }
     }
     //console.log('========',...newData)
-    //newData=arrayToTree(newData);
+    newData=arrayToTree(newData);
     //console.log('------',...newData)
     res.status(200).json({
       data: newData.slice((page - 1) * pageSize, page * pageSize),

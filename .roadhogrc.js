@@ -9,6 +9,17 @@ export default {
   entry: 'src/index.js',
   svgSpriteLoaderDirs: svgSpriteDirs,
   "theme": "./theme.config.js",
+  "proxy": {
+        '/qite':{
+          //http://test.aylsonclub.com
+          target: "http://test.aylsonclub.com",
+          //host:"test.aylsonclub.com",
+          changeOrigin: true,
+          secure: false,
+          pathRewrite: {'^/qite' : '/qite'},
+          //router:{'/qite':'http://localhost:9000/qite'}
+        }
+      },
   "env": {
       "development": {
         
@@ -26,6 +37,13 @@ export default {
         ]
       }
       /*
+      "proxy": {
+        "/qite": {
+          "target": "http://localhost:9000/qite",
+          "changeOrigin": true,
+          "pathRewrite": { "^/qite" : "/qite" }
+        }
+      },
       "development": {
         "extraBabelPlugins": [
           "dva-hmr",

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Row, Col, Card } from 'antd'
-import { NumberCard, Quote, Sales, Weather, RecentSales, Comments, Completed, Browser, Cpu, User } from './components'
+import { NumberCard, Quote, Sales, Weather } from './components'
 import styles from './index.less'
 import { color } from '../../utils'
 
@@ -14,7 +14,7 @@ const bodyStyle = {
 }
 
 function Dashboard ({ dashboard }) {
-  const { weather, sales, quote, numbers, recentSales, comments, completed, browser, cpu, user } = dashboard
+  const { weather, sales, quote, numbers } = dashboard
   const numberCards = numbers.map((item, key) => <Col key={key} lg={6} md={12}>
     <NumberCard {...item} />
   </Col>)
@@ -53,39 +53,7 @@ function Dashboard ({ dashboard }) {
           </Col>
         </Row>
       </Col>
-      <Col lg={12} md={24}>
-        <Card bordered={false} {...bodyStyle}>
-          <RecentSales data={recentSales} />
-        </Card>
-      </Col>
-      <Col lg={12} md={24}>
-        <Card bordered={false} {...bodyStyle}>
-          <Comments data={comments} />
-        </Card>
-      </Col>
-      <Col lg={24} md={24}>
-        <Card bordered={false} bodyStyle={{
-          padding: '24px 36px 24px 0',
-        }}>
-          <Completed data={completed} />
-        </Card>
-      </Col>
-      <Col lg={8} md={24}>
-        <Card bordered={false} {...bodyStyle}>
-          <Browser data={browser} />
-        </Card>
-      </Col>
-      <Col lg={8} md={24}>
-        <Card bordered={false} {...bodyStyle}>
-          <Cpu {...cpu} />
-        </Card>
-      </Col>
-      <Col lg={8} md={24}>
-        <Card bordered={false} bodyStyle={{ ...bodyStyle.bodyStyle, padding: 0 }}>
-          <User {...user} />
-         
-        </Card>
-      </Col>
+      
       
     </Row>
   )
