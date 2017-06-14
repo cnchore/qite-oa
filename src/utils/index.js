@@ -99,6 +99,49 @@ const arrayToTree = (array, id = 'id', pid = 'pid', children = 'children') => {
   return result
 }
 /**
+ * 树状结构转数组格式
+ * @param   {array}     array
+ * @return  {Array}
+ */
+const treeToArray=(_tree)=>{
+  let array=[];
+  let tree=_tree;
+  let forFun=(tree,parent=null)=>{
+    tree.map((item)=>{
+      let _list={}
+
+      for(let obj in item){
+        if(!(obj instanceof Array) && obj!=='children'){
+          _list[obj]=item[obj];
+        }
+      }
+      if(parent){
+        _list.parent=parent;
+      }else{
+        _list.parent=-1;
+      }
+      array.push(_list);
+      if(item.children){
+        forFun(item.children,item.id)
+      }
+    })
+  }
+  let isDo=true;
+  do{
+    forFun(tree);
+    isDo=false;
+    for(let i in array){
+      if(array[i] && array[i].children){
+        tree=array;
+        array=[];
+        isDo=true;
+        break;
+      }
+    }
+  }while(isDo)
+  return array;
+}
+/**
  * 根据NodeKey查找当前节点以及父节点
  * 
  * @param  {[json]}
@@ -188,6 +231,7 @@ module.exports = {
   queryURL,
   queryArray,
   arrayToTree,
+  treeToArray,
   getFamliy,
   getChildren,
   getAnotB

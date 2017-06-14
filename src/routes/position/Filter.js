@@ -23,7 +23,7 @@ const Filter = ({
  
   const onDelete = () => {
     confirm({
-        title: '你确定删除该组织机构么?',
+        title: '你确定删除该职位么?',
         onOk () {
           onDeleteItem();
         },
@@ -39,7 +39,6 @@ const Filter = ({
           <ButtonGroup>
             <Button icon="plus" size="large" type="primary" onClick={onAdd}>新增</Button>
             <Button icon="edit" type="primary" size="large" onClick={onEditItem}>编辑</Button>
-            <Button icon="delete" type="primary" size="large" onClick={onDelete}>删除</Button>
           </ButtonGroup>
         </div>
       </Col>

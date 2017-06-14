@@ -5,17 +5,19 @@ import { connect } from 'dva'
 import List from './List'
 import Filter from './Filter'
 import Modal from './Modal'
+import { message } from 'antd' 
+
 
 const Organization = ({ location, dispatch, organization, loading }) => {
-  const { list, pagination, currentItem, modalVisible, modalType,expandedRowKeys,isSwitch } = organization
+  const { list, pagination, currentItem, modalVisible, modalType } = organization
   const { pageSize } = pagination
 
   const modalProps = {
-    item: modalType === 'create' ? {} : currentItem,
+    item: modalType === 'create' ? {parentId:currentItem.id} :currentItem,
     visible: modalVisible,
     maskClosable: false,
     confirmLoading: loading.effects['organization/update'],
-    title: `${modalType === 'create' ? '新增组织结构' : '编辑组织机构'}`,
+    title: `${modalType === 'create' ? '新增组织机构' : '编辑组织机构'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -29,12 +31,23 @@ const Organization = ({ location, dispatch, organization, loading }) => {
       })
     },
   }
-
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+     // console.log('selectedRows:',selectedRows[0]);
+      dispatch({
+        type: 'organization/setState',
+        payload:selectedRows[0]
+      })
+    },
+    
+    type:'radio',
+  };
   const listProps = {
     dataSource: list,
     loading: loading.effects['organization/query'],
     pagination,
     location,
+    rowSelection,
     defaultExpandAllRows:true,
     onChange (page) {
       const { query, pathname } = location
@@ -47,72 +60,49 @@ const Organization = ({ location, dispatch, organization, loading }) => {
         },
       }))
     },
-    onDeleteItem (id) {
-      dispatch({
-        type: 'organization/delete',
-        payload: id,
-      })
-    },
-    onEditItem (item) {
-      dispatch({
-        type: 'organization/showModal',
-        payload: {
-          modalType: 'update',
-          currentItem: item,
-        },
-      })
-    },
-    onAddChild (id) {
-      dispatch({
-        type: 'organization/showModal',
-        payload: {
-          modalType: 'addChild',
-          currentItem: {id},
-        },
-      })
-    },
+    
   }
 
   const filterProps = {
-    isSwitch,
-    filter: {
-      ...location.query,
-    },
-    onFilterChange (value) {
-      dispatch(routerRedux.push({
-        pathname: location.pathname,
-        query: {
-          ...value,
-          page: 1,
-          pageSize,
-        },
-      }))
-    },
-    onSearch (fieldsValue) {
-      fieldsValue.keyword.length ? dispatch(routerRedux.push({
-        pathname: '/organization',
-        query: {
-          field: fieldsValue.field,
-          keyword: fieldsValue.keyword,
-        },
-      })) : dispatch(routerRedux.push({
-        pathname: '/organization',
-      }))
-    },
     
-    onSwitch () {
-      dispatch({ type: 'organization/onSwitch' })
-    },
+    
+   
     onAdd () {
-     
+      if(!currentItem ||(currentItem && !currentItem.id)){
+        message.error('请选择一个机构后再试')
+        return;
+      }
       dispatch({
         type: 'organization/showModal',
         payload: {
           modalType: 'create',
+          currentItem: currentItem,
         },
       })
     },
-    
+    onDeleteItem () {
+      if(!currentItem ||(currentItem && !currentItem.id)){
+        message.error('请选择一个机构后再试')
+        return;
+      }
+      dispatch({
+        type: 'organization/delete',
+        payload: currentItem.id,
+      })
+    },
+    onEditItem () {
+      if(!currentItem ||(currentItem && !currentItem.id)){
+        message.error('请选择一个机构后再试')
+        return;
+      }
+      dispatch({
+        type: 'organization/editItem',
+        payload: {
+          modalType: 'update',
+          id: currentItem.id,
+        },
+      })
+    },
   }
 
   return (

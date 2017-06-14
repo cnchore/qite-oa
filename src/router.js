@@ -62,6 +62,14 @@ const Routers = function ({ history, app }) {
             }, 'setting-dictionary')
           },
         }, {
+          path: '/setting/position',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/position'))
+              cb(null, require('./routes/position/'))
+            }, 'setting-position')
+          },
+        }, {
           path: 'login',
           getComponent (nextState, cb) {
             require.ensure([], require => {

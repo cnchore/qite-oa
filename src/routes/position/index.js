@@ -8,34 +8,37 @@ import Modal from './Modal'
 import { message } from 'antd' 
 
 
-const Dictionary = ({ location, dispatch, dictionary, loading }) => {
-  const { list, pagination, currentItem, modalVisible, modalType } = dictionary
+const Position = ({ location, dispatch, position, loading }) => {
+  const { list,orgList,orgTree,dicList,orgKey, pagination, currentItem, modalVisible, modalType } = position
   const { pageSize } = pagination
 
   const modalProps = {
     item: modalType === 'create' ? {parentId:currentItem.id} :currentItem,
+    orgList,
+    dicList,
+    orgKey,
     visible: modalVisible,
     maskClosable: false,
-    confirmLoading: loading.effects['dictionary/update'],
-    title: `${modalType === 'create' ? '新增数据字典' : '编辑数据字典'}`,
+    confirmLoading: loading.effects['position/update'],
+    title: `${modalType === 'create' ? '新增职位' : '编辑职位'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
-        type: `dictionary/${modalType}`,
+        type: `position/${modalType}`,
         payload: data,
       })
     },
     onCancel () {
       dispatch({
-        type: 'dictionary/hideModal',
+        type: 'position/hideModal',
       })
     },
   }
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log('selectedRows:',selectedRows[0]);
+     // console.log('selectedRows:',selectedRows[0]);
       dispatch({
-        type: 'dictionary/setState',
+        type: 'position/setState',
         payload:selectedRows[0]
       })
     },
@@ -44,11 +47,13 @@ const Dictionary = ({ location, dispatch, dictionary, loading }) => {
   };
   const listProps = {
     dataSource: list,
-    loading: loading.effects['dictionary/query'],
+    loading: loading.effects['position/query'],
     pagination,
     location,
     rowSelection,
-    defaultExpandAllRows:true,
+    orgList,
+    orgTree,
+    //defaultExpandAllRows:true,
     onChange (page) {
       const { query, pathname } = location
       dispatch(routerRedux.push({
@@ -60,7 +65,21 @@ const Dictionary = ({ location, dispatch, dictionary, loading }) => {
         },
       }))
     },
-    
+    onTreeSelect(key){
+      const { query, pathname } = location
+      query.orgId=key;
+      dispatch(routerRedux.push({
+        pathname,
+        query: {
+          ...query,
+          page: 1,
+        },
+      }))
+      dispatch({
+        type: 'position/setOrgKey',
+        payload:key
+      })
+    },
   }
 
   const filterProps = {
@@ -70,7 +89,7 @@ const Dictionary = ({ location, dispatch, dictionary, loading }) => {
     onAdd () {
       
       dispatch({
-        type: 'dictionary/showModal',
+        type: 'position/showModal',
         payload: {
           modalType: 'create',
           currentItem: currentItem,
@@ -79,21 +98,21 @@ const Dictionary = ({ location, dispatch, dictionary, loading }) => {
     },
     onDeleteItem () {
       if(!currentItem ||(currentItem && !currentItem.id)){
-        message.error('请选择一个字典后再试')
+        message.error('请选择一个职位后再试')
         return;
       }
       dispatch({
-        type: 'dictionary/delete',
+        type: 'position/delete',
         payload: currentItem.id,
       })
     },
     onEditItem () {
       if(!currentItem ||(currentItem && !currentItem.id)){
-        message.error('请选择一个字典后再试')
+        message.error('请选择一个职位后再试')
         return;
       }
       dispatch({
-        type: 'dictionary/editItem',
+        type: 'position/editItem',
         payload: {
           modalType: 'update',
           id: currentItem.id,
@@ -111,11 +130,11 @@ const Dictionary = ({ location, dispatch, dictionary, loading }) => {
   )
 }
 
-Dictionary.propTypes = {
-  dictionary: PropTypes.object,
+Position.propTypes = {
+  position: PropTypes.object,
   location: PropTypes.object,
   dispatch: PropTypes.func,
   loading: PropTypes.object,
 }
 
-export default connect(({ dictionary, loading }) => ({ dictionary, loading }))(Dictionary)
+export default connect(({ position, loading }) => ({ position, loading }))(Position)

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input, Modal } from 'antd'
+import { Form, Input,InputNumber, Modal } from 'antd'
 
 const FormItem = Form.Item
 
@@ -53,7 +53,7 @@ const modal = ({
           {getFieldDecorator('seq', {
             initialValue: item.seq,
            
-          })(<Input />)}
+          })(<InputNumber step={1} />)}
         </FormItem>
         <FormItem label="字典名称" hasFeedback {...formItemLayout}>
           {getFieldDecorator('dicName', {

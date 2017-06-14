@@ -25,12 +25,27 @@ module.exports = {
     user: `${apiPrefixDev}/user/:id`,
     dashboard: `${apiPrefixDev}/dashboard`,
     organization:`${apiPrefixDev}/setting/organization/:id`,
+    organizations:{
+      query:`${apiPrefix}/org/getTree`,
+      queryById:`${apiPrefix}/org/getById`,
+      add:`${apiPrefix}/org/add`,
+      update:`${apiPrefix}/org/update`,
+      delete:`${apiPrefix}/org/deleteById`,
+    },
     dictionary:{
       query:`${apiPrefix}/dictionary/getTree`,
       queryById:`${apiPrefix}/dictionary/getById`,
+      getList:`${apiPrefix}/dictionary/getList`,
       add:`${apiPrefix}/dictionary/add`,
       update:`${apiPrefix}/dictionary/update`,
       delete:`${apiPrefix}/dictionary/deleteById`,
+    },
+    position:{
+      query:`${apiPrefix}/position/getPage`,
+      queryById:`${apiPrefix}/position/getById`,
+      add:`${apiPrefix}/position/add`,
+      update:`${apiPrefix}/position/update`,
+      delete:`${apiPrefix}/position/deleteById`,
     },
   },
 }

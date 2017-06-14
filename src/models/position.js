@@ -1,13 +1,18 @@
-import { query,queryById,create, remove, update } from '../services/organization'
+import { query,queryById,getOrg,getDic,create, remove, update } from '../services/position'
+import { arrayToTree,treeToArray } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
 
 export default {
 
-  namespace: 'organization',
+  namespace: 'position',
 
   state: {
     list: [],
+    orgList:[],
+    orgTree:[],
+    dicList:[],
+    orgKey:null,
     currentItem: {},
     modalVisible: false,
     modalType: 'create',
@@ -24,10 +29,18 @@ export default {
     setup ({ dispatch, history }) {
       history.listen(location => {
 
-        if (location.pathname === '/setting/organization') {
+        if (location.pathname === '/setting/position') {
           dispatch({
             type: 'query',
             payload: location.query,
+          })
+          dispatch({
+            type: 'getOrg',
+            payload: location.query,
+          })
+          dispatch({
+            type: 'getDic',
+            payload: {dicType:'positionType_item'},
           })
         }
       })
@@ -39,16 +52,47 @@ export default {
 
       payload = parse(location.search.substr(1))
       const data = yield call(query, payload)
+
       if (data) {
         yield put({
           type: 'querySuccess',
           payload: {
-            list: data.data,
+            list: arrayToTree(data.data.rowsObject,'id','parentId'),
             pagination: {
               current: Number(payload.page) || 1,
               pageSize: Number(payload.pageSize) || 10,
               total: data.total,
             },
+          },
+        })
+      }
+    },
+
+    *getOrg ({ payload }, { call, put }) {
+
+      payload = parse(location.search.substr(1))
+      const data = yield call(getOrg, payload)
+
+      if (data) {
+        yield put({
+          type: 'getOrgSuccess',
+          payload: {
+            orgTree: data.data,
+            orgList: treeToArray(data.data)
+          },
+        })
+      }
+    },
+    *getDic ({ payload }, { call, put }) {
+
+     // payload = parse(location.search.substr(1))
+      const data = yield call(getDic, payload)
+
+      if (data) {
+        yield put({
+          type: 'getDicSuccess',
+          payload: {
+            dicList: data.data
           },
         })
       }
@@ -92,7 +136,7 @@ export default {
       }
     },
     *update ({ payload }, { select, call, put }) {
-      const id = yield select(({ organization }) => organization.currentItem.id)
+      const id = yield select(({ position }) => position.currentItem.id)
       const newOrganization = { ...payload, id }
       const data = yield call(update, newOrganization)
       if (data.success) {
@@ -110,6 +154,7 @@ export default {
 
     querySuccess (state, action) {
       const { list, pagination } = action.payload
+      //console.log('position:',list);
       return { ...state,
         list,
         pagination: {
@@ -117,7 +162,20 @@ export default {
           ...pagination,
         } }
     },
-
+    
+    getOrgSuccess (state, action) {
+      const { orgList,orgTree } = action.payload
+      return { ...state,
+        orgList,
+        orgTree
+        }
+    },
+    getDicSuccess (state, action) {
+      const { dicList } = action.payload
+      return { ...state,
+        dicList
+        }
+    },
     showModal (state, action) {
 
       return { ...state, ...action.payload, modalVisible: true }
@@ -128,6 +186,9 @@ export default {
     },
     setState(state,action){
       return {...state,currentItem:action.payload}
+    },
+    setOrgKey(state,action){
+      return {...state,orgKey:action.payload}
     },
 
   },
