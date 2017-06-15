@@ -80,8 +80,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
         <title>{name}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href={logo} type="image/x-icon" />
-        {iconFontJS && <script src={iconFontJS}></script>}
-        {iconFontCSS && <link rel="stylesheet" href={iconFontCSS} />}
+      
       </Helmet>
       <div className={classnames(styles.layout, { [styles.fold]: isNavbar ? false : siderFold }, { [styles.withnavbar]: isNavbar })}>
         {!isNavbar ? <aside className={classnames(styles.sider, { [styles.light]: !darkTheme })}>

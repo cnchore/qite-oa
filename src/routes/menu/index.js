@@ -5,7 +5,7 @@ import { connect } from 'dva'
 import List from './List'
 import Filter from './Filter'
 import Modal from './Modal'
-import { message } from 'antd' 
+import { message,Affix } from 'antd' 
 
 
 const MenuManage = ({ location, dispatch, menuManage, loading }) => {
@@ -114,7 +114,9 @@ const MenuManage = ({ location, dispatch, menuManage, loading }) => {
 
   return (
     <div className="content-inner">
-      <Filter {...filterProps} />
+      <Affix target={() => document.getElementById('layout-main')}>
+        <Filter {...filterProps} />
+      </Affix>
       <List {...listProps} />
       {modalVisible && <Modal {...modalProps} />}
     </div>
