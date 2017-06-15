@@ -25,6 +25,7 @@ module.exports = {
     user: `${apiPrefixDev}/user/:id`,
     dashboard: `${apiPrefixDev}/dashboard`,
     organization:`${apiPrefixDev}/setting/organization/:id`,
+    //组织机构
     organizations:{
       query:`${apiPrefix}/org/getTree`,
       queryById:`${apiPrefix}/org/getById`,
@@ -32,6 +33,7 @@ module.exports = {
       update:`${apiPrefix}/org/update`,
       delete:`${apiPrefix}/org/deleteById`,
     },
+    //数据字典
     dictionary:{
       query:`${apiPrefix}/dictionary/getTree`,
       queryById:`${apiPrefix}/dictionary/getById`,
@@ -40,12 +42,31 @@ module.exports = {
       update:`${apiPrefix}/dictionary/update`,
       delete:`${apiPrefix}/dictionary/deleteById`,
     },
+    //职位管理
     position:{
       query:`${apiPrefix}/position/getPage`,
       queryById:`${apiPrefix}/position/getById`,
       add:`${apiPrefix}/position/add`,
       update:`${apiPrefix}/position/update`,
       delete:`${apiPrefix}/position/deleteById`,
+    },
+    //角色管理
+    roles:{
+      query:`${apiPrefix}/role/getPage`,
+      queryById:`${apiPrefix}/role/getById`,
+      getList:`${apiPrefix}/role/getList`,
+      add:`${apiPrefix}/role/add`,
+      update:`${apiPrefix}/role/update`,
+      delete:`${apiPrefix}/role/deleteById`,
+    },
+    //菜单管理
+    menu:{
+      query:`${apiPrefix}/menu/getTree`,
+      queryById:`${apiPrefix}/menu/getById`,
+      getList:`${apiPrefix}/menu/getList`,
+      add:`${apiPrefix}/menu/add`,
+      update:`${apiPrefix}/menu/update`,
+      delete:`${apiPrefix}/menu/deleteById`,
     },
   },
 }

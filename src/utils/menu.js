@@ -45,7 +45,7 @@ module.exports = [
     bpid: 6,
     mpid: 6,
     name: '角色管理',
-    router: '/setting/role',
+    router: '/setting/roles',
   },
   {
     id: 64,

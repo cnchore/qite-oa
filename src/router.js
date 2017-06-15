@@ -70,6 +70,22 @@ const Routers = function ({ history, app }) {
             }, 'setting-position')
           },
         }, {
+          path: '/setting/roles',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/roles'))
+              cb(null, require('./routes/roles/'))
+            }, 'setting-roles')
+          },
+        }, {
+          path: '/setting/menu',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/menu'))
+              cb(null, require('./routes/menu/'))
+            }, 'setting-menu')
+          },
+        }, {
           path: 'login',
           getComponent (nextState, cb) {
             require.ensure([], require => {

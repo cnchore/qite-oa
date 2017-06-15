@@ -25,7 +25,10 @@ const Login = ({
       dispatch({ type: 'login/login', payload: values })
     })
   }
-
+  let lg={
+    username:'admin',
+    password:'admin'
+  }
   return (
     <div className={styles.form}>
       <div className={styles.logo}>
@@ -35,6 +38,7 @@ const Login = ({
       <form>
         <FormItem hasFeedback>
           {getFieldDecorator('username', {
+            initialValue:lg.username,
             rules: [
               {
                 required: true,
@@ -44,6 +48,7 @@ const Login = ({
         </FormItem>
         <FormItem hasFeedback>
           {getFieldDecorator('password', {
+            initialValue:lg.password,
             rules: [
               {
                 required: true,
