@@ -7,52 +7,37 @@ import classnames from 'classnames'
 const TreeNode = Tree.TreeNode;
 
 const List = ({ onTreeSelect,location, ...tableProps }) => {
-  const { orgList,orgTree }=tableProps;
+  const { roleList }=tableProps;
 
-  const getOrgName=(value)=>{
-    let n=orgList.filter(item=>String(item.id)===String(value));
-    //console.log(orgList,...n,value);
-    if(n && n[0]){
-      return n[0].orgName;
-    }
-    return '';
-  }
+  
   const columns = [
     {
-      title: '职位名称',
-      dataIndex: 'postName',
-      key: 'postName',className:'q-left',
+      title: '菜单名称',
+      dataIndex: 'menuName',
+      key: 'menuName',className:'q-left',
     }, {
-      title: '职位编码',
-      dataIndex: 'postCode',
-      key: 'postCode',
-    /*
+      title: '类型',
+      dataIndex: 'type',
+      key: 'type',
+      render:(text)=>(text===1?'菜单':'操作'),
+    
     }, {
-      title: '所属机构',
-      dataIndex: 'orgId',
-      key: 'orgId',
-      render: (text, record, index) =>(getOrgName(text)),
-      */
+      title: '菜单地址',
+      dataIndex: 'src',
+      key: 'src',
     }, {
-      title: '职位类型',
-      dataIndex: 'postTypeName',
-      key: 'postTypeName',
-    }, {
-      title: '是否主管',
-      dataIndex: 'isManager',
-      key: 'isManager',
-      render: (text, record, index) =>{
-        return text?'是':'否'
-      }
+      title: '说明',
+      dataIndex: 'remark',
+      key: 'remark',
     },
   ]
   const loop = data => data.map((item) => {
     if (item.children && item.children[0]) {
-      return <TreeNode title={item.orgName} key={item.id}>{loop(item.children)}</TreeNode>;
+      return <TreeNode title={item.roleName} key={item.id}>{loop(item.children)}</TreeNode>;
     }
-    return <TreeNode title={item.orgName} key={item.id} />;
+    return <TreeNode title={item.roleName} key={item.id} />;
   });
-  const treeNodes = loop(orgTree);
+  const treeNodes = loop(roleList);
   const onSelect = (selectedKeys, info) => {
     onTreeSelect(info.selectedNodes[0].key);
     //console.log('onSelect:', info.selectedNodes[0].key);
@@ -61,7 +46,7 @@ const List = ({ onTreeSelect,location, ...tableProps }) => {
     <Row gutter={24}>
      
       <Col className={styles.tree} xl={{ span: 6 }} md={{ span: 6 }} sm={{ span: 8 }} xs={{span:24}}>
-         <h3>组织机构</h3>
+        <h3>系统角色</h3>
         <Tree onSelect={onSelect}>
           {treeNodes}
         </Tree>

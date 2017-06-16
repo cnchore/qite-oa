@@ -8,7 +8,7 @@ let baseURL=process.env.NODE_ENV === 'production'?'http://localhost:9000':'http:
 module.exports = {
   name: 'Qite OA',
   prefix: 'qiteOa',
-  footerText: 'Aihama OA © 2017',
+  footerText: 'Aihama © 2017',
   logo: '/logo.png',
   iconFontCSS: '/iconfont.css',
   iconFontJS: '/iconfont.js',
@@ -67,6 +67,11 @@ module.exports = {
       add:`${apiPrefix}/menu/add`,
       update:`${apiPrefix}/menu/update`,
       delete:`${apiPrefix}/menu/deleteById`,
+    },
+    //权限管理
+    auth:{
+      menuRole:`${apiPrefix}/auth/saveRoleMenu`,
+      userRole:`${apiPrefix}/auth/saveUserRole`,
     },
   },
 }

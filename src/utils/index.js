@@ -148,22 +148,22 @@ const treeToArray=(_tree)=>{
  * @param  {[key]}
  * @return {{}}
  */
-const getParentNode=(json,key)=>{
+const getParentNode=(json,key,keyAlias = 'key',parentAlias='parent')=>{
     var parentKey = null;
-    let getNode= function(json, key) { 
+    let getNode= function(json, key,keyAlias = 'key',parentAlias='parent') { 
         //1.第一层 root 深度遍历整个JSON
         for (var i = 0; i < json.length; i++) {
             var obj = json[i];
             //2.有节点就开始找，一直递归下去
-            if (obj.key === key) {
+            if (obj[keyAlias] === key) {
                 //找到了与nodeId匹配的节点，结束递归
-                parentKey=obj.parent;
+                parentKey=obj[parentAlias];
                 break;
             } else {
                 //3.如果有子节点就开始找
                 if (obj.children) {
                     //递归往下找
-                    getNode(obj.children, key);
+                    getNode(obj.children, key,keyAlias,parentAlias);
                 } else {
                     //跳出当前递归，返回上层递归
                     continue;
@@ -172,15 +172,15 @@ const getParentNode=(json,key)=>{
         }
         
     }
-    getNode(json,key);
+    getNode(json,key,keyAlias,parentAlias);
     return parentKey;
 }
-const getFamliy=(json,key)=>{
+const getFamliy=(json,key,keyAlias = 'key',parentAlias='parent')=>{
   let trees=[key];
   let _do=true;
   let _key=key;
   do{
-    let parentkey=getParentNode(json,_key);
+    let parentkey=getParentNode(json,_key,keyAlias,parentAlias);
     if(parentkey && parentkey>-1){
       trees.push(parentkey);
       _key=parentkey;
@@ -192,25 +192,25 @@ const getFamliy=(json,key)=>{
   while(_do)
   return trees;
 }
-const getChildren=(json,key)=>{
+const getChildren=(json,key,keyAlias = 'key')=>{
   let keys=[];
-  let forFun=(json,key)=>{
+  let forFun=(json,key,keyAlias = 'key')=>{
     for(let i=0;i<json.length;i++){
-      if(json[i].key===key){
+      if(json[i][keyAlias]===key){
         if(json[i].children){
           let _list=json[i].children;
           keys.push(..._list);
           _list.forEach((item)=>{
-            forFun(json,item.key);
+            forFun(json,item[keyAlias]);
           })
         }
       }else if(json[i].children){
-        forFun(json[i].children,key)
+        forFun(json[i].children,key,keyAlias)
       }
     }
   }
-  forFun(json,key);
-  return keys.length>0?keys.map((item)=>item.key):[];
+  forFun(json,key,keyAlias);
+  return keys.length>0?keys.map((item)=>item[keyAlias]):[];
 }
 const getAnotB=(a,b)=>{
   //console.log(...a,'------',...b);
