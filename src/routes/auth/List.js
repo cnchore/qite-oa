@@ -47,7 +47,7 @@ const List = ({ onTreeSelect,location, ...tableProps }) => {
      
       <Col className={styles.tree} xl={{ span: 6 }} md={{ span: 6 }} sm={{ span: 8 }} xs={{span:24}}>
         <h3>系统角色</h3>
-        <Tree onSelect={onSelect}>
+        <Tree onSelect={onSelect} showLine>
           {treeNodes}
         </Tree>
       </Col>

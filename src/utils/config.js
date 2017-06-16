@@ -46,6 +46,7 @@ module.exports = {
     position:{
       query:`${apiPrefix}/position/getPage`,
       queryById:`${apiPrefix}/position/getById`,
+      getList:`${apiPrefix}/position/getList`,
       add:`${apiPrefix}/position/add`,
       update:`${apiPrefix}/position/update`,
       delete:`${apiPrefix}/position/deleteById`,
@@ -72,6 +73,15 @@ module.exports = {
     auth:{
       menuRole:`${apiPrefix}/auth/saveRoleMenu`,
       userRole:`${apiPrefix}/auth/saveUserRole`,
+    },
+    //人员管理
+    employee:{
+      query:`${apiPrefix}/employee/getPage`,
+      queryById:`${apiPrefix}/employee/getById`,
+      getList:`${apiPrefix}/employee/getList`,
+      add:`${apiPrefix}/employee/add`,
+      update:`${apiPrefix}/employee/update`,
+      delete:`${apiPrefix}/employee/deleteById`,
     },
   },
 }

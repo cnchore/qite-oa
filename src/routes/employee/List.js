@@ -1,49 +1,62 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table,Row, Col,Tree } from 'antd'
+import { Table,Row, Col,Tree,Modal } from 'antd'
 import styles from './List.less'
 import classnames from 'classnames'
+import { DropOption } from '../../components'
 
 const TreeNode = Tree.TreeNode;
+const confirm = Modal.confirm
 
-const List = ({ onTreeSelect,location, ...tableProps }) => {
-  const { orgList,orgTree }=tableProps;
-
-  const getOrgName=(value)=>{
-    let n=orgList.filter(item=>String(item.id)===String(value));
-    //console.log(orgList,...n,value);
-    if(n && n[0]){
-      return n[0].orgName;
+const List = ({ onDeleteItem, onEditItem,onTreeSelect,location, ...tableProps }) => {
+  const { orgTree }=tableProps;
+  const handleMenuClick = (record, e) => {
+    if (e.key === '1') {
+      onEditItem(record)
+    } else if (e.key === '2') {
+      confirm({
+        title: 'Are you sure delete this record?',
+        onOk () {
+          onDeleteItem(record.id)
+        },
+      })
     }
-    return '';
   }
   const columns = [
     {
-      title: '职位名称',
-      dataIndex: 'postName',
-      key: 'postName',className:'q-left',
+      title: '姓名',
+      dataIndex: 'realName',
+      key: 'realName',
     }, {
-      title: '职位编码',
-      dataIndex: 'postCode',
-      key: 'postCode',
-    /*
+      title: '手机号码',
+      dataIndex: 'mobilePhone',
+      key: 'mobilePhone',
+    
     }, {
-      title: '所属机构',
-      dataIndex: 'orgId',
-      key: 'orgId',
-      render: (text, record, index) =>(getOrgName(text)),
-      */
+      title: '入职时间',
+      dataIndex: 'inductionTime',
+      key: 'inductionTime',
     }, {
-      title: '职位类型',
-      dataIndex: 'postTypeName',
-      key: 'postTypeName',
+      title: '职位',
+      dataIndex: 'postIds',
+      key: 'postIds',
+      
     }, {
-      title: '是否主管',
-      dataIndex: 'isManager',
-      key: 'isManager',
-      render: (text, record, index) =>{
-        return text?'是':'否'
-      }
+      title: '职位状态',
+      dataIndex: 'positionState',
+      key: 'positionState',
+    }, {
+      title: '现居住地',
+      dataIndex: 'residentialAddress',
+      key: 'residentialAddress',
+    }, {
+      title: '操作',
+      key: 'operation',
+      fixed:'right',
+      width: 100,
+      render: (text, record) => {
+        return <DropOption onMenuClick={e => handleMenuClick(record, e)} menuOptions={[{ key: '1', name: '编辑' }, { key: '2', name: '删除' }]} />
+      },
     },
   ]
   const loop = data => data.map((item) => {

@@ -65,8 +65,8 @@ module.exports = [
     id: 66,
     bpid: 6,
     mpid: 6,
-    name: '人员管理',
-    router: '/setting/user',
+    name: '员工管理',
+    router: '/setting/employee',
   },
   {
     id: 67,

@@ -63,7 +63,7 @@ const Auth = ({ location, dispatch, auth, loading }) => {
     location,
     rowSelection,
     roleList,
-    //defaultExpandAllRows:true,
+    defaultExpandAllRows:true,
     onChange (page) {
       const { query, pathname } = location
       dispatch(routerRedux.push({

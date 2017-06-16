@@ -99,9 +99,17 @@ export default {
     querySuccess (state, action) {
       const { list, pagination } = action.payload
       //console.log('position:',list);
+      let _arr=treeToArray(list,0,'parentId');
+      let _keys=_arr.filter((item)=>{
+        if(item.ck){
+          return true;
+        }else{
+          return false;
+        }
+      })
       return { ...state,
         list,
-        selectedRowKeys:[],
+        selectedRowKeys:_keys.map((item)=>item.id),
         pagination: {
           ...state.pagination,
           ...pagination,

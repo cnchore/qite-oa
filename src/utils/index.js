@@ -103,7 +103,7 @@ const arrayToTree = (array, id = 'id', pid = 'pid', children = 'children') => {
  * @param   {array}     array
  * @return  {Array}
  */
-const treeToArray=(_tree)=>{
+const treeToArray=(_tree,parent=null,parentAlias='parent',keyAlias='id')=>{
   let array=[];
   let tree=_tree;
   let forFun=(tree,parent=null)=>{
@@ -115,20 +115,20 @@ const treeToArray=(_tree)=>{
           _list[obj]=item[obj];
         }
       }
-      if(parent){
-        _list.parent=parent;
+      if(parent!==null && parent!==undefined){
+        _list[parentAlias]=parent;
       }else{
-        _list.parent=-1;
+        _list[parentAlias]=-1;
       }
       array.push(_list);
       if(item.children){
-        forFun(item.children,item.id)
+        forFun(item.children,item[keyAlias])
       }
     })
   }
   let isDo=true;
   do{
-    forFun(tree);
+    forFun(tree,parent);
     isDo=false;
     for(let i in array){
       if(array[i] && array[i].children){
