@@ -17,6 +17,7 @@ module.exports = {
   CORS: ['http://localhost:7000'],
   openPages: ['/login'],
   apiPrefix: apiPrefixDev,
+  bucket:process.env.NODE_ENV==='production'?'aihama-qite':'dc-test',
   api: {
     userLogin: `${apiPrefixDev}/user/login`,
     userLogout: `${apiPrefixDev}/user/logout`,
@@ -25,6 +26,8 @@ module.exports = {
     user: `${apiPrefixDev}/user/:id`,
     dashboard: `${apiPrefixDev}/dashboard`,
     organization:`${apiPrefixDev}/setting/organization/:id`,
+    //图片上传
+    imgUpload:`${apiPrefix}/fileHandle/imgUpload`,
     //组织机构
     organizations:{
       query:`${apiPrefix}/org/getTree`,

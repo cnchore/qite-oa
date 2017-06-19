@@ -31,16 +31,14 @@ const List = ({ onDeleteItem, onEditItem,onTreeSelect,location, ...tableProps })
       title: '手机号码',
       dataIndex: 'mobilePhone',
       key: 'mobilePhone',
-    
+    }, {
+      title: '用户账号',
+      render:(text,record)=>record.mobilePhone,
     }, {
       title: '入职时间',
       dataIndex: 'inductionTime',
       key: 'inductionTime',
-    }, {
-      title: '职位',
-      dataIndex: 'postIds',
-      key: 'postIds',
-      
+    
     }, {
       title: '职位状态',
       dataIndex: 'positionState',
@@ -55,7 +53,7 @@ const List = ({ onDeleteItem, onEditItem,onTreeSelect,location, ...tableProps })
       fixed:'right',
       width: 100,
       render: (text, record) => {
-        return <DropOption onMenuClick={e => handleMenuClick(record, e)} menuOptions={[{ key: '1', name: '编辑' }, { key: '2', name: '删除' }]} />
+        return <DropOption onMenuClick={e => handleMenuClick(record, e)} menuOptions={[{ key: '1', name: '员工编辑' }, { key: '2', name: '账号禁用' },{ key: '3', name: '密码重置' }]} />
       },
     },
   ]

@@ -11,11 +11,14 @@ export default {
     list: [],
     orgList:[],
     orgTree:[],
+    positSelList:[],
     positionList:[],
     orgKey:null,
     currentItem: {},
     modalVisible: false,
+    positSelModalVisible:false,
     modalType: 'create',
+    expand:false,
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -86,7 +89,7 @@ export default {
     },
     *getPosition ({ payload }, { call, put }) {
 
-     // payload = parse(location.search.substr(1))
+      //payload = parse(location.search.substr(1))
       const data = yield call(getPosition, payload)
 
       if (data) {
@@ -149,6 +152,20 @@ export default {
       }
     },
     
+    *positionSelect ({ payload }, { call, put }) {
+      //const positId = payload;
+      //console.log('payload:',payload);
+      if (payload.id) {
+        
+        yield put({ 
+          type: 'positionSelectSuccess',
+          payload:payload
+         })
+        yield put({ type: 'hidePositSelModal' })
+      } else {
+        throw {success:false,message:'Position selection error'}
+      }
+    },
   },
 
   reducers: {
@@ -177,9 +194,25 @@ export default {
         positionList
         }
     },
+    positionSelectSuccess(state, action) {
+      //const { positId } = action.payload
+      //console.log('payload:',action.payload)
+      return { ...state,
+        positSelList:[...state.positSelList,action.payload],
+        }
+
+    },
+    showPositSelModal (state, action) {
+
+      return { ...state, ...action.payload, positSelModalVisible: true }
+    },
+
+    hidePositSelModal (state) {
+      return { ...state, positSelModalVisible: false }
+    },
     showModal (state, action) {
 
-      return { ...state, ...action.payload, modalVisible: true }
+      return { ...state, ...action.payload, modalVisible: true,positSelList:[] }
     },
 
     hideModal (state) {
@@ -191,7 +224,9 @@ export default {
     setOrgKey(state,action){
       return {...state,orgKey:action.payload}
     },
-
+    toggle(state,action){
+      return {...state,expand:!state.expand}
+    },
   },
 
 }

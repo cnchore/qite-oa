@@ -5,21 +5,25 @@ import { connect } from 'dva'
 import List from './List'
 import Filter from './Filter'
 import Modal from './Modal'
+import PositModal from './PositModal'
+
 import { message } from 'antd' 
 
 
 const Employee = ({ location, dispatch, employee, loading }) => {
-  const { list,orgList,orgTree,positionList,orgKey, pagination, currentItem, modalVisible, modalType } = employee
+  const { list,orgList,orgTree,positionList,positSelList,orgKey,expand, pagination, currentItem, modalVisible,positSelModalVisible, modalType } = employee
   const { pageSize } = pagination
 
   const modalProps = {
     item: modalType === 'create' ? {} :currentItem,
     orgList,
-    positionList,
+    positSelList,
     orgKey,
+    expand,
+
     visible: modalVisible,
     maskClosable: false,
-    confirmLoading: loading.effects['employee/update'],
+    confirmLoading: loading.effects[`employee/${modalType}`],
     title: `${modalType === 'create' ? '新增员工' : '编辑员工'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
@@ -33,8 +37,47 @@ const Employee = ({ location, dispatch, employee, loading }) => {
         type: 'employee/hideModal',
       })
     },
+    onSel(){
+      dispatch({
+        type:'employee/showPositSelModal',
+      })
+    },
+    toggle(){
+      dispatch({
+        type:'employee/toggle',
+      })
+    },
   }
- 
+  const positSelModalProps={
+    orgTree,
+    positionList,
+    orgKey,
+    loading:loading.effects['employee/getPosition'],
+    visible:positSelModalVisible,
+    maskClosable:false,
+    confirmLoading:loading.effects['employee/positionSelect'],
+    title:'职位选择',
+    wrapClassName:'vertical-center-modal',
+    onOk(data){
+      dispatch({
+        type:'employee/positionSelect',
+        payload:data,
+      })
+    },
+    onCancel(){
+      dispatch({
+        type:'employee/hidePositSelModal',
+      })
+    },
+    
+    onTreeSelect(key){
+      
+      dispatch({
+        type: 'employee/getPosition',
+        payload:{orgId:key}
+      })
+    },
+  }
   const listProps = {
     dataSource: list,
     loading: loading.effects['employee/query'],
@@ -122,6 +165,8 @@ const Employee = ({ location, dispatch, employee, loading }) => {
       <Filter {...filterProps} />
       <List {...listProps} />
       {modalVisible && <Modal {...modalProps} />}
+      {positSelModalVisible && <PositModal {...positSelModalProps} />}
+
     </div>
   )
 }

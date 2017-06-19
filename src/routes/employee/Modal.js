@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input,InputNumber, Modal,Select,Switch,Row,Col } from 'antd'
+import { Form, Input,InputNumber,Button,DatePicker, Modal,Select,Switch,Row,Col,message,Icon,Upload } from 'antd'
+import moment from 'moment';
 
 const FormItem = Form.Item
 const Option = Select.Option;
-
+const InputGroup = Input.Group;
 const formItemLayout = {
   labelCol: {
     span: 6,
@@ -13,13 +14,48 @@ const formItemLayout = {
     span: 14,
   },
 }
+const twoFormItemLayout = {
+  labelCol: {
+    span: 3,
+  },
+  wrapperCol: {
+    span: 19,
+  },
+}
+const threeFormItemLayout={
+  labelCol: {
+    span: 0,
+  },
+  wrapperCol: {
+    span: 20,
+  },
+}
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
 
+function beforeUpload(file) {
+  const isJPG = file.type === 'image/jpeg';
+  if (!isJPG) {
+    message.error('You can only upload JPG file!');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+  }
+  return isJPG && isLt2M;
+}
 const modal = ({
-  orgList=[],
-  positionList=[],
+  orgList,
+  positSelList,
   item = {},
   orgKey=null,
   onOk,
+  onSel,
+  expand,
+  toggle,
   form: {
     getFieldDecorator,
     validateFields,
@@ -39,33 +75,49 @@ const modal = ({
       const data = {...getFieldsValue()}
       //let _ls=orgList.filter(item=>String(item.id)===data.orgId);
       //console.log('orgParentId:',_ls[0].parentId)
-      
+      data.postIds=data.postIds.join();
+      data.birthdayStr=data.birthdayStr?data.birthdayStr.format('YYYY-MM-DD'):null;
+      data.departureTimeStr=data.departureTimeStr?data.departureTimeStr.format('YYYY-MM-DD HH:mm:ss'):null;
+      data.inductionTimeStr=data.inductionTimeStr?data.inductionTimeStr.format('YYYY-MM-DD HH:mm:ss'):null;
+
       if(item.id){
         data.id=item.id
       }
       onOk(data)
     })
   }
- 
-
+  if(item.postList && item.postList[0]){
+      positSelList=[...positSelList,...item.postList];
+  }
+  const getPositRows=()=>{
+    if(positSelList[0]){
+      return positSelList.map((item)=>String(item.id)); 
+    }
+    return []
+  }
   const modalOpts = {
     ...modalProps,
-    width:'1000',
+    width:1000,
     onOk: handleOk,
   }
   const orgOptions = orgList.map(org => <Option key={org.id}>{org.orgName}</Option>);
-  const handleSelectChange = (value,name) => {
-    
-    setFieldsValue({
-      name: value
-    });
-  }
-  const postOptions=positionList.map(dic=><Option key={dic.id}>{dic.postName}</Option>);
+  
+  const postOptions=positSelList.map(dic=><Option key={dic.id}>{dic.postName}</Option>);
+  const dateFormat = 'YYYY-MM-DD';
+  const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
 
+  
+ const handleChange = (info) => {
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, imageUrl => setFieldsValue({ photo:imageUrl }));
+    }
+  }
+ 
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
-        <Row gutter={24} marginLeft={'0px'} marginRight={'0px'} type="flex" justify="space-between" align="bottom">
+        <Row gutter={24}  type="flex" justify="space-between" align="bottom">
           <Col span={8}>
               <FormItem label="姓名" hasFeedback {...formItemLayout}>
                 {getFieldDecorator('realName', {
@@ -77,6 +129,14 @@ const modal = ({
                   ],
                 })(<Input />)}
               </FormItem>
+              <FormItem label="性别" {...formItemLayout}>
+                {getFieldDecorator('sex', {
+                  initialValue: Boolean(item.sex),
+                  
+                })(<Switch defaultChecked={item.sex} checkedChildren={'男'} unCheckedChildren={'女'} />)}
+              </FormItem>
+              
+         
           </Col>
           <Col span={8}>
               <FormItem label="手机号码" hasFeedback {...formItemLayout}>
@@ -91,28 +151,57 @@ const modal = ({
                   ],
                 })(<Input />)}
               </FormItem>
+              <FormItem label="工号" hasFeedback {...formItemLayout}>
+                {getFieldDecorator('empNum', {
+                  initialValue: item.empNum,
+                  
+                })(<Input />)}
+              </FormItem>
             </Col>
           <Col span={8}>
-            <FormItem label="照片" hasFeedback {...formItemLayout}>
+            <FormItem label="照片"  {...formItemLayout}>
               {getFieldDecorator('photo', {
                 initialValue: item.photo,
                 
-              })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 6 }}/>)}
+              })(
+                <Upload
+                  className="avatar-uploader"
+                  name="avatar"
+                  showUploadList={false}
+                  action="//jsonplaceholder.typicode.com/posts/"
+                  beforeUpload={beforeUpload}
+                  onChange={handleChange}
+                >
+                  {
+                    item.photo ?
+                      <img src={item.photo} alt="" className="avatar" /> :
+                      <Icon type="plus" className="avatar-uploader-trigger" />
+                  }
+                </Upload>
+              )}
             </FormItem>
           </Col>
-          <Col span={8}>
-              <FormItem label="职位" hasFeedback {...formItemLayout}>
-                {getFieldDecorator('postIds', {
-                  initialValue:String(item.postIds===undefined?'':item.postIds),
-                  rules: [
-                    {
-                      required: true,
-                      
-                    },
-                  ],
-                })(<Select onChange={e=>handleSelectChange(e.value,'postIds')}>{postOptions}</Select>)}
+         <Col span={16}>
+              <FormItem label="职位" {...twoFormItemLayout}>
+                <Row gutter={8}>
+                  <Col span={21}>
+                    {getFieldDecorator('postIds', {
+                      initialValue:getPositRows(),
+                      rules: [
+                        {
+                          required: true,
+                          
+                        },
+                      ],
+                    })(<Select mode="multiple">{postOptions}</Select>)}
+                  </Col>
+                  <Col span={3} style={{marginTop:'-2px'}}>
+                    <Button  onClick={onSel} type="ghost">选择</Button>
+                  </Col>
+                </Row>
               </FormItem>
           </Col>
+          
           <Col span={8}>
               <FormItem label="职位状态" hasFeedback {...formItemLayout}>
                 {getFieldDecorator('positionState', {
@@ -121,24 +210,8 @@ const modal = ({
                 })(<Input />)}
               </FormItem>
           </Col>
-
-          <Col span={8}>
-              <FormItem label="工号" hasFeedback {...formItemLayout}>
-                {getFieldDecorator('empNum', {
-                  initialValue: item.empNum,
-                  
-                })(<Input />)}
-              </FormItem>
-          </Col>
           
-          <Col span={8}>
-              <FormItem label="性别" hasFeedback {...formItemLayout}>
-                {getFieldDecorator('sex', {
-                  initialValue: item.sex,
-                  
-                })(<Input />)}
-              </FormItem>
-          </Col>
+          {expand?(
           <Col span={8}>
               <FormItem label="婚姻状况" hasFeedback {...formItemLayout}>
                 {getFieldDecorator('marriages', {
@@ -147,6 +220,8 @@ const modal = ({
                 })(<Input />)}
               </FormItem>
           </Col>
+          ):null}
+          {expand?(
           <Col span={8}>
               <FormItem label="民族" hasFeedback {...formItemLayout}>
                 {getFieldDecorator('nation', {
@@ -155,6 +230,8 @@ const modal = ({
                 })(<Input />)}
               </FormItem>
           </Col>
+          ):null}
+          {expand?(
           <Col span={8}>
               <FormItem label="户籍" hasFeedback {...formItemLayout}>
                 {getFieldDecorator('householdRegister', {
@@ -163,6 +240,8 @@ const modal = ({
                 })(<Input />)}
               </FormItem>
           </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
           <FormItem label="健康状况" hasFeedback {...formItemLayout}>
             {getFieldDecorator('health', {
@@ -171,6 +250,8 @@ const modal = ({
             })(<Input />)}
           </FormItem>
           </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
           <FormItem label="子女数量" hasFeedback {...formItemLayout}>
             {getFieldDecorator('childrenNum', {
@@ -179,6 +260,8 @@ const modal = ({
             })(<InputNumber step={1} />)}
           </FormItem>
           </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
           <FormItem label="学历" hasFeedback {...formItemLayout}>
             {getFieldDecorator('education', {
@@ -187,22 +270,42 @@ const modal = ({
             })(<Input />)}
           </FormItem>
           </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
           <FormItem label="身高" hasFeedback {...formItemLayout}>
             {getFieldDecorator('height', {
               initialValue: item.height,
               
-            })(<InputNumber step={1} />)}
+            })(<InputNumber step={1} formatter={value => `${value}cm`}
+                parser={value => value.replace('cm', '')} />
+               )}
           </FormItem>
           </Col>
+          ):null}
+          
+          {expand?(
+            <Col span={16}>
+              <FormItem label="现居住地" hasFeedback {...twoFormItemLayout}>
+                {getFieldDecorator('residentialAddress', {
+                  initialValue: item.residentialAddress,
+                  
+                })(<Input />)}
+              </FormItem>
+            </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
-          <FormItem label="体重" hasFeedback {...formItemLayout}>
-            {getFieldDecorator('weight', {
-              initialValue: item.weight,
-              
-            })(<InputNumber step={1} />)}
-          </FormItem>
-          </Col>
+              <FormItem label="体重" hasFeedback {...formItemLayout}>
+                {getFieldDecorator('weight', {
+                  initialValue: item.weight,
+                  
+                })(<InputNumber step={1} formatter={value => `${value}kg`}
+                    parser={value => value.replace('kg', '')} />)}
+              </FormItem>
+            </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
           <FormItem label="联系电话" hasFeedback {...formItemLayout}>
             {getFieldDecorator('contactPhone', {
@@ -211,6 +314,8 @@ const modal = ({
             })(<Input />)}
           </FormItem>
           </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
           <FormItem label="专业" hasFeedback {...formItemLayout}>
             {getFieldDecorator('major', {
@@ -219,6 +324,8 @@ const modal = ({
             })(<Input />)}
           </FormItem>
           </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
           <FormItem label="血型" hasFeedback {...formItemLayout}>
             {getFieldDecorator('bloodType', {
@@ -227,6 +334,8 @@ const modal = ({
             })(<Input />)}
           </FormItem>
           </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
           <FormItem label="身份证号" hasFeedback {...formItemLayout}>
             {getFieldDecorator('idNumber', {
@@ -235,6 +344,8 @@ const modal = ({
             })(<Input />)}
           </FormItem>
           </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
           <FormItem label="用工形式" hasFeedback {...formItemLayout}>
             {getFieldDecorator('hireType', {
@@ -243,6 +354,8 @@ const modal = ({
             })(<Input />)}
           </FormItem>
           </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
           <FormItem label="驾驶证号" hasFeedback {...formItemLayout}>
             {getFieldDecorator('driveLicense', {
@@ -251,6 +364,8 @@ const modal = ({
             })(<Input />)}
           </FormItem>
           </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
           <FormItem label="语言技能" hasFeedback {...formItemLayout}>
             {getFieldDecorator('languageSkills', {
@@ -259,22 +374,18 @@ const modal = ({
             })(<Input />)}
           </FormItem>
           </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
-          <FormItem label="现居住地" hasFeedback {...formItemLayout}>
-            {getFieldDecorator('residentialAddress', {
-              initialValue: item.residentialAddress,
-              
-            })(<Input />)}
-          </FormItem>
-          </Col>
-            <Col span={8}>
-          <FormItem label="犯罪记录" hasFeedback {...formItemLayout}>
-            {getFieldDecorator('criminalRecord', {
-              initialValue: item.criminalRecord,
-              
-            })(<Input />)}
-          </FormItem>
-          </Col>
+              <FormItem label="犯罪记录" hasFeedback {...formItemLayout}>
+                {getFieldDecorator('criminalRecord', {
+                  initialValue: item.criminalRecord,
+                  
+                })(<Input />)}
+              </FormItem>
+            </Col>
+            ):null}
+          {expand?(
             <Col span={8}>
           <FormItem label="紧急联系人" hasFeedback {...formItemLayout}>
             {getFieldDecorator('emergencyContactName', {
@@ -283,6 +394,8 @@ const modal = ({
             })(<Input />)}
           </FormItem>
           </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
           <FormItem label="联系人电话" hasFeedback {...formItemLayout}>
             {getFieldDecorator('emergencyContactPhone', {
@@ -291,29 +404,39 @@ const modal = ({
             })(<Input />)}
           </FormItem>
           </Col>
+          ):null}
+          {expand?(
             <Col span={8}>
-          <FormItem label="生日" hasFeedback {...formItemLayout}>
+          <FormItem label="生日"  {...formItemLayout}>
             {getFieldDecorator('birthdayStr', {
-              initialValue: item.birthdayStr,
+              initialValue: (item.birthdayStr || item.birthday)?moment(item.birthdayStr || item.birthday, dateFormat):null,
               
-            })(<Input />)}
+            })(<DatePicker format={dateFormat} />)}
           </FormItem>
           </Col>
-            <Col span={8}>
-          <FormItem label="入职时间" hasFeedback {...formItemLayout}>
-            {getFieldDecorator('birthdayStr', {
-              initialValue: item.birthdayStr,
-              
-            })(<Input />)}
-          </FormItem>
+          ):null}
+          <Col span={8}>
+            <FormItem label="入职时间"  {...formItemLayout}>
+              {getFieldDecorator('inductionTimeStr', {
+                initialValue:(item.inductionTimeStr || item.inductionTime)? moment(item.inductionTimeStr || item.inductionTime,dateTimeFormat):null,
+                
+              })(<DatePicker showTime format={dateTimeFormat} />)}
+            </FormItem>
           </Col>
-            <Col span={8}>
-          <FormItem label="离职时间" hasFeedback {...formItemLayout}>
-            {getFieldDecorator('departureTimeStr', {
-              initialValue: item.departureTimeStr,
-              
-            })(<Input />)}
-          </FormItem>
+          <Col span={8}>
+            <FormItem label="离职时间"  {...formItemLayout}>
+              {getFieldDecorator('departureTimeStr', {
+                initialValue:(item.departureTimeStr || item.departureTime)? moment(item.departureTimeStr || item.departureTime,dateTimeFormat):null,
+                
+              })(<DatePicker showTime format={dateTimeFormat} />)}
+            </FormItem>
+          </Col>
+          <Col span={8} style={{textAlign:'right'}}>
+            <FormItem {...threeFormItemLayout}>
+              <a  onClick={toggle} >
+                折叠 <Icon type={expand ? 'up' : 'down'} />
+              </a>
+            </FormItem>
           </Col>
         </Row>
       </Form>
@@ -327,6 +450,7 @@ modal.propTypes = {
   item: PropTypes.object,
   onOk: PropTypes.func,
   orgList:PropTypes.array,
+  onSel:PropTypes.func,
 }
 
 export default Form.create()(modal)
