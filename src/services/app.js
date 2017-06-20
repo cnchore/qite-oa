@@ -1,10 +1,10 @@
 import { request, config } from '../utils'
 const { api } = config
-const { user, userLogout, userLogin } = api
+const { user,employee } = api
 
 export async function login (params) {
   return request({
-    url: userLogin,
+    url: user.login,
     method: 'post',
     data: params,
   })
@@ -12,15 +12,15 @@ export async function login (params) {
 
 export async function logout (params) {
   return request({
-    url: userLogout,
-    method: 'get',
+    url: user.logout,
+    method: 'post',
     data: params,
   })
 }
 
 export async function query (params) {
   return request({
-    url: user.replace('/:id', ''),
+    url: employee.queryById,
     method: 'get',
     data: params,
   })

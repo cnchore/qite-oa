@@ -10,7 +10,7 @@ export default {
     user: {},
     menuPopoverVisible: false,
     siderFold: localStorage.getItem(`${prefix}siderFold`) === 'true',
-    darkTheme: localStorage.getItem(`${prefix}darkTheme`) === 'true',
+    darkTheme: localStorage.getItem(`${prefix}darkTheme`) === 'true' || true,
     isNavbar: document.body.clientWidth < 769,
     navOpenKeys: JSON.parse(localStorage.getItem(`${prefix}navOpenKeys`)) || [],
   },
@@ -33,11 +33,13 @@ export default {
     *query ({
       payload,
     }, { call, put }) {
-      const data = yield call(query, parse(payload))
-      if (data.success && data.user) {
+      const data = JSON.parse(localStorage.getItem(`${prefix}userInfo`));
+      //yield call(query, parse(payload))
+      if (data&& data.success && data.data) {
+        //console.log('userData:',data)
         yield put({
           type: 'querySuccess',
-          payload: data.user,
+          payload: data.data,
         })
         if (location.pathname === '/login') {
           yield put(routerRedux.push('/dashboard'))
@@ -58,6 +60,7 @@ export default {
     }, { call, put }) {
       const data = yield call(logout, parse(payload))
       if (data.success) {
+        localStorage.setItem(`${prefix}userInfo`,JSON.stringify({}))
         yield put({ type: 'query' })
       } else {
         throw (data)
@@ -76,10 +79,10 @@ export default {
 
   },
   reducers: {
-    querySuccess (state, { payload: user }) {
+    querySuccess (state, { payload }) {
       return {
         ...state,
-        user,
+        user:payload
       }
     },
 

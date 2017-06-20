@@ -26,8 +26,8 @@ const Login = ({
     })
   }
   let lg={
-    username:'admin',
-    password:'admin'
+    userName:'13800001118',
+    pwd:'000000'
   }
   return (
     <div className={styles.form}>
@@ -37,8 +37,8 @@ const Login = ({
       </div>
       <form>
         <FormItem hasFeedback>
-          {getFieldDecorator('username', {
-            initialValue:lg.username,
+          {getFieldDecorator('userName', {
+            initialValue:lg.userName,
             rules: [
               {
                 required: true,
@@ -47,8 +47,8 @@ const Login = ({
           })(<Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} size="large" onPressEnter={handleOk} placeholder="Username" />)}
         </FormItem>
         <FormItem hasFeedback>
-          {getFieldDecorator('password', {
-            initialValue:lg.password,
+          {getFieldDecorator('pwd', {
+            initialValue:lg.pwd,
             rules: [
               {
                 required: true,

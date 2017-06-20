@@ -1,6 +1,6 @@
 import { request, config } from '../utils'
 const { api } = config
-const { position,organizations,employee } = api
+const { position,organizations,employee,user,roles,auth } = api
 
 export async function query (params) {
   return request({
@@ -20,6 +20,13 @@ export async function getOrg (params) {
 export async function getPosition (params) {
   return request({
     url: position.getList,
+    method: 'get',
+    data: params,
+  })
+}
+export async function getRoles (params) {
+  return request({
+    url: roles.getList,
     method: 'get',
     data: params,
   })
@@ -51,6 +58,28 @@ export async function remove (params) {
 export async function update (params) {
   return request({
     url: employee.update,
+    method: 'post',
+    data: params,
+  })
+}
+export async function userChange (params) {
+  return request({
+    url: user.userChange,
+    method: 'post',
+    data: params,
+  })
+}
+export async function resetPwd (params) {
+  return request({
+    url: user.resetPwd,
+    method: 'post',
+    data: params,
+  })
+}
+
+export async function setUserRole (params) {
+  return request({
+    url: auth.userRole,
     method: 'post',
     data: params,
   })

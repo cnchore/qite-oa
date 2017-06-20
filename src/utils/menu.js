@@ -5,31 +5,32 @@ module.exports = [
     name: 'Dashboard',
     router: '/dashboard',
   },
+  /*
   {
     id: 2,
-    bpid: 1,/*面包屑parentId*/
+    bpid: 1,
     name: '用户管理',
     icon: 'user',
     router: '/user',
   },
   {
     id: 21,
-    mpid: -1,/*菜单parentId*/
+    mpid: -1,
     bpid: 2,
     name: 'User Detail',
     router: '/user/:id',
   },
-  
+  */
   {
     id: 6,
-    bpid: 1,
+    bpid: 1,/*面包屑parentId*/
     name: '系统管理',
     icon: 'setting',
   },
   {
     id: 61,
     bpid: 6,
-    mpid: 6,
+    mpid: 6,/*菜单parentId*/
     name: '组织机构',
     router: '/setting/organization',
   },

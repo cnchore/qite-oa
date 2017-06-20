@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Input,InputNumber,Button,DatePicker, Modal,Select,Switch,Row,Col,message,Icon,Upload } from 'antd'
 import moment from 'moment';
+import config from '../../utils/config'
 
 const FormItem = Form.Item
 const Option = Select.Option;
@@ -30,11 +31,7 @@ const threeFormItemLayout={
     span: 20,
   },
 }
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
+
 
 function beforeUpload(file) {
   const isJPG = file.type === 'image/jpeg';
@@ -56,6 +53,11 @@ const modal = ({
   onSel,
   expand,
   toggle,
+  modalType,
+  onSetUserRole,
+  confirmLoading,
+  setUserRoleLoading,
+  onCancel,
   form: {
     getFieldDecorator,
     validateFields,
@@ -79,12 +81,19 @@ const modal = ({
       data.birthdayStr=data.birthdayStr?data.birthdayStr.format('YYYY-MM-DD'):null;
       data.departureTimeStr=data.departureTimeStr?data.departureTimeStr.format('YYYY-MM-DD HH:mm:ss'):null;
       data.inductionTimeStr=data.inductionTimeStr?data.inductionTimeStr.format('YYYY-MM-DD HH:mm:ss'):null;
-
+      data.photo=item.photo;
       if(item.id){
         data.id=item.id
       }
       onOk(data)
     })
+  }
+  const handleSetUserRole=()=>{
+    if(item.userId){
+      const fields={...getFieldsValue()}
+      let roleData={userId:item.userId,roleIds:fields.roleIds.join()}
+      onSetUserRole(roleData);
+    }
   }
   if(item.postList && item.postList[0]){
       positSelList=[...positSelList,...item.postList];
@@ -95,10 +104,24 @@ const modal = ({
     }
     return []
   }
+  const getRolesRows=()=>{
+    if(item.roleList && item.roleList[0]){
+      let _ls=[];
+       item.roleList.map((item)=>{
+          if(item.isUserRole){
+            _ls.push(String(item.id))
+          }
+       });
+       return _ls;
+    }
+    return []
+  }
   const modalOpts = {
     ...modalProps,
     width:1000,
-    onOk: handleOk,
+    onCancel,
+    onOk: handleOk
+    
   }
   const orgOptions = orgList.map(org => <Option key={org.id}>{org.orgName}</Option>);
   
@@ -106,16 +129,25 @@ const modal = ({
   const dateFormat = 'YYYY-MM-DD';
   const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
 
+  const fileData={bucket:`${config.bucket}`,type:'photo'};
   
- const handleChange = (info) => {
+  const handleChange = (info) => {
     if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl => setFieldsValue({ photo:imageUrl }));
+      
+      item.photo=info.file.response.data;
     }
   }
- 
+  const roleOptions=item.roleList?item.roleList.map(role=><Option key={role.id}>{role.roleName}</Option>):null;
   return (
-    <Modal {...modalOpts}>
+    <Modal {...modalOpts}
+      footer={[
+        <Button key="back" size="large" onClick={onCancel}>取消</Button>,
+        <Button key="setUserRole" size="large" loading={setUserRoleLoading} onClick={handleSetUserRole}>设置用户角色</Button>,
+        <Button key="submit" type="primary" size="large" loading={confirmLoading} onClick={handleOk}>
+          确定
+        </Button>,
+      ]}
+    >
       <Form layout="horizontal">
         <Row gutter={24}  type="flex" justify="space-between" align="bottom">
           <Col span={8}>
@@ -168,7 +200,8 @@ const modal = ({
                   className="avatar-uploader"
                   name="avatar"
                   showUploadList={false}
-                  action="//jsonplaceholder.typicode.com/posts/"
+                  data={fileData}
+                  action={`${config.baseURL}${config.api.imgUpload}`}
                   beforeUpload={beforeUpload}
                   onChange={handleChange}
                 >
@@ -415,6 +448,7 @@ const modal = ({
           </FormItem>
           </Col>
           ):null}
+          {expand?(
           <Col span={8}>
             <FormItem label="入职时间"  {...formItemLayout}>
               {getFieldDecorator('inductionTimeStr', {
@@ -423,6 +457,8 @@ const modal = ({
               })(<DatePicker showTime format={dateTimeFormat} />)}
             </FormItem>
           </Col>
+           ):null}
+          {expand?(
           <Col span={8}>
             <FormItem label="离职时间"  {...formItemLayout}>
               {getFieldDecorator('departureTimeStr', {
@@ -431,6 +467,17 @@ const modal = ({
               })(<DatePicker showTime format={dateTimeFormat} />)}
             </FormItem>
           </Col>
+          ):null}
+          {modalType==='update'?(
+            <Col span={16}>
+              <FormItem label="用户角色"  {...twoFormItemLayout}>
+              {getFieldDecorator('roleIds', {
+                initialValue:getRolesRows(),
+                
+              })(<Select mode="multiple">{roleOptions}</Select>)}
+              </FormItem>
+            </Col>
+          ):null}
           <Col span={8} style={{textAlign:'right'}}>
             <FormItem {...threeFormItemLayout}>
               <a  onClick={toggle} >

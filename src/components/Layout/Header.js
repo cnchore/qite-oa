@@ -37,7 +37,7 @@ const Header = ({ user, logout, switchSider, siderFold, isNavbar, menuPopoverVis
           <SubMenu style={{
             float: 'right',
           }} title={< span > <Icon type="user" />
-            {user.username} < /span>}
+            {user.userName} < /span>}
           >
             <Menu.Item key="logout">
               Sign out

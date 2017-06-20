@@ -11,7 +11,8 @@ import { message } from 'antd'
 
 
 const Employee = ({ location, dispatch, employee, loading }) => {
-  const { list,orgList,orgTree,positionList,positSelList,orgKey,expand, pagination, currentItem, modalVisible,positSelModalVisible, modalType } = employee
+  const { list,orgList,orgTree,positionList,positSelList,orgKey,expand,
+    pagination, currentItem, modalVisible,positSelModalVisible, modalType } = employee
   const { pageSize } = pagination
 
   const modalProps = {
@@ -20,10 +21,12 @@ const Employee = ({ location, dispatch, employee, loading }) => {
     positSelList,
     orgKey,
     expand,
-
+    modalType,
+    //roleList,
     visible: modalVisible,
     maskClosable: false,
     confirmLoading: loading.effects[`employee/${modalType}`],
+    setUserRoleLoading:loading.effects['employee/setUserRole'],
     title: `${modalType === 'create' ? '新增员工' : '编辑员工'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
@@ -35,6 +38,12 @@ const Employee = ({ location, dispatch, employee, loading }) => {
     onCancel () {
       dispatch({
         type: 'employee/hideModal',
+      })
+    },
+    onSetUserRole(data){
+      dispatch({
+        type: 'employee/setUserRole',
+        payload:data,
       })
     },
     onSel(){
@@ -84,6 +93,7 @@ const Employee = ({ location, dispatch, employee, loading }) => {
     pagination,
     location,
     orgTree,
+    orgList,
     //defaultExpandAllRows:true,
     onChange (page) {
       const { query, pathname } = location
@@ -101,6 +111,20 @@ const Employee = ({ location, dispatch, employee, loading }) => {
       dispatch({
         type: 'employee/delete',
         payload: id,
+      })
+    },
+    onUserChange(userId,isDisable) {
+      
+      dispatch({
+        type: 'employee/userChange',
+        payload: {userId,isDisable},
+      })
+    },
+    onResetPwd(userId) {
+      
+      dispatch({
+        type: 'employee/resetPwd',
+        payload: {userId},
       })
     },
     onEditItem (item) {

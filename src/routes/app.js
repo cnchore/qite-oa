@@ -17,7 +17,7 @@ let lastHref
 const App = ({ children, location, dispatch, app, loading }) => {
   const { user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys } = app
   const href = window.location.href
-
+  //console.log(`user:`,user)
   if (lastHref !== href) {
     NProgress.start()
     if (!loading.global) {

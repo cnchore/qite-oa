@@ -1,6 +1,7 @@
 import { myCity, queryWeather, query } from '../services/dashboard'
 import { parse } from 'qs'
-
+import { config } from '../utils'
+const { prefix } = config
 // zuimei 摘自 http://www.zuimeitianqi.com/res/js/index.js
 let zuimei = {
   parseActualData (actual) {
@@ -176,22 +177,27 @@ export default {
     },
     sales: [],
     quote: {
-      avatar: 'http://img.hb.aicdn.com/bc442cf0cc6f7940dcc567e465048d1a8d634493198c4-sPx5BR_fw236',
+      avatar: '',
     },
     numbers: [],
-    recentSales: [],
-    comments: [],
-    completed: [],
-    browser: [],
-    cpu: {},
-    user: {
-      avatar: 'http://img.hb.aicdn.com/bc442cf0cc6f7940dcc567e465048d1a8d634493198c4-sPx5BR_fw236',
-    },
+   
   },
   subscriptions: {
     setup ({ dispatch }) {
-      dispatch({ type: 'query' })
-      dispatch({ type: 'queryWeather' })
+      const userInfo = JSON.parse(localStorage.getItem(`${prefix}userInfo`));
+      if(userInfo&& userInfo.success && userInfo.data){
+        dispatch({ type: 'query' })
+        dispatch({ type: 'queryWeather' })
+      }else{
+        if (location.pathname !== '/login') {
+          let from = location.pathname
+          if (location.pathname === '/dashboard') {
+            from = '/dashboard'
+          }
+          window.location = `${location.origin}/login?from=${from}`
+        }
+      }
+      
     },
   },
   effects: {

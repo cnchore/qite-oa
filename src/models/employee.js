@@ -1,4 +1,5 @@
-import { query,queryById,getOrg,getPosition,create, remove, update } from '../services/employee'
+import { query,queryById,getOrg,getPosition,create,getRoles,
+  remove, update,userChange,resetPwd,setUserRole } from '../services/employee'
 import { arrayToTree,treeToArray } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
@@ -13,6 +14,7 @@ export default {
     orgTree:[],
     positSelList:[],
     positionList:[],
+    //roleList:[],
     orgKey:null,
     currentItem: {},
     modalVisible: false,
@@ -45,7 +47,7 @@ export default {
             type: 'getPosition',
             payload: location.query,
           })
-          
+         
         }
       })
     },
@@ -101,6 +103,20 @@ export default {
         })
       }
     },
+    *getRoles ({ payload }, { call, put }) {
+
+      //payload = parse(location.search.substr(1))
+      const data = yield call(getRoles, payload)
+
+      if (data) {
+        yield put({
+          type: 'getRolesSuccess',
+          payload: {
+            roleList: data.data
+          },
+        })
+      }
+    },
 
     *'delete' ({ payload }, { call, put }) {
       const data = yield call(remove, { id: payload })
@@ -151,6 +167,17 @@ export default {
         throw data
       }
     },
+    *setUserRole ({ payload }, { call, put }) {
+      
+      const data = yield call(setUserRole, payload)
+      if (data.success) {
+        message.success('设置用户角色成功');
+        yield put({ type: 'hideModal' })
+        yield put({ type: 'query' })
+      } else {
+        throw data
+      }
+    },
     
     *positionSelect ({ payload }, { call, put }) {
       //const positId = payload;
@@ -164,6 +191,25 @@ export default {
         yield put({ type: 'hidePositSelModal' })
       } else {
         throw {success:false,message:'Position selection error'}
+      }
+    },
+    *userChange ({ payload }, { call, put }) {
+      
+      const data = yield call(userChange, payload)
+      if (data.success) {
+        message.success(`${payload.isDisable?'禁用':'启用'}成功`);
+        yield put({ type: 'query' })
+      } else {
+        throw data
+      }
+    },
+    *resetPwd ({ payload }, { call, put }) {
+      const data = yield call(resetPwd, payload)
+      if (data.success) {
+        message.success('重置密码成功');
+        yield put({ type: 'query' })
+      } else {
+        throw data
       }
     },
   },
@@ -192,6 +238,12 @@ export default {
       const { positionList } = action.payload
       return { ...state,
         positionList
+        }
+    },
+    getRolesSuccess (state, action) {
+      const { roleList } = action.payload
+      return { ...state,
+        roleList
         }
     },
     positionSelectSuccess(state, action) {

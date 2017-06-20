@@ -29,6 +29,7 @@ const Routers = function ({ history, app }) {
               cb(null, require('./routes/dashboard/'))
             }, 'dashboard')
           },
+        /*
         }, {
           path: 'user',
           getComponent (nextState, cb) {
@@ -45,6 +46,7 @@ const Routers = function ({ history, app }) {
               cb(null, require('./routes/user/detail/'))
             }, 'user-detail')
           },
+        */
         }, {
           path: '/setting/organization',
           getComponent (nextState, cb) {
