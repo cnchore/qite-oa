@@ -104,6 +104,14 @@ const Routers = function ({ history, app }) {
             }, 'setting-employee')
           },
         }, {
+          path: '/knowledge',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/knowledge'))
+              cb(null, require('./routes/knowledge/'))
+            }, 'knowledge')
+          },
+        }, {
           path: 'login',
           getComponent (nextState, cb) {
             require.ensure([], require => {

@@ -5,22 +5,68 @@ module.exports = [
     name: 'Dashboard',
     router: '/dashboard',
   },
-  /*
+  
   {
     id: 2,
     bpid: 1,
-    name: '用户管理',
+    name: '我的工作',
     icon: 'user',
-    router: '/user',
   },
   {
     id: 21,
-    mpid: -1,
+    mpid: 2,
     bpid: 2,
-    name: 'User Detail',
-    router: '/user/:id',
+    name: '我的待办',
+    router: '/work',
   },
-  */
+  {
+    id: 22,
+    mpid: 2,
+    bpid: 2,
+    name: '我的已办',
+    router: '/work1',
+  },
+  {
+    id: 23,
+    mpid: 2,
+    bpid: 2,
+    name: '事物申请',
+  },
+  {
+    id: 231,
+    mpid: 23,
+    bpid: 23,
+    name: '请假申请',
+    router: '/work2',
+  },
+  {
+    id: 232,
+    mpid: 23,
+    bpid: 23,
+    name: '报销申请',
+    router: '/work3',
+  },
+  {
+    id: 233,
+    mpid: 23,
+    bpid: 23,
+    name: '出差申请',
+    router: '/work4',
+  },
+  {
+    id: 3,
+    bpid: 1,/*面包屑parentId*/
+    name: '知识库',
+    icon: 'book',
+    router: '/knowledge',
+  },
+  {
+    id: 31,
+    mpid: -1,/*菜单parentId*/
+    bpid: 3,
+    name: '知识库管理',
+    router: '/knowledge/:id',
+  },
   {
     id: 6,
     bpid: 1,/*面包屑parentId*/

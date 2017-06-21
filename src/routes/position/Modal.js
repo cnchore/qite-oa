@@ -58,12 +58,7 @@ const modal = ({
     onOk: handleOk,
   }
   const orgOptions = orgList.map(org => <Option key={org.id}>{org.orgName}</Option>);
-  const handleSelectChange = (value,name) => {
-    
-    setFieldsValue({
-      name: value
-    });
-  }
+  
   const dicOptions=dicList.map(dic=><Option key={dic.dicName}>{dic.dicName}</Option>);
 
   return (
@@ -96,7 +91,7 @@ const modal = ({
           {getFieldDecorator('postTypeName', {
             initialValue: item.postTypeName,
             
-          })(<Select onChange={e=>handleSelectChange(e.value,'postTypeName')}>{dicOptions}</Select>)}
+          })(<Select >{dicOptions}</Select>)}
         </FormItem>
         
         <FormItem label="所属机构" hasFeedback {...formItemLayout}>
@@ -108,7 +103,7 @@ const modal = ({
                 
               },
             ],
-          })(<Select onChange={e=>handleSelectChange(e.value,'orgId')}>{orgOptions}</Select>)}
+          })(<Select >{orgOptions}</Select>)}
         </FormItem>
         <FormItem label="是否主管" hasFeedback {...formItemLayout}>
           {getFieldDecorator('isManager', {
