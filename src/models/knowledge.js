@@ -19,7 +19,7 @@ export default {
     modalVisible: false,
     modalType: 'create',
     editorState:null,
-    fileUrl:'',
+    fileList:[],
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -106,6 +106,7 @@ export default {
             ...payload,
             currentItem:data.data,
             editorState,
+            fileList:[],
           } 
         })
       } else {
@@ -171,7 +172,10 @@ export default {
     },
     setEditorState(state,action){
       return {...state,editorState:action.payload}
-    }
+    },
+    setFileList(state,action){
+      return {...state,fileList:action.payload}
+    },
 
   },
 

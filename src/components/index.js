@@ -4,6 +4,7 @@ import DropOption from './DropOption'
 import Search from './Search'
 import Editor from './Editor'
 import FilterItem from './FilterItem'
+import FileUpload from './FileUpload'
 import * as Layout from './Layout/index.js'
 
 import layer from './layer'
@@ -17,4 +18,5 @@ export {
   Editor,
   FilterItem,
   layer,
+  FileUpload,
  }

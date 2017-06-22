@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input, Modal,Row,Col,DatePicker,Select } from 'antd'
+import { Form, Input, Modal,Row,Col,DatePicker,Select,Button } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
-import { Editor } from '../../components'
+import { Editor,FileUpload } from '../../components'
 import { convertToRaw } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
 import uploadImageCallBack from '../../services/uploadImageCallBack'
+
 
 const Option=Select.Option;
 const FormItem = Form.Item
@@ -40,8 +41,15 @@ const modal = ({
   item = {},
   onOk,
   setEditorState,
-  fileUrl,
+  fileList,
+  getFileList,
   onUploadImg,
+  defaultFileList=[{
+      uid:'-1',
+      status:'done',
+      name:'安全窗大样图.jpg',
+      url:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+    }],
   form: {
     getFieldDecorator,
     validateFields,
@@ -57,13 +65,32 @@ const modal = ({
       }
       const data = {...getFieldsValue()}
       data.content=draftToHtml(convertToRaw(editorState.getCurrentContent()));
+      if(fileList && fileList.length>0){
+        fileList.map((f,index)=>{
+          if(f.id) data[`attachList[${index}].id`]=f.id;
+          data[`attachList[${index}].attachUrl`]=f.url;
+          data[`attachList[${index}].attachName`]=f.name;
+        })
+      }else if(defaultFileList[0]){
+        defaultFileList.map((f,index)=>{
+          if(f.id) data[`attachList[${index}].id`]=f.id;
+          data[`attachList[${index}].attachUrl`]=f.url;
+          data[`attachList[${index}].attachName`]=f.name;
+        })
+      }
       if(item.id){
         data.id=item.id
       }
       onOk(data)
     })
   }
- 
+  if(item.attachList&& item.attachList[0]){
+    defaultFileList=item.attachList.map((temp)=>{
+      return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+    })
+  }else{
+    defaultFileList=[];
+  }
   const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
 
   const modalOpts = {
@@ -75,6 +102,7 @@ const modal = ({
     setEditorState(editorContent);
   }
   const uploadImgCallBack=(file)=>uploadImageCallBack(file,'kgimg');
+  //const handleGet=()=>console.log('',fileList)
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
@@ -125,22 +153,30 @@ const modal = ({
               })(<DatePicker showTime format={dateTimeFormat} />)}
             </FormItem>
           </Col>
+          <Col span={24}>
+            <Editor
+              wrapperStyle={{
+                minHeight: 500,
+              }}
+              editorStyle={{
+                minHeight: 396,
+              }}
+              editorState={editorState}
+              onEditorStateChange={onEditorStateChange}
+              uploadCallback={uploadImgCallBack}
+              //toolbar={{image: { uploadCallback: uploadImageCallBack }}}
+            />
+          </Col>
+          <Col span={24}>
+              <div style={{paddingBottom:'12px'}}>知识点资料</div>
+
+              <FileUpload defaultFileList={defaultFileList} callbackParent={getFileList} />      
+
+          </Col>
         </Row>
       </Form>
-
-      <Editor
-        wrapperStyle={{
-          minHeight: 500,
-        }}
-        editorStyle={{
-          minHeight: 376,
-        }}
-        editorState={editorState}
-        onEditorStateChange={onEditorStateChange}
-        uploadCallback={uploadImgCallBack}
-        //toolbar={{image: { uploadCallback: uploadImageCallBack }}}
-      />
-            
+      
+      
     </Modal>
   )
 }

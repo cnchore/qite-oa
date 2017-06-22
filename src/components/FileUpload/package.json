@@ -1,0 +1,6 @@
+{
+  "name": "FileUpload",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./FileUpload.js"
+}

@@ -7,14 +7,14 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Knowledge = ({ location, dispatch, knowledge, loading }) => {
-  const { list,editorState,fileUrl, pagination, currentItem, modalVisible, modalType } = knowledge
+  const { list,editorState,fileList, pagination, currentItem, modalVisible, modalType } = knowledge
   const { pageSize } = pagination
 
   const modalProps = {
     item: modalType === 'create' ? {} : currentItem,
     visible: modalVisible,
     editorState,
-    fileUrl,
+    fileList,
     maskClosable: false,
     confirmLoading: loading.effects[`knowledge/${modalType}`],
     title: `${modalType === 'create' ? '新增知识点' : '编辑知识点'}`,
@@ -40,6 +40,12 @@ const Knowledge = ({ location, dispatch, knowledge, loading }) => {
       dispatch({
         type:'knowledge/fileUpload',
         payload:data
+      })
+    },
+    getFileList(fileList){
+      dispatch({
+        type:'knowledge/setFileList',
+        payload:fileList
       })
     }
   }
@@ -100,6 +106,7 @@ const Knowledge = ({ location, dispatch, knowledge, loading }) => {
         payload: {
           modalType: 'create',
           editorState:null,
+          fileList:[],
         },
       })
     },
