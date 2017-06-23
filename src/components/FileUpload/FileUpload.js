@@ -1,14 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './FileUpload.less'
-import { Upload, Icon, message,Progress,Tooltip,Row,Col } from 'antd'
+import { Upload, Icon, message,Progress,Row,Col } from 'antd'
 import config from '../../utils/config'
 import classNames from 'classnames';
 import DOC from '../../../assets/doc.png'
+import DOCX from '../../../assets/docx.png'
 import PDF from '../../../assets/pdf.png'
 import TXT from '../../../assets/txt.png'
 import XLS from '../../../assets/xls.png'
+import XLSX from '../../../assets/xlsx.png'
 import ZIP from '../../../assets/zip.png'
+import PPT from '../../../assets/ppt.png'
+import PPTx from '../../../assets/pptx.png'
+import RAR from '../../../assets/rar.png'
+import OTHER from '../../../assets/other.png'
 
 class FileUpload extends React.Component {
   static defaultProps = {
@@ -25,6 +31,7 @@ class FileUpload extends React.Component {
    
   }
   acceptList=['image/jpeg',
+    'application/vnd.ms-excel',
     //xlsx
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     //docx
@@ -32,7 +39,8 @@ class FileUpload extends React.Component {
     'application/msword',
     'application/pdf',
     'text/plain',
-    'application/zip'
+    'application/zip',
+    'application/vnd.ms-powerpoint'
   ]
   handleChange = (info) => {
     const status = info.file.status;
@@ -59,38 +67,49 @@ class FileUpload extends React.Component {
     
   }
   getThumbUrl=(file)=>{
-    if(file.name.length===('.txt').length+file.name.lastIndexOf('.txt')){
-      return TXT;
-    } else if(file.name.length===('.doc').length+file.name.lastIndexOf('.doc')){
-      return DOC;
-    } else if(file.name.length===('.docx').length+file.name.lastIndexOf('.docx')){
-      return DOC;
-    } else if(file.name.length===('.xls').length+file.name.lastIndexOf('.xlx')){
-      return XLS;
-    } else if(file.name.length===('.xlsx').length+file.name.lastIndexOf('.xlsx')){
-      return XLS;
-    } else if(file.name.length===('.pdf').length+file.name.lastIndexOf('.pdf')){
-      return PDF;
-    } else if(file.name.length===('.zip').length+file.name.lastIndexOf('.zip')){
-      return ZIP;
-    }else{
-      return file.url;
+    if(file.type==='image/jpeg'){
+      return file.url+'?imageView2/1/w/320/h/200/format/webp/interlace/0/q/50';
     }
+    let l=file.name.lastIndexOf('.');
+    switch(file.name.substr(l)){
+      case '.doc':
+        return DOC;
+      case '.docx':
+        return DOCX;
+      case '.pdf':
+        return PDF;
+      case '.ppt':
+        return PPT;
+      case '.pptx':
+        return PPTX;
+      case '.xls':
+        return XlS;
+      case '.xlsx':
+        return XLSX;
+      case '.zip':
+        return ZIP;
+      case '.txt':
+        return TXT;
+      case '.rar':
+        return RAR;
+      case '.jpg':
+      case '.jpg':
+      case '.gif':
+        return file.url+'?imageView2/1/w/320/h/200/format/webp/interlace/0/q/50';
+      default :
+        return OTHER;
 
+    }
   }
   beforeUpload=(file)=> {
 
     this.setState({fileList:[...this.state.fileList,file]})
-    const isJPG = this.acceptList.filter((item)=>item===file.type);
-    //console.log('before:',isJPG)
-    if (!isJPG[0]) {
-      message.error('文件格式不对!');
-    }
+    
     const isLt2M = file.size / 1024 / 1024 < 20;
     if (!isLt2M) {
       message.error('上传文件必须小于 20MB!');
     }
-    return Boolean(isJPG[0]) && isLt2M;
+    return isLt2M;
   }
   handleRemove=(file)=>{
     let l=this.state.fileList.filter(item=>item.uid!==file.uid);
@@ -129,11 +148,7 @@ class FileUpload extends React.Component {
             </a>
           </Col>
           <Col span={2}>
-            <a href="#" 
-              onClick={() => this.handleRemove(file)}
-            >
-              <Icon type="delete" style={{ fontSize: 18 }} />
-            </a>
+              <Icon type="delete" style={{ fontSize: 18 }} onClick={() => this.handleRemove(file)}/>
           </Col>
         </Row>
       );
@@ -148,6 +163,7 @@ class FileUpload extends React.Component {
             name="avatar"
             showUploadList={false}
             data={fileData}
+            //accept={this.acceptList.join()}
             action={`${config.baseURL}${config.api.imgUpload}`}
             beforeUpload={this.beforeUpload}
             onChange={this.handleChange}

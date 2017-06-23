@@ -1,5 +1,5 @@
-import { query,queryById,create, change, update,fileUpload } from '../services/knowledge'
-//import { arrayToTree,treeToArray } from '../utils'
+import { query,queryById,create, change, update,fileUpload,getOrg } from '../services/knowledge'
+import { treeToArray } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
 import { EditorState, ContentState, convertFromHTML } from 'draft-js'
@@ -20,6 +20,7 @@ export default {
     modalType: 'create',
     editorState:null,
     fileList:[],
+    orgList:[],
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -38,7 +39,10 @@ export default {
             type: 'query',
             payload: location.query,
           })
-         
+          dispatch({
+            type: 'getOrg',
+            payload: location.query,
+          })
         }
       })
     },
@@ -62,12 +66,26 @@ export default {
               pageSize: Number(payload.pageSize) || 10,
               total: data.data.total,
             },
+
           },
         })
       }
     },
 
-   
+    *getOrg ({ payload }, { call, put }) {
+
+      //payload = parse(location.search.substr(1))
+      const data = yield call(getOrg, {})
+
+      if (data) {
+        yield put({
+          type: 'getOrgSuccess',
+          payload: {
+            orgList: treeToArray(data.data)
+          },
+        })
+      }
+    },
 
     *'change' ({ payload }, { call, put }) {
       const data = yield call(change, { id: payload.id })
@@ -152,13 +170,20 @@ export default {
         pagination: {
           ...state.pagination,
           ...pagination,
-        } }
+        },
+        modalVisible:false,
+      }
     },
     fileUploadSuccess(state, action) {
       const { fileUrl } = action.payload
       return { ...state,fileUrl}
     },
-    
+    getOrgSuccess (state, action) {
+      const { orgList } = action.payload
+      return { ...state,
+        orgList
+        }
+    },
     showModal (state, action) {
 
       return { ...state, ...action.payload, modalVisible: true }

@@ -1,6 +1,6 @@
 import { request, config } from '../utils'
 const { api,bucket } = config
-const { knowledge,imgUpload } = api
+const { knowledge,imgUpload,organizations } = api
 
 export async function query (params) {
   return request({
@@ -9,7 +9,13 @@ export async function query (params) {
     data: params,
   })
 }
-
+export async function getOrg (params) {
+  return request({
+    url: organizations.query,
+    method: 'get',
+    data: params,
+  })
+}
 export async function queryById (params) {
   return request({
     url: knowledge.queryById,

@@ -5,6 +5,7 @@ import Search from './Search'
 import Editor from './Editor'
 import FilterItem from './FilterItem'
 import FileUpload from './FileUpload'
+import FileList from './FileList'
 import * as Layout from './Layout/index.js'
 
 import layer from './layer'
@@ -19,4 +20,5 @@ export {
   FilterItem,
   layer,
   FileUpload,
+  FileList,
  }

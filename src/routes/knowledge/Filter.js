@@ -109,7 +109,7 @@ const Filter = ({
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div >
             <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>
-            <Button icon="reload" size="large" onClick={handleReset}>Reset</Button>
+            <Button icon="reload" size="large" onClick={handleReset}>重置</Button>
           </div>
           <div>
             <Button icon="plus" size="large" type="ghost" onClick={onAdd}>新增</Button>

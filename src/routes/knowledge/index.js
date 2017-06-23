@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Knowledge = ({ location, dispatch, knowledge, loading }) => {
-  const { list,editorState,fileList, pagination, currentItem, modalVisible, modalType } = knowledge
+  const { list,editorState,fileList,orgList, pagination, currentItem, modalVisible, modalType } = knowledge
   const { pageSize } = pagination
 
   const modalProps = {
@@ -15,6 +15,7 @@ const Knowledge = ({ location, dispatch, knowledge, loading }) => {
     visible: modalVisible,
     editorState,
     fileList,
+    orgList,
     maskClosable: false,
     confirmLoading: loading.effects[`knowledge/${modalType}`],
     title: `${modalType === 'create' ? '新增知识点' : '编辑知识点'}`,
@@ -55,7 +56,7 @@ const Knowledge = ({ location, dispatch, knowledge, loading }) => {
     loading: loading.effects['knowledge/query'],
     pagination,
     location,
-    
+    orgList,
     onChange (page) {
       const { query, pathname } = location
       dispatch(routerRedux.push({
@@ -115,8 +116,8 @@ const Knowledge = ({ location, dispatch, knowledge, loading }) => {
 
   return (
     <div className="content-inner">
-      <Filter {...filterProps} />
-      <List {...listProps} />
+      {!modalVisible &&<Filter {...filterProps} />}
+      {!modalVisible &&<List {...listProps} />}
       {modalVisible && <Modal {...modalProps} />}
     </div>
   )

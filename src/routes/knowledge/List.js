@@ -4,11 +4,12 @@ import { Table, Modal,Button,Tag } from 'antd'
 import styles from './List.less'
 import classnames from 'classnames'
 import { DropOption } from '../../components'
-//import { Link } from 'dva/router'
+import { Link } from 'dva/router'
 
 const confirm = Modal.confirm
 
 const List = ({ onItemChange, onEditItem, location, ...tableProps }) => {
+  const {orgList} = tableProps
   const handleMenuClick = (record, e) => {
     if (e.key === '1') {
       onEditItem(record)
@@ -21,13 +22,21 @@ const List = ({ onItemChange, onEditItem, location, ...tableProps }) => {
       })
     }
   }
+  const getOrgName=(value)=>{
+    let n=orgList.filter(item=>String(item.id)===String(value));
+    //console.log(orgList,...n,value);
+    if(n && n[0]){
+      return n[0].orgName;
+    }
+    return '';
+  }
   //tableProps={...tableProps,dataSource:[]}
   const columns = [
     {
       title: '知识主题',
       dataIndex: 'title',
       key: 'title',
-   
+      render: (text, record) => <Link to={`knowledge/${record.id}`}>{text}</Link>,
     }, {
       title: '发布人',
       dataIndex: 'publisher',
@@ -40,6 +49,7 @@ const List = ({ onItemChange, onEditItem, location, ...tableProps }) => {
       title: '知识点对象',
       dataIndex: 'toId',
       key: 'toId',
+      render:(text)=>getOrgName(text),
     }, {
       title: '状态',
       dataIndex: 'state',

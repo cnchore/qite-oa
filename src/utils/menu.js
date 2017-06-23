@@ -64,7 +64,7 @@ module.exports = [
     id: 31,
     mpid: -1,/*菜单parentId*/
     bpid: 3,
-    name: '知识库管理',
+    name: '知识库详情',
     router: '/knowledge/:id',
   },
   {

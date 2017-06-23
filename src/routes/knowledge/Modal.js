@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input, Modal,Row,Col,DatePicker,Select,Button } from 'antd'
+import { Form, Input, Modal,Row,Col,DatePicker,Select,Button,Icon } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
 import { Editor,FileUpload } from '../../components'
@@ -40,10 +40,14 @@ const modal = ({
   editorState,
   item = {},
   onOk,
+  title,
+  onCancel,
   setEditorState,
   fileList,
   getFileList,
   onUploadImg,
+  confirmLoading,
+  orgList,
   defaultFileList=[{
       uid:'-1',
       status:'done',
@@ -78,6 +82,8 @@ const modal = ({
           data[`attachList[${index}].attachName`]=f.name;
         })
       }
+      data.effectiveTimeStr=data.effectiveTimeStr?data.effectiveTimeStr.format('YYYY-MM-DD HH:mm:ss'):null;
+      
       if(item.id){
         data.id=item.id
       }
@@ -93,20 +99,24 @@ const modal = ({
   }
   const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
 
-  const modalOpts = {
-    ...modalProps,
-    onOk: handleOk,
-    width:1000, 
-  }
+ 
   const onEditorStateChange = (editorContent) => {
     setEditorState(editorContent);
   }
   const uploadImgCallBack=(file)=>uploadImageCallBack(file,'kgimg');
   //const handleGet=()=>console.log('',fileList)
+
+  const orgOptions = orgList.map(org => <Option key={org.id}>{org.orgName}</Option>);
+
+
   return (
-    <Modal {...modalOpts}>
-      <Form layout="horizontal">
+      <Form layout="vertical" onSubmit={handleOk}>
         <Row gutter={24}>
+          <Col span={24} 
+          style={{display:'flex',justifyContent:'space-between',marginBottom:'24px',paddingBottom:'12px',borderBottom:'1px solid #d9d9d9'}}>
+                <div><strong>{title}</strong></div>
+                <a onClick={onCancel} href="#"><Icon style={{fontSize:20}} type="close-circle-o" /></a>
+          </Col>
           <Col span={16}>
             <FormItem label="知识点主题" hasFeedback {...twoFormItemLayout}>
               {getFieldDecorator('title', {
@@ -124,7 +134,7 @@ const modal = ({
               {getFieldDecorator('state', { 
                 initialValue: String(item.state===undefined?'':item.state)
               })(
-                <Select placeholder="发布人" size="large" style={{width:'100%'}}>
+                <Select size="large" style={{width:'100%'}}>
                   <Option key='0'>未发布</Option>
                   <Option key='1'>已发布</Option>
                   <Option key='2'>已下线</Option>
@@ -135,14 +145,18 @@ const modal = ({
           <Col span={16}>
             <FormItem label="知识点对象" hasFeedback {...twoFormItemLayout}>
               {getFieldDecorator('toId', {
-                initialValue: item.toId,
+                initialValue: String(item.toId===undefined?'':item.toId),
                 rules: [
                   {
                     required: true,
                    
                   },
                 ],
-              })(<Input />)}
+              })(
+                <Select  size="large" style={{width:'100%'}}>
+                 {orgOptions}
+                </Select>
+              )}
             </FormItem>
           </Col>
           <Col span={8}>  
@@ -150,34 +164,42 @@ const modal = ({
               {getFieldDecorator('effectiveTimeStr', {
                 initialValue:(item.effectiveTimeStr || item.effectiveTime)? moment(item.effectiveTimeStr || item.effectiveTime,dateTimeFormat):null,
                 
-              })(<DatePicker showTime format={dateTimeFormat} />)}
+              })(<DatePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
             </FormItem>
           </Col>
           <Col span={24}>
-            <Editor
-              wrapperStyle={{
-                minHeight: 500,
-              }}
-              editorStyle={{
-                minHeight: 396,
-              }}
-              editorState={editorState}
-              onEditorStateChange={onEditorStateChange}
-              uploadCallback={uploadImgCallBack}
-              //toolbar={{image: { uploadCallback: uploadImageCallBack }}}
-            />
+            <FormItem label="知识点内容" >
+
+              <Editor
+                wrapperStyle={{
+                  minHeight: 500,
+                }}
+                editorStyle={{
+                  height: 396,
+                }}
+                editorState={editorState}
+                onEditorStateChange={onEditorStateChange}
+                uploadCallback={uploadImgCallBack}
+                //toolbar={{image: { uploadCallback: uploadImageCallBack }}}
+              />
+            </FormItem>
           </Col>
           <Col span={24}>
-              <div style={{paddingBottom:'12px'}}>知识点资料</div>
+            <FormItem label="知识点资料" >
 
               <FileUpload defaultFileList={defaultFileList} callbackParent={getFileList} />      
-
+            </FormItem>    
+          </Col>
+          <Col span={24} >
+              <FormItem style={{ textAlign: 'center' }}>
+                  <Button  type="ghost" onClick={onCancel} size="large">取消</Button>
+                  
+                  <Button style={{ marginLeft: 12 }} type="primary" loading={confirmLoading} onClick={handleOk} size="large">确定</Button>
+              </FormItem>
           </Col>
         </Row>
+
       </Form>
-      
-      
-    </Modal>
   )
 }
 

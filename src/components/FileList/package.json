@@ -1,0 +1,6 @@
+{
+  "name": "FileList",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./FileList.js"
+}

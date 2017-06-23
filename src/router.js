@@ -112,6 +112,14 @@ const Routers = function ({ history, app }) {
             }, 'knowledge')
           },
         }, {
+          path: 'knowledge/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/knowledge/detail'))
+              cb(null, require('./routes/knowledge/detail/'))
+            }, 'knowledge-detail')
+          },
+        }, {
           path: 'login',
           getComponent (nextState, cb) {
             require.ensure([], require => {
