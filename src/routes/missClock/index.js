@@ -6,53 +6,41 @@ import List from './List'
 import Filter from './Filter'
 import Modal from './Modal'
 
-const Knowledge = ({ location, dispatch, knowledge, loading }) => {
-  const { list,editorState,fileList,orgList, pagination, currentItem, modalVisible, modalType } = knowledge
+const MissClock = ({ location, dispatch, missClock, loading }) => {
+  const { list,fileList,employeeList, pagination, currentItem, modalVisible, modalType } = missClock
   const { pageSize } = pagination
 
   const modalProps = {
     item: modalType === 'create' ? {} : currentItem,
     visible: modalVisible,
-    editorState,
     fileList,
-    orgList,
+    employeeList,
     maskClosable: false,
-    changeLoading:loading.effects['knowledge/change'],
-    confirmLoading: loading.effects[`knowledge/${modalType}`],
-    title: `${modalType === 'create' ? '新增知识点' : '编辑知识点'}`,
+    submitLoading:loading.effects['missClock/submit'],
+    confirmLoading: loading.effects[`missClock/${modalType}`],
+    title: `${modalType === 'create' ? '新增考勤异常申请' : '编辑考勤异常申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
-        type: `knowledge/${modalType}`,
+        type: `missClock/${modalType}`,
         payload: data,
       })
     },
     onCancel () {
       dispatch({
-        type: 'knowledge/hideModal',
+        type: 'missClock/hideModal',
       })
     },
-    setEditorState(ed){
-      dispatch({
-        type:'knowledge/setEditorState',
-        payload:ed
-      })
-    },
-    onUploadImg(data){
-      dispatch({
-        type:'knowledge/fileUpload',
-        payload:data
-      })
-    },
+    
     getFileList(fileList){
       dispatch({
-        type:'knowledge/setFileList',
+        type:'missClock/setFileList',
         payload:fileList
       })
     },
-    onItemChange (id,title) {
+    onSubmit (id,title) {
       dispatch({
-        type: 'knowledge/change',
+        type: 'missClock/submit',
         payload: {id,title},
       })
     },
@@ -60,10 +48,9 @@ const Knowledge = ({ location, dispatch, knowledge, loading }) => {
 
   const listProps = {
     dataSource:list,
-    loading: loading.effects['knowledge/query'],
+    loading: loading.effects['missClock/query'],
     pagination,
     location,
-    orgList,
     onChange (page) {
       const { query, pathname } = location
       dispatch(routerRedux.push({
@@ -75,15 +62,15 @@ const Knowledge = ({ location, dispatch, knowledge, loading }) => {
         },
       }))
     },
-    onItemChange (id,title) {
+    onSubmit (id,title) {
       dispatch({
-        type: 'knowledge/change',
+        type: 'missClock/submit',
         payload: {id,title},
       })
     },
     onEditItem (item) {
       dispatch({
-        type: 'knowledge/editItem',
+        type: 'missClock/editItem',
         payload: {
           modalType: 'update',
           currentItem: item,
@@ -110,10 +97,9 @@ const Knowledge = ({ location, dispatch, knowledge, loading }) => {
     
     onAdd () {
       dispatch({
-        type: 'knowledge/showModal',
+        type: 'missClock/showModal',
         payload: {
           modalType: 'create',
-          editorState:null,
           fileList:[],
         },
       })
@@ -130,11 +116,11 @@ const Knowledge = ({ location, dispatch, knowledge, loading }) => {
   )
 }
 
-Knowledge.propTypes = {
-  knowledge: PropTypes.object,
+MissClock.propTypes = {
+  missClock: PropTypes.object,
   location: PropTypes.object,
   dispatch: PropTypes.func,
   loading: PropTypes.object,
 }
 
-export default connect(({ knowledge, loading }) => ({ knowledge, loading }))(Knowledge)
+export default connect(({ missClock, loading }) => ({ missClock, loading }))(MissClock)

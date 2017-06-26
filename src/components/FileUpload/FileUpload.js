@@ -122,7 +122,7 @@ class FileUpload extends React.Component {
     //if(this.props.fileList)this.props.fileList=l;
   }
   render () {
-    const fileData={bucket:`${config.bucket}`,type:'photo'};
+    const fileData={bucket:`${config.bucket}`,type:'qiteOa'};
 
     const { prefixCls,fileList,showPreviewIcon, showRemoveIcon } = this.props
     const _fileList = this.state.fileList.map((file,index)=>{

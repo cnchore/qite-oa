@@ -102,5 +102,12 @@ module.exports = {
       update:`${apiPrefixPro}/knowledge/update`,
       change:`${apiPrefixPro}/knowledge/change`,
     },
+    //考勤异常
+    missClock:{
+      query:`${apiPrefixPro}/missClock/getPage`,
+      queryById:`${apiPrefixPro}/missClock/getById`,
+      getList:`${apiPrefixPro}/missClock/getList`,
+      save:`${apiPrefixPro}/missClock/save`,
+    }
   },
 }

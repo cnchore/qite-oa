@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input, Modal,Row,Col,DatePicker,Select,Button,Icon } from 'antd'
+import { Form, Input, Modal,Row,Col,DatePicker,Select,Button,Icon,Affix } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
 import { Editor,FileUpload } from '../../components'
@@ -8,6 +8,7 @@ import { convertToRaw } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
 import uploadImageCallBack from '../../services/uploadImageCallBack'
 
+const confirm = Modal.confirm
 
 const Option=Select.Option;
 const FormItem = Form.Item
@@ -47,7 +48,9 @@ const modal = ({
   getFileList,
   onUploadImg,
   confirmLoading,
+  changeLoading,
   orgList,
+  onItemChange,
   defaultFileList=[{
       uid:'-1',
       status:'done',
@@ -108,14 +111,34 @@ const modal = ({
 
   const orgOptions = orgList.map(org => <Option key={org.id}>{org.orgName}</Option>);
 
+  const handleItemChange=()=>{
+    confirm({
+        title: `你确定${item.state===0||item.state===2?'发布':'下线'}这条知识项么?`,
+        onOk () {
+          onItemChange(item.id,(item.state===0||item.state===2?'发布':'下线'))
+        },
+      })
+  }
 
   return (
-      <Form layout="vertical" onSubmit={handleOk}>
+      <Form layout="horizontal" onSubmit={handleOk}>
         <Row gutter={24}>
-          <Col span={24} 
-          style={{display:'flex',justifyContent:'space-between',marginBottom:'24px',paddingBottom:'12px',borderBottom:'1px solid #d9d9d9'}}>
-                <div><strong>{title}</strong></div>
-                <a onClick={onCancel} href="#"><Icon style={{fontSize:20}} type="close-circle-o" /></a>
+          <Col span={24} style={{display:'flex',justifyContent:'space-between',marginBottom:'24px',paddingBottom:'12px',borderBottom:'1px solid #d9d9d9'}}>
+            <div className='qite-title'>
+            <Icon type={item.id?'edit':'plus'} />{title}</div>
+           
+            <Affix target={()=>document.getElementById('layout-main')}>
+         
+              <div style={{backgroundColor:'#fff'}}>
+                {item.id?<Button  type="primary" onClick={handleItemChange} size="large" loading={changeLoading}>{(item.state===0||item.state===2)?'发布':'下线'}</Button>:null}
+                <Button style={{ marginLeft: 12,marginRight: 12 }} type="primary" loading={confirmLoading} onClick={handleOk} size="large">确定</Button>
+                <Button  type="ghost" onClick={onCancel} size="large">取消</Button>
+              </div>
+            </Affix>
+
+          </Col>
+          <Col span={24} className='qite-list-title'>
+            <Icon type="credit-card" />知识点信息
           </Col>
           <Col span={16}>
             <FormItem label="知识点主题" hasFeedback {...twoFormItemLayout}>
@@ -167,8 +190,11 @@ const modal = ({
               })(<DatePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
             </FormItem>
           </Col>
+          <Col span={24} className='qite-list-title'>
+            <Icon type="credit-card" />知识点内容
+          </Col>
           <Col span={24}>
-            <FormItem label="知识点内容" >
+            <FormItem >
 
               <Editor
                 wrapperStyle={{
@@ -184,19 +210,16 @@ const modal = ({
               />
             </FormItem>
           </Col>
+          <Col span={24} className='qite-list-title'>
+            <Icon type="paper-clip" />知识点资料
+          </Col>
           <Col span={24}>
-            <FormItem label="知识点资料" >
+            <FormItem >
 
               <FileUpload defaultFileList={defaultFileList} callbackParent={getFileList} />      
             </FormItem>    
           </Col>
-          <Col span={24} >
-              <FormItem style={{ textAlign: 'center' }}>
-                  <Button  type="ghost" onClick={onCancel} size="large">取消</Button>
-                  
-                  <Button style={{ marginLeft: 12 }} type="primary" loading={confirmLoading} onClick={handleOk} size="large">确定</Button>
-              </FormItem>
-          </Col>
+          
         </Row>
 
       </Form>

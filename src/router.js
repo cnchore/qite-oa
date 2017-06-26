@@ -120,6 +120,22 @@ const Routers = function ({ history, app }) {
             }, 'knowledge-detail')
           },
         }, {
+          path: '/missClock',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/missClock'))
+              cb(null, require('./routes/missClock/'))
+            }, 'missClock')
+          },
+        }, {
+          path: 'missClock/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/missClock/detail'))
+              cb(null, require('./routes/missClock/detail/'))
+            }, 'missClock-detail')
+          },
+        }, {
           path: 'login',
           getComponent (nextState, cb) {
             require.ensure([], require => {
