@@ -5,7 +5,7 @@ import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload } from '../../components'
 import uploadImageCallBack from '../../services/uploadImageCallBack'
-
+import styles from './Modal.less'
 const confirm = Modal.confirm
 
 const FormItem = Form.Item
@@ -105,7 +105,7 @@ const modal = ({
 
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
-        <Row gutter={24}>
+        <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} style={{display:'flex',justifyContent:'space-between',marginBottom:'24px',paddingBottom:'12px',borderBottom:'1px solid #d9d9d9'}}>
             <div className='qite-title'>
             <Icon type={item.id?'edit':'plus'} />{title}</div>
@@ -123,33 +123,51 @@ const modal = ({
           <Col span={24} className='qite-list-title'>
             <Icon type="credit-card" />漏打卡信息
           </Col>
-          <Col xs={24} md={12} xl={8}>
-            <FormItem label="姓名"  {...formItemLayout}>
-              {employeeList.realName}
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            姓名：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {employeeList.realName || '无'}
             </FormItem>
           </Col>
-          <Col xs={24} md={12} xl={8}>
-            <FormItem label="部门"  {...formItemLayout}>
-              {employeeList.postList[0].orgName}
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            部门：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem>
+              {employeeList.postList[0].orgName || '无'}
             </FormItem>
           </Col>
-          <Col xs={24} md={12} xl={8}>
-            <FormItem label="岗位"  {...formItemLayout}>
-              {employeeList.postList[0].postName}
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            岗位：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {employeeList.postList[0].postName || '无'}
             </FormItem>
           </Col>
-          <Col xs={24} md={12} xl={8}>
-            <FormItem label="申请单号"  {...formItemLayout}>
-              {item.code}
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            申请单号：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {item.code || '无'}
             </FormItem>
           </Col>
-          <Col xs={24} md={12} xl={8}>
-            <FormItem label="申请时间"  {...formItemLayout}>
-              {item.createTime || item.createTimeStr}
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            申请时间：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {item.createTime || item.createTimeStr || '无'}
             </FormItem>
           </Col>
-          <Col xs={24} md={12} xl={8}>  
-            <FormItem label="未打卡时间" hasFeedback {...formItemLayout}>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            未打卡时间：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
               {getFieldDecorator('missTimeStr', {
                 initialValue:(item.missTimeStr || item.missTime)? moment(item.missTimeStr || item.missTime,dateTimeFormat):null,
                 rules: [
@@ -161,8 +179,11 @@ const modal = ({
               })(<DatePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
             </FormItem>
           </Col>
-          <Col span={24}>
-            <FormItem label="未打卡原因" className='qite-inline' {...twoFormItemLayout}>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            未打卡原因：
+          </Col>
+          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
               {getFieldDecorator('remark', {
                 initialValue: item.remark,
                 rules: [
@@ -174,12 +195,13 @@ const modal = ({
               })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
             </FormItem>
           </Col>
+     
+          
           <Col span={24} className='qite-list-title'>
             <Icon type="paper-clip" />申请附件
           </Col>
           <Col span={24}>
             <FormItem >
-
               <FileUpload defaultFileList={defaultFileList} callbackParent={getFileList} />      
             </FormItem>    
           </Col>

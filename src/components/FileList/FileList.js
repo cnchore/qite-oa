@@ -76,7 +76,7 @@ class FileList extends React.Component {
       let thumbUrl=this.getThumbUrl(file);
       return (
         <Row key={file.uid} gutter={12} className={styles['file-list']} style={{margin:'0px'}} type="flex" justify="space-around" align="middle">
-          <Col span={4}>
+          <Col span={4} style={{paddingLeft:'0px'}}>
             { (thumbUrl)?
             <img className={styles.fileImg} src={thumbUrl} alt={file.name} />
             :<Icon type="loading" />
@@ -107,7 +107,7 @@ class FileList extends React.Component {
 
     return (
      
-      <Row gutter={24} style={{margin:0,marginBottom:'12px'}} className={styles.fileRow}>
+      <Row gutter={4} style={{margin:0,marginBottom:'12px'}} className={styles.fileRow}>
         
           {_fileList}
         

@@ -129,7 +129,7 @@ class FileUpload extends React.Component {
       let thumbUrl=this.getThumbUrl(file);
       return (
         <Row key={file.uid} gutter={24} className={styles['file-list']} style={{margin:'0px'}} type="flex" justify="space-around" align="middle">
-          <Col span={4}>
+          <Col span={4} style={{paddingLeft:'2px'}}>
             { (thumbUrl)?
             <img className={styles.fileImg} src={thumbUrl} alt={file.name} />
             :<Icon type="loading" />
@@ -157,7 +157,7 @@ class FileUpload extends React.Component {
     return (
      
       <Row gutter={24} style={{marginBottom:'12px'}} className={styles.fileRow}>
-        <Col span={3}>
+        <Col md={4} xl={3} style={{display:'flex',justifyContent:'center'}}>
           <Upload
             className={styles['avatar-uploader']}
             name="avatar"
@@ -171,7 +171,7 @@ class FileUpload extends React.Component {
             <Icon type="plus" className={styles['avatar-uploader-trigger']} />
           </Upload>
         </Col>
-        <Col span={21}>
+        <Col md={20} xl={21}>
           {_fileList}
         </Col>
       </Row>

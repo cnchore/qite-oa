@@ -19,9 +19,9 @@
 
 .fileRow{
   .file-list{
-    border-bottom: 1px solid #d9d9d9;
-    &:last-child{
-      border-bottom:none; 
+    border: 1px solid #d9d9d9;
+    &:nth-child(even){
+      border-top:none; 
     }
     div{
       i{
@@ -33,7 +33,8 @@
       }
     }
     div:first-child{
-      padding-top: 6px;
+      padding-top: 2px;
+      height: 62px;
       i{
         font-size: 48px;
       } 
@@ -41,7 +42,7 @@
   }
 }
 .fileImg{
-  width: 60px;
-  height: 60px;
+  width: 58px;
+  height: 58px;
   border-radius: 3px;
 }
