@@ -54,11 +54,25 @@ module.exports = [
     router: '/leave',
   },
   {
+    id: 2321,
+    mpid: -1,
+    bpid: 232,
+    name: '请假申请详情',
+    router: '/leave/:id',
+  },
+  {
     id: 233,
     mpid: 23,
     bpid: 23,
     name: '加班申请',
     router: '/overtime',
+  },
+  {
+    id: 2331,
+    mpid: -1,
+    bpid: 233,
+    name: '加班申请详情',
+    router: '/overtime/:id',
   },
   {
     id: 234,

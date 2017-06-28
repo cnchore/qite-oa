@@ -8,7 +8,7 @@ import { Link } from 'dva/router'
 
 const confirm = Modal.confirm
 
-const List = ({ onSubmit, onEditItem, location, ...tableProps }) => {
+const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
   const handleMenuClick = (record, e) => {
     if (e.key === '1') {
       onEditItem(record)
@@ -35,20 +35,50 @@ const List = ({ onSubmit, onEditItem, location, ...tableProps }) => {
       
     }
   }
+  const getOvertimes=(value,remark=null)=>{
+    let n=dicList.filter(item=>String(item.dicValue)===String(value));
+    //console.log(orgList,...n,value);
+    if(n && n[0]){
+      return remark&&n[0].dicName==='其他'?remark:n[0].dicName;
+    }
+    return '';
+  }
+  const getOvertimeHours=(a,b)=>{
+    if(!a||!b){
+      return 0;
+    }
+    let timeA=new Date(a);
+    let timeB=new Date(b);
+    return ((timeB-timeA)/(3600*1000)).toFixed(2)
+  }
   const columns = [
     {
       title: '申请单号',
-      dataIndex: 'code',
-      key: 'code',width:220,
-      render: (text, record) => <Link to={`missClock/${record.id}`}>{text}</Link>,
+      dataIndex: 'code',width:220,
+      key: 'code',
+      render: (text, record) => <Link to={`overtime/${record.id}`}>{text}</Link>,
     }, {
-      title: '创建时间',
+      title: '申请时间',
       dataIndex: 'createTime',width:170,
       key: 'createTime',
     }, {
-      title: '漏打卡时间',
-      dataIndex: 'missTime',width:170,
-      key: 'missTime',
+      title: '申请加班时间',
+      dataIndex: 'overTimeStart',width:350,
+      key: 'overTimeStart',
+      render:(text,record)=>`${record.overTimeStart}至${record.overTimeEnd}`,
+    }, {
+      title: '加班时长',width:120,
+      key: 'overtimeHours',
+      render:(text,record)=>getOvertimeHours(record.overTimeStart,record.overTimeEnd),
+    }, {
+      title: '加班类型',width:120,
+      dataIndex: 'type',
+      key: 'type',
+    }, {
+      title: '加班时段',width:120,
+      dataIndex: 'times',
+      key: 'times',
+      render:(text,record)=>getOvertimes(text,record.timesRemark),
     }, {
       title: '状态',
       dataIndex: 'state',
@@ -74,7 +104,7 @@ const List = ({ onSubmit, onEditItem, location, ...tableProps }) => {
         {...tableProps}
         className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 767 }}
+        scroll={{ x: 1300 }}
         columns={columns}
         simple
         rowKey={record => record.id}

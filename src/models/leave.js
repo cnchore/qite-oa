@@ -1,12 +1,13 @@
-import { query,queryById,save,submit,queryEmployee } from '../services/missClock'
-import { treeToArray,config } from '../utils'
+import { query,queryById,save,submit,queryEmployee,getDic } from '../services/leave'
+import { config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
 
 const { prefix } = config
+
 export default {
 
-  namespace: 'missClock',
+  namespace: 'leave',
 
   state: {
     list: [],
@@ -14,6 +15,7 @@ export default {
     modalVisible: false,
     modalType: 'create',
     fileList:[],
+    dicList:[],
     employeeList:[],
     pagination: {
       showSizeChanger: true,
@@ -28,12 +30,15 @@ export default {
     setup ({ dispatch, history }) {
       history.listen(location => {
 
-        if (location.pathname === '/missClock') {
+        if (location.pathname === '/leave') {
           dispatch({
             type: 'query',
             payload: location.query,
           })
-          
+          dispatch({
+            type: 'getDic',
+            payload: {dicType:'leaveType_item'},
+          })
         }
       })
     },
@@ -71,7 +76,18 @@ export default {
         }
       }
     },
+    *getDic ({ payload }, { call, put }) {
 
+     // payload = parse(location.search.substr(1))
+      const data = yield call(getDic, payload)
+
+      if (data) {
+        yield put({
+          type: 'getDicSuccess',
+          payload: data.data,
+        })
+      }
+    },
     *create ({ payload }, { call, put }) {
 
       const data = yield call(save, payload)
@@ -115,7 +131,7 @@ export default {
       }
     },
     *update ({ payload }, { select, call, put }) {
-      const id = yield select(({ missClock }) => missClock.currentItem.id)
+      const id = yield select(({ leave }) => leave.currentItem.id)
       const newItem = { ...payload, id }
       const data = yield call(save, newItem)
       if (data.success) {
@@ -145,7 +161,9 @@ export default {
         employeeList,
       }
     },
-   
+    getDicSuccess(state,action){
+      return {...state,dicList:action.payload}
+    },
     showModal (state, action) {
 
       return { ...state, ...action.payload, modalVisible: true }

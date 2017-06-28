@@ -108,6 +108,20 @@ module.exports = {
       queryById:`${apiPrefixPro}/missClock/getById`,
       getList:`${apiPrefixPro}/missClock/getList`,
       save:`${apiPrefixPro}/missClock/save`,
+    },
+    //请假申请
+    leave:{
+      query:`${apiPrefixPro}/leave/getPage`,
+      queryById:`${apiPrefixPro}/leave/getById`,
+      getList:`${apiPrefixPro}/leave/getList`,
+      save:`${apiPrefixPro}/leave/save`,
+    },
+    //加班申请
+    overtime:{
+      query:`${apiPrefixPro}/overtime/getPage`,
+      queryById:`${apiPrefixPro}/overtime/getById`,
+      getList:`${apiPrefixPro}/overtime/getList`,
+      save:`${apiPrefixPro}/overtime/save`,
     }
   },
 }

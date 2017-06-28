@@ -136,6 +136,38 @@ const Routers = function ({ history, app }) {
             }, 'missClock-detail')
           },
         }, {
+          path: '/leave',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/leave'))
+              cb(null, require('./routes/leave/'))
+            }, 'leave')
+          },
+        }, {
+          path: 'leave/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/leave/detail'))
+              cb(null, require('./routes/leave/detail/'))
+            }, 'leave-detail')
+          },
+        }, {
+          path: '/overtime',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/overtime'))
+              cb(null, require('./routes/overtime/'))
+            }, 'overtime')
+          },
+        }, {
+          path: 'overtime/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/overtime/detail'))
+              cb(null, require('./routes/overtime/detail/'))
+            }, 'overtime-detail')
+          },
+        }, {
           path: 'login',
           getComponent (nextState, cb) {
             require.ensure([], require => {

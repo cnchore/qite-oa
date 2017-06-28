@@ -9,7 +9,7 @@ const Option = Select.Option;
 const InputGroup = Input.Group;
 const formItemLayout = {
   labelCol: {
-    span: 6,
+    span: 7,
   },
   wrapperCol: {
     span: 14,

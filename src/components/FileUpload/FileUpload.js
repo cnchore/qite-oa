@@ -129,7 +129,7 @@ class FileUpload extends React.Component {
       let thumbUrl=this.getThumbUrl(file);
       return (
         <Row key={file.uid} gutter={24} className={styles['file-list']} style={{margin:'0px'}} type="flex" justify="space-around" align="middle">
-          <Col span={4} style={{paddingLeft:'2px'}}>
+          <Col span={4} style={{paddingLeft:'2px'}} className={styles['file-img-div']}>
             { (thumbUrl)?
             <img className={styles.fileImg} src={thumbUrl} alt={file.name} />
             :<Icon type="loading" />

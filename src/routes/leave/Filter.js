@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { FilterItem } from '../../components'
-import { Form, Button, Row, Col, DatePicker, Input } from 'antd'
+import { Form, Button, Row, Col, DatePicker, Input,Select } from 'antd'
 
 const Search = Input.Search
 //const { RangePicker } = DatePicker
-//const Option = Select.Option;
+const Option = Select.Option;
 
 const ColProps = {
   xs: 24,
@@ -25,6 +25,7 @@ const Filter = ({
   onAdd,
   onFilterChange,
   filter,
+  dicList,
   form: {
     getFieldDecorator,
     getFieldsValue,
@@ -38,9 +39,7 @@ const Filter = ({
     if (createTime) {
       fields.createTime = createTime.format(dateTimeFormat);
     }
-    if(missTime){
-      fields.missTime=missTime.format(dateTimeFormat);
-    }
+    
     return fields
   }
 
@@ -71,9 +70,9 @@ const Filter = ({
     fields = handleFields(fields)
     onFilterChange(fields)
   }
-  const { codeLike, createTime,missTime } = filter
+  const { codeLike, createTime,type } = filter
 
-  
+  const dicOption=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
 
   return (
     <Row gutter={24}>
@@ -84,7 +83,7 @@ const Filter = ({
       </Col>
      
       <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
-        <FilterItem label="创建时间">
+        <FilterItem label="申请时间">
           {getFieldDecorator('createTime', { 
             initialValue:createTime? moment(createTime):null,
           })(
@@ -95,13 +94,11 @@ const Filter = ({
         </FilterItem>
       </Col>
       <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
-        <FilterItem label="漏打卡时间">
-          {getFieldDecorator('missTime', { 
-            initialValue:missTime? moment(missTime):null,
+        <FilterItem label="请假类型">
+          {getFieldDecorator('type', { 
+            initialValue:String(type===undefined?'':type),
           })(
-            <DatePicker style={{ width: '100%' }} size="large" 
-            showTime format={dateTimeFormat} 
-            onChange={handleChange.bind(null, 'missTime')} />
+            <Select style={{width:'100%'}}>{dicOption}</Select>
           )}
         </FilterItem>
       </Col>

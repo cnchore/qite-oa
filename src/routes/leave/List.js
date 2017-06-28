@@ -8,7 +8,7 @@ import { Link } from 'dva/router'
 
 const confirm = Modal.confirm
 
-const List = ({ onSubmit, onEditItem, location, ...tableProps }) => {
+const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
   const handleMenuClick = (record, e) => {
     if (e.key === '1') {
       onEditItem(record)
@@ -35,20 +35,38 @@ const List = ({ onSubmit, onEditItem, location, ...tableProps }) => {
       
     }
   }
+  const getLeaveType=(value,remark=null)=>{
+    let n=dicList.filter(item=>String(item.dicValue)===String(value));
+    //console.log(orgList,...n,value);
+    if(n && n[0]){
+      return remark&&n[0].dicName==='其他'?remark:n[0].dicName;
+    }
+    return '';
+  }
   const columns = [
     {
       title: '申请单号',
-      dataIndex: 'code',
-      key: 'code',width:220,
-      render: (text, record) => <Link to={`missClock/${record.id}`}>{text}</Link>,
+      dataIndex: 'code',width:220,
+      key: 'code',
+      render: (text, record) => <Link to={`leave/${record.id}`}>{text}</Link>,
     }, {
-      title: '创建时间',
+      title: '申请时间',
       dataIndex: 'createTime',width:170,
       key: 'createTime',
     }, {
-      title: '漏打卡时间',
-      dataIndex: 'missTime',width:170,
-      key: 'missTime',
+      title: '请假时间',
+      dataIndex: 'leaveTimeStart',width:350,
+      key: 'leaveTimeStart',
+      render:(text,record)=>`${record.leaveTimeStart}至${record.leaveTimeEnd}`,
+    }, {
+      title: '请假时长',width:120,
+      dataIndex: 'leaveHours',
+      key: 'leaveHours',
+    }, {
+      title: '请假类型',width:120,
+      dataIndex: 'type',
+      key: 'type',
+      render:(text,record)=>getLeaveType(text,record.typeRemark),
     }, {
       title: '状态',
       dataIndex: 'state',
@@ -74,7 +92,7 @@ const List = ({ onSubmit, onEditItem, location, ...tableProps }) => {
         {...tableProps}
         className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 767 }}
+        scroll={{ x: 1200 }}
         columns={columns}
         simple
         rowKey={record => record.id}
