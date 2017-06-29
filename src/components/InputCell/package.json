@@ -1,0 +1,6 @@
+{
+  "name": "InputCell",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./InputCell.js"
+}

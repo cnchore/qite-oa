@@ -82,11 +82,25 @@ module.exports = [
     router: '/travel',
   },
   {
+    id: 2341,
+    mpid: -1,
+    bpid: 234,
+    name: '出差申请详情',
+    router: '/travel/:id',
+  },
+  {
     id: 235,
     mpid: 23,
     bpid: 23,
     name: '差旅费报销申请',
     router: '/travelReimburse',
+  },
+  {
+    id: 2351,
+    mpid: -1,
+    bpid: 235,
+    name: '差旅费报销申请详情',
+    router: '/travelReimburse/:id',
   },
   {
     id: 236,

@@ -122,6 +122,20 @@ module.exports = {
       queryById:`${apiPrefixPro}/overtime/getById`,
       getList:`${apiPrefixPro}/overtime/getList`,
       save:`${apiPrefixPro}/overtime/save`,
-    }
+    },
+    //出差申请
+    travel:{
+      query:`${apiPrefixPro}/travel/getPage`,
+      queryById:`${apiPrefixPro}/travel/getById`,
+      getList:`${apiPrefixPro}/travel/getList`,
+      save:`${apiPrefixPro}/travel/save`,
+    },
+    //差旅费报销申请
+    travelReimburse:{
+      query:`${apiPrefixPro}/travelReimburse/getPage`,
+      queryById:`${apiPrefixPro}/travelReimburse/getById`,
+      getList:`${apiPrefixPro}/travelReimburse/getList`,
+      save:`${apiPrefixPro}/travelReimburse/save`,
+    },
   },
 }

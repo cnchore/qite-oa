@@ -168,6 +168,39 @@ const Routers = function ({ history, app }) {
             }, 'overtime-detail')
           },
         }, {
+          path: '/travel',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/travel'))
+              cb(null, require('./routes/travel/'))
+            }, 'travel')
+          },
+        }, {
+          path: 'travel/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/travel/detail'))
+              cb(null, require('./routes/travel/detail/'))
+            }, 'travel-detail')
+          },
+          
+        }, {
+          path: '/travelReimburse',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/travelReimburse'))
+              cb(null, require('./routes/travelReimburse/'))
+            }, 'travelReimburse')
+          },
+        }, {
+          path: 'travelReimburse/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/travelReimburse/detail'))
+              cb(null, require('./routes/travelReimburse/detail/'))
+            }, 'travelReimburse-detail')
+          },
+        }, {
           path: 'login',
           getComponent (nextState, cb) {
             require.ensure([], require => {

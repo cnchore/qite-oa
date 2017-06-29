@@ -1,0 +1,6 @@
+{
+  "name": "DateTimeCell",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./DateTimeCell.js"
+}

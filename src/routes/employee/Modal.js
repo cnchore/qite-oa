@@ -138,15 +138,16 @@ const modal = ({
     }
   }
   const roleOptions=item.roleList?item.roleList.map(role=><Option key={role.id}>{role.roleName}</Option>):null;
+ 
   return (
     <Modal {...modalOpts}
       footer={[
         <Button key="back" size="large" onClick={onCancel}>取消</Button>,
-        <Button key="setUserRole" size="large" loading={setUserRoleLoading} onClick={handleSetUserRole}>设置用户角色</Button>,
+        <Button key="setUserRole" disabled={item.id?false:true} size="large" loading={setUserRoleLoading} onClick={handleSetUserRole}>设置用户角色</Button>,
         <Button key="submit" type="primary" size="large" loading={confirmLoading} onClick={handleOk}>
           确定
-        </Button>,
-      ]}
+        </Button>
+    ]}
     >
       <Form layout="horizontal">
         <Row gutter={24}  type="flex" justify="space-between" align="bottom">
@@ -448,7 +449,7 @@ const modal = ({
           </FormItem>
           </Col>
           ):null}
-          {expand?(
+          {expand||modalType!=='update'?(
           <Col span={8}>
             <FormItem label="入职时间"  {...formItemLayout}>
               {getFieldDecorator('inductionTimeStr', {
