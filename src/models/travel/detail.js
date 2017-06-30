@@ -34,7 +34,7 @@ export default {
       if (success) {
           yield put({
             type:'queryEmployee',
-            payload:10
+            payload:10//other.data.userId
           })
           yield put({
             type: 'querySuccess',

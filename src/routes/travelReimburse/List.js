@@ -63,7 +63,7 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
       key: 'createTime',
     
     }, {
-      title: '状态',width:120,
+      title: '状态',
       dataIndex: 'state',
       key: 'state',
       render:(text)=>getRecordState(text),

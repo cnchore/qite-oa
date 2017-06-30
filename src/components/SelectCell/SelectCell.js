@@ -12,7 +12,7 @@ class SelectCell extends React.Component {
     editable: this.props.editable || false,
     selectOptions:this.props.selectOptions || [],
     keyAlias:this.props.keyAlias || 'dicValue',
-    labelAlias:this.props.labelAlias || 'divName'
+    labelAlias:this.props.labelAlias || 'dicName'
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.editable !== this.state.editable) {
@@ -35,13 +35,14 @@ class SelectCell extends React.Component {
            nextState.value !== this.state.value;
   }
   handleChange(value) {
-   
+    //console.log('SelectCell:',value)
     this.setState({ value });
   }
 
   render() {
     const { style } =this.props;
     const { value,editable,selectOptions,keyAlias,labelAlias } = this.state;
+    //console.log('selectOptions:',selectOptions)
     const children=selectOptions.map(item=><Option key={item[keyAlias]}>{item[labelAlias]}</Option> )
     const getLabel=(value)=>{
       let n=selectOptions.filter(item=>String(item[keyAlias])===String(value));
@@ -59,7 +60,7 @@ class SelectCell extends React.Component {
               <Select
                 defaultValue={value}
                 style={style}
-                onChange={this.handleChange}
+                onChange={e=>this.handleChange(e)}
               >
               {children}
               </Select>

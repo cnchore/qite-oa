@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
-  const { list,fileList,dicList,employeeList, pagination, currentItem, modalVisible, modalType } = travelReimburse
+  const { list,fileList,dicList,detailList,travelList,employeeList, pagination, currentItem, modalVisible, modalType } = travelReimburse
   const { pageSize } = pagination
 
   const modalProps = {
@@ -15,6 +15,8 @@ const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
     visible: modalVisible,
     fileList,
     employeeList,
+    travelList,
+    detailList,
     dicList,
     maskClosable: false,
     submitLoading:loading.effects['travelReimburse/submit'],
@@ -37,6 +39,12 @@ const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
       dispatch({
         type:'travelReimburse/setFileList',
         payload:fileList
+      })
+    },
+    getDetailList(detailList){
+      dispatch({
+        type:'travelReimburse/setDetailList',
+        payload:detailList
       })
     },
     onSubmit (id,title) {
@@ -103,6 +111,7 @@ const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
         payload: {
           modalType: 'create',
           fileList:[],
+          detailList:[],
         },
       })
     },

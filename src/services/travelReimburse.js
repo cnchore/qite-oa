@@ -1,6 +1,6 @@
 import { request, config } from '../utils'
 const { api } = config
-const { travelReimburse,employee,dictionary } = api
+const { travelReimburse,employee,dictionary,travel } = api
 
 export async function query (params) {
   return request({
@@ -20,6 +20,14 @@ export async function queryById (params) {
 export async function getDic (params) {
   return request({
     url: dictionary.getList,
+    method: 'get',
+    data: params,
+  })
+}
+
+export async function getTravelList (params) {
+  return request({
+    url: travel.getList,
     method: 'get',
     data: params,
   })

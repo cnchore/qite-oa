@@ -1,4 +1,4 @@
-import { query,queryById,save,submit,queryEmployee,getDic } from '../services/travelReimburse'
+import { query,queryById,save,submit,queryEmployee,getDic,getTravelList } from '../services/travelReimburse'
 import { config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
@@ -16,7 +16,9 @@ export default {
     modalType: 'create',
     fileList:[],
     dicList:[],
+    detailList:[],
     employeeList:[],
+    travelList:[],
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -66,6 +68,12 @@ export default {
             employeeList:userInfo.data.employeeVo,
           },
         })
+        yield put({
+          type:'getTravelList',
+          payload:{
+            userId:userInfo.data.id,
+          }
+        })
       }else {
         if (location.pathname !== '/login') {
           let from = location.pathname
@@ -84,6 +92,18 @@ export default {
       if (data) {
         yield put({
           type: 'getDicSuccess',
+          payload: data.data,
+        })
+      }
+    },
+    *getTravelList ({ payload }, { call, put }) {
+
+     // payload = parse(location.search.substr(1))
+      const data = yield call(getTravelList, payload)
+
+      if (data) {
+        yield put({
+          type: 'getTravelListSuccess',
           payload: data.data,
         })
       }
@@ -124,6 +144,7 @@ export default {
             ...payload,
             currentItem:data.data,
             fileList:[],
+            detailList:[],
           } 
         })
       } else {
@@ -164,6 +185,9 @@ export default {
     getDicSuccess(state,action){
       return {...state,dicList:action.payload}
     },
+    getTravelListSuccess(state,action){
+      return {...state,travelList:action.payload}
+    },
     showModal (state, action) {
 
       return { ...state, ...action.payload, modalVisible: true }
@@ -178,7 +202,9 @@ export default {
     setFileList(state,action){
       return {...state,fileList:action.payload}
     },
-
+    setDetailList(state,action){
+      return {...state,detailList:action.payload}
+    },
   },
 
 }

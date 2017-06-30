@@ -41,14 +41,14 @@ class InputCurrencyCell extends React.Component {
             <div>
               <InputNumber
                 defaultValue={value}
-                formatter={temp => `¥ ${temp?temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}`}
+                formatter={temp => `¥ ${temp?temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
                 parser={temp => temp?temp.toString().replace(/\¥\s?|(,*)/g, ''):0}
-                onChange={this.handleChange()}
+                onChange={e=>this.handleChange(e)}
               />
             </div>
             :
             <div className="editable-row-text">
-              {value.toString() || ' '}
+              { `¥ ${value?value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}` || '¥ 0.00'}
             </div>
         }
       </div>
@@ -58,7 +58,7 @@ class InputCurrencyCell extends React.Component {
 
 
 InputCurrencyCell.propTypes = {
-  value: PropTypes.string,
+  //value: PropTypes.string,
   editable: PropTypes.bool,
   
 }

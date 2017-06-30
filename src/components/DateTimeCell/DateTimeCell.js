@@ -34,9 +34,10 @@ class DateTimeCell extends React.Component {
     return nextProps.editable !== this.state.editable ||
            nextState.value !== this.state.value;
   }
-  handleChange(value,dateString) {
-    
-    this.setState({ value:dateString });
+  handleChange(dateString) {
+    const {dateFormat} =this.state;
+    //console.log('DateTimeCell:',dateString.format(this.state.dateFormat))
+    this.setState({ value:dateString.format(dateFormat)});
   }
 
   render() {
@@ -46,11 +47,11 @@ class DateTimeCell extends React.Component {
         {
           editable ?
             <div>
-              <DatePicker
+              <DatePicker style={{width:'100%'}}
                 showTime={showTime}
                 format={dateFormat}
-                defaultValue={moment(value,dateFormat)}
-                onChange={this.handleChange}
+                defaultValue={value?moment(value,dateFormat):null}
+                onChange={e=>this.handleChange(e)}
               />
             </div>
             :

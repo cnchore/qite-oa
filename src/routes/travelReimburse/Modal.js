@@ -1,18 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input,Radio, InputNumber,Modal,Row,Col,Cascader,DatePicker,Button,Icon,Affix } from 'antd'
-import moment from 'moment';
+import { Form, Input, InputNumber,Modal,Row,Col,Select,Button,Icon,Affix } from 'antd'
+//import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload } from '../../components'
 import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
-import city from '../../utils/chinaCity'
+//import city from '../../utils/chinaCity'
 import {changeMoneyToChinese} from '../../utils'
+import EditCellTable from './EditCellTable'
 
 const confirm = Modal.confirm
-const { RangePicker } = DatePicker
-const RadioGroup = Radio.Group;
+//const { RangePicker } = DatePicker
+//const RadioGroup = Radio.Group;
 const FormItem = Form.Item
+const Option =Select.Option;
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -29,31 +31,24 @@ const twoFormItemLayout = {
   },
   
 }
-const textareaStyle = {
-  minHeight: 496,
-  width: '100%',
-  background: '#f7f7f7',
-  borderColor: '#F1F1F1',
-  padding: '16px 8px',
-}
+
 const modal = ({
   item = {},
   onOk,
   title,
   onCancel,
-  fileList,
+  fileList,//附件列表
   dicList,
-  getFileList,
+  travelList,//申请人的出差申请列表
+  detailList,//费用详情列表
+  getDetailList,//获取费用明细的方法
+  getFileList,//获取附件的方法
   confirmLoading,
   submitLoading,
   onSubmit,
   employeeList,
-  defaultFileList=[{
-      uid:'-1',
-      status:'done',
-      name:'安全窗大样图.jpg',
-      url:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    }],
+  defaultFileList=[],//附件控件prop
+  defaultDetailList=[],//行编辑表格控件datasource
   form: {
     getFieldDecorator,
     validateFields,
@@ -83,19 +78,45 @@ const modal = ({
           data[`attachList[${index}].attachName`]=f.name;
         })
       }
-      data.travelTimeStartStr=data.travelTime?data.travelTime[0].format(dateTimeFormat):null;
-      data.travelTimeEndStr=data.travelTime?data.travelTime[1].format(dateTimeFormat):null;
-      
-      data.provinceId=data.destination?data.destination[0]:-1;
-      data.cityId=data.destination?data.destination[1]:-1;
-      data.areaId=data.destination?data.destination[2]:-1;
-      data.province=item.province;
-      data.city=item.city;
-      data.area=item.area;
-      //console.log('-----',data)
+      data.actualExpense=0;
+      if(detailList && detailList.length>0){
+        detailList.map((f,index)=>{
+          if(f.id) data[`detailList[${index}].id`]=f.id;
+          data[`detailList[${index}].departureTimeStr`]=f.departureTimeStr.value;
+          data[`detailList[${index}].departurePlace`]=f.departurePlace.value;
+          data[`detailList[${index}].arrivalTimeStr`]=f.arrivalTimeStr.value;
+          data[`detailList[${index}].arrivalPlace`]=f.arrivalPlace.value;
+          data[`detailList[${index}].vehicle`]=f.vehicle.value;
+          data[`detailList[${index}].vehicleCost`]=f.vehicleCost.value;
+          data[`detailList[${index}].livingCost`]=f.livingCost.value;
+          data[`detailList[${index}].otherCost`]=f.otherCost.value;
+          data.actualExpense+=parseFloat(f.vehicleCost.value)+parseFloat(f.livingCost.value)+parseFloat(f.otherCost.value)
+          
+        })
+      }else if(defaultDetailList[0]){
+        defaultDetailList.map((f,index)=>{
+          if(f.id) data[`detailList[${index}].id`]=f.id;
+          data[`detailList[${index}].departureTimeStr`]=f.departureTimeStr.value;
+          data[`detailList[${index}].departurePlace`]=f.departurePlace.value;
+          data[`detailList[${index}].arrivalTimeStr`]=f.arrivalTimeStr.value;
+          data[`detailList[${index}].arrivalPlace`]=f.arrivalPlace.value;
+          data[`detailList[${index}].vehicle`]=f.vehicle.value;
+          data[`detailList[${index}].vehicleCost`]=f.vehicleCost.value;
+          data[`detailList[${index}].livingCost`]=f.livingCost.value;
+          data[`detailList[${index}].otherCost`]=f.otherCost.value;
+          data.actualExpense+=parseFloat(f.vehicleCost.value)+parseFloat(f.livingCost.value)+parseFloat(f.otherCost.value)
+          
+        })
+      }
+      if(data.travelIds && data.travelIds[0]){
+        data.travelCodes=data.travelIds.map(c=>c.label).join()
+        data.travelIds=data.travelIds.map(t=>t.key).join()
+      }
       if(item.id){
         data.id=item.id
       }
+      //console.log('--travelIds---',data);
+
       onOk(data)
     })
   }
@@ -106,7 +127,49 @@ const modal = ({
   }else{
     defaultFileList=[];
   }
-
+  if(item.detailList && item.detailList[0]){
+    defaultDetailList=item.detailList.map(temp=>{
+      let newRow={
+        key: temp.id,
+        id:temp.id,
+        departureTimeStr: {
+          editable: false,
+          value: temp.departureTime?temp.departureTime:'',
+        },
+        departurePlace: {
+          editable: false,
+          value: temp.departurePlace?temp.departurePlace:'',
+        },
+        arrivalTimeStr: {
+          editable:false,
+          value: temp.arrivalTime?temp.arrivalTime:'',
+        },
+        arrivalPlace: {
+          editable:false,
+          value: temp.arrivalPlace?temp.arrivalPlace:'',
+        },
+        vehicle: {
+          editable:false,
+          value: temp.vehicle,
+        },
+        vehicleCost: {
+          editable:false,
+          value: temp.vehicleCost,
+        },
+        livingCost: {
+          editable:false,
+          value: temp.livingCost,
+        },
+        otherCost: {
+          editable:false,
+          value: temp.otherCost,
+        },
+      }
+      return newRow;
+    })
+  }else{
+    defaultDetailList=[];
+  }
   const handleSubmit=()=>{
     confirm({
         title: `你确定提交申请么?`,
@@ -115,58 +178,57 @@ const modal = ({
         },
       })
   }
-  let initialTravelTime = []
-  if (item.travelTimeStartStr) {
-    initialTravelTime[0] = moment(item.travelTimeStartStr)
-  }else if(item.travelTimeStart){
-    initialTravelTime[0] = moment(item.travelTimeStart)
-  }
-  if (item.travelTimeEndStr) {
-    initialTravelTime[1] = moment(item.travelTimeEndStr)
-  }else if(item.travelTimeEnd){
-    initialTravelTime[1] = moment(item.travelTimeEnd)
-  }
-  let initialDestination=[]
-  if(item.provinceId){
-    initialDestination[0]=item.provinceId;
-  }
-  if(item.cityId){
-    initialDestination[1]=item.cityId;
-  }
-  if(item.areaId){
-    initialDestination[2]=item.areaId;
-  }
-  const dicRadio=dicList.map(dic=><Radio key={dic.id} value={dic.dicValue}>{dic.dicName}</Radio>)
-  const handleRadioChange= (e) => {
-    //console.log('radio checked', e.target.value,e.target);
-    item.tripMode=e.target.value;
-  }
-  const handleExpenseChange= (value) => {
-    //console.log('radio checked', e.target.value,e.target);
+  
+  const handleAdvanceExpenseChange= (value) => {
     
-    item.expense=value;
-  }
-  const getHours=(t=null)=>{
-    const data = {...getFieldsValue()}
-    let a=data.travelTime?(data.travelTime[0]?data.travelTime[0].format(dateTimeFormat):null):null;
-    let b=data.travelTime?(data.travelTime[1]?data.travelTime[1].format(dateTimeFormat):null):null;
-    
-    if(!a||!b){
-      return 0;
+    item.advanceExpense=value;
+    let t=getActualExpense();
+    let c=t-parseFloat(value);
+    if(c>0){
+      item.surplus=0;
+      item.validReimburse=c;
+    }else if(c<0){
+      item.surplus=c;
+      item.validReimburse=0;
+    }else{
+      item.surplus=0;
+      item.validReimburse=0;
     }
-    let timeA=new Date(a);
-    let timeB=new Date(b);
-    return ((timeB-timeA)/(3600*1000)).toFixed(2)
   }
+  
   const getExpense=()=>{
 
     return changeMoneyToChinese(item.expense);
   }
-  const destinationChange=(value,selectedOptions)=>{
-    //console.log('destinationChange:',value,selectedOptions)
-    item.province=selectedOptions[0].label;
-    item.city=selectedOptions[1].label;
-    item.area=selectedOptions[2].label;
+  
+  const travelOptions=travelList.map(travel=><Option key={travel.id}>{travel.code}</Option>)
+
+  const getActualExpense=()=>{
+    let c=0;
+    if(detailList && detailList[0]){
+      detailList.map(t=>{
+        c+=parseFloat(t.vehicleCost.value)+parseFloat(t.livingCost.value)+parseFloat(t.otherCost.value)
+      })
+    }else if(defaultDetailList && defaultDetailList[0]){
+      defaultDetailList.map(t=>{
+        c+=parseFloat(t.vehicleCost.value)+parseFloat(t.livingCost.value)+parseFloat(t.otherCost.value)
+      })
+    }
+    item.actualExpense=c;
+    return c;
+  }
+
+  let t=getActualExpense();
+  let c=t-parseFloat(item.advanceExpense!==undefined && item.advanceExpense!==null?item.advanceExpense:0);
+  if(c>0){
+    item.surplus=0;
+    item.validReimburse=c;
+  }else if(c<0){
+    item.surplus=c;
+    item.validReimburse=0;
+  }else{
+    item.surplus=0;
+    item.validReimburse=0;
   }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -186,7 +248,7 @@ const modal = ({
 
           </Col>
           <Col span={24} className='qite-list-title'>
-            <Icon type="credit-card" />加班申请信息
+            <Icon type="credit-card" />差旅费报销申请信息
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             姓名：
@@ -229,99 +291,10 @@ const modal = ({
             </FormItem>
           </Col>
         </Row>
-        <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            同行人：
-          </Col>
-          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem style={{width:'100%'}} >
-              {getFieldDecorator('colleaguesNames', {
-                initialValue:item.colleaguesNames,
-                rules: [
-                  {
-                    required: true,
-                   
-                  },
-                ],
-              })(<Input style={{width:'100%'}}/>)}
-              
-            </FormItem>
-            
-          </Col>
-         
-        </Row>
         
         <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
-            预计出差时间：
-          </Col>
-          <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('travelTime', {
-                initialValue:initialTravelTime,
-                rules: [
-                  {
-                    required: true,
-                   
-                  },
-                ],
-              })(<RangePicker showTime format={dateTimeFormat}  style={{width:'400px'}}/>)}
-            </FormItem>
-            <FormItem> 共 {getHours()} 小时</FormItem>
-
-          </Col>
-        </Row>
-       
-        <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' ,paddingLeft:'0px'}} className={styles['q-detail-label-require']}>
-            出差地点：
-          </Col>
-          <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('destination', {
-                initialValue:initialDestination,
-                rules: [{required: true,},],
-                onChange:destinationChange,
-              })(
-                <Cascader
-                  size="large"
-                  style={{ width: '400px' }}
-                  options={city}
-                />
-              )}
-            </FormItem>
-            <FormItem>
-              {getFieldDecorator('address', {
-                initialValue:item.address,
-                rules: [{required: true,},],
-              })(<Input />)}
-            </FormItem>
-
-          </Col>
-        </Row>
-        <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
-            拜访客户：
-          </Col>
-          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem style={{width:'100%'}} >
-              {getFieldDecorator('customers', {
-                initialValue:item.customers,
-                rules: [
-                  {
-                    required: true,
-                   
-                  },
-                ],
-              })(<Input />)}
-              
-            </FormItem>
-            
-          </Col>
-        </Row>
-        <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
-            出差事由：
+            报销说明：
           </Col>
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
@@ -338,47 +311,41 @@ const modal = ({
           </Col>
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
-            出行方式：
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
+            出差申请单：
           </Col>
-          <Col xs={18} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('tripMode', {
-                initialValue:item.tripMode===undefined?'1':String(item.tripMode),
-                rules: [
-                  {
-                    required: true,
-                   
-                  },
-                ],
-                onChange:handleRadioChange,
-              })(<RadioGroup labelInValue>{dicRadio}</RadioGroup>)}
-              
+          <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}}>
+              {getFieldDecorator('travelIds', {
+                initialValue:item.travelIds?item.travelIds.split(','):[],
+                
+              })(<Select mode="multiple" labelInValue >{travelOptions}</Select>)}
             </FormItem>
-            {item.tripMode==='5'?
-            <FormItem >
-              {getFieldDecorator('tripModeRemark', {
-                initialValue:item.tripModeRemark,
-              })(<Input />)}
-            </FormItem>
-            :null}
           </Col>
         </Row>
+          
+        <EditCellTable dicList={dicList} 
+          dataSource={defaultDetailList} 
+          callbackParent={getDetailList}
+          className={styles['q-detail']}/> 
+
+        
+        
         <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
-            申请费用：
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            预支旅费：
           </Col>
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem  >
-              {getFieldDecorator('expense', {
-                initialValue:(item.expense===undefined||item.expense===null)?0:Number(item.expense),
+              {getFieldDecorator('advanceExpense', {
+                initialValue:(item.advanceExpense===undefined||item.advanceExpense===null)?0:Number(item.advanceExpense),
                 rules: [
                   {
                     required: true,
                    
                   },
                 ],
-                onChange:handleExpenseChange,
+                onChange:handleAdvanceExpenseChange,
               })(
                 <InputNumber
                   step={0.01} style={{width:'120px'}}
@@ -389,11 +356,11 @@ const modal = ({
               )}
               
             </FormItem>
-            {item.expense?
+           
             <FormItem >
-              大写：{getExpense()}
+            归还多余：{item.surplus}  实际报销：{item.validReimburse}
             </FormItem>
-            :null}
+            
          
           </Col>
         </Row>
@@ -401,13 +368,12 @@ const modal = ({
           <blockquote>
             <p>
               备注：<br/>
-              1、此申请表作为借款、核销必备凭证。<br/>
-              2、如出差途中变更行程计划需及时汇报。<br/>
-              3、出差申请表须在接到申请后48小时内批复。
+              1、预支旅费=出差申请单总申请费用；<br/>
+              2、报销总额-预支旅费：正数=实际报销；负数=归还多余。
             </p>
           </blockquote>
         </Row> 
-      <Row gutter={24} className={styles['q-detail']}>
+        <Row gutter={24} className={styles['q-detail']}>
 
           <Col span={24} className='qite-list-title'>
             <Icon type="paper-clip" />申请附件
