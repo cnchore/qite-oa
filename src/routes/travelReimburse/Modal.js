@@ -108,9 +108,13 @@ const modal = ({
           
         })
       }
+      //console.log('--travelIds---',...data.travelIds);
       if(data.travelIds && data.travelIds[0]){
-        data.travelCodes=data.travelIds.map(c=>c.label).join()
-        data.travelIds=data.travelIds.map(t=>t.key).join()
+
+        let trIds=data.travelIds;
+        //console.log('--Ids---',...trIds);
+        data.travelCodes=trIds.map(c=>c.label).join()
+        data.travelIds=trIds.map(t=>t.key).join()
       }
       if(item.id){
         data.id=item.id

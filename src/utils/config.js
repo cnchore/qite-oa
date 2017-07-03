@@ -151,5 +151,12 @@ module.exports = {
       getList:`${apiPrefixPro}/useCar/getList`,
       save:`${apiPrefixPro}/useCar/save`,
     },
+    //用车申请
+    purchaseApply:{
+      query:`${apiPrefixPro}/purchaseApply/getPage`,
+      queryById:`${apiPrefixPro}/purchaseApply/getById`,
+      getList:`${apiPrefixPro}/purchaseApply/getList`,
+      save:`${apiPrefixPro}/purchaseApply/save`,
+    },
   },
 }

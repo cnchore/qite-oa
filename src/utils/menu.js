@@ -130,6 +130,21 @@ module.exports = [
     name: '用车申请详情',
     router: '/useCar/:id',
   },
+  
+  {
+    id: 238,
+    mpid: 23,
+    bpid: 23,
+    name: '申购申请',
+    router: '/purchaseApply',
+  },
+  {
+    id: 2381,
+    mpid: -1,
+    bpid: 238,
+    name: '申购申请详情',
+    router: '/purchaseApply/:id',
+  },
   {
     id: 24,
     mpid: 2,
