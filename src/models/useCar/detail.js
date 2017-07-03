@@ -1,10 +1,10 @@
 import pathToRegexp from 'path-to-regexp'
-import { queryById,queryEmployee,getDic } from '../../services/leave'
+import { queryById,queryEmployee,getDic } from '../../services/useCar'
 //import { treeToArray } from '../../utils'
 
 export default {
 
-  namespace: 'leaveDetail',
+  namespace: 'useCarDetail',
 
   state: {
     data: {},
@@ -15,12 +15,12 @@ export default {
   subscriptions: {
     setup ({ dispatch, history }) {
       history.listen(() => {
-        const match = pathToRegexp('/leave/:id').exec(location.pathname)
+        const match = pathToRegexp('/useCar/:id').exec(location.pathname)
         if (match) {
           dispatch({ type: 'query', payload: { id: match[1] } })
           dispatch({
             type: 'getDic',
-            payload: {dicType:'leaveType_item'},
+            payload: {dicType:'carType_item'},
           })
         }
       })

@@ -1,15 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input,Radio, InputNumber,Modal,Row,Col,DatePicker,Button,Icon,Affix } from 'antd'
+import { Form, Input, InputNumber,Modal,Row,Col,DatePicker,Button,Icon,Affix } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload } from '../../components'
 import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
+//import city from '../../utils/chinaCity'
+import {changeMoneyToChinese} from '../../utils'
 
 const confirm = Modal.confirm
 const { RangePicker } = DatePicker
-const RadioGroup = Radio.Group;
+//const RadioGroup = Radio.Group;
 const FormItem = Form.Item
 
 const formItemLayout = {
@@ -27,13 +29,7 @@ const twoFormItemLayout = {
   },
   
 }
-const textareaStyle = {
-  minHeight: 496,
-  width: '100%',
-  background: '#f7f7f7',
-  borderColor: '#F1F1F1',
-  padding: '16px 8px',
-}
+
 const modal = ({
   item = {},
   onOk,
@@ -46,12 +42,7 @@ const modal = ({
   submitLoading,
   onSubmit,
   employeeList,
-  defaultFileList=[{
-      uid:'-1',
-      status:'done',
-      name:'安全窗大样图.jpg',
-      url:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    }],
+  defaultFileList=[],
   form: {
     getFieldDecorator,
     validateFields,
@@ -60,7 +51,7 @@ const modal = ({
   },
   ...modalProps
 }) => {
-  const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
+  const dateTimeFormat='YYYY-MM-DD'
 
   const handleOk = () => {
     validateFields((errors) => {
@@ -81,16 +72,11 @@ const modal = ({
           data[`attachList[${index}].attachName`]=f.name;
         })
       }
-      if(data.overTime){
-      data.overTimeStartStr=data.overTime?data.overTime[0].format(dateTimeFormat):null;
-      data.overTimeEndStr=data.overTime?data.overTime[1].format(dateTimeFormat):null;
-      }
-      if(data.realOverTime){
-      data.realOverTimeStartStr=data.realOverTime?data.realOverTime[0].format(dateTimeFormat):null;
-      data.realOverTimeEndStr=data.realOverTime?data.realOverTime[1].format(dateTimeFormat):null;
-      }
-      data.overTime=null;
-      data.realOverTime=null;
+      data.signDateStr=data.signDateStr?data.signDateStr.format(dateTimeFormat):null;
+      data.effectDateStr=data.effectDateStr?data.effectDateStr.format(dateTimeFormat):null;
+      
+      
+      //console.log('-----',data)
       if(item.id){
         data.id=item.id
       }
@@ -113,51 +99,9 @@ const modal = ({
         },
       })
   }
-  let initialOverTime = []
-  if (item.overTimeStartStr) {
-    initialOverTime[0] = moment(item.overTimeStartStr)
-  }else if(item.overTimeStart){
-    initialOverTime[0] = moment(item.overTimeStart)
-  }
-  if (item.overTimeEndStr) {
-    initialOverTime[1] = moment(item.overTimeEndStr)
-  }else if(item.overTimeEnd){
-    initialOverTime[1] = moment(item.overTimeEnd)
-  }
-  let initialRealOverTime = []
-  if (item.realOverTimeStartStr) {
-    initialRealOverTime[0] = moment(item.realOverTimeStartStr)
-  }else if(item.realOverTimeStart){
-    initialRealOverTime[0] = moment(item.realOverTimeStart)
-  }
-  if (item.realOverTimeEndStr) {
-    initialRealOverTime[1] = moment(item.realOverTimeEndStr)
-  }else if(item.realOverTimeEnd){
-    initialRealOverTime[1] = moment(item.realOverTimeEnd)
-  }
-  const dicRadio=dicList.map(dic=><Radio value={dic.dicValue}>{dic.dicName}</Radio>)
-  const handleRadioChange= (e) => {
-    //console.log('radio checked', e.target.value,e.target);
-    item.times=e.target.value;
-  }
-  const handleTypeChange= (e) => {
-    item.type=e.target.value;
-  }
-  const getHours=(t=null)=>{
-    const data = {...getFieldsValue()}
-    let a=data.overTime?(data.overTime[0]?data.overTime[0].format(dateTimeFormat):null):null;
-    let b=data.overTime?(data.overTime[1]?data.overTime[1].format(dateTimeFormat):null):null;
-    if(t){
-    a=data.realOverTime?(data.realOverTime[0]?data.realOverTime[0].format(dateTimeFormat):null):null;
-    b=data.realOverTime?(data.realOverTime[1]?data.realOverTime[1].format(dateTimeFormat):null):null;
-    }
-    if(!a||!b){
-      return 0;
-    }
-    let timeA=new Date(a);
-    let timeB=new Date(b);
-    return ((timeB-timeA)/(3600*1000)).toFixed(2)
-  }
+ 
+ 
+  
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -176,7 +120,7 @@ const modal = ({
 
           </Col>
           <Col span={24} className='qite-list-title'>
-            <Icon type="credit-card" />加班申请信息
+            <Icon type="credit-card" />合同申请信息
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             姓名：
@@ -221,23 +165,37 @@ const modal = ({
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
-            加班类型：
+            合同名称：
           </Col>
-          <Col xs={18} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('type', {
-                initialValue:item.type===undefined?'1':String(item.type),
+          <Col xs={18} md={8} xl={10} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}} >
+              {getFieldDecorator('contractName', {
+                initialValue:item.contractName,
                 rules: [
                   {
                     required: true,
                    
                   },
                 ],
-                onChange:handleTypeChange,
-              })(<RadioGroup >
-                  <Radio value='申请加班'>申请加班</Radio>
-                  <Radio value='补报加班'>补报加班</Radio>
-                </RadioGroup>)}
+              })(<Input style={{width:'100%'}}/>)}
+              
+            </FormItem>
+            
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            合同编码：
+          </Col>
+          <Col xs={18} md={8} xl={10} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}} >
+              {getFieldDecorator('contractCode', {
+                initialValue:item.contractCode,
+                rules: [
+                  {
+                    required: true,
+                   
+                  },
+                ],
+              })(<Input style={{width:'100%'}}/>)}
               
             </FormItem>
             
@@ -246,77 +204,119 @@ const modal = ({
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
-            加班时段：
+            甲方：
           </Col>
-          <Col xs={18} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('times', {
-                initialValue:item.times===undefined?'1':String(item.times),
+          <Col xs={18} md={8} xl={10} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}} >
+              {getFieldDecorator('firstParty', {
+                initialValue:item.firstParty,
                 rules: [
                   {
                     required: true,
                    
                   },
                 ],
-                onChange:handleRadioChange,
-              })(<RadioGroup labelInValue>{dicRadio}</RadioGroup>)}
+              })(<Input style={{width:'100%'}}/>)}
               
             </FormItem>
-            {item.times==='4'?
-            <FormItem >
-              {getFieldDecorator('timesRemark', {
-                initialValue:item.timesRemark,
-              })(<Input />)}
+            
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            乙方：
+          </Col>
+          <Col xs={18} md={8} xl={10} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}} >
+              {getFieldDecorator('secondParty', {
+                initialValue:item.secondParty,
+                rules: [
+                  {
+                    required: true,
+                   
+                  },
+                ],
+              })(<Input style={{width:'100%'}}/>)}
+              
             </FormItem>
-            :null}
+            
           </Col>
          
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
-            申请加班时间：
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            合同金额：
           </Col>
-          <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('overTime', {
-                initialValue:initialOverTime,
+          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem  >
+              {getFieldDecorator('contractAmount', {
+                initialValue:(item.contractAmount===undefined||item.contractAmount===null)?0:Number(item.contractAmount),
                 rules: [
                   {
                     required: true,
                    
                   },
                 ],
-              })(<RangePicker showTime format={dateTimeFormat}  style={{width:'400px'}}/>)}
+                
+              })(
+                <InputNumber
+                  step={0.01} style={{width:'120px'}}
+                  formatter={value => `¥ ${value?value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+                  parser={value => value?value.toString().replace(/\¥\s?|(,*)/g, ''):0}
+                  
+                />
+              )}
+              
             </FormItem>
-            <FormItem> 共 {getHours()} 小时</FormItem>
-
-          </Col>
-        </Row>
-        {item.type==='补报加班'?
-        <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' ,paddingLeft:'0px'}} className={styles['q-detail-label-require']}>
-            实际加班时间：
-          </Col>
-          <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            
             <FormItem >
-              {getFieldDecorator('realOverTime', {
-                initialValue:initialRealOverTime,
-                rules: [
-                  {
-                    required: true,
-                   
-                  },
-                ],
-              })(<RangePicker showTime format={dateTimeFormat}  style={{width:'400px'}}/>)}
+              大写：{changeMoneyToChinese(item.contractAmount)}
             </FormItem>
-            <FormItem> 共 {getHours(1)} 小时</FormItem>
-
+            
+         
           </Col>
         </Row>
-        :null}
         <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
-            加班原因：
+            签订日期：
+          </Col>
+          <Col xs={18} md={8} xl={10} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}} >
+              {getFieldDecorator('signDateStr', {
+                initialValue:item.signDate!==undefined && item.signDate!==null?moment(item.signDate,dateTimeFormat):null,
+                rules: [
+                  {
+                    required: true,
+                   
+                  },
+                ],
+              })(<DatePicker format={dateTimeFormat}  style={{width:'100%'}}/>)}
+              
+            </FormItem>
+            
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            生效日期：
+          </Col>
+          <Col xs={18} md={8} xl={10} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}} >
+              {getFieldDecorator('effectDateStr', {
+                initialValue:item.effectDate!==undefined && item.effectDate!==null?moment(item.effectDate,dateTimeFormat):null,
+                rules: [
+                  {
+                    required: true,
+                   
+                  },
+                ],
+              })(<DatePicker format={dateTimeFormat}  style={{width:'100%'}}/>)}
+              
+            </FormItem>
+            
+          </Col>
+         
+        </Row>
+      
+        <Row gutter={24} className={styles['q-detail']}>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            合同说明：
           </Col>
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
@@ -332,15 +332,8 @@ const modal = ({
             </FormItem>
           </Col>
         </Row>
-        <Row gutter={12} className={styles['q-detail']} style={{marginLeft:'2px',marginRight:'2px'}}>
-        <blockquote>
-          <p>
-            备注：<br/>
-            1、请在加班前填写此单，审批结束后交到考勤专员处备案。<br/>
-            2、当值人为：考勤专员根据考勤机所记录加班后打卡时间或保安记录离开时间，实际加班时间以当值人员记录为准
-          </p>
-        </blockquote>
-      </Row> 
+     
+    
       <Row gutter={24} className={styles['q-detail']}>
 
           <Col span={24} className='qite-list-title'>

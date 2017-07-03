@@ -65,7 +65,7 @@ class EditCellTable extends React.Component {
       
       render: (text, record, index) =>{
         let t=parseFloat(record.vehicleCost)+parseFloat(record.livingCost)+parseFloat(record.otherCost);
-        return `¥ ${t?t.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}` || '¥ 0.00'
+        return `¥ ${t?t.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
       },
     
     }, {

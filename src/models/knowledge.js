@@ -1,5 +1,5 @@
 import { query,queryById,create, change, update,fileUpload,getOrg } from '../services/knowledge'
-import { treeToArray } from '../utils'
+import { treeToArray,config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
 import { EditorState, ContentState, convertFromHTML } from 'draft-js'
@@ -9,6 +9,8 @@ const getEditorState=(html)=>EditorState.createWithContent(
       convertFromHTML(html)
     )
   )
+const { prefix } = config
+
 export default {
 
   namespace: 'knowledge',
@@ -52,7 +54,11 @@ export default {
     *query ({ payload }, { call, put }) {
 
       payload = parse(location.search.substr(1))
-      
+      const userInfo = JSON.parse(localStorage.getItem(`${prefix}userInfo`));
+
+      if (userInfo && userInfo.data) {
+        payload.userId=userInfo.data.id;
+      }
       payload={...payload,rows:payload.pageSize}
       const data = yield call(query, payload)
 

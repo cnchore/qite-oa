@@ -201,6 +201,38 @@ const Routers = function ({ history, app }) {
             }, 'travelReimburse-detail')
           },
         }, {
+          path: '/contract',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/contract'))
+              cb(null, require('./routes/contract/'))
+            }, 'contract')
+          },
+        }, {
+          path: 'contract/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/contract/detail'))
+              cb(null, require('./routes/contract/detail/'))
+            }, 'contract-detail')
+          },
+        }, {
+          path: '/useCar',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/useCar'))
+              cb(null, require('./routes/useCar/'))
+            }, 'useCar')
+          },
+        }, {
+          path: 'useCar/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/useCar/detail'))
+              cb(null, require('./routes/useCar/detail/'))
+            }, 'useCar-detail')
+          },
+        }, {
           path: 'login',
           getComponent (nextState, cb) {
             require.ensure([], require => {

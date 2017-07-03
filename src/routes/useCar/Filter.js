@@ -16,6 +16,10 @@ const ColProps = {
   },
 }
 
+const TwoColProps = {
+  ...ColProps,
+  xl: 96,
+}
 
 const Filter = ({
   onAdd,
@@ -66,7 +70,7 @@ const Filter = ({
     fields = handleFields(fields)
     onFilterChange(fields)
   }
-  const { codeLike, createTime,type,times,addressLike} = filter
+  const { codeLike, createTime } = filter
 
   const dicOption=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
 
@@ -77,16 +81,7 @@ const Filter = ({
           { initialValue: codeLike 
           })(<Search placeholder="申请单号" size="large" onSearch={handleSubmit} />)}
       </Col>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }} >
-        <FilterItem label="加班类型">
-          {getFieldDecorator('type', { 
-            initialValue:String(type===undefined?'':type),
-          })(<Select style={{width:'100%'}} >
-              <Option key='申请加班'>申请加班</Option>
-              <Option key='补报加班'>补报加班</Option>
-            </Select>)}
-        </FilterItem>
-      </Col>
+     
       <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
         <FilterItem label="申请时间">
           {getFieldDecorator('createTime', { 
@@ -98,16 +93,8 @@ const Filter = ({
           )}
         </FilterItem>
       </Col>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }} >
-        <FilterItem label="加班时段">
-          {getFieldDecorator('times', { 
-            initialValue:String(times===undefined?'':times),
-          })(
-            <Select style={{width:'100%'}}>{dicOption}</Select>
-          )}
-        </FilterItem>
-      </Col>
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 16 }} >
+      
+      <Col {...TwoColProps} xl={{ span: 12 }} md={{ span: 8 }} >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div >
             <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>

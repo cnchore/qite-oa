@@ -137,5 +137,19 @@ module.exports = {
       getList:`${apiPrefixPro}/travelReimburse/getList`,
       save:`${apiPrefixPro}/travelReimburse/save`,
     },
+    //合同申请
+    contract:{
+      query:`${apiPrefixPro}/contract/getPage`,
+      queryById:`${apiPrefixPro}/contract/getById`,
+      getList:`${apiPrefixPro}/contract/getList`,
+      save:`${apiPrefixPro}/contract/save`,
+    },
+    //用车申请
+    useCar:{
+      query:`${apiPrefixPro}/useCar/getPage`,
+      queryById:`${apiPrefixPro}/useCar/getById`,
+      getList:`${apiPrefixPro}/useCar/getList`,
+      save:`${apiPrefixPro}/useCar/save`,
+    },
   },
 }

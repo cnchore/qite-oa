@@ -1,4 +1,4 @@
-import { query,queryById,save,submit,queryEmployee,getDic } from '../services/travel'
+import { query,queryById,save,submit,queryEmployee,getDic } from '../services/contract'
 import { config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
@@ -7,7 +7,7 @@ const { prefix } = config
 
 export default {
 
-  namespace: 'travel',
+  namespace: 'contract',
 
   state: {
     list: [],
@@ -30,15 +30,12 @@ export default {
     setup ({ dispatch, history }) {
       history.listen(location => {
 
-        if (location.pathname === '/travel') {
+        if (location.pathname === '/contract') {
           dispatch({
             type: 'query',
             payload: location.query,
           })
-          dispatch({
-            type: 'getDic',
-            payload: {dicType:'tripMode_item'},
-          })
+          
         }
       })
     },
@@ -133,7 +130,7 @@ export default {
       }
     },
     *update ({ payload }, { select, call, put }) {
-      const id = yield select(({ travel }) => travel.currentItem.id)
+      const id = yield select(({ contract }) => contract.currentItem.id)
       const newItem = { ...payload, id }
       const data = yield call(save, newItem)
       if (data.success) {

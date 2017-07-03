@@ -201,7 +201,7 @@ const modal = ({
     return changeMoneyToChinese(item.expense);
   }
   
-  const travelOptions=travelList.map(travel=><Option key={travel.id}>{travel.code}</Option>)
+  const travelOptions=travelList.map(travel=><Option key={String(travel.id)}>{travel.code}</Option>)
 
   const getActualExpense=()=>{
     let c=0;
@@ -230,6 +230,19 @@ const modal = ({
     item.surplus=0;
     item.validReimburse=0;
   }
+  const getTravelIds=()=>{
+    if(item.travelIds && item.travelCodes){
+
+      let ids=item.travelIds.split(',');
+      let codes=item.travelCodes.split(',');
+      return ids.map((item,index)=>{
+        return {key:item,label:codes[index]}
+      })
+    }else{
+      return [];
+    }
+  }
+  
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -317,7 +330,7 @@ const modal = ({
           <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('travelIds', {
-                initialValue:item.travelIds?item.travelIds.split(','):[],
+                initialValue:getTravelIds(),
                 
               })(<Select mode="multiple" labelInValue >{travelOptions}</Select>)}
             </FormItem>
@@ -349,7 +362,7 @@ const modal = ({
               })(
                 <InputNumber
                   step={0.01} style={{width:'120px'}}
-                  formatter={value => `¥ ${value?value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}`}
+                  formatter={value => `¥ ${value?value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
                   parser={value => value?value.toString().replace(/\¥\s?|(,*)/g, ''):0}
                   
                 />
@@ -358,7 +371,8 @@ const modal = ({
             </FormItem>
            
             <FormItem >
-            归还多余：{item.surplus}  实际报销：{item.validReimburse}
+            归还多余：{`¥ ${item.surplus?item.surplus.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}  
+            &nbsp;&nbsp;&nbsp;&nbsp;实际报销：{`¥ ${item.validReimburse?item.validReimburse.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
             </FormItem>
             
          

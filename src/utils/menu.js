@@ -110,13 +110,26 @@ module.exports = [
     router: '/contract',
   },
   {
+    id: 2361,
+    mpid: -1,
+    bpid: 236,
+    name: '合同申请详情',
+    router: '/contract/:id',
+  },
+  {
     id: 237,
     mpid: 23,
     bpid: 23,
     name: '用车申请',
     router: '/useCar',
   },
-  
+  {
+    id: 2371,
+    mpid: -1,
+    bpid: 237,
+    name: '用车申请详情',
+    router: '/useCar/:id',
+  },
   {
     id: 24,
     mpid: 2,

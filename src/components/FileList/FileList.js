@@ -109,7 +109,7 @@ class FileList extends React.Component {
      
       <Row gutter={4} style={{margin:0,marginBottom:'12px'}} className={styles.fileRow}>
         
-          {_fileList}
+          {_fileList[0]?_fileList:<Col span={24}>暂无内容</Col>}
         
       </Row>
       

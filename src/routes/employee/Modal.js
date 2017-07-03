@@ -77,6 +77,7 @@ const modal = ({
       const data = {...getFieldsValue()}
       //let _ls=orgList.filter(item=>String(item.id)===data.orgId);
       //console.log('orgParentId:',_ls[0].parentId)
+
       data.postIds=data.postIds.join();
       data.birthdayStr=data.birthdayStr?data.birthdayStr.format('YYYY-MM-DD'):null;
       data.departureTimeStr=data.departureTimeStr?data.departureTimeStr.format('YYYY-MM-DD HH:mm:ss'):null;
