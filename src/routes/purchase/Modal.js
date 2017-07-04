@@ -39,7 +39,7 @@ const modal = ({
   onCancel,
   fileList,//附件列表
   dicList,
-  travelList,//申请人的出差申请列表
+  applyList,//申购明细列表
   detailList,//费用详情列表
   getDetailList,//获取费用明细的方法
   getFileList,//获取附件的方法
@@ -81,10 +81,14 @@ const modal = ({
       if(detailList && detailList.length>0){
         detailList.map((f,index)=>{
           if(f.id) data[`purchaseDetailList[${index}].id`]=f.id;
+          if(f.applyId)data[`purchaseDetailList[${index}].applyId`]=f.applyId;
+          data[`purchaseDetailList[${index}].applyDept`]=f.applyDept.value;
+          data[`purchaseDetailList[${index}].applyName`]=f.applyName.value;
           data[`purchaseDetailList[${index}].materialName`]=f.materialName.value;
           data[`purchaseDetailList[${index}].spec`]=f.spec.value;
           data[`purchaseDetailList[${index}].num`]=f.num.value;
           data[`purchaseDetailList[${index}].unit`]=f.unit.value;
+          data[`purchaseDetailList[${index}].amount`]=f.amount.value;
           data[`purchaseDetailList[${index}].useTimeStr`]=f.useTimeStr.value;
           data[`purchaseDetailList[${index}].remark`]=f.remark.value;
            
@@ -92,10 +96,13 @@ const modal = ({
       }else if(defaultDetailList[0]){
         defaultDetailList.map((f,index)=>{
           if(f.id) data[`purchaseDetailList[${index}].id`]=f.id;
+          if(f.applyId)data[`purchaseDetailList[${index}].applyId`]=f.applyId;
+          data[`purchaseDetailList[${index}].applyName`]=f.applyName.value;
           data[`purchaseDetailList[${index}].materialName`]=f.materialName.value;
           data[`purchaseDetailList[${index}].spec`]=f.spec.value;
           data[`purchaseDetailList[${index}].num`]=f.num.value;
           data[`purchaseDetailList[${index}].unit`]=f.unit.value;
+          data[`purchaseDetailList[${index}].amount`]=f.amount.value;
           data[`purchaseDetailList[${index}].useTimeStr`]=f.useTimeStr.value;
           data[`purchaseDetailList[${index}].remark`]=f.remark.value;
         })
@@ -121,6 +128,15 @@ const modal = ({
       let newRow={
         key: temp.id,
         id:temp.id,
+        applyId:temp.applyId?temp.applyId:null,
+        applyDept: {
+          editable: false,
+          value: temp.applyDept?temp.applyDept:'',
+        },
+        applyName: {
+          editable: false,
+          value: temp.applyName?temp.applyName:'',
+        },
         materialName: {
           editable: false,
           value: temp.materialName?temp.materialName:'',
@@ -136,6 +152,10 @@ const modal = ({
         unit: {
           editable:false,
           value: temp.unit?temp.unit:'',
+        },
+        amount: {
+          editable:false,
+          value: temp.amount?temp.amount:'',
         },
         useTimeStr: {
           editable:false,
@@ -181,7 +201,7 @@ const modal = ({
 
           </Col>
           <Col span={24} className='qite-list-title'>
-            <Icon type="credit-card" />申购申请信息
+            <Icon type="credit-card" />采购申请信息
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             姓名：
@@ -226,11 +246,29 @@ const modal = ({
         </Row>
         
         
-        <EditCellTable dicList={dicList} 
+       
+        <Row gutter={24} className={styles['q-detail']}>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            采购说明：
+          </Col>
+          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('remark', {
+                initialValue: item.remark,
+                rules: [
+                  {
+                    required: true,
+                   
+                  },
+                ],
+              })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
+            </FormItem>
+          </Col>
+        </Row>
+         <EditCellTable dicList={dicList} applyList={applyList}
           dataSource={defaultDetailList} 
           callbackParent={getDetailList}
           className={styles['q-detail']}/> 
-         
         <Row gutter={24} className={styles['q-detail']}>
 
           <Col span={24} className='qite-list-title'>

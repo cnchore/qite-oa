@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 //import ReactDOM from 'react-dom'
-//import styles from './InputCurrencyCell.less'
+//import styles from './InputNumberCell.less'
 import { InputNumber } from 'antd'
 
-class InputCurrencyCell extends React.Component {
+class InputNumberCell extends React.Component {
   state = {
     value: this.props.value,
     editable: this.props.editable || false,
@@ -41,14 +41,14 @@ class InputCurrencyCell extends React.Component {
             <div>
               <InputNumber step={0.01}
                 defaultValue={value}
-                formatter={temp => `¥ ${temp?temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+                formatter={temp => `${temp?temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
                 parser={temp => temp?temp.toString().replace(/\¥\s?|(,*)/g, ''):0}
                 onChange={e=>this.handleChange(e)}
               />
             </div>
             :
             <div className="editable-row-text">
-              { `¥ ${value?value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}` || '¥ 0.00'}
+              { `${value?value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}` || '0.00'}
             </div>
         }
       </div>
@@ -57,10 +57,10 @@ class InputCurrencyCell extends React.Component {
 }
 
 
-InputCurrencyCell.propTypes = {
+InputNumberCell.propTypes = {
   //value: PropTypes.string,
   editable: PropTypes.bool,
   
 }
 
-export default InputCurrencyCell
+export default InputNumberCell

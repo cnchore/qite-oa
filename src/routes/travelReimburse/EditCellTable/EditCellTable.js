@@ -71,7 +71,7 @@ class EditCellTable extends React.Component {
     }, {
       title: '操作',
       dataIndex: 'operation',
-      fixed:'right',width:150,
+      fixed:'right',width:120,
       render: (text, record, index) => {
         const { editable } = this.state.data[index].departureTimeStr;
         return (

@@ -249,6 +249,38 @@ const Routers = function ({ history, app }) {
             }, 'purchaseApply-detail')
           },
         }, {
+          path: '/purchase',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/purchase'))
+              cb(null, require('./routes/purchase/'))
+            }, 'purchase')
+          },
+        }, {
+          path: 'purchase/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/purchase/detail'))
+              cb(null, require('./routes/purchase/detail/'))
+            }, 'purchase-detail')
+          },
+        }, {
+          path: '/payment',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/payment'))
+              cb(null, require('./routes/payment/'))
+            }, 'payment')
+          },
+        }, {
+          path: 'payment/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/payment/detail'))
+              cb(null, require('./routes/payment/detail/'))
+            }, 'payment-detail')
+          },
+        }, {
           path: 'login',
           getComponent (nextState, cb) {
             require.ensure([], require => {

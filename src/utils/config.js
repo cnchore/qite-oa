@@ -151,12 +151,27 @@ module.exports = {
       getList:`${apiPrefixPro}/useCar/getList`,
       save:`${apiPrefixPro}/useCar/save`,
     },
-    //用车申请
+    //申购申请
     purchaseApply:{
       query:`${apiPrefixPro}/purchaseApply/getPage`,
       queryById:`${apiPrefixPro}/purchaseApply/getById`,
       getList:`${apiPrefixPro}/purchaseApply/getList`,
       save:`${apiPrefixPro}/purchaseApply/save`,
+    },
+    //采购申请
+    purchase:{
+      query:`${apiPrefixPro}/purchase/getPage`,
+      queryById:`${apiPrefixPro}/purchase/getById`,
+      getList:`${apiPrefixPro}/purchase/getList`,
+      getApplyList:`${apiPrefixPro}/purchaseDetail/getList`,
+      save:`${apiPrefixPro}/purchase/save`,
+    },
+    //付款申请
+    payment:{
+      query:`${apiPrefixPro}/payment/getPage`,
+      queryById:`${apiPrefixPro}/payment/getById`,
+      getList:`${apiPrefixPro}/payment/getList`,
+      save:`${apiPrefixPro}/payment/save`,
     },
   },
 }
