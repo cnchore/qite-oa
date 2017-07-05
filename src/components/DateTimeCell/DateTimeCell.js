@@ -37,7 +37,7 @@ class DateTimeCell extends React.Component {
   handleChange(dateString) {
     const {dateFormat} =this.state;
     //console.log('DateTimeCell:',dateString.format(this.state.dateFormat))
-    this.setState({ value:dateString.format(dateFormat)});
+    this.setState({ value:dateString?dateString.format(dateFormat):null});
   }
 
   render() {
@@ -56,7 +56,7 @@ class DateTimeCell extends React.Component {
             </div>
             :
             <div className="editable-row-text">
-              {value.toString() || ' '}
+              {value?value.toString():''}
             </div>
         }
       </div>

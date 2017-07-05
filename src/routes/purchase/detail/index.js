@@ -45,55 +45,49 @@ const Detail = ({ purchaseDetail }) => {
  
   const columns =[{
       title:'序号',
-      dataIndex:'index',width:60,
+      dataIndex:'index',
       render:(text,record,index)=>index+1,
     },{
       title: '申购部门',
       dataIndex: 'applyDept',
-      width: 120,
       key:'applyDept',
     },{
       title: '申购人',
       dataIndex: 'applyName',
-      width: 120,
       key:'applyName',
     },{
       title: '物料名称',
       dataIndex: 'materialName',
-      width: 200,
       key:'materialName',
       
     }, {
       title: '规格',
       dataIndex: 'spec',
       key:'spec',
-      width: 120,
     }, {
       title: '数量',
       dataIndex: 'num',
       key:'num',
-      width: 100,
       render: (text) => `${text?String(text).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '0.00',
     }, {
       title: '单位',
       dataIndex: 'unit',
       key:'unit',
-      width: 100,
     }, {
       title: '单价',
       dataIndex: 'amount',
       key:'amount',
-      width: 100,
     }, {
       title: '金额',
       dataIndex: 'totalAmount',
-      width: 100,
-      render:(text,record,index)=>(parseFloat(record.num)*parseFloat(record.amount)).toFixed(2),
+      render:(text,record,index)=>{
+        let t=parseFloat(record.num)*parseFloat(record.amount!==undefined&&record.amount!==null&&record.amount!==''?record.amount:0);
+        return `¥ ${t?t.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
+      },
     }, {
       title: '使用时间',
       dataIndex: 'useTime',
       key:'useTime',
-      width: 170,
     }, {
       title: '原因和用途',
       dataIndex: 'remark',
@@ -105,7 +99,14 @@ const Detail = ({ purchaseDetail }) => {
           dataSource={data.purchaseDetailList || []} 
           columns={columns} 
           pagination={false}
-          scroll={{ x: 1500 }} 
+          scroll={{ x: 1200 }}
+          rowKey={record => record.id}
+          footer={()=>(
+            <div>
+            采购总金额：{`¥ ${data.totalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+            &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(data.totalAmount)}
+            </div>
+            )}
           />
       )
   }
@@ -127,7 +128,12 @@ const Detail = ({ purchaseDetail }) => {
         <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>{data.createTime || data.createTimeStr}</Col>
         
       </Row>
-   
+       <Row gutter={24} className={styles['q-detail']}>
+        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+        采购说明：</Col>
+        <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+        {data.remark?data.remark:'无'}</Col>
+       </Row> 
         
         <Row gutter={24} className={styles['q-detail']}>
           

@@ -78,6 +78,7 @@ const modal = ({
           data[`attachList[${index}].attachName`]=f.name;
         })
       }
+      //data.totalAmount=0;
       if(detailList && detailList.length>0){
         detailList.map((f,index)=>{
           if(f.id) data[`purchaseDetailList[${index}].id`]=f.id;
@@ -91,6 +92,7 @@ const modal = ({
           data[`purchaseDetailList[${index}].amount`]=f.amount.value;
           data[`purchaseDetailList[${index}].useTimeStr`]=f.useTimeStr.value;
           data[`purchaseDetailList[${index}].remark`]=f.remark.value;
+          //data.totalAmount+=parseFloat(f.num.value)*parseFloat(f.amount.value===null||f.amount.value===''|| f.amount.value===undefined?0:f.amount.value);
            
         })
       }else if(defaultDetailList[0]){
@@ -105,9 +107,11 @@ const modal = ({
           data[`purchaseDetailList[${index}].amount`]=f.amount.value;
           data[`purchaseDetailList[${index}].useTimeStr`]=f.useTimeStr.value;
           data[`purchaseDetailList[${index}].remark`]=f.remark.value;
+         // data.totalAmount+=parseFloat(f.num.value)*parseFloat(f.amount.value===null||f.amount.value===''|| f.amount.value===undefined?0:f.amount.value);
+          
         })
       }
-      
+      //data.totalAmount=data.totalAmount.toFixed(2);
       if(item.id){
         data.id=item.id
       }

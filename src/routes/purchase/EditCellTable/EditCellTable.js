@@ -9,6 +9,7 @@ import InputNumberCell from '../../../components/InputNumberCell'
 import InputCurrencyCell from '../../../components/InputCurrencyCell'
 import DateTimeCell from '../../../components/DateTimeCell'
 import SelectCell from '../../../components/SelectCell'
+import EmployeeCell from '../../../components/EmployeeCell'
 import {changeMoneyToChinese} from '../../../utils'
 import SelectPurchaseApply from '../SelectPurchaseApply'
 
@@ -17,18 +18,17 @@ class EditCellTable extends React.Component {
     super(props);
     this.columns = [{
       title:'序号',
-      dataIndex:'index',width:60,
+      dataIndex:'index',width:50,
       render:(text,record,index)=>index+1,
     },{
       title: '申购部门',
       dataIndex: 'applyDept',
       width: 120,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'applyDept', text,'input'),
     },{
       title: '申购人',
       dataIndex: 'applyName',
       width: 120,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'applyName', text,'input'),
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'applyName', text,'employee'),
     
     },{
       title: '物料名称',
@@ -44,22 +44,22 @@ class EditCellTable extends React.Component {
     }, {
       title: '数量',
       dataIndex: 'num',
-      width: 120,
+      width: 80,
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'num', text,'number'),
     }, {
       title: '单位',
       dataIndex: 'unit',
-      width: 120,
+      width: 80,
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'unit', text,'input'),
     }, {
       title: '单价',
       dataIndex: 'amount',
-      width: 120,
+      width: 80,
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'amount', text,'currency'),
     }, {
       title: '金额',
       dataIndex: 'totalAmount',
-      width: 120,
+      width: 100,
       render: (text, record, index) =>{
         let t=parseFloat(record.num)*parseFloat(record.amount);
         return `¥ ${t?t.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
@@ -109,13 +109,16 @@ class EditCellTable extends React.Component {
       data:this.props.dataSource || [],
       actualExpense:0,
       modalVisable:false,
+      applyList:[],
     };
   }
   
   renderColumns(data, index, key, text,colType) {
     const { editable, status } = data[index][key];
+    let isCanEdit=data[index].applyId;
+    //console.log('isCanEdit:',isCanEdit)
     const { dicList } =this.props;
-    if (typeof editable === 'undefined') {
+    if (typeof editable === 'undefined' || (isCanEdit && key!=='amount')) {
       return text;
     }
     switch(colType){
@@ -124,6 +127,13 @@ class EditCellTable extends React.Component {
           editable={editable}
           value={text}
           onChange={value => this.handleChange(key, index, value)}
+          status={status}
+        />);
+      case 'employee':
+        return (<EmployeeCell
+          editable={editable}
+          value={text}
+          onChange={(value,selectedRow) => this.handleChange(key, index, value,selectedRow)}
           status={status}
         />);
       case 'number':
@@ -202,23 +212,24 @@ class EditCellTable extends React.Component {
     if(keys[0]){
       let selectedRows=applyList.filter(item=>(keys.findIndex(k=>String(k)===String(item.id)))>-1)
       const dataSource = selectedRows.map((item) => {
-        const obj = {};
+        let obj = {};
         Object.keys(item).forEach((key) => {
           if(key === 'key' || key=== 'id' || key=== 'applyId'){
             obj[key]=item[key];
           }else if(key==='useTime'){
             obj['useTimeStr']={};
-            obj['useTimeStr'].editable=true;
+            obj['useTimeStr'].editable=false;
             obj['useTimeStr'].value=item[key];
-          }else{
+            //console.log('useTimeStr:',item[key])
+          }else if(key!=='useTimeStr'){
             obj[key]={};
-            obj[key].editable=true;
+            obj[key].editable=false;
             obj[key].value=item[key];
           }
         });
         return obj;
       });
-      console.log(dataSource,applyList)
+      //console.log(dataSource)
       this.setState({
         data:[...data,...dataSource],
         count:count+keys.length,
@@ -231,12 +242,21 @@ class EditCellTable extends React.Component {
     }
   }
   selectList=()=>{
-    this.setState({modalVisable:true});
+    const { applyList } =this.props;
+    const {data}=this.state;
+    let list=applyList.filter(item=>data.findIndex(d=>String(item.id)===String(d.id))===-1);
+
+    this.setState({modalVisable:true,applyList:list});
   }
-  handleChange(key, index, value) {
+  handleChange(key, index, value,selectedRow=null) {
     const { data } = this.state;
+    if(selectedRow){
+      //console.log('selectedRow:',selectedRow)
+      data[index]['applyDept'].value=selectedRow.orgName;
+    }
     data[index][key].value = value;
     this.setState({ data });
+    
   }
   edit(index) {
     const { data } = this.state;
@@ -263,7 +283,7 @@ class EditCellTable extends React.Component {
     //console.log(data)
     if(data && data[0]){
       data.map(t=>{
-        c+=parseFloat(t.num.value)*parseFloat(t.amount.value===''|| t.amount.value===undefined?0:t.amount.value);
+        c+=parseFloat(t.num.value)*parseFloat(t.amount.value===null||t.amount.value===''|| t.amount.value===undefined?0:t.amount.value);
       })
     }
     return c.toFixed(2);
@@ -296,8 +316,8 @@ class EditCellTable extends React.Component {
     }
   }
   render() {
-    const { data,modalVisable, actualExpense} = this.state;
-    const {applyList} =this.props;
+    const { data,modalVisable,applyList, actualExpense} = this.state;
+    //const {applyList} =this.props;
     //console.log(data)
     const dataSource = data.map((item) => {
       const obj = {};
@@ -338,7 +358,7 @@ class EditCellTable extends React.Component {
               dataSource={dataSource} 
               columns={columns} 
               pagination={false}
-              scroll={{ x: 1700 }} 
+              scroll={{ x: 1500 }} 
               footer={()=>(
                 <div>
                 采购总数量：{this.getTotalNum()}

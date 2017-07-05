@@ -38,6 +38,13 @@ export async function queryById (params) {
     data: params,
   })
 }
+export async function queryList (params) {
+  return request({
+    url: employee.getList,
+    method: 'get',
+    data: params,
+  })
+}
 
 export async function create (params) {
   return request({
