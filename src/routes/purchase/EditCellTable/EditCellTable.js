@@ -23,7 +23,7 @@ class EditCellTable extends React.Component {
     },{
       title: '申购部门',
       dataIndex: 'applyDept',
-      width: 120,
+      width: 100,
     },{
       title: '申购人',
       dataIndex: 'applyName',
@@ -54,15 +54,15 @@ class EditCellTable extends React.Component {
     }, {
       title: '单价',
       dataIndex: 'amount',
-      width: 80,
+      width: 120,
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'amount', text,'currency'),
     }, {
       title: '金额',
       dataIndex: 'totalAmount',
-      width: 100,
+      width: 120,
       render: (text, record, index) =>{
         let t=parseFloat(record.num)*parseFloat(record.amount);
-        return `¥ ${t?t.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
+        return `¥ ${t?t.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
       },
     }, {
       title: '使用时间',
@@ -358,7 +358,8 @@ class EditCellTable extends React.Component {
               dataSource={dataSource} 
               columns={columns} 
               pagination={false}
-              scroll={{ x: 1500 }} 
+              scroll={{ x: 1500 }}
+              rowKey={record=>record.id} 
               footer={()=>(
                 <div>
                 采购总数量：{this.getTotalNum()}

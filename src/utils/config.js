@@ -201,5 +201,20 @@ module.exports = {
       getList:`${apiPrefixPro}/salaryChange/getList`,
       save:`${apiPrefixPro}/salaryChange/save`,
     },
+    //费用报销申请
+    reimburse:{
+      query:`${apiPrefixPro}/reimburse/getPage`,
+      queryById:`${apiPrefixPro}/reimburse/getById`,
+      getList:`${apiPrefixPro}/reimburse/getList`,
+      save:`${apiPrefixPro}/reimburse/save`,
+    },
+    //预算申请
+    budget:{
+      query:`${apiPrefixPro}/budget/getPage`,
+      queryById:`${apiPrefixPro}/budget/getById`,
+      getList:`${apiPrefixPro}/budget/getList`,
+      save:`${apiPrefixPro}/budget/save`,
+    },
+    
   },
 }

@@ -345,6 +345,38 @@ const Routers = function ({ history, app }) {
             }, 'salaryChange-detail')
           },
         }, {
+          path: '/reimburse',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/reimburse'))
+              cb(null, require('./routes/reimburse/'))
+            }, 'reimburse')
+          },
+        }, {
+          path: 'reimburse/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/reimburse/detail'))
+              cb(null, require('./routes/reimburse/detail/'))
+            }, 'reimburse-detail')
+          },
+        }, {
+          path: '/budget',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/budget'))
+              cb(null, require('./routes/budget/'))
+            }, 'budget')
+          },
+        }, {
+          path: 'budget/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/budget/detail'))
+              cb(null, require('./routes/budget/detail/'))
+            }, 'budget-detail')
+          },
+        }, {
           path: 'login',
           getComponent (nextState, cb) {
             require.ensure([], require => {

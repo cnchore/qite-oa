@@ -35,7 +35,7 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
       
     }
   }
-  const getDicType=(value,remark=null)=>{
+  const getTripMode=(value,remark=null)=>{
     let n=dicList.filter(item=>String(item.dicValue)===String(value));
     //console.log(orgList,...n,value);
     if(n && n[0]){
@@ -56,27 +56,12 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
       title: '申请单号',
       dataIndex: 'code',width:220,
       key: 'code',
-      render: (text, record) => <Link to={`contract/${record.id}`}>{text}</Link>,
+      render: (text, record) => <Link to={`budget/${record.id}`}>{text}</Link>,
     }, {
       title: '申请时间',
       dataIndex: 'createTime',width:170,
       key: 'createTime',
-    }, {
-      title: '合同名称',
-      dataIndex: 'contractName',width:200,
-      key: 'contractName',
-    }, {
-      title: '合同编号',width:220,
-      key: 'contractCode',
-      dataIndex:'contractCode',
-    }, {
-      title: '甲方',
-      dataIndex: 'firstParty',width:120,
-      key: 'firstParty',
-    }, {
-      title: '乙方',width:120,
-      dataIndex: 'secondParty',
-      key: 'secondParty',
+    
     }, {
       title: '状态',
       dataIndex: 'state',
@@ -102,7 +87,7 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
         {...tableProps}
         className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 1300 }}
+        scroll={{ x: 767 }}
         columns={columns}
         simple
         rowKey={record => record.id}

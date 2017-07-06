@@ -45,14 +45,14 @@ const Detail = ({ travelReimburseDetail }) => {
   let c=parseFloat(data.actualExpense)-parseFloat(data.advanceExpense);
   let item={};
   if(c>0){
-    item.surplus=0;
-    item.validReimburse=c;
+    item.surplus=0.00;
+    item.validReimburse=c.toFixed(2);
   }else if(c<0){
-    item.surplus=c;
-    item.validReimburse=0;
+    item.surplus=c.toFixed(2);
+    item.validReimburse=0.00;
   }else{
-    item.surplus=0;
-    item.validReimburse=0;
+    item.surplus=0.00;
+    item.validReimburse=0.00;
   }
   const columns = [{
       title:'序号',
@@ -78,22 +78,22 @@ const Detail = ({ travelReimburseDetail }) => {
     }, {
       title: '交通费用',
       dataIndex: 'vehicleCost',
-      render: (text) => `¥ ${text?String(text).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00',
+      render: (text) => `¥ ${text?String(text.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00',
     }, {
       title: '住宿费',
       dataIndex: 'livingCost',
-      render: (text) => `¥ ${text?String(text).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00',
+      render: (text) => `¥ ${text?String(text.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00',
     }, {
       title: '其他费用',
       dataIndex: 'otherCost',
-      render: (text) => `¥ ${text?String(text).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00',
+      render: (text) => `¥ ${text?String(text.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00',
     }, {
       title: '合计金额',
       dataIndex: 'total',
       
       render: (text, record, index) =>{
         let t=parseFloat(record.vehicleCost)+parseFloat(record.livingCost)+parseFloat(record.otherCost);
-        return `¥ ${t?t.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
+        return `¥ ${t?t.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
       },
     
     }]
@@ -157,8 +157,8 @@ const Detail = ({ travelReimburseDetail }) => {
             报销总额：
           </Col>
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-             {`¥ ${String(data.actualExpense).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
-            &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(data.actualExpense)}
+             {`¥ ${data.actualExpense?String(data.actualExpense.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+            &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(data.actualExpense?data.actualExpense.toFixed(2):0.00)}
           </Col>
         </Row>
         

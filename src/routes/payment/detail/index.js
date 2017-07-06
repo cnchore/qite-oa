@@ -88,7 +88,7 @@ const Detail = ({ paymentDetail }) => {
           </Col>
           <Col xs={18} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
            
-            {`¥ ${data.payAmount?String(data.payAmount).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '0.00'}
+            {`¥ ${data.payAmount?String(data.payAmount.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '0.00'}
             &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(data.payAmount)}
           </Col>
         </Row>

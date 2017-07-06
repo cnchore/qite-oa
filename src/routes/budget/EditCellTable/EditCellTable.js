@@ -19,61 +19,43 @@ class EditCellTable extends React.Component {
       render:(text,record,index)=>index+1,
     
     },{
-      title: '出发时间',
-      dataIndex: 'departureTimeStr',
-      width: 200,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'departureTimeStr', text,'datetime'),
+      title: '部门',
+      dataIndex: 'orgName',
+      width: 120,
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'orgName', text,'input'),
     
     }, {
-      title: '出发地点',
-      dataIndex: 'departurePlace',
-      width: 200,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'departurePlace', text,'input'),
-    }, {
-      title: '到达时间',
-      dataIndex: 'arrivalTimeStr',
-      width: 200,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'arrivalTimeStr', text,'datetime'),
-    }, {
-      title: '到达地点',
-      dataIndex: 'arrivalPlace',
-      width: 200,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'arrivalPlace', text,'input'),
-    }, {
-      title: '交通工具',
-      dataIndex: 'vehicle',
-      width: 200,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'vehicle', text,'select'),
-    }, {
-      title: '交通费用',
-      dataIndex: 'vehicleCost',
+      title: '供应商',
+      dataIndex: 'supplier',
       width: 120,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'vehicleCost', text,'currency'),
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'supplier', text,'input'),
     }, {
-      title: '住宿费',
-      dataIndex: 'livingCost',
+      title: '内容',
+      dataIndex: 'content',
       width: 120,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'livingCost', text,'currency'),
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'content', text,'input'),
     }, {
-      title: '其他费用',
-      dataIndex: 'otherCost',
+      title: '金额',
+      dataIndex: 'amount',
       width: 120,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'otherCost', text,'currency'),
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'amount', text,'currency'),
     }, {
-      title: '合计金额',
-      dataIndex: 'total',
+      title: '备注',
+      dataIndex: 'remark',
       
-      render: (text, record, index) =>{
-        let t=parseFloat(record.vehicleCost)+parseFloat(record.livingCost)+parseFloat(record.otherCost);
-        return `¥ ${t?t.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
-      },
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'remark', text,'input'),
+    }, {
+      title: '用付款时间',
+      dataIndex: 'payTimeStr',
+      width: 200,
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'payTimeStr', text,'datetime'),
     
     }, {
       title: '操作',
       dataIndex: 'operation',
       fixed:'right',width:120,
       render: (text, record, index) => {
-        const { editable } = this.state.data[index].departureTimeStr;
+        const { editable } = this.state.data[index].orgName;
         return (
           <div className="editable-row-operations">
             {
@@ -100,7 +82,7 @@ class EditCellTable extends React.Component {
     this.state = {
       count:0,
       data:this.props.dataSource || [],
-      actualExpense:0,
+     
     };
   }
   
@@ -146,37 +128,29 @@ class EditCellTable extends React.Component {
     const { count, data} =this.state;
     const newRow={
         key: count,
-        departureTimeStr: {
+        orgName: {
           editable: true,
           value: '',
         },
-        departurePlace: {
+        supplier: {
           editable: true,
-          value: '',
+          value:'',
         },
-        arrivalTimeStr: {
+        content: {
           editable:true,
           value: '',
         },
-        arrivalPlace: {
+        amount: {
+          editable:true,
+          value: 0,
+        },
+        payTimeStr: {
           editable:true,
           value: '',
         },
-        vehicle: {
+        remark: {
           editable:true,
-          value: '1',
-        },
-        vehicleCost: {
-          editable:true,
-          value: 0,
-        },
-        livingCost: {
-          editable:true,
-          value: 0,
-        },
-        otherCost: {
-          editable:true,
-          value: 0,
+          value: '',
         },
       }
     this.setState({
@@ -198,12 +172,12 @@ class EditCellTable extends React.Component {
     });
     this.setState({ data });
   }
-  getActualExpense(){
+  getTotalAmount(){
     const { data } =this.state;
     let c=0;
     if(data && data[0]){
       data.map(t=>{
-        c+=parseFloat(t.vehicleCost.value)+parseFloat(t.livingCost.value)+parseFloat(t.otherCost.value)
+        c+=parseFloat(t.amount.value)
       })
     }
     return c.toFixed(2);
@@ -241,7 +215,7 @@ class EditCellTable extends React.Component {
     const dataSource = data.map((item) => {
       const obj = {};
       Object.keys(item).forEach((key) => {
-        obj[key] = key === 'key' ? item[key] : item[key].value;
+        obj[key] = key === 'key' || key === 'id' ? item[key] : item[key].value;
       });
       return obj;
     });
@@ -252,21 +226,22 @@ class EditCellTable extends React.Component {
       <Row gutter={24} className={this.props.className}>
 
         <Col span={24} className='qite-list-title' style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-            <div><Icon type="credit-card" />差旅费明细</div>
-            <a onClick={e=>this.add(e)}>添加差旅明细</a>
+            <div><Icon type="credit-card" />预算明细</div>
+            <a onClick={e=>this.add(e)}>添加预算明细</a>
         </Col>
         <Col span={24}>
             <Table bordered 
               dataSource={dataSource} 
               columns={columns} 
               pagination={false}
-              scroll={{ x: 1800 }} 
+              scroll={{ x: 1100 }} 
+              rowKey={record=>record.id}
               footer={()=>(
                 <div>
-                报销总额：{`¥ ${this.getActualExpense().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
-                &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(this.getActualExpense())}
+                合计金额：{`¥ ${this.getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+                &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(this.getTotalAmount())}
                 </div>
-                )}
+              )}
               />
         </Col>
         

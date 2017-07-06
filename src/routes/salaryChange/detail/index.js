@@ -58,7 +58,7 @@ const Detail = ({ salaryChangeDetail }) => {
             原总工资：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {`¥ ${data.originalSalary?data.originalSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+            {`¥ ${data.originalSalary?data.originalSalary.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
             
           </Col>
          
@@ -82,7 +82,7 @@ const Detail = ({ salaryChangeDetail }) => {
             期望总工资：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {`¥ ${data.expectedSalary?data.expectedSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+            {`¥ ${data.expectedSalary?data.expectedSalary.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
             
           </Col>
          

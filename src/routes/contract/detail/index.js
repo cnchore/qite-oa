@@ -75,7 +75,7 @@ const Detail = ({ contractDetail }) => {
           </Col>
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             
-            {`¥ ${data.contractAmount?data.contractAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+            {`¥ ${data.contractAmount?data.contractAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
             &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(data.contractAmount)}
           </Col>
         </Row>

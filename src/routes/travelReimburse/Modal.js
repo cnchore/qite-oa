@@ -189,14 +189,14 @@ const modal = ({
     let t=getActualExpense();
     let c=t-parseFloat(value);
     if(c>0){
-      item.surplus=0;
-      item.validReimburse=c;
+      item.surplus=0.00;
+      item.validReimburse=c.toFixed(2);
     }else if(c<0){
-      item.surplus=c;
-      item.validReimburse=0;
+      item.surplus=c.toFixed(2);
+      item.validReimburse=0.00;
     }else{
-      item.surplus=0;
-      item.validReimburse=0;
+      item.surplus=0.00;
+      item.validReimburse=0.00;
     }
   }
   
@@ -376,7 +376,7 @@ const modal = ({
            
             <FormItem >
             归还多余：{`¥ ${item.surplus?item.surplus.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}  
-            &nbsp;&nbsp;&nbsp;&nbsp;实际报销：{`¥ ${item.validReimburse?item.validReimburse.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+            &nbsp;&nbsp;&nbsp;&nbsp;实际报销：{`¥ ${item.validReimburse?item.validReimburse.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
             </FormItem>
             
          
