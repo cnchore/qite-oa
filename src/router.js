@@ -281,6 +281,70 @@ const Routers = function ({ history, app }) {
             }, 'payment-detail')
           },
         }, {
+          path: '/recruit',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/recruit'))
+              cb(null, require('./routes/recruit/'))
+            }, 'recruit')
+          },
+        }, {
+          path: 'recruit/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/recruit/detail'))
+              cb(null, require('./routes/recruit/detail/'))
+            }, 'recruit-detail')
+          },
+        }, {
+          path: '/dimission',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/dimission'))
+              cb(null, require('./routes/dimission/'))
+            }, 'dimission')
+          },
+        }, {
+          path: 'dimission/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/dimission/detail'))
+              cb(null, require('./routes/dimission/detail/'))
+            }, 'dimission-detail')
+          },
+        }, {
+          path: '/regular',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/regular'))
+              cb(null, require('./routes/regular/'))
+            }, 'regular')
+          },
+        }, {
+          path: 'regular/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/regular/detail'))
+              cb(null, require('./routes/regular/detail/'))
+            }, 'regular-detail')
+          },
+        }, {
+          path: '/salaryChange',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/salaryChange'))
+              cb(null, require('./routes/salaryChange/'))
+            }, 'salaryChange')
+          },
+        }, {
+          path: 'salaryChange/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/salaryChange/detail'))
+              cb(null, require('./routes/salaryChange/detail/'))
+            }, 'salaryChange-detail')
+          },
+        }, {
           path: 'login',
           getComponent (nextState, cb) {
             require.ensure([], require => {

@@ -173,5 +173,33 @@ module.exports = {
       getList:`${apiPrefixPro}/payment/getList`,
       save:`${apiPrefixPro}/payment/save`,
     },
+    //招聘申请
+    recruit:{
+      query:`${apiPrefixPro}/recruit/getPage`,
+      queryById:`${apiPrefixPro}/recruit/getById`,
+      getList:`${apiPrefixPro}/recruit/getList`,
+      save:`${apiPrefixPro}/recruit/save`,
+    },
+    //离职申请
+    dimission:{
+      query:`${apiPrefixPro}/dimission/getPage`,
+      queryById:`${apiPrefixPro}/dimission/getById`,
+      getList:`${apiPrefixPro}/dimission/getList`,
+      save:`${apiPrefixPro}/dimission/save`,
+    },
+    //转正申请
+    regular:{
+      query:`${apiPrefixPro}/regular/getPage`,
+      queryById:`${apiPrefixPro}/regular/getById`,
+      getList:`${apiPrefixPro}/regular/getList`,
+      save:`${apiPrefixPro}/regular/save`,
+    },
+    //调薪申请
+    salaryChange:{
+      query:`${apiPrefixPro}/salaryChange/getPage`,
+      queryById:`${apiPrefixPro}/salaryChange/getById`,
+      getList:`${apiPrefixPro}/salaryChange/getList`,
+      save:`${apiPrefixPro}/salaryChange/save`,
+    },
   },
 }
