@@ -215,7 +215,7 @@ const modal = ({
                 initialValue:(item.originalSalary===undefined||item.originalSalary===null)?0:Number(item.originalSalary),
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -223,8 +223,8 @@ const modal = ({
               })(
                 <InputNumber
                   step={0.01} style={{width:'100%'}}
-                  formatter={value => `¥ ${value?value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-                  parser={value => value?value.toString().replace(/\¥\s?|(,*)/g, ''):0}
+                  formatter={value => `¥ ${value?value.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+                  parser={value => value?value.toString().replace(/¥\s?|(,*)/g, ''):0}
                   
                 />
               )}
@@ -269,7 +269,7 @@ const modal = ({
                 initialValue:(item.expectedSalary===undefined||item.expectedSalary===null)?0:Number(item.expectedSalary),
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -277,8 +277,8 @@ const modal = ({
               })(
                 <InputNumber
                   step={0.01} style={{width:'100%'}}
-                  formatter={value => `¥ ${value?value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-                  parser={value => value?value.toString().replace(/\¥\s?|(,*)/g, ''):0}
+                  formatter={value => `¥ ${value?value.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+                  parser={value => value?value.toString().replace(/¥\s?|(,*)/g, ''):0}
                   
                 />
               )}
@@ -298,7 +298,7 @@ const modal = ({
                 initialValue: item.remark,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],

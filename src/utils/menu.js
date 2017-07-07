@@ -258,6 +258,20 @@ module.exports = [
     router: '/budget/:id',
   },
   {
+    id: 247,
+    mpid: 23,
+    bpid: 23,
+    name: '通知发放申请',
+    router: '/notice',
+  },
+  {
+    id: 2471,
+    mpid: -1,
+    bpid: 247,
+    name: '通知发放申请详情',
+    router: '/notice/:id',
+  },
+  {
     id: 24,
     mpid: 2,
     bpid: 2,

@@ -184,7 +184,7 @@ export default {
   },
   subscriptions: {
     setup ({ dispatch }) {
-      const userInfo = JSON.parse(localStorage.getItem(`${prefix}userInfo`));
+      const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       if(userInfo&& userInfo.success && userInfo.data){
         dispatch({ type: 'query' })
         dispatch({ type: 'queryWeather' })

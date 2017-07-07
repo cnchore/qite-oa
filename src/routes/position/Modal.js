@@ -75,7 +75,7 @@ const modal = ({
             initialValue: item.postName,
             rules: [
               {
-                required: true,
+                required: true,message:'不能为空',
               },
             ],
           })(<Input />)}
@@ -99,7 +99,7 @@ const modal = ({
             initialValue:String(item.orgId===undefined?'':item.orgId),
             rules: [
               {
-                required: true,
+                required: true,message:'不能为空',
                 
               },
             ],

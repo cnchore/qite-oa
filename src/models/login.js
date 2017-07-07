@@ -34,7 +34,7 @@ export default {
   },
   reducers: {
     loginSuccess(state,action){
-      localStorage.setItem(`${prefix}userInfo`, JSON.stringify(action.payload));
+      sessionStorage.setItem(`${prefix}userInfo`, JSON.stringify(action.payload));
       return {
         ...state,
       }

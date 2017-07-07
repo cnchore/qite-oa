@@ -198,7 +198,7 @@ const modal = ({
                 initialValue:item.departureTime!==undefined && item.departureTime!==null?moment(item.departureTime,dateTimeFormat):null,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -221,7 +221,7 @@ const modal = ({
                 initialValue: item.remark,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],

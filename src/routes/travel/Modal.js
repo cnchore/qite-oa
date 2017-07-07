@@ -239,7 +239,7 @@ const modal = ({
                 initialValue:item.colleaguesNames,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -261,7 +261,7 @@ const modal = ({
                 initialValue:initialTravelTime,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -276,11 +276,11 @@ const modal = ({
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' ,paddingLeft:'0px'}} className={styles['q-detail-label-require']}>
             出差地点：
           </Col>
-          <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+          <Col xs={18} md={8} xl={10} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem >
               {getFieldDecorator('destination', {
                 initialValue:initialDestination,
-                rules: [{required: true,},],
+                rules: [{required: true,message:'不能为空',},],
                 onChange:destinationChange,
               })(
                 <Cascader
@@ -290,10 +290,16 @@ const modal = ({
                 />
               )}
             </FormItem>
-            <FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' ,paddingLeft:'0px'}} className={styles['q-detail-label-require']}>
+           详细地址：
+          </Col>
+          <Col xs={18} md={8} xl={10} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+          
+            <FormItem style={{width:'100%'}}>
               {getFieldDecorator('address', {
                 initialValue:item.address,
-                rules: [{required: true,},],
+                rules: [{required: true,message:'不能为空',},],
               })(<Input />)}
             </FormItem>
 
@@ -309,7 +315,7 @@ const modal = ({
                 initialValue:item.customers,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -329,7 +335,7 @@ const modal = ({
                 initialValue: item.remark,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -347,7 +353,7 @@ const modal = ({
                 initialValue:item.tripMode===undefined?'1':String(item.tripMode),
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -374,7 +380,7 @@ const modal = ({
                 initialValue:(item.expense===undefined||item.expense===null)?0:Number(item.expense),
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -382,8 +388,8 @@ const modal = ({
               })(
                 <InputNumber
                   step={0.01} style={{width:'120px'}}
-                  formatter={value => `¥ ${value?value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}`}
-                  parser={value => value?value.toString().replace(/\¥\s?|(,*)/g, ''):0}
+                  formatter={value => `¥ ${value?value.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}`}
+                  parser={value => value?value.toString().replace(/¥\s?|(,*)/g, ''):0}
                   
                 />
               )}

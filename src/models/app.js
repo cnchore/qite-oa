@@ -33,7 +33,7 @@ export default {
     *query ({
       payload,
     }, { call, put }) {
-      const data = JSON.parse(localStorage.getItem(`${prefix}userInfo`));
+      const data = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       //yield call(query, parse(payload))
       if (data&& data.success && data.data) {
         //console.log('userData:',data)
@@ -60,7 +60,7 @@ export default {
     }, { call, put }) {
       const data = yield call(logout, parse(payload))
       if (data.success) {
-        localStorage.setItem(`${prefix}userInfo`,JSON.stringify({}))
+        sessionStorage.setItem(`${prefix}userInfo`,JSON.stringify({}))
         yield put({ type: 'query' })
       } else {
         throw (data)

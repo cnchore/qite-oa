@@ -41,7 +41,7 @@ const Login = ({
             initialValue:lg.userName,
             rules: [
               {
-                required: true,
+                required: true,message:'不能为空',
               },
             ],
           })(<Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} size="large" onPressEnter={handleOk} placeholder="Username" />)}
@@ -51,7 +51,7 @@ const Login = ({
             initialValue:lg.pwd,
             rules: [
               {
-                required: true,
+                required: true,message:'不能为空',
               },
             ],
           })(<Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} size="large" type="password" onPressEnter={handleOk} placeholder="Password" />)}

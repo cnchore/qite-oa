@@ -172,7 +172,7 @@ const modal = ({
                 initialValue:item.postName,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -190,7 +190,7 @@ const modal = ({
                 initialValue:item.postTime!==undefined && item.postTime!==null?moment(item.postTime,dateTimeFormat):null,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -212,7 +212,7 @@ const modal = ({
                 initialValue: item.remark,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -230,7 +230,7 @@ const modal = ({
                 initialValue: item.postComent,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -248,7 +248,7 @@ const modal = ({
                 initialValue: item.postRequest,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -266,7 +266,7 @@ const modal = ({
                 initialValue: item.equipment,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -284,7 +284,7 @@ const modal = ({
                 initialValue: item.treatment,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],

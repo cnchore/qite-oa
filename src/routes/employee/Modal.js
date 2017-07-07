@@ -58,6 +58,9 @@ const modal = ({
   confirmLoading,
   setUserRoleLoading,
   onCancel,
+  photoUrl,
+  dicList,
+  setPhoto,
   form: {
     getFieldDecorator,
     validateFields,
@@ -82,7 +85,7 @@ const modal = ({
       data.birthdayStr=data.birthdayStr?data.birthdayStr.format('YYYY-MM-DD'):null;
       data.departureTimeStr=data.departureTimeStr?data.departureTimeStr.format('YYYY-MM-DD HH:mm:ss'):null;
       data.inductionTimeStr=data.inductionTimeStr?data.inductionTimeStr.format('YYYY-MM-DD HH:mm:ss'):null;
-      data.photo=item.photo;
+      //data.photo=item.photo;
       if(item.id){
         data.id=item.id
       }
@@ -101,7 +104,10 @@ const modal = ({
   }
   const getPositRows=()=>{
     if(positSelList[0]){
-      return positSelList.map((item)=>String(item.id)); 
+      let rows=positSelList.map((item)=>String(item.id)); 
+      rows=Array.from(new Set(rows));//去重复
+
+      return rows
     }
     return []
   }
@@ -134,12 +140,13 @@ const modal = ({
   
   const handleChange = (info) => {
     if (info.file.status === 'done') {
-      
-      item.photo=info.file.response.data;
+      //setFieldsValue({photo:info.file.response.data})
+      //item.photo=info.file.response.data;
+      setPhoto(info.file.response.data);
     }
   }
   const roleOptions=item.roleList?item.roleList.map(role=><Option key={role.id}>{role.roleName}</Option>):null;
- 
+  const dicOptions=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
   return (
     <Modal {...modalOpts}
       footer={[
@@ -158,7 +165,7 @@ const modal = ({
                   initialValue: item.realName,
                   rules: [
                     {
-                      required: true,
+                      required: true,message:'不能为空',
                     },
                   ],
                 })(<Input />)}
@@ -180,7 +187,7 @@ const modal = ({
                     {
                       required: true,
                       pattern: /^1[34578]\d{9}$/,
-                      message: 'The input is not valid phone!',
+                      message: '请输入正确的手机号码!',
                     },
                   ],
                 })(<Input />)}
@@ -208,8 +215,8 @@ const modal = ({
                   onChange={handleChange}
                 >
                   {
-                    item.photo ?
-                      <img src={item.photo} alt="" className="avatar" /> :
+                    photoUrl || item.photo ?
+                      <img src={photoUrl || item.photo} alt="" className="avatar" /> :
                       <Icon type="plus" className="avatar-uploader-trigger" />
                   }
                 </Upload>
@@ -224,7 +231,7 @@ const modal = ({
                       initialValue:getPositRows(),
                       rules: [
                         {
-                          required: true,
+                          required: true,message:'不能为空',
                           
                         },
                       ],
@@ -240,9 +247,9 @@ const modal = ({
           <Col span={8}>
               <FormItem label="职位状态" hasFeedback {...formItemLayout}>
                 {getFieldDecorator('positionState', {
-                  initialValue: item.positionState,
+                  initialValue: item.positionState!==undefined?item.positionState:null,
                   
-                })(<Input />)}
+                })(<Select style={{width:'100%'}}>{dicOptions}</Select>)}
               </FormItem>
           </Col>
           

@@ -53,7 +53,7 @@ const modal = ({
             initialValue: item.roleName,
             rules: [
               {
-                required: true,
+                required: true,message:'不能为空',
               },
             ],
           })(<Input />)}
@@ -64,7 +64,7 @@ const modal = ({
             initialValue: item.roleCode,
             rules: [
               {
-                required: true,
+                required: true,message:'不能为空',
                
               },
             ],

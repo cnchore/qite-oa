@@ -41,8 +41,8 @@ class InputCurrencyCell extends React.Component {
             <div>
               <InputNumber step={0.01}
                 defaultValue={value}
-                formatter={temp => `¥ ${temp?temp.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-                parser={temp => temp?temp.toString().replace(/\¥\s?|(,*)/g, ''):0}
+                formatter={temp => `¥ ${temp?temp.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+                parser={temp => temp?temp.toString().replace(/¥\s?|(,*)/g, ''):0}
                 onChange={e=>this.handleChange(e)}
               />
             </div>

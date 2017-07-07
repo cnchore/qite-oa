@@ -1,5 +1,5 @@
 import { query,queryById,getOrg,getPosition,create,getRoles,
-  remove, update,userChange,resetPwd,setUserRole } from '../services/employee'
+  remove, update,userChange,resetPwd,setUserRole,getDic } from '../services/employee'
 import { arrayToTree,treeToArray } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
@@ -15,6 +15,8 @@ export default {
     positSelList:[],
     positionList:[],
     //roleList:[],
+    dicList:[],
+    photoUrl:null,
     orgKey:null,
     currentItem: {},
     modalVisible: false,
@@ -47,7 +49,11 @@ export default {
             type: 'getPosition',
             payload: location.query,
           })
-         
+          //empoyeeState_item
+          dispatch({
+            type: 'getDic',
+            payload: {dicType:'empoyeeState_item'},
+          })
         }
       })
     },
@@ -85,6 +91,20 @@ export default {
           payload: {
             orgTree: data.data,
             orgList: treeToArray(data.data)
+          },
+        })
+      }
+    },
+    *getDic({ payload }, { call, put }) {
+
+      //payload = parse(location.search.substr(1))
+      const data = yield call(getDic, payload)
+
+      if (data) {
+        yield put({
+          type: 'getDicSuccess',
+          payload: {
+            dicList: data.data,
           },
         })
       }
@@ -149,6 +169,7 @@ export default {
           payload:{
             ...payload,
             currentItem:data.data,
+            photoUrl:null,
           } 
         })
       } else {
@@ -234,6 +255,12 @@ export default {
         orgTree
         }
     },
+    getDicSuccess (state, action) {
+      const { dicList } = action.payload
+      return { ...state,
+        dicList,
+        }
+    },
     getPositionSuccess (state, action) {
       const { positionList } = action.payload
       return { ...state,
@@ -272,6 +299,9 @@ export default {
     },
     setState(state,action){
       return {...state,currentItem:action.payload}
+    },
+    setPhoto(state,action){
+      return {...state,photoUrl:action.payload}
     },
     setOrgKey(state,action){
       return {...state,orgKey:action.payload}

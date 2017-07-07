@@ -184,7 +184,7 @@ const modal = ({
                 initialValue:item.remark,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -205,7 +205,7 @@ const modal = ({
                 initialValue:item.carInfo===undefined?'1':String(item.carInfo),
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -225,7 +225,7 @@ const modal = ({
                 initialValue:item.useTime!==undefined&&item.useTime!==null?moment(item.useTime,dateTimeFormat):null,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -242,7 +242,7 @@ const modal = ({
                 initialValue:item.returnTime!==undefined&&item.returnTime!==null?moment(item.returnTime,dateTimeFormat):null,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],

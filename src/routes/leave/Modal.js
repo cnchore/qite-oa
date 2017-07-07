@@ -193,7 +193,7 @@ const modal = ({
                 initialValue:item.type===undefined?'1':String(item.type),
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -221,7 +221,7 @@ const modal = ({
                 initialValue:initialLeaveTime,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -233,7 +233,7 @@ const modal = ({
                 initialValue:item.leaveHours,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -253,7 +253,7 @@ const modal = ({
                 initialValue: item.remark,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],

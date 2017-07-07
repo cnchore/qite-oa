@@ -215,6 +215,13 @@ module.exports = {
       getList:`${apiPrefixPro}/budget/getList`,
       save:`${apiPrefixPro}/budget/save`,
     },
+    //通知发放申请
+    notice:{
+      query:`${apiPrefixPro}/notice/getPage`,
+      queryById:`${apiPrefixPro}/notice/getById`,
+      getList:`${apiPrefixPro}/notice/getList`,
+      save:`${apiPrefixPro}/notice/save`,
+    },
     
   },
 }

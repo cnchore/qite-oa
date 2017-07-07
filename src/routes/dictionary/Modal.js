@@ -60,7 +60,7 @@ const modal = ({
             initialValue: item.dicName,
             rules: [
               {
-                required: true,
+                required: true,message:'不能为空',
               },
             ],
           })(<Input />)}
@@ -71,7 +71,7 @@ const modal = ({
             initialValue: item.dicValue,
             rules: [
               {
-                required: true,
+                required: true,message:'不能为空',
                
               },
             ],
@@ -82,7 +82,7 @@ const modal = ({
             initialValue: item.dicType,
             rules: [
               {
-                required: true,
+                required: true,message:'不能为空',
                 
               },
             ],
@@ -93,7 +93,7 @@ const modal = ({
             initialValue: item.dicGroup,
             rules: [
               {
-                required: true,
+                required: true,message:'不能为空',
                 
               },
             ],

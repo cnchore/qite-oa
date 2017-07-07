@@ -172,7 +172,7 @@ const modal = ({
                 initialValue:(item.missTimeStr || item.missTime)? moment(item.missTimeStr || item.missTime,dateTimeFormat):null,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -188,7 +188,7 @@ const modal = ({
                 initialValue: item.remark,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],

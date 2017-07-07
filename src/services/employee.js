@@ -1,6 +1,6 @@
 import { request, config } from '../utils'
 const { api } = config
-const { position,organizations,employee,user,roles,auth } = api
+const { position,organizations,employee,user,roles,auth,dictionary } = api
 
 export async function query (params) {
   return request({
@@ -45,7 +45,13 @@ export async function queryList (params) {
     data: params,
   })
 }
-
+export async function getDic (params) {
+  return request({
+    url: dictionary.getList,
+    method: 'get',
+    data: params,
+  })
+}
 export async function create (params) {
   return request({
     url: employee.add,

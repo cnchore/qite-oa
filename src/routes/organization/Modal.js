@@ -60,7 +60,7 @@ const modal = ({
             initialValue: item.orgName,
             rules: [
               {
-                required: true,
+                required: true,message:'不能为空',
               },
             ],
           })(<Input />)}
@@ -77,7 +77,7 @@ const modal = ({
             initialValue: item.orgTypeName,
             rules: [
               {
-                required: true,
+                required: true,message:'不能为空',
                 
               },
             ],

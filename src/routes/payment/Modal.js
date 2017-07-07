@@ -189,7 +189,7 @@ const modal = ({
                 initialValue:item.remark,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -225,7 +225,7 @@ const modal = ({
                 initialValue:item.payAmount!==undefined && item.payAmount!==null?parseFloat(item.payAmount):0,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -233,8 +233,8 @@ const modal = ({
               })(
                 <InputNumber
                   step={0.01} style={{width:'150px'}}
-                  formatter={value => `¥ ${value?value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-                  parser={value => value?value.toString().replace(/\¥\s?|(,*)/g, ''):0}
+                  formatter={value => `¥ ${value?value.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+                  parser={value => value?value.toString().replace(/¥\s?|(,*)/g, ''):0}
                   
                 />
               )}

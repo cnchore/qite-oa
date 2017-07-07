@@ -1,13 +1,19 @@
-import { query,queryById,save,submit,queryEmployee,getDic,getPurchaseList } from '../services/payment'
-import { config } from '../utils'
+import { query,queryById,save,submit,queryEmployee,getDic } from '../services/notice'
+import { config,treeToArray } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
+import { EditorState, ContentState, convertFromHTML } from 'draft-js'
 
+const getEditorState=(html)=>EditorState.createWithContent(
+    ContentState.createFromBlockArray(
+      convertFromHTML(html)
+    )
+  )
 const { prefix } = config
 
 export default {
 
-  namespace: 'payment',
+  namespace: 'notice',
 
   state: {
     list: [],
@@ -16,8 +22,8 @@ export default {
     modalType: 'create',
     fileList:[],
     dicList:[],
+    editorState:null,
     employeeList:[],
-    purchaseList:[],
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -31,13 +37,13 @@ export default {
     setup ({ dispatch, history }) {
       history.listen(location => {
 
-        if (location.pathname === '/payment') {
+        if (location.pathname === '/notice') {
           dispatch({
             type: 'query',
             payload: location.query,
           })
           dispatch({
-            type: 'getPurchaseList',
+            type: 'getDic',
             payload: {},
           })
         }
@@ -79,15 +85,15 @@ export default {
         }
       }
     },
-    *getPurchaseList ({ payload }, { call, put }) {
+    *getDic ({ payload }, { call, put }) {
 
      // payload = parse(location.search.substr(1))
-      const data = yield call(getPurchaseList, payload)
+      const data = yield call(getDic, payload)
 
       if (data) {
         yield put({
-          type: 'getPurchaseListSuccess',
-          payload: data.data,
+          type: 'getDicSuccess',
+          payload: treeToArray(data.data),
         })
       }
     },
@@ -120,12 +126,16 @@ export default {
       const data = yield call(queryById, {id})
 
       if (data.success) {
-        
+        let editorState=null;
+        if(data.data&&data.data.content){
+          editorState=getEditorState(data.data.content);
+        }
         yield put({ 
           type: 'showModal',
           payload:{
             ...payload,
             currentItem:data.data,
+            editorState,
             fileList:[],
           } 
         })
@@ -134,7 +144,7 @@ export default {
       }
     },
     *update ({ payload }, { select, call, put }) {
-      const id = yield select(({ payment }) => payment.currentItem.id)
+      const id = yield select(({ notice }) => notice.currentItem.id)
       const newItem = { ...payload, id }
       const data = yield call(save, newItem)
       if (data.success) {
@@ -164,8 +174,8 @@ export default {
         employeeList,
       }
     },
-    getPurchaseListSuccess(state,action){
-      return {...state,purchaseList:action.payload}
+    getDicSuccess(state,action){
+      return {...state,dicList:action.payload}
     },
     showModal (state, action) {
 
@@ -177,6 +187,9 @@ export default {
     },
     setState(state,action){
       return {...state,currentItem:action.payload}
+    },
+    setEditorState(state,action){
+      return {...state,editorState:action.payload}
     },
     setFileList(state,action){
       return {...state,fileList:action.payload}

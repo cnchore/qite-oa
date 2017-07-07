@@ -100,7 +100,9 @@ const modal = ({
       })
   }
  
- 
+  const handleChange=(value)=>{
+    item.contractAmount=value;
+  } 
   
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -173,7 +175,7 @@ const modal = ({
                 initialValue:item.contractName,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -191,7 +193,7 @@ const modal = ({
                 initialValue:item.contractCode,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -212,7 +214,7 @@ const modal = ({
                 initialValue:item.firstParty,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -230,7 +232,7 @@ const modal = ({
                 initialValue:item.secondParty,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -251,16 +253,16 @@ const modal = ({
                 initialValue:(item.contractAmount===undefined||item.contractAmount===null)?0:Number(item.contractAmount),
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
-                
+                onChange:handleChange,
               })(
                 <InputNumber
-                  step={0.01} style={{width:'120px'}}
-                  formatter={value => `¥ ${value?value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-                  parser={value => value?value.toString().replace(/\¥\s?|(,*)/g, ''):0}
+                  precision={2} style={{width:'120px'}}
+                  formatter={value =>`¥ ${value?value.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+                  parser={value => value?value.toString().replace(/¥\s?|(,*)/g, ''):0}
                   
                 />
               )}
@@ -269,6 +271,7 @@ const modal = ({
             
             <FormItem >
               大写：{changeMoneyToChinese(item.contractAmount)}
+              
             </FormItem>
             
          
@@ -284,7 +287,7 @@ const modal = ({
                 initialValue:item.signDate!==undefined && item.signDate!==null?moment(item.signDate,dateTimeFormat):null,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -302,7 +305,7 @@ const modal = ({
                 initialValue:item.effectDate!==undefined && item.effectDate!==null?moment(item.effectDate,dateTimeFormat):null,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],
@@ -324,7 +327,7 @@ const modal = ({
                 initialValue: item.remark,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],

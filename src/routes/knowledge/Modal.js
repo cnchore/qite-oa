@@ -30,13 +30,7 @@ const twoFormItemLayout = {
     span: 19,
   },
 }
-const textareaStyle = {
-  minHeight: 496,
-  width: '100%',
-  background: '#f7f7f7',
-  borderColor: '#F1F1F1',
-  padding: '16px 8px',
-}
+
 const modal = ({
   editorState,
   item = {},
@@ -51,12 +45,7 @@ const modal = ({
   changeLoading,
   orgList,
   onItemChange,
-  defaultFileList=[{
-      uid:'-1',
-      status:'done',
-      name:'安全窗大样图.jpg',
-      url:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    }],
+  defaultFileList=[],
   form: {
     getFieldDecorator,
     validateFields,
@@ -146,7 +135,7 @@ const modal = ({
                 initialValue: item.title,
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                   },
                 ],
               })(<Input />)}
@@ -171,7 +160,7 @@ const modal = ({
                 initialValue: String(item.toId===undefined?'':item.toId),
                 rules: [
                   {
-                    required: true,
+                    required: true,message:'不能为空',
                    
                   },
                 ],

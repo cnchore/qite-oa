@@ -68,7 +68,7 @@ const modal = ({
             initialValue: item.menuName,
             rules: [
               {
-                required: true,
+                required: true,message:'不能为空',
               },
             ],
           })(<Input />)}
@@ -79,7 +79,7 @@ const modal = ({
             initialValue: String(item.type || 1),
             rules: [
               {
-                required: true,
+                required: true,message:'不能为空',
                
               },
             ],

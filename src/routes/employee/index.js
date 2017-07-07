@@ -11,7 +11,7 @@ import { message } from 'antd'
 
 
 const Employee = ({ location, dispatch, employee, loading }) => {
-  const { list,orgList,orgTree,positionList,positSelList,orgKey,expand,
+  const { list,orgList,photoUrl,dicList,orgTree,positionList,positSelList,orgKey,expand,
     pagination, currentItem, modalVisible,positSelModalVisible, modalType } = employee
   const { pageSize } = pagination
 
@@ -22,6 +22,8 @@ const Employee = ({ location, dispatch, employee, loading }) => {
     orgKey,
     expand,
     modalType,
+    photoUrl,
+    dicList,
     //roleList,
     visible: modalVisible,
     maskClosable: false,
@@ -49,6 +51,13 @@ const Employee = ({ location, dispatch, employee, loading }) => {
     onSel(){
       dispatch({
         type:'employee/showPositSelModal',
+
+      })
+    },
+    setPhoto(url){
+      dispatch({
+        type:'employee/setPhoto',
+        payload:url
       })
     },
     toggle(){
@@ -178,6 +187,7 @@ const Employee = ({ location, dispatch, employee, loading }) => {
         payload: {
           modalType: 'create',
           currentItem: {},
+          photoUrl:'',
         },
       })
     },

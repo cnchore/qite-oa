@@ -29,24 +29,7 @@ const Routers = function ({ history, app }) {
               cb(null, require('./routes/dashboard/'))
             }, 'dashboard')
           },
-        /*
-        }, {
-          path: 'user',
-          getComponent (nextState, cb) {
-            require.ensure([], require => {
-              registerModel(app, require('./models/user'))
-              cb(null, require('./routes/user/'))
-            }, 'user')
-          },
-        }, {
-          path: 'user/:id',
-          getComponent (nextState, cb) {
-            require.ensure([], require => {
-              registerModel(app, require('./models/user/detail'))
-              cb(null, require('./routes/user/detail/'))
-            }, 'user-detail')
-          },
-        */
+        
         }, {
           path: '/setting/organization',
           getComponent (nextState, cb) {
@@ -375,6 +358,22 @@ const Routers = function ({ history, app }) {
               registerModel(app, require('./models/budget/detail'))
               cb(null, require('./routes/budget/detail/'))
             }, 'budget-detail')
+          },
+        }, {
+          path: '/notice',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/notice'))
+              cb(null, require('./routes/notice/'))
+            }, 'notice')
+          },
+        }, {
+          path: 'notice/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/notice/detail'))
+              cb(null, require('./routes/notice/detail/'))
+            }, 'notice-detail')
           },
         }, {
           path: 'login',

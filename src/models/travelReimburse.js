@@ -50,7 +50,7 @@ export default {
     *query ({ payload }, { call, put }) {
 
       payload = parse(location.search.substr(1))
-      const userInfo = JSON.parse(localStorage.getItem(`${prefix}userInfo`));
+      const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       if (userInfo && userInfo.data) {
         payload.userId=userInfo.data.id;
       }
