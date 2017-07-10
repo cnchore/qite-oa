@@ -1,0 +1,6 @@
+{
+  "name": "SelectUser",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SelectUser.js"
+}

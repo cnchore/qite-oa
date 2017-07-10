@@ -1,4 +1,6 @@
 import { query,queryById,save,submit,queryEmployee } from '../services/missClock'
+import { startProcess } from '../services/workFlow'
+
 import { treeToArray,config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
@@ -87,8 +89,26 @@ export default {
     },
 
     *submit ({ payload }, { call, put }) {
+      const {formItem,nextUser}=payload
+      let newData=null,data=null;
 
-      const data = yield call(submit, { id: payload.id })
+      if(formItem && !formItem.id){
+        newData=yield call(save,formItem);
+        if(newData && newData.data && nextUser && nextUser.userId){
+          data=yield call(startProcess, { 
+            busiId: newData.data.id,
+            busiCode:newData.data.code, 
+            nextTaskUserId:nextUser.userId 
+          })
+        }
+        
+      }else if(formItem && formItem.id && nextUser && nextUser.userId){
+        data= yield call(startProcess, { 
+          busiId: formItem.id,
+          busiCode:formItem.code, 
+          nextTaskUserId:nextUser.userId
+        })
+      }
       if (data.success) {
         message.success('提交成功');
         yield put({ type: 'hideModal' })

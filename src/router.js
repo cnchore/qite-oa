@@ -87,6 +87,14 @@ const Routers = function ({ history, app }) {
             }, 'setting-employee')
           },
         }, {
+          path: '/setting/flowDeploy',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/flowDeploy'))
+              cb(null, require('./routes/flowDeploy/'))
+            }, 'setting-flowDeploy')
+          },
+        }, {
           path: '/knowledge',
           getComponent (nextState, cb) {
             require.ensure([], require => {

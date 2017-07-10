@@ -94,7 +94,7 @@ const Filter = ({
         </FilterItem>
       </Col>
       
-      <Col {...TwoColProps} xl={{ span: 12 }} md={{ span: 8 }} >
+      <Col {...TwoColProps} xl={{ span: 14 }} md={{ span: 8 }} >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div >
             <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>

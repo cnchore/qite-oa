@@ -32,7 +32,8 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
         return <Tag color='#2db7f5'>审核通过</Tag>;
       case 3:
         return <Tag color='#f50'>审核不通过</Tag>;
-      
+      case -1:
+        return <Tag color='#f00'>退回修改</Tag>;
     }
   }
   const getTripMode=(value,remark=null)=>{

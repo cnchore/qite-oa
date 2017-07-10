@@ -38,10 +38,10 @@ const MissClock = ({ location, dispatch, missClock, loading }) => {
         payload:fileList
       })
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'missClock/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
   }
@@ -62,10 +62,10 @@ const MissClock = ({ location, dispatch, missClock, loading }) => {
         },
       }))
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'missClock/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
     onEditItem (item) {

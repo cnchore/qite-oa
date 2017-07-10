@@ -15,7 +15,7 @@ export default function uploadImageCallBack(file,type) {
       xhr.send(data);
       xhr.addEventListener('load', () => {
         const response = JSON.parse(xhr.responseText);
-        console.log(response)
+        //console.log(response)
         resolve({ data: { link: response.data } });
         //resolve(response);
       });

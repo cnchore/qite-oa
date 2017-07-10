@@ -222,6 +222,19 @@ module.exports = {
       getList:`${apiPrefixPro}/notice/getList`,
       save:`${apiPrefixPro}/notice/save`,
     },
-    
+    //流程处理
+    workflow:{
+      deploy:`${apiPrefixPro}/workflow/deploy`,
+      getDeployPage:`${apiPrefixPro}/workflow/getDeployPage`,
+      getPDPage:`${apiPrefixPro}/workflow/getPDPage`,
+      getDiagramByDeployId:`${apiPrefixPro}/workflow/getDiagramByDeployId`,
+      getDiagram:`${apiPrefixPro}/workflow/getDiagram`,
+      startProcess:`${apiPrefixPro}/workflow/startProcess`,
+      getMyTaskToDoPage:`${apiPrefixPro}/workflow/getMyTaskToDoPage`,
+      getMyTaskDonePage:`${apiPrefixPro}/workflow/getMyTaskDonePage`,
+      getTaskFiledPage:`${apiPrefixPro}/workflow/getTaskFiledPage`,
+      getTaskInfo:`${apiPrefixPro}/workflow/getTaskInfo`,
+      audit:`${apiPrefixPro}/workflow/audit`,
+    },
   },
 }

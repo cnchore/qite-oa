@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { Form, Input, Modal,Row,Col,DatePicker,Button,Icon,Affix } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
-import { FileUpload } from '../../components'
+import { FileUpload,SelectUser } from '../../components'
+
 import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 const confirm = Modal.confirm
@@ -43,12 +44,7 @@ const modal = ({
   submitLoading,
   onSubmit,
   employeeList,
-  defaultFileList=[{
-      uid:'-1',
-      status:'done',
-      name:'安全窗大样图.jpg',
-      url:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    }],
+  defaultFileList=[],
   form: {
     getFieldDecorator,
     validateFields,
@@ -58,13 +54,13 @@ const modal = ({
   ...modalProps
 }) => {
   const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
-
-  const handleOk = () => {
+  const getFields=()=>{
+    let data=null;
     validateFields((errors) => {
       if (errors) {
-        return
+        return null
       }
-      const data = {...getFieldsValue()}
+       data= {...getFieldsValue()}
       if(fileList && fileList.length>0){
         fileList.map((f,index)=>{
           if(f.id) data[`attachList[${index}].id`]=f.id;
@@ -81,10 +77,15 @@ const modal = ({
       data.missTimeStr=data.missTimeStr?data.missTimeStr.format(dateTimeFormat):null;
       
       if(item.id){
-        data.id=item.id
+        data.id=item.id;
+        data.code=item.code;
       }
-      onOk(data)
+      
     })
+    return data;
+  }
+  const handleOk = () => {
+    onOk(getFields())
   }
   if(item.attachList&& item.attachList[0]){
     defaultFileList=item.attachList.map((temp)=>{
@@ -94,11 +95,11 @@ const modal = ({
     defaultFileList=[];
   }
 
-  const handleSubmit=()=>{
+  const handleSubmit=(data)=>{
     confirm({
         title: `你确定提交申请么?`,
         onOk () {
-          onSubmit(item.id,'')
+          onSubmit(getFields(),data)
         },
       })
   }
@@ -113,7 +114,8 @@ const modal = ({
             <Affix target={()=>document.getElementById('layout-main')}>
          
               <div style={{backgroundColor:'#fff'}}>
-                {item.id?<Button  type="primary" onClick={handleSubmit} size="large" loading={submitLoading}>提交</Button>:null}
+                <SelectUser type="button" callBack={handleSubmit}  loading={submitLoading}>提交</SelectUser>
+                
                 <Button style={{ marginLeft: 12,marginRight: 12 }} type="primary" loading={confirmLoading} onClick={handleOk} size="large">确定</Button>
                 <Button  type="ghost" onClick={onCancel} size="large">取消</Button>
               </div>

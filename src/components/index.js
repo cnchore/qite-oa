@@ -6,6 +6,7 @@ import Editor from './Editor'
 import FilterItem from './FilterItem'
 import FileUpload from './FileUpload'
 import FileList from './FileList'
+import SelectUser from './SelectUser'
 import * as Layout from './Layout/index.js'
 
 import layer from './layer'
@@ -21,4 +22,5 @@ export {
   layer,
   FileUpload,
   FileList,
+  SelectUser,
  }

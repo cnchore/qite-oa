@@ -17,7 +17,7 @@ module.exports = [
     mpid: 2,
     bpid: 2,
     name: '我的待办',
-    router: '/work',
+    router: '/waiting',
   },
   {
     id: 22,
@@ -346,5 +346,12 @@ module.exports = [
     mpid: 6,
     name: '数据字典',
     router: '/setting/dictionary',
+  },
+  {
+    id: 68,
+    bpid: 6,
+    mpid: 6,
+    name: '流程部署',
+    router: '/setting/flowDeploy',
   },
 ]
