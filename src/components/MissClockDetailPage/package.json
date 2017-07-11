@@ -1,0 +1,6 @@
+{
+  "name": "MissClockDetailPage",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./MissClockDetailPage.js"
+}

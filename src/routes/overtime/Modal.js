@@ -46,12 +46,7 @@ const modal = ({
   submitLoading,
   onSubmit,
   employeeList,
-  defaultFileList=[{
-      uid:'-1',
-      status:'done',
-      name:'安全窗大样图.jpg',
-      url:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    }],
+  defaultFileList=[],
   form: {
     getFieldDecorator,
     validateFields,
@@ -135,7 +130,7 @@ const modal = ({
   }else if(item.realOverTimeEnd){
     initialRealOverTime[1] = moment(item.realOverTimeEnd)
   }
-  const dicRadio=dicList.map(dic=><Radio value={dic.dicValue}>{dic.dicName}</Radio>)
+  const dicRadio=dicList.map(dic=><Radio value={dic.dicValue} key={dic.id}>{dic.dicName}</Radio>)
   const handleRadioChange= (e) => {
     //console.log('radio checked', e.target.value,e.target);
     item.times=e.target.value;

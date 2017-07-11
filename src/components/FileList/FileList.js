@@ -82,10 +82,15 @@ class FileList extends React.Component {
             :<Icon type="loading" />
           }
           </Col>
-          <Col span={showRemoveIcon?16:18}>
+          <Col span={file.createTime?12:18}>
             {file.name}
             {file.status==='done'?null:<Progress type="line" {...this.props.progressAttr} percent={file.percent} />}
           </Col>
+          {
+            file.createTime?(
+            <Col span={6}>{file.createTime}</Col>
+            ):null
+          }
           <Col span={2}>
             <a
             href={file.url}
@@ -94,13 +99,7 @@ class FileList extends React.Component {
               <Icon type="download" style={{ fontSize: 18 }} />
             </a>
           </Col>
-          {
-            showRemoveIcon?(
-            <Col span={2}>
-                <Icon type="delete" style={{ fontSize: 18 }} onClick={() => handleRemove(file)}/>
-            </Col>
-            ):null
-          }
+          
         </Row>
       );
     });

@@ -20,6 +20,13 @@ module.exports = [
     router: '/waiting',
   },
   {
+    id: 211,
+    mpid: -1,
+    bpid: 21,
+    name: '详情',
+    router: '/waiting/:id',
+  },
+  {
     id: 22,
     mpid: 2,
     bpid: 2,
@@ -43,7 +50,7 @@ module.exports = [
     id: 2311,
     mpid: -1,
     bpid: 231,
-    name: '考勤异常申请详情',
+    name: '详情',
     router: '/missClock/:id',
   },
   {
@@ -57,7 +64,7 @@ module.exports = [
     id: 2321,
     mpid: -1,
     bpid: 232,
-    name: '请假申请详情',
+    name: '详情',
     router: '/leave/:id',
   },
   {
@@ -71,7 +78,7 @@ module.exports = [
     id: 2331,
     mpid: -1,
     bpid: 233,
-    name: '加班申请详情',
+    name: '详情',
     router: '/overtime/:id',
   },
   {
@@ -85,7 +92,7 @@ module.exports = [
     id: 2341,
     mpid: -1,
     bpid: 234,
-    name: '出差申请详情',
+    name: '详情',
     router: '/travel/:id',
   },
   {
@@ -99,7 +106,7 @@ module.exports = [
     id: 2351,
     mpid: -1,
     bpid: 235,
-    name: '差旅费报销申请详情',
+    name: '详情',
     router: '/travelReimburse/:id',
   },
   {
@@ -113,7 +120,7 @@ module.exports = [
     id: 2361,
     mpid: -1,
     bpid: 236,
-    name: '合同申请详情',
+    name: '详情',
     router: '/contract/:id',
   },
   {
@@ -127,7 +134,7 @@ module.exports = [
     id: 2371,
     mpid: -1,
     bpid: 237,
-    name: '用车申请详情',
+    name: '详情',
     router: '/useCar/:id',
   },
   
@@ -142,7 +149,7 @@ module.exports = [
     id: 2381,
     mpid: -1,
     bpid: 238,
-    name: '申购申请详情',
+    name: '详情',
     router: '/purchaseApply/:id',
   },
   {
@@ -156,7 +163,7 @@ module.exports = [
     id: 2391,
     mpid: -1,
     bpid: 239,
-    name: '采购申请详情',
+    name: '详情',
     router: '/purchase/:id',
   },
   {
@@ -170,7 +177,7 @@ module.exports = [
     id: 2401,
     mpid: -1,
     bpid: 240,
-    name: '付款申请详情',
+    name: '详情',
     router: '/payment/:id',
   },
   {
@@ -184,7 +191,7 @@ module.exports = [
     id: 2411,
     mpid: -1,
     bpid: 241,
-    name: '招聘申请详情',
+    name: '详情',
     router: '/recruit/:id',
   },
   {
@@ -198,7 +205,7 @@ module.exports = [
     id: 2421,
     mpid: -1,
     bpid: 242,
-    name: '离职申请详情',
+    name: '详情',
     router: '/dimission/:id',
   },
   {
@@ -212,7 +219,7 @@ module.exports = [
     id: 2431,
     mpid: -1,
     bpid: 243,
-    name: '转正申请详情',
+    name: '详情',
     router: '/regular/:id',
   },
   {
@@ -226,7 +233,7 @@ module.exports = [
     id: 2441,
     mpid: -1,
     bpid: 244,
-    name: '调薪申请详情',
+    name: '详情',
     router: '/salaryChange/:id',
   },
   {
@@ -240,7 +247,7 @@ module.exports = [
     id: 2451,
     mpid: -1,
     bpid: 245,
-    name: '费用报销申请详情',
+    name: '详情',
     router: '/reimburse/:id',
   },
   {
@@ -254,7 +261,7 @@ module.exports = [
     id: 2461,
     mpid: -1,
     bpid: 246,
-    name: '预算申请详情',
+    name: '详情',
     router: '/budget/:id',
   },
   {
@@ -268,7 +275,7 @@ module.exports = [
     id: 2471,
     mpid: -1,
     bpid: 247,
-    name: '通知发放申请详情',
+    name: '详情',
     router: '/notice/:id',
   },
   {
@@ -289,7 +296,7 @@ module.exports = [
     id: 31,
     mpid: -1,/*菜单parentId*/
     bpid: 3,
-    name: '知识库详情',
+    name: '详情',
     router: '/knowledge/:id',
   },
   {

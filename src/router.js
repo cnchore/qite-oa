@@ -384,6 +384,22 @@ const Routers = function ({ history, app }) {
             }, 'notice-detail')
           },
         }, {
+          path: '/waiting',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/waiting'))
+              cb(null, require('./routes/waiting/'))
+            }, 'waiting')
+          },
+        }, {
+          path: 'waiting/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/waiting/detail'))
+              cb(null, require('./routes/waiting/detail/'))
+            }, 'waiting-detail')
+          },
+        }, {
           path: 'login',
           getComponent (nextState, cb) {
             require.ensure([], require => {

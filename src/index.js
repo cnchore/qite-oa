@@ -15,6 +15,7 @@ const app = dva({
   onError (error) {
     message.error(error.message,5)
   },
+  
 })
 
 // 2. Model

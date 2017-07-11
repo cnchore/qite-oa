@@ -36,7 +36,7 @@ export default {
       const data = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       //yield call(query, parse(payload))
       if (data&& data.success && data.data) {
-        //console.log('userData:',data)
+        //console.log('userData:',data.message)
         yield put({
           type: 'querySuccess',
           payload: data.data,

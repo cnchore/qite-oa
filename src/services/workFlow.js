@@ -3,7 +3,13 @@ const { api,baseURL } = config
 const { workflow,employee,dictionary } = api
 
 //startProcess,getMyTaskToDoPage,getMyTaskDonePage,getTaskFiledPage,getTaskInfo,audit,
-
+export async function getDic (params) {
+  return request({
+    url: dictionary.getList,
+    method: 'get',
+    data: params,
+  })
+}
 export async function startProcess(params){
   return request({
     url:workflow.startProcess,
