@@ -1,0 +1,6 @@
+{
+  "name": "SalaryChangeDetailPage",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SalaryChangeDetailPage.js"
+}

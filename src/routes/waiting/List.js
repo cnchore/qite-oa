@@ -42,8 +42,10 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
       case -1:
         switch(record.busiCode.substr(0,2)){
           case 'MC':
-
             return <Link to={`/missClock?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>退回修改</Link>;
+          case 'SC':
+            return <Link to={`/salaryChange?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>退回修改</Link>;
+          
           default :
             return null;
         }
@@ -60,7 +62,7 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
       title: '申请单号',
       dataIndex: 'busiCode',
       key: 'busiCode',
-      render: (text, record) => <Link to={`waiting/${record.taskId}`}>{text}</Link>,
+      render: (text, record) => <Link to={`/waiting/${record.taskId}?procDefId=${record.procDefId}&procInstId=${record.procInstId}`}>{text}</Link>,
     }, {
       title: '流程名称',
       dataIndex: 'flowName',

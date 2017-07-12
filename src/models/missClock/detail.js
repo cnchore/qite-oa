@@ -1,6 +1,7 @@
 import pathToRegexp from 'path-to-regexp'
 import { queryById,queryEmployee } from '../../services/missClock'
 //import { treeToArray } from '../../utils'
+import { getDiagramByBusiness,getCommentListBybusiness } from '../../services/workFlow'
 
 export default {
 
@@ -9,6 +10,7 @@ export default {
   state: {
     data: {},
     employeeList:[],
+    commentList:[],
   },
 
   subscriptions: {
@@ -24,10 +26,14 @@ export default {
   },
 
   effects: {
+    
     *query ({payload,}, { call, put }) {
       const data = yield call(queryById, payload)
       const { success, message, status, ...other } = data
       if (success) {
+        const commentData=yield call(getCommentListBybusiness,{busiCode:other.data.code,busiId:other.data.id})
+        let flowImgSrc=null;
+        if(other.data.state!==0)flowImgSrc=yield call(getDiagramByBusiness,{busiCode:other.data.code,busiId:other.data.id})
           yield put({
             type:'queryEmployee',
             payload:other.data.userId
@@ -35,13 +41,16 @@ export default {
           yield put({
             type: 'querySuccess',
             payload: {
-              data: other.data
+              data: {...other.data,flowImgSrc},
+              commentList:commentData&&commentData.success?commentData.data:null,
             },
           })
+        
         
       } else {
         throw data
       }
+       
     },
     *queryEmployee({payload},{call,put}){
         const userInfo=yield call(queryEmployee,{userId:payload})//other.data.userId
@@ -64,7 +73,7 @@ export default {
       
       return {
         ...state,
-        data:payload.data,
+        ...payload,
       }
     },
      queryEmployeeSuccess (state, { payload }) {

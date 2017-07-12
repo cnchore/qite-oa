@@ -40,6 +40,7 @@ class MissClockDetailPage extends React.Component {
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>{data.remark}</Col>
         
         </Row>
+        {defaultFileList && defaultFileList[0]?
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} className='qite-list-title'>
             <Icon type="paper-clip" />附件信息
@@ -48,6 +49,8 @@ class MissClockDetailPage extends React.Component {
             <FileList fileList={defaultFileList} showRemoveIcon={false}/>
           </Col>
         </Row>
+        :null
+        }
       </div>
     )
   }

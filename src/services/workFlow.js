@@ -3,6 +3,10 @@ const { api,baseURL } = config
 const { workflow,employee,dictionary } = api
 
 //startProcess,getMyTaskToDoPage,getMyTaskDonePage,getTaskFiledPage,getTaskInfo,audit,
+//getDiagramByBusiness,getCommentListBybusiness
+export function getDiagram (params) {
+  return `${baseURL}${workflow.getDiagram}?procDefId=${params.procDefId}&procInstId=${params.procInstId}`;
+}
 export async function getDic (params) {
   return request({
     url: dictionary.getList,
@@ -53,4 +57,14 @@ export async function audit(params){
   })
 }
 
+export function getDiagramByBusiness (params) {
+  return `${baseURL}${workflow.getDiagramByBusiness}?busiId=${params.busiId}&busiCode=${params.busiCode}`;
+}
+export async function getCommentListBybusiness(params){
+  return request({
+    url:workflow.getCommentListBybusiness,
+    method:'get',
+    data:params,
+  })
+}
 

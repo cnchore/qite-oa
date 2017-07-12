@@ -4,6 +4,7 @@ import { Form, Input,Radio, Modal,Row,Col,DatePicker,Button,Icon,Affix } from 'a
 import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
+import CommentTable from '../../components/CommentTable'
 
 import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
@@ -247,6 +248,11 @@ const modal = ({
           </Col>
           
         </Row>
+        {
+          taskData&&taskData.commentList?
+            <CommentTable data={taskData.commentList} />
+          :null
+        }
         {taskData && taskData.taskId?
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} className='qite-list-title'>

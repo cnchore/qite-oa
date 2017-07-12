@@ -5,6 +5,9 @@ import moment from 'moment';
 import config from '../../utils/config'
 import { SelectUser } from '../../components'
 import MissClockDetailPage from '../../components/MissClockDetailPage'
+import SalaryChangeDetailPage from '../../components/SalaryChangeDetailPage'
+
+import CommentTable from '../../components/CommentTable'
 
 import styles from './Modal.less'
 
@@ -61,12 +64,17 @@ const modal = ({
     return data;
   }
   const handleSubmit=(data)=>{
-    
-    onOk({...getFields(),auditUserId:data.userId})
+    const fields=getFields();
+    if(fields && fields.taskId){
+      onOk({...fields,auditUserId:data.userId})
+    }
        
   }
   const handleOK=()=>{
-    onOk({...getFields()});
+    const fields=getFields();
+    if(fields && fields.taskId){
+      onOk(fields)
+    }
   }
   let actionRadio=[],isNeedSel=false;
   if(taskData.actionMap && taskData.actionMap[0]){
@@ -74,6 +82,17 @@ const modal = ({
         if(act==='1'){isNeedSel=true}
      return <Radio value={act} key={act}>{ taskData.actionMap[act]}</Radio>
     })
+  }
+  let detailpage=null;
+  if(taskData && taskData.busiData && taskData.userVo && taskData.userVo.employeeVo){
+    switch(taskData.busiCode.substr(0,2)){
+      case 'MC':
+        detailpage=<MissClockDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break
+      case 'SC':
+        detailpage=<SalaryChangeDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break
+    }
   }
   return (
       <Form layout='horizontal'>
@@ -95,7 +114,13 @@ const modal = ({
 
           </Col>
         </Row>
-        <MissClockDetailPage data={taskData.busiData} employeeList={employeeList} />
+
+        {detailpage}
+        {
+          taskData && taskData.commentList?
+            <CommentTable data={taskData.commentList} />
+          :null
+        }
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} className='qite-list-title'>
             <Icon type="edit" />流程办理

@@ -1,7 +1,7 @@
 import pathToRegexp from 'path-to-regexp'
 import { queryEmployee } from '../../services/missClock'
 //import { treeToArray } from '../../utils'
-import { getTaskInfo } from '../../services/workFlow'
+import { getTaskInfo,getDiagram } from '../../services/workFlow'
 
 export default {
 
@@ -14,10 +14,12 @@ export default {
 
   subscriptions: {
     setup ({ dispatch, history }) {
-      history.listen(() => {
+      history.listen((location) => {
         const match = pathToRegexp('/waiting/:id').exec(location.pathname)
         if (match) {
-          dispatch({ type: 'query', payload: { taskId: match[1] } })
+          //console.log('query:',location.query,match[1])
+
+          dispatch({ type: 'query', payload: {...location.query,taskId: match[1]} })
           
         }
       })
@@ -27,12 +29,11 @@ export default {
   effects: {
     *query ({payload,}, { call, put }) {
       const data = yield call(getTaskInfo, payload)
-      const { success, message, status, ...other } = data
+      let { success, message, status, ...other } = data
+      const flowImgSrc=yield call(getDiagram,payload)
       if (success) {
-          yield put({
-            type:'queryEmployee',
-            payload:other.data.busiData.userId
-          })
+        other.data.flowImgSrc=flowImgSrc;
+          
           yield put({
             type: 'querySuccess',
             payload: {

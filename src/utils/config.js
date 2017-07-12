@@ -235,6 +235,8 @@ module.exports = {
       getTaskFiledPage:`${apiPrefixPro}/workflow/getTaskFiledPage`,
       getTaskInfo:`${apiPrefixPro}/workflow/getTaskInfo`,
       audit:`${apiPrefixPro}/workflow/audit`,
+      getDiagramByBusiness:`${apiPrefixPro}/workflow/getDiagramByBusiness`,
+      getCommentListBybusiness:`${apiPrefixPro}/workflow/getCommentListBybusiness`,
     },
   },
 }

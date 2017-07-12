@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const SalaryChange = ({ location, dispatch, salaryChange, loading }) => {
-  const { list,fileList,dicList,employeeList, pagination, currentItem, modalVisible, modalType } = salaryChange
+  const { list,fileList,dicList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = salaryChange
   const { pageSize } = pagination
 
   const modalProps = {
@@ -16,10 +16,12 @@ const SalaryChange = ({ location, dispatch, salaryChange, loading }) => {
     fileList,
     employeeList,
     dicList,
+    taskData,
     maskClosable: false,
     submitLoading:loading.effects['salaryChange/submit'],
     confirmLoading: loading.effects[`salaryChange/${modalType}`],
-    title: `${modalType === 'create' ? '新增调薪申请' : '编辑调薪申请'}`,
+    auditLoading:loading.effects['salaryChange/audit'],
+    title: `${modalType === 'create' ? '新增－调薪申请' : modalType==='update'?'编辑－调薪申请':'退回修改－调薪申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -39,11 +41,23 @@ const SalaryChange = ({ location, dispatch, salaryChange, loading }) => {
         payload:fileList
       })
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'salaryChange/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
+    },
+    onAudit(formItem,taskItem){
+      dispatch({
+        type: 'salaryChange/audit',
+        payload: {formItem,taskItem},
+      })
+    },
+    onGoback(){
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname:query.from,
+      }))
     },
   }
 
@@ -64,10 +78,10 @@ const SalaryChange = ({ location, dispatch, salaryChange, loading }) => {
         },
       }))
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'salaryChange/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
     onEditItem (item) {
@@ -103,6 +117,7 @@ const SalaryChange = ({ location, dispatch, salaryChange, loading }) => {
         payload: {
           modalType: 'create',
           fileList:[],
+          taskData:{},
         },
       })
     },

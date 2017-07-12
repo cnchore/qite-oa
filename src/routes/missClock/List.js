@@ -60,7 +60,6 @@ const List = ({ onSubmit, onEditItem, location, ...tableProps }) => {
       fixed:'right',
       width: 100,
       render: (text, record) => {
-        //  return  (<Button size="small" icon="edit" type="ghost" onClick={e=>onEditItem(record)} >编辑</Button>)
         return record.state===0 || record.state===-1?(<span>
           <a onClick={e=>onEditItem(record)}>编辑</a>
           <SelectUser callBack={e=>handleSubmit(record,e)} />
