@@ -8,7 +8,7 @@ import { Link } from 'dva/router'
 
 const confirm = Modal.confirm
 
-const List = ({ onEditItem, location, ...tableProps }) => {
+const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
   
   const getRecordState=(text)=>{
     //状态：0新建  1审核中 2审核通过 3审核不通过 -1退回修改
@@ -26,7 +26,13 @@ const List = ({ onEditItem, location, ...tableProps }) => {
       
     }
   }
+  
   const getAction=(record)=>{
+    let query={
+      taskId:record.taskId,
+      busiId:record.busiId,
+      from:location.pathname
+    }
     switch(record.state){
       case 0:
       case 1:
@@ -36,7 +42,8 @@ const List = ({ onEditItem, location, ...tableProps }) => {
       case -1:
         switch(record.busiCode.substr(0,2)){
           case 'MC':
-            return <Link to={`missClock?taskId=${record.taskId}&busiId=${record.busiId}`}>退回修改</Link>;
+
+            return <Link to={`/missClock?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>退回修改</Link>;
           default :
             return null;
         }

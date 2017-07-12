@@ -57,6 +57,9 @@ const Waiting = ({ location, dispatch, waiting, loading }) => {
         payload: item,
       })
     },
+    goBackEidt(url,querylist){
+      dispatch(routerRedux.push({pathname:url,query:querylist}))
+    },
   }
 
   const filterProps = {

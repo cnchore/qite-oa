@@ -1,5 +1,5 @@
 import { query,queryById,save,submit,queryEmployee } from '../services/missClock'
-import { startProcess } from '../services/workFlow'
+import { startProcess,getTaskInfo,audit } from '../services/workFlow'
 
 import { treeToArray,config } from '../utils'
 import { parse } from 'qs'
@@ -17,6 +17,7 @@ export default {
     modalType: 'create',
     fileList:[],
     employeeList:[],
+    taskData:{},
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -29,13 +30,23 @@ export default {
   subscriptions: {
     setup ({ dispatch, history }) {
       history.listen(location => {
-
+        //console.log('query:',location)
         if (location.pathname === '/missClock') {
-          dispatch({
-            type: 'query',
-            payload: location.query,
-          })
+          let query=location.query;
           
+          if(query && query.taskId && query.busiId && query.from){
+           // console.log('toBackEdit:',query)
+            dispatch({
+              type: 'toBackEdit',
+              payload: query,
+            })
+          }else{
+            //console.log('toquery:',query)
+            dispatch({
+              type: 'query',
+              payload: query,
+            })
+          }
         }
       })
     },
@@ -117,7 +128,54 @@ export default {
         throw data
       }
     },
-    
+    *audit ({ payload }, { call, put }) {
+      const {formItem,taskItem}=payload
+      let newData=null,data=null;
+
+      if(formItem && formItem.id){
+        newData=yield call(save,formItem);
+        if(newData && newData.success){
+          data=yield call(audit,taskItem)
+          if(data.success) {
+            message.success('[退回修改]成功');
+            //yield put({ type: 'hideModal' })
+
+            window.location = `${location.origin}/waiting`
+            
+          } else {
+            throw data
+          }
+        }else{
+          throw newData
+        }
+      }
+      
+    },
+    *toBackEdit({payload},{call,put}){
+      const mcData=yield call(queryById,{id:payload.busiId})
+      const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
+
+      if(mcData.success&& userInfo.data){
+        let taskData=yield call(getTaskInfo,{taskId:payload.taskId})
+        if(taskData.success){
+          taskData.data.taskId=payload.taskId;
+          yield put({
+            type:'showModal',
+            payload:{
+              currentItem:mcData.data,
+              fileList:[],
+              taskData:taskData.data,
+              employeeList:userInfo.data.employeeVo,
+              modalType:'toBackEdit',
+            }
+          })
+        }else{
+          throw taskData
+        }
+      }else{
+        throw mcData
+      }
+    },
     *editItem ({ payload }, { call, put }) {
       const id=payload.currentItem.id;
       const data = yield call(queryById, {id})
@@ -130,6 +188,7 @@ export default {
             ...payload,
             currentItem:data.data,
             fileList:[],
+            taskData:{},
           } 
         })
       } else {

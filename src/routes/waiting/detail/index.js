@@ -8,7 +8,7 @@ import MissClockDetailPage from '../../../components/MissClockDetailPage'
 const Detail = ({ waitingDetail }) => {
   const { data,employeeList } = waitingDetail
   
-  console.log(data,employeeList)
+  //console.log(data,employeeList)
   return (
     <div className="content-inner">
        { data && data.busiData?

@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const MissClock = ({ location, dispatch, missClock, loading }) => {
-  const { list,fileList,employeeList, pagination, currentItem, modalVisible, modalType } = missClock
+  const { list,fileList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = missClock
   const { pageSize } = pagination
 
   const modalProps = {
@@ -15,10 +15,12 @@ const MissClock = ({ location, dispatch, missClock, loading }) => {
     visible: modalVisible,
     fileList,
     employeeList,
+    taskData,
     maskClosable: false,
     submitLoading:loading.effects['missClock/submit'],
     confirmLoading: loading.effects[`missClock/${modalType}`],
-    title: `${modalType === 'create' ? '新增考勤异常申请' : '编辑考勤异常申请'}`,
+    auditLoading:loading.effects['missClock/audit'],
+    title: `${modalType === 'create' ? '新增－考勤异常申请' : modalType==='update'?'编辑－考勤异常申请':'退回修改－考勤异常申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -43,6 +45,18 @@ const MissClock = ({ location, dispatch, missClock, loading }) => {
         type: 'missClock/submit',
         payload: {formItem,nextUser},
       })
+    },
+    onAudit(formItem,taskItem){
+      dispatch({
+        type: 'missClock/audit',
+        payload: {formItem,taskItem},
+      })
+    },
+    onGoback(){
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname:query.from,
+      }))
     },
   }
 
@@ -74,6 +88,7 @@ const MissClock = ({ location, dispatch, missClock, loading }) => {
         payload: {
           modalType: 'update',
           currentItem: item,
+
         },
       })
     },
@@ -101,6 +116,7 @@ const MissClock = ({ location, dispatch, missClock, loading }) => {
         payload: {
           modalType: 'create',
           fileList:[],
+          taskData:{},
         },
       })
     },
