@@ -1,10 +1,6 @@
 let apiPrefix='/qite/sys',apiPrefixDev='/api/v1',apiPrefixPro='/qite/busi';
-
 let baseURL=process.env.NODE_ENV === 'production'?'http://192.168.0.142:9000':'http://192.168.0.142:8000';
-
 //http://test.aylsonclub.com/qite/sys
-
-
 module.exports = {
   name: 'Qite OA',
   prefix: 'qiteOa',

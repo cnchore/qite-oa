@@ -1,0 +1,6 @@
+{
+  "name": "LeaveDetailPage",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./LeaveDetailPage.js"
+}

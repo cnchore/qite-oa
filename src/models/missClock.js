@@ -1,6 +1,5 @@
 import { query,queryById,save,submit,queryEmployee } from '../services/missClock'
 import { startProcess,getTaskInfo,audit } from '../services/workFlow'
-
 import { treeToArray,config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
@@ -30,18 +29,15 @@ export default {
   subscriptions: {
     setup ({ dispatch, history }) {
       history.listen(location => {
-        //console.log('query:',location)
         if (location.pathname === '/missClock') {
           let query=location.query;
           
           if(query && query.taskId && query.busiId && query.from){
-           // console.log('toBackEdit:',query)
             dispatch({
               type: 'toBackEdit',
               payload: query,
             })
           }else{
-            //console.log('toquery:',query)
             dispatch({
               type: 'query',
               payload: query,

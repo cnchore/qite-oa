@@ -5,7 +5,6 @@ import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
 import CommentTable from '../../components/CommentTable'
-
 import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 const confirm = Modal.confirm
@@ -18,21 +17,12 @@ const formItemLayout = {
     span: 12,
   },
 }
-
 const twoFormItemLayout = {
   labelCol: { 
     xs: { span: 12 },
     md: { span: 4 }, 
     xl: { span: 3},
   },
-  
-}
-const textareaStyle = {
-  minHeight: 496,
-  width: '100%',
-  background: '#f7f7f7',
-  borderColor: '#F1F1F1',
-  padding: '16px 8px',
 }
 const modal = ({
   item = {},
@@ -63,7 +53,7 @@ const modal = ({
     let data=null;
     validateFields((errors) => {
       if (errors) {
-        return null
+        return null;
       }
        data= {...getFieldsValue()}
       if(fileList && fileList.length>0){
@@ -80,12 +70,10 @@ const modal = ({
         })
       }
       data.missTimeStr=data.missTimeStr?data.missTimeStr.format(dateTimeFormat):null;
-      
       if(item.id){
         data.id=item.id;
         data.code=item.code;
       }
-      
     })
     return data;
   }
@@ -102,7 +90,6 @@ const modal = ({
   }else{
     defaultFileList=[];
   }
-
   const handleSubmit=(data)=>{
     confirm({
         title: `你确定提交申请么?`,
@@ -114,7 +101,6 @@ const modal = ({
         },
       })
   }
-
   const handleAudit=()=>{
     let taskItem={},formItem=getFields();
     if(formItem){
@@ -130,10 +116,6 @@ const modal = ({
         },
       })
     }
-  }
-  const toBack=()=>{
-
-    window.location=`${location.origin}${location.query?location.query.from:location.pathname}`
   }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
   return (
@@ -254,31 +236,22 @@ const modal = ({
           :null
         }
         {taskData && taskData.taskId?
-        <Row gutter={24} className={styles['q-detail']}>
-          <Col span={24} className='qite-list-title'>
-            <Icon type="edit" />流程办理
-          </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
-            操&nbsp;&nbsp;&nbsp;&nbsp;作：
-          </Col>
-          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            <FormItem >
-              {getFieldDecorator('action', {
-                initialValue:null,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-                
-              })(<RadioGroup>{actionRadio}</RadioGroup>)}
-              
-            </FormItem>
-            
-          </Col>
-         
-        </Row>
+          <Row gutter={24} className={styles['q-detail']}>
+            <Col span={24} className='qite-list-title'>
+              <Icon type="edit" />流程办理
+            </Col>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+              操&nbsp;&nbsp;&nbsp;&nbsp;作：
+            </Col>
+            <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+              <FormItem >
+                {getFieldDecorator('action', {
+                  initialValue:null,
+                  rules: [{required: true,message:'不能为空',},],
+                })(<RadioGroup>{actionRadio}</RadioGroup>)}
+              </FormItem>
+            </Col>
+          </Row>
         :null}
       </Form>
   )

@@ -5,11 +5,12 @@ import styles from './index.less'
 import { Row,Col,Icon} from 'antd'
 import MissClockDetailPage from '../../../components/MissClockDetailPage'
 import SalaryChangeDetailPage from '../../../components/SalaryChangeDetailPage'
+import LeaveDetailPage from '../../../components/LeaveDetailPage'
 import FlowImg from '../../../components/FlowImg'
 import CommentTable from '../../../components/CommentTable'
 
 const Detail = ({ waitingDetail }) => {
-  const { data,employeeList } = waitingDetail
+  const { data,employeeList,dicList } = waitingDetail
   let detailpage=null;
   if(data && data.busiData && data.userVo && data.userVo.employeeVo){
     switch(data.busiCode.substr(0,2)){
@@ -18,6 +19,9 @@ const Detail = ({ waitingDetail }) => {
         break
       case 'SC':
         detailpage=<SalaryChangeDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break
+      case 'LE':
+        detailpage=<LeaveDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList}/>
         break
     }
   }

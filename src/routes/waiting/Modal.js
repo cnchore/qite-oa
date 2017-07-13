@@ -6,13 +6,10 @@ import config from '../../utils/config'
 import { SelectUser } from '../../components'
 import MissClockDetailPage from '../../components/MissClockDetailPage'
 import SalaryChangeDetailPage from '../../components/SalaryChangeDetailPage'
-
+import LeaveDetailPage from '../../components/LeaveDetailPage'
 import CommentTable from '../../components/CommentTable'
-
 import styles from './Modal.less'
-
 const confirm = Modal.confirm
-
 const FormItem = Form.Item
 const RadioGroup = Radio.Group;
 const formItemLayout = {
@@ -21,14 +18,12 @@ const formItemLayout = {
     span: 12,
   },
 }
-
 const twoFormItemLayout = {
   labelCol: { 
     xs: { span: 12 },
     md: { span: 4 }, 
     xl: { span: 3},
   },
-  
 }
 
 const modal = ({
@@ -37,6 +32,7 @@ const modal = ({
   onCancel,
   confirmLoading,
   employeeList,
+  dicList,
   taskData={},
   form: {
     getFieldDecorator,
@@ -54,12 +50,9 @@ const modal = ({
         return {}
       }
       data= {...getFieldsValue()}
-
       data.taskId=taskData.taskId;
       data.busiCode=taskData.busiCode;
       data.busiId=taskData.busiId;
-      
-      
     })
     return data;
   }
@@ -68,7 +61,6 @@ const modal = ({
     if(fields && fields.taskId){
       onOk({...fields,auditUserId:data.userId})
     }
-       
   }
   const handleOK=()=>{
     const fields=getFields();
@@ -92,6 +84,9 @@ const modal = ({
       case 'SC':
         detailpage=<SalaryChangeDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
         break
+      case 'LE':
+        detailpage=<LeaveDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList?taskData.dicList:[]}/>
+        break
     }
   }
   return (
@@ -99,9 +94,7 @@ const modal = ({
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} style={{display:'flex',justifyContent:'space-between',marginBottom:'24px',paddingBottom:'12px',borderBottom:'1px solid #d9d9d9'}}>
             <div className='qite-title'><Icon type="schedule" />{title}</div>
-            
             <Affix target={()=>document.getElementById('layout-main')}>
-         
               <div style={{backgroundColor:'#fff'}}>
                 { isNeedSel?
                 <SelectUser type="button" callBack={handleSubmit}  loading={confirmLoading}/>
@@ -111,13 +104,12 @@ const modal = ({
                 <Button style={{ marginLeft: 12 }}  type="ghost" onClick={onCancel} size="large">取消</Button>
               </div>
             </Affix>
-
           </Col>
         </Row>
 
         {detailpage}
         {
-          taskData && taskData.commentList?
+          taskData && taskData.commentList && taskData.commentList[0]?
             <CommentTable data={taskData.commentList} />
           :null
         }
@@ -132,19 +124,10 @@ const modal = ({
             <FormItem >
               {getFieldDecorator('action', {
                 initialValue:null,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-                
+                rules: [ { required: true,message:'不能为空',},],
               })(<RadioGroup>{actionRadio}</RadioGroup>)}
-              
             </FormItem>
-            
           </Col>
-         
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
           
@@ -155,28 +138,17 @@ const modal = ({
             <FormItem >
               {getFieldDecorator('approvalOpinion', {
                 initialValue:'',
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-                
+                rules: [{required: true,message:'不能为空',},],
               })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
-              
             </FormItem>
-            
           </Col>
-         
         </Row>
       </Form>
   )
 }
-
 modal.propTypes = {
   form: PropTypes.object.isRequired,
   item: PropTypes.object,
   onOk: PropTypes.func,
 }
-
 export default Form.create()(modal)

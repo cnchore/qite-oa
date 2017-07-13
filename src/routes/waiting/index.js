@@ -18,7 +18,6 @@ const Waiting = ({ location, dispatch, waiting, loading }) => {
     confirmLoading: loading.effects['waiting/submit'],
     title: '流程办理',
     wrapClassName: 'vertical-center-modal',
-    
     onCancel () {
       dispatch({
         type: 'waiting/hideModal',
@@ -38,7 +37,6 @@ const Waiting = ({ location, dispatch, waiting, loading }) => {
     loading: loading.effects['waiting/query'],
     pagination,
     location,
-   
     onChange (page) {
       const { query, pathname } = location
       dispatch(routerRedux.push({
@@ -50,7 +48,6 @@ const Waiting = ({ location, dispatch, waiting, loading }) => {
         },
       }))
     },
-    
     onEditItem (item) {
       dispatch({
         type: 'waiting/editItem',
@@ -77,7 +74,6 @@ const Waiting = ({ location, dispatch, waiting, loading }) => {
         },
       }))
     },
-    
   }
 
   return (

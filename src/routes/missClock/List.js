@@ -10,14 +10,12 @@ const confirm = Modal.confirm
 
 const List = ({ onSubmit, onEditItem, location, ...tableProps }) => {
   const handleSubmit = (record,e) => {
-    
       confirm({
         title: `你确定提交申请么?`,
         onOk () {
           onSubmit(record,e)
         },
       })
-    
   }
   const getRecordState=(text)=>{
     //状态：0新建  1审核中 2审核通过 3审核不通过 -1退回修改
@@ -40,7 +38,7 @@ const List = ({ onSubmit, onEditItem, location, ...tableProps }) => {
       title: '申请单号',
       dataIndex: 'code',
       key: 'code',width:220,
-      render: (text, record) => <Link to={`missClock/${record.id}`}>{text}</Link>,
+      render: (text, record) => <Link to={`/missClock/${record.id}`}>{text}</Link>,
     }, {
       title: '创建时间',
       dataIndex: 'createTime',width:170,
@@ -67,8 +65,6 @@ const List = ({ onSubmit, onEditItem, location, ...tableProps }) => {
       },
     },
   ]
-
-
   return (
     <div>
       <Table
@@ -83,11 +79,9 @@ const List = ({ onSubmit, onEditItem, location, ...tableProps }) => {
     </div>
   )
 }
-
 List.propTypes = {
   onSubmit: PropTypes.func,
   onItemChange: PropTypes.func,
   location: PropTypes.object,
 }
-
 export default List

@@ -86,10 +86,22 @@ export default {
       if (response.success && response.data && response.data.busiData) {
         const employeeRes=yield call(queryEmployee,{userId:response.data.busiData.userId})
         if(employeeRes && employeeRes.success){
+          let dicType=null,dicRes=null;  
+          switch(response.data.busiCode.substr(0,2)){
+            case 'LE':
+                dicType='leaveType_item'
+              break;
+          }
+          if(dicType){
+           dicRes= yield put({
+              type: 'getDic',
+              payload: {dicType},
+            })
+          }
           yield put({ 
             type: 'showModal',
             payload:{
-              taskData:{...response.data,taskId:payload.taskId},
+              taskData:{...response.data,taskId:payload.taskId,dicList:dicRes&&dicRes.success?dicRes.data:[]},
               employeeList:employeeRes.data.rowsObject,
             }
           })

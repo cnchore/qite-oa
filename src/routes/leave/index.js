@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Leave = ({ location, dispatch, leave, loading }) => {
-  const { list,fileList,dicList,employeeList, pagination, currentItem, modalVisible, modalType } = leave
+  const { list,fileList,dicList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = leave
   const { pageSize } = pagination
 
   const modalProps = {
@@ -16,10 +16,12 @@ const Leave = ({ location, dispatch, leave, loading }) => {
     fileList,
     employeeList,
     dicList,
+    taskData,
     maskClosable: false,
     submitLoading:loading.effects['leave/submit'],
     confirmLoading: loading.effects[`leave/${modalType}`],
-    title: `${modalType === 'create' ? '新增请假申请' : '编辑请假申请'}`,
+    auditLoading:loading.effects['leave/audit'],
+    title: `${modalType === 'create' ? '新增－请假申请' : modalType==='update'?'编辑－请假申请':'退回修改－请假申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -39,11 +41,23 @@ const Leave = ({ location, dispatch, leave, loading }) => {
         payload:fileList
       })
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'leave/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
+    },
+    onAudit(formItem,taskItem){
+      dispatch({
+        type: 'leave/audit',
+        payload: {formItem,taskItem},
+      })
+    },
+    onGoback(){
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname:query.from,
+      }))
     },
   }
 
@@ -64,10 +78,10 @@ const Leave = ({ location, dispatch, leave, loading }) => {
         },
       }))
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'leave/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
     onEditItem (item) {
@@ -103,10 +117,11 @@ const Leave = ({ location, dispatch, leave, loading }) => {
         payload: {
           modalType: 'create',
           fileList:[],
+          taskData:{},
         },
       })
     },
-   
+    
   }
 
   return (
@@ -115,7 +130,7 @@ const Leave = ({ location, dispatch, leave, loading }) => {
       {!modalVisible &&<List {...listProps} />}
       {modalVisible && <Modal {...modalProps} />}
     </div>
-  )
+    )
 }
 
 Leave.propTypes = {

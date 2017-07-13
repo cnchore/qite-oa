@@ -34,10 +34,10 @@ export default {
         const commentData=yield call(getCommentListBybusiness,{busiCode:other.data.code,busiId:other.data.id})
         let flowImgSrc=null;
         if(other.data.state!==0)flowImgSrc=yield call(getDiagramByBusiness,{busiCode:other.data.code,busiId:other.data.id})
-        yield put({
-          type:'queryEmployee',
-          payload:other.data.userId
-        })
+          yield put({
+            type:'queryEmployee',
+            payload:other.data.userId
+          })
         yield put({
           type: 'querySuccess',
           payload: {
@@ -50,21 +50,21 @@ export default {
       } else {
         throw data
       }
-       
+      
     },
     *getDic ({ payload }, { call, put }) {
 
      // payload = parse(location.search.substr(1))
-      const data = yield call(getDic, payload)
+     const data = yield call(getDic, payload)
 
-      if (data) {
-        yield put({
-          type: 'getDicSuccess',
-          payload: data.data,
-        })
-      }
-    },
-    *queryEmployee({payload},{call,put}){
+     if (data) {
+      yield put({
+        type: 'getDicSuccess',
+        payload: data.data,
+      })
+    }
+  },
+  *queryEmployee({payload},{call,put}){
         const userInfo=yield call(queryEmployee,{userId:payload})//other.data.userId
         if(userInfo&&userInfo.success){
           //console.log(userInfo.data.rowsObject[0])
@@ -77,26 +77,26 @@ export default {
         }else{
           throw userInfo
         }
-    }
-  },
+      }
+    },
 
-  reducers: {
-    querySuccess (state, { payload }) {
-      
-      return {
-        ...state,
-        ...payload,
-      }
+    reducers: {
+      querySuccess (state, { payload }) {
+        
+        return {
+          ...state,
+          ...payload,
+        }
+      },
+      getDicSuccess(state,action){
+        return {...state,dicList:action.payload}
+      },
+      queryEmployeeSuccess (state, { payload }) {
+        
+        return {
+          ...state,
+          employeeList:payload.employeeList[0],
+        }
+      },
     },
-    getDicSuccess(state,action){
-      return {...state,dicList:action.payload}
-    },
-    queryEmployeeSuccess (state, { payload }) {
-      
-      return {
-        ...state,
-        employeeList:payload.employeeList[0],
-      }
-    },
-  },
-}
+  }
