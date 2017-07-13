@@ -137,8 +137,7 @@ const modal = ({
                     <SelectUser type="button" callBack={handleSubmit}  loading={submitLoading}>提交</SelectUser>
                     <Button style={{ marginLeft: 12,marginRight: 12 }} type="primary" loading={confirmLoading} onClick={handleOk} size="large">确定</Button>
                     <Button  type="ghost" onClick={onCancel} size="large">取消</Button>
-                  </div>
-                  )
+                  </div>)
                 }
             </Affix>
 

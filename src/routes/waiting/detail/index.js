@@ -6,6 +6,11 @@ import { Row,Col,Icon} from 'antd'
 import MissClockDetailPage from '../../../components/MissClockDetailPage'
 import SalaryChangeDetailPage from '../../../components/SalaryChangeDetailPage'
 import LeaveDetailPage from '../../../components/LeaveDetailPage'
+import OverTimeDetailPage from '../../../components/OverTimeDetailPage'
+import TravelDetailPage from '../../../components/TravelDetailPage'
+import DimissionDetailPage from '../../../components/DimissionDetailPage'
+import RegularDetailPage from '../../../components/RegularDetailPage'
+import TravelReimburseDetailPage from '../../../components/TravelReimburseDetailPage'
 import FlowImg from '../../../components/FlowImg'
 import CommentTable from '../../../components/CommentTable'
 
@@ -22,6 +27,21 @@ const Detail = ({ waitingDetail }) => {
         break
       case 'LE':
         detailpage=<LeaveDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList}/>
+        break
+      case 'OT':
+        detailpage=<OverTimeDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList}/>
+        break
+      case 'TL':
+        detailpage=<TravelDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList}/>
+        break
+      case 'DN':
+        detailpage=<DimissionDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break
+      case 'RR':
+        detailpage=<RegularDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break
+      case 'TR':
+        detailpage=<TravelReimburseDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList} />
         break
     }
   }

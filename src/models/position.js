@@ -12,6 +12,7 @@ export default {
     orgList:[],
     orgTree:[],
     dicList:[],
+    postLevelList:[],
     orgKey:null,
     currentItem: {},
     modalVisible: false,
@@ -41,6 +42,10 @@ export default {
           dispatch({
             type: 'getDic',
             payload: {dicType:'positionType_item'},
+          })
+          dispatch({
+            type: 'getPostLevel',
+            payload: {dicType:'postLevel_item'},
           })
         }
       })
@@ -84,15 +89,23 @@ export default {
       }
     },
     *getDic ({ payload }, { call, put }) {
-
-     // payload = parse(location.search.substr(1))
       const data = yield call(getDic, payload)
-
       if (data) {
         yield put({
           type: 'getDicSuccess',
           payload: {
             dicList: data.data
+          },
+        })
+      }
+    },
+    *getPostLevel ({ payload }, { call, put }) {
+      const data = yield call(getDic, payload)
+      if (data) {
+        yield put({
+          type: 'getPostLevelSuccess',
+          payload: {
+            postLevelList: data.data
           },
         })
       }
@@ -174,6 +187,12 @@ export default {
       const { dicList } = action.payload
       return { ...state,
         dicList
+        }
+    },
+    getPostLevelSuccess (state, action) {
+      const { postLevelList } = action.payload
+      return { ...state,
+        postLevelList
         }
     },
     showModal (state, action) {

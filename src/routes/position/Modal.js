@@ -20,6 +20,7 @@ const modal = ({
   item = {},
   orgKey=null,
   onOk,
+  postLevelList,
   form: {
     getFieldDecorator,
     validateFields,
@@ -60,6 +61,7 @@ const modal = ({
   const orgOptions = orgList.map(org => <Option key={org.id}>{org.orgName}</Option>);
   
   const dicOptions=dicList.map(dic=><Option key={dic.dicName}>{dic.dicName}</Option>);
+  const postLeveOptions=postLevelList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>);
 
   return (
     <Modal {...modalOpts}>
@@ -87,6 +89,14 @@ const modal = ({
             
           })(<Input />)}
         </FormItem>
+        <FormItem label="职位级别" hasFeedback {...formItemLayout}>
+          {getFieldDecorator('postLevel', {
+            initialValue: item.postLevel!==undefined && item.postLevel!==null?item.postLevel:'0',
+            rules: [
+              {required: true,message:'不能为空',},
+            ],
+          })(<Select >{postLeveOptions}</Select>)}
+        </FormItem>
         <FormItem label="职位类型" hasFeedback {...formItemLayout}>
           {getFieldDecorator('postTypeName', {
             initialValue: item.postTypeName,
@@ -98,10 +108,7 @@ const modal = ({
           {getFieldDecorator('orgId', {
             initialValue:String(item.orgId===undefined?'':item.orgId),
             rules: [
-              {
-                required: true,message:'不能为空',
-                
-              },
+              {required: true,message:'不能为空',},
             ],
           })(<Select >{orgOptions}</Select>)}
         </FormItem>

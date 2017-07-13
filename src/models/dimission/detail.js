@@ -1,6 +1,7 @@
 import pathToRegexp from 'path-to-regexp'
 import { queryById,queryEmployee,getDic } from '../../services/dimission'
 //import { treeToArray } from '../../utils'
+import { getDiagramByBusiness,getCommentListBybusiness } from '../../services/workFlow'
 
 export default {
 
@@ -10,6 +11,7 @@ export default {
     data: {},
     employeeList:[],
     dicList:[],
+    commentList:[],
   },
 
   subscriptions: {
@@ -29,16 +31,20 @@ export default {
       const data = yield call(queryById, payload)
       const { success, message, status, ...other } = data
       if (success) {
-          yield put({
-            type:'queryEmployee',
-            payload:other.data.userId
-          })
-          yield put({
-            type: 'querySuccess',
-            payload: {
-              data: other.data
-            },
-          })
+        const commentData=yield call(getCommentListBybusiness,{busiCode:other.data.code,busiId:other.data.id})
+        let flowImgSrc=null;
+        if(other.data.state!==0)flowImgSrc=yield call(getDiagramByBusiness,{busiCode:other.data.code,busiId:other.data.id})
+        yield put({
+          type:'queryEmployee',
+          payload:other.data.userId
+        })
+        yield put({
+          type: 'querySuccess',
+          payload: {
+            data: {...other.data,flowImgSrc},
+            commentList:commentData&&commentData.success?commentData.data:null,
+          },
+        })
         
       } else {
         throw data
@@ -77,7 +83,7 @@ export default {
       
       return {
         ...state,
-        data:payload.data,
+        ...payload,
       }
     },
     getDicSuccess(state,action){

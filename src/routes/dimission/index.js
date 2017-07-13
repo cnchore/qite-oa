@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Dimission = ({ location, dispatch, dimission, loading }) => {
-  const { list,fileList,dicList,employeeList, pagination, currentItem, modalVisible, modalType } = dimission
+  const { list,fileList,dicList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = dimission
   const { pageSize } = pagination
 
   const modalProps = {
@@ -16,10 +16,12 @@ const Dimission = ({ location, dispatch, dimission, loading }) => {
     fileList,
     employeeList,
     dicList,
+    taskData,
     maskClosable: false,
     submitLoading:loading.effects['dimission/submit'],
     confirmLoading: loading.effects[`dimission/${modalType}`],
-    title: `${modalType === 'create' ? '新增离职申请' : '编辑离职申请'}`,
+    auditLoading:loading.effects['dimission/audit'],
+    title: `${modalType === 'create' ? '新增－离职申请' : modalType==='update'?'编辑－离职申请':'退回修改－离职申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -39,11 +41,23 @@ const Dimission = ({ location, dispatch, dimission, loading }) => {
         payload:fileList
       })
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'dimission/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
+    },
+    onAudit(formItem,taskItem){
+      dispatch({
+        type: 'dimission/audit',
+        payload: {formItem,taskItem},
+      })
+    },
+    onGoback(){
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname:query.from,
+      }))
     },
   }
 
@@ -64,10 +78,10 @@ const Dimission = ({ location, dispatch, dimission, loading }) => {
         },
       }))
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'dimission/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
     onEditItem (item) {
@@ -103,6 +117,7 @@ const Dimission = ({ location, dispatch, dimission, loading }) => {
         payload: {
           modalType: 'create',
           fileList:[],
+          taskData:{},
         },
       })
     },

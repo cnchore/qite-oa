@@ -33,6 +33,14 @@ export default {
           case 'LE':
               dicType='leaveType_item'
             break;
+          case 'OT':
+              dicType='overtimes_item'
+            break;
+          case 'TL':
+          case 'TR':
+              dicType='tripMode_item'
+            break;
+            
         }
         if(dicType){
           yield put({

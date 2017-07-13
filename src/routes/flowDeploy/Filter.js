@@ -48,7 +48,7 @@ const Filter = ({
      
       <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
         <FilterItem label="流程名称">
-          {getFieldDecorator('filename', { 
+          {getFieldDecorator('fileName', { 
             initialValue:null,
           })(
             <Input />

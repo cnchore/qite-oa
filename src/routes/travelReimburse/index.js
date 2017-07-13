@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
-  const { list,fileList,dicList,detailList,travelList,employeeList, pagination, currentItem, modalVisible, modalType } = travelReimburse
+  const { list,fileList,dicList,detailList,travelList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = travelReimburse
   const { pageSize } = pagination
 
   const modalProps = {
@@ -18,10 +18,12 @@ const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
     travelList,
     detailList,
     dicList,
+    taskData,
     maskClosable: false,
     submitLoading:loading.effects['travelReimburse/submit'],
     confirmLoading: loading.effects[`travelReimburse/${modalType}`],
-    title: `${modalType === 'create' ? '新增差旅费报销申请' : '编辑差旅费报销申请'}`,
+    auditLoading:loading.effects['travelReimburse/audit'],
+    title: `${modalType === 'create' ? '新增－差旅费报销申请' : modalType==='update'?'编辑－差旅费报销申请':'退回修改－差旅费报销申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -47,11 +49,23 @@ const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
         payload:detailList
       })
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'travelReimburse/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
+    },
+    onAudit(formItem,taskItem){
+      dispatch({
+        type: 'travelReimburse/audit',
+        payload: {formItem,taskItem},
+      })
+    },
+    onGoback(){
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname:query.from,
+      }))
     },
   }
 
@@ -72,10 +86,10 @@ const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
         },
       }))
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'travelReimburse/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
     onEditItem (item) {
@@ -112,6 +126,7 @@ const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
           modalType: 'create',
           fileList:[],
           detailList:[],
+          taskData:{},
         },
       })
     },

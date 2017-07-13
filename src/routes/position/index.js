@@ -9,7 +9,7 @@ import { message } from 'antd'
 
 
 const Position = ({ location, dispatch, position, loading }) => {
-  const { list,orgList,orgTree,dicList,orgKey, pagination, currentItem, modalVisible, modalType } = position
+  const { list,orgList,orgTree,dicList,orgKey,postLevelList, pagination, currentItem, modalVisible, modalType } = position
   const { pageSize } = pagination
 
   const modalProps = {
@@ -17,6 +17,7 @@ const Position = ({ location, dispatch, position, loading }) => {
     orgList,
     dicList,
     orgKey,
+    postLevelList,
     visible: modalVisible,
     maskClosable: false,
     confirmLoading: loading.effects['position/update'],
@@ -53,6 +54,7 @@ const Position = ({ location, dispatch, position, loading }) => {
     rowSelection,
     orgList,
     orgTree,
+    postLevelList,
     //defaultExpandAllRows:true,
     onChange (page) {
       const { query, pathname } = location

@@ -7,13 +7,21 @@ import classnames from 'classnames'
 const TreeNode = Tree.TreeNode;
 
 const List = ({ onTreeSelect,location, ...tableProps }) => {
-  const { orgList,orgTree }=tableProps;
+  const { orgList,orgTree,postLevelList }=tableProps;
 
   const getOrgName=(value)=>{
     let n=orgList.filter(item=>String(item.id)===String(value));
     //console.log(orgList,...n,value);
     if(n && n[0]){
       return n[0].orgName;
+    }
+    return '';
+  }
+  const getPostLevel=(value)=>{
+    let n=postLevelList.filter(item=>String(item.dicValue)===String(value));
+    //console.log(orgList,...n,value);
+    if(n && n[0]){
+      return n[0].dicName;
     }
     return '';
   }
@@ -26,13 +34,13 @@ const List = ({ onTreeSelect,location, ...tableProps }) => {
       title: '职位编码',
       dataIndex: 'postCode',
       key: 'postCode',
-    /*
+    
     }, {
-      title: '所属机构',
-      dataIndex: 'orgId',
-      key: 'orgId',
-      render: (text, record, index) =>(getOrgName(text)),
-      */
+      title: '岗位级别',
+      dataIndex: 'postLevel',
+      key: 'postLevel',
+      render: (text) =>getPostLevel(text),
+      
     }, {
       title: '职位类型',
       dataIndex: 'postTypeName',

@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Overtime = ({ location, dispatch, overtime, loading }) => {
-  const { list,fileList,dicList,employeeList, pagination, currentItem, modalVisible, modalType } = overtime
+  const { list,fileList,dicList,employeeList,taskData,pagination, currentItem, modalVisible, modalType } = overtime
   const { pageSize } = pagination
 
   const modalProps = {
@@ -16,10 +16,12 @@ const Overtime = ({ location, dispatch, overtime, loading }) => {
     fileList,
     employeeList,
     dicList,
+    taskData,
     maskClosable: false,
     submitLoading:loading.effects['overtime/submit'],
     confirmLoading: loading.effects[`overtime/${modalType}`],
-    title: `${modalType === 'create' ? '新增加班申请' : '编辑加班申请'}`,
+    auditLoading:loading.effects['overtime/audit'],
+    title: `${modalType === 'create' ? '新增－加班申请' : modalType==='update'?'编辑－加班申请':'退回修改－加班申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -39,11 +41,23 @@ const Overtime = ({ location, dispatch, overtime, loading }) => {
         payload:fileList
       })
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'overtime/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
+    },
+    onAudit(formItem,taskItem){
+      dispatch({
+        type: 'overtime/audit',
+        payload: {formItem,taskItem},
+      })
+    },
+    onGoback(){
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname:query.from,
+      }))
     },
   }
 
@@ -64,10 +78,10 @@ const Overtime = ({ location, dispatch, overtime, loading }) => {
         },
       }))
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'overtime/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
     onEditItem (item) {
@@ -103,6 +117,7 @@ const Overtime = ({ location, dispatch, overtime, loading }) => {
         payload: {
           modalType: 'create',
           fileList:[],
+          taskData:{},
         },
       })
     },

@@ -7,8 +7,14 @@ import { SelectUser } from '../../components'
 import MissClockDetailPage from '../../components/MissClockDetailPage'
 import SalaryChangeDetailPage from '../../components/SalaryChangeDetailPage'
 import LeaveDetailPage from '../../components/LeaveDetailPage'
+import OverTimeDetailPage from '../../components/OverTimeDetailPage'
+import TravelDetailPage from '../../components/TravelDetailPage'
+import DimissionDetailPage from '../../components/DimissionDetailPage'
+import RegularDetailPage from '../../components/RegularDetailPage'
+import TravelReimburseDetailPage from '../../components/TravelReimburseDetailPage'
 import CommentTable from '../../components/CommentTable'
 import styles from './Modal.less'
+
 const confirm = Modal.confirm
 const FormItem = Form.Item
 const RadioGroup = Radio.Group;
@@ -86,6 +92,21 @@ const modal = ({
         break
       case 'LE':
         detailpage=<LeaveDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList?taskData.dicList:[]}/>
+        break
+      case 'OT':
+        detailpage=<OverTimeDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList?taskData.dicList:[]}/>
+        break
+      case 'TL':
+        detailpage=<TravelDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList?taskData.dicList:[]}/>
+        break
+      case 'DN':
+        detailpage=<DimissionDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break
+      case 'RR':
+        detailpage=<RegularDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break
+      case 'TR':
+        detailpage=<TravelReimburseDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList?taskData.dicList:[]}/>
         break
     }
   }

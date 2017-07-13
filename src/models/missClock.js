@@ -3,12 +3,9 @@ import { startProcess,getTaskInfo,audit } from '../services/workFlow'
 import { treeToArray,config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
-
 const { prefix } = config
 export default {
-
   namespace: 'missClock',
-
   state: {
     list: [],
     currentItem: {},
@@ -25,13 +22,11 @@ export default {
       total: null,
     },
   },
-
   subscriptions: {
     setup ({ dispatch, history }) {
       history.listen(location => {
         if (location.pathname === '/missClock') {
           let query=location.query;
-          
           if(query && query.taskId && query.busiId && query.from){
             dispatch({
               type: 'toBackEdit',
@@ -50,7 +45,6 @@ export default {
 
   effects: {
     *query ({ payload }, { call, put }) {
-
       payload = parse(location.search.substr(1))
       const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       if (userInfo && userInfo.data) {
@@ -58,7 +52,6 @@ export default {
       }
       payload={...payload,rows:payload.pageSize}
       const data = yield call(query, payload)
-
       if (data && userInfo && userInfo.data) {
         yield put({
           type: 'querySuccess',
@@ -84,7 +77,6 @@ export default {
     },
 
     *create ({ payload }, { call, put }) {
-
       const data = yield call(save, payload)
       if (data.success) {
         message.success('新增成功');
