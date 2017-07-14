@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Notice = ({ location, dispatch, notice, loading }) => {
-  const { list,fileList,dicList,employeeList,editorState,
+  const { list,fileList,dicList,employeeList,editorState,taskData,
    pagination, currentItem, modalVisible, modalType } = notice
   const { pageSize } = pagination
 
@@ -18,10 +18,12 @@ const Notice = ({ location, dispatch, notice, loading }) => {
     employeeList,
     editorState,
     dicList,
+    taskData,
     maskClosable: false,
     submitLoading:loading.effects['notice/submit'],
     confirmLoading: loading.effects[`notice/${modalType}`],
-    title: `${modalType === 'create' ? '新增通知发放申请' : '编辑通知发放申请'}`,
+    auditLoading:loading.effects['notice/audit'],
+    title: `${modalType === 'create' ? '新增－通知发放申请' : modalType==='update'?'编辑－通知发放申请':'退回修改－通知发放申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -41,11 +43,23 @@ const Notice = ({ location, dispatch, notice, loading }) => {
         payload:fileList
       })
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'notice/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
+    },
+    onAudit(formItem,taskItem){
+      dispatch({
+        type: 'notice/audit',
+        payload: {formItem,taskItem},
+      })
+    },
+    onGoback(){
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname:query.from,
+      }))
     },
     setEditorState(ed){
       dispatch({
@@ -72,10 +86,10 @@ const Notice = ({ location, dispatch, notice, loading }) => {
         },
       }))
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'notice/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
     onEditItem (item) {
@@ -112,6 +126,7 @@ const Notice = ({ location, dispatch, notice, loading }) => {
           modalType: 'create',
           fileList:[],
           editorState:null,
+          taskData:{},
         },
       })
     },

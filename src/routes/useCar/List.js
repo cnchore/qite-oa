@@ -3,23 +3,19 @@ import PropTypes from 'prop-types'
 import { Table, Modal,Button,Tag } from 'antd'
 import styles from './List.less'
 import classnames from 'classnames'
-import { DropOption } from '../../components'
+import { DropOption,SelectUser } from '../../components'
 import { Link } from 'dva/router'
 
 const confirm = Modal.confirm
 
 const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
-  const handleMenuClick = (record, e) => {
-    if (e.key === '1') {
-      onEditItem(record)
-    } else if (e.key === '2') {
+  const handleSubmit = (record,e) => {
       confirm({
         title: `你确定提交申请么?`,
         onOk () {
-          onSubmit(record.id,'')
+          onSubmit(record,e)
         },
       })
-    }
   }
   const getRecordState=(text)=>{
     //状态：0新建  1审核中 2审核通过 3审核不通过
@@ -57,7 +53,7 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
       title: '申请单号',
       dataIndex: 'code',width:220,
       key: 'code',
-      render: (text, record) => <Link to={`useCar/${record.id}`}>{text}</Link>,
+      render: (text, record) => <Link to={`/useCar/${record.id}`}>{text}</Link>,
     }, {
       title: '申请时间',
       dataIndex: 'createTime',width:170,
@@ -91,9 +87,10 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
       fixed:'right',
       width: 100,
       render: (text, record) => {
-        //  return  (<Button size="small" icon="edit" type="ghost" onClick={e=>onEditItem(record)} >编辑</Button>)
-        return <DropOption onMenuClick={e => handleMenuClick(record, e)} 
-        menuOptions={[{ key: '1', name: '编辑申请' },{ key: '2', name: '提交申请' }]} />
+        return record.state===0 || record.state===-1?(<span>
+          <a onClick={e=>onEditItem(record)}>编辑</a>
+          <SelectUser callBack={e=>handleSubmit(record,e)} />
+        </span>):null
       },
     },
   ]

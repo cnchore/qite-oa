@@ -42,28 +42,28 @@ class LeaveDetailPage extends React.Component {
             {getLeaveType(data.type,data.typeRemark)}
           </Col>
         </Row>
-      <Row gutter={24} className={styles['q-detail']}>
-        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>请假时间：</Col>
-        <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-          {data.leaveTimeStart || data.leaveTimeStartStr || '无'} 至
-          {data.leaveTimeEnd || data.leaveTimeEndStr || '无'}，共{data.leaveHours || '0'} 小时
-        </Col>
-      </Row>
-      <Row gutter={24} className={styles['q-detail']}>
-        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>请假原因：</Col>
-        <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>{data.remark}</Col>
-      </Row>
-      {defaultFileList && defaultFileList[0]?
         <Row gutter={24} className={styles['q-detail']}>
-          <Col span={24} className='qite-list-title'>
-            <Icon type="paper-clip" />附件信息
-          </Col>
-          <Col span={24} style={{paddingLeft:'12px',paddingRight:'12px'}}>
-            <FileList fileList={defaultFileList} showRemoveIcon={false}/>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>请假时间：</Col>
+          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.leaveTimeStart || data.leaveTimeStartStr || '无'} 至
+            {data.leaveTimeEnd || data.leaveTimeEndStr || '无'}，共{data.leaveHours || '0'} 小时
           </Col>
         </Row>
-        :null
-      }
+        <Row gutter={24} className={styles['q-detail']}>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>请假原因：</Col>
+          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>{data.remark}</Col>
+        </Row>
+        {defaultFileList && defaultFileList[0]?
+          <Row gutter={24} className={styles['q-detail']}>
+            <Col span={24} className='qite-list-title'>
+              <Icon type="paper-clip" />附件信息
+            </Col>
+            <Col span={24} style={{paddingLeft:'12px',paddingRight:'12px'}}>
+              <FileList fileList={defaultFileList} showRemoveIcon={false}/>
+            </Col>
+          </Row>
+          :null
+        }
       </div>
       )
   }

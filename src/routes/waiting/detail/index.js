@@ -11,8 +11,17 @@ import TravelDetailPage from '../../../components/TravelDetailPage'
 import DimissionDetailPage from '../../../components/DimissionDetailPage'
 import RegularDetailPage from '../../../components/RegularDetailPage'
 import TravelReimburseDetailPage from '../../../components/TravelReimburseDetailPage'
+import ContractDetailPage from '../../../components/ContractDetailPage'
+import UseCarDetailPage from '../../../components/UseCarDetailPage'
 import FlowImg from '../../../components/FlowImg'
 import CommentTable from '../../../components/CommentTable'
+import PurchaseApplyDetailPage from '../../../components/PurchaseApplyDetailPage'
+import PurchaseDetailPage from '../../../components/PurchaseDetailPage'
+import PaymentDetailPage from '../../../components/PaymentDetailPage'
+import RecruitDetailPage from '../../../components/RecruitDetailPage'
+import ReimburseDetailPage from '../../../components/ReimburseDetailPage'
+import BudgetDetailPage from '../../../components/BudgetDetailPage'
+import NoticeDetailPage from '../../../components/NoticeDetailPage'
 
 const Detail = ({ waitingDetail }) => {
   const { data,employeeList,dicList } = waitingDetail
@@ -42,6 +51,33 @@ const Detail = ({ waitingDetail }) => {
         break
       case 'TR':
         detailpage=<TravelReimburseDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList} />
+        break
+      case 'CT':
+        detailpage=<ContractDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
+        break
+      case 'UC':
+        detailpage=<UseCarDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList} />
+        break
+      case 'PA':
+        detailpage=<PurchaseApplyDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
+        break
+      case 'PE':
+        detailpage=<PurchaseDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
+        break
+      case 'PT':
+        detailpage=<PaymentDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
+        break
+      case 'RT':
+        detailpage=<RecruitDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
+        break
+      case 'RE':
+        detailpage=<ReimburseDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
+        break
+      case 'BD':
+        detailpage=<BudgetDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
+        break
+      case 'NE':
+        detailpage=<NoticeDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList} />
         break
     }
   }

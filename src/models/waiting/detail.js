@@ -1,7 +1,7 @@
 import pathToRegexp from 'path-to-regexp'
 import { queryEmployee } from '../../services/missClock'
-//import { treeToArray } from '../../utils'
-import { getTaskInfo,getDiagram,getDic } from '../../services/workFlow'
+import { treeToArray } from '../../utils'
+import { getTaskInfo,getDiagram,getDic,getOrg } from '../../services/workFlow'
 
 export default {
   namespace: 'waitingDetail',
@@ -40,13 +40,17 @@ export default {
           case 'TR':
               dicType='tripMode_item'
             break;
-            
+          case 'UC':
+              dicType='carType_item'
+            break;
         }
         if(dicType){
           yield put({
             type: 'getDic',
             payload: {dicType},
           })
+        }else if(other.data.busiCode.substr(0,2)==='NE'){
+          yield put({type: 'getOrg', payload: {},})
         }
         yield put({
           type: 'querySuccess',
@@ -64,6 +68,15 @@ export default {
         yield put({
           type: 'getDicSuccess',
           payload: data.data,
+        })
+      }
+    },
+    *getOrg ({ payload }, { call, put }) {
+      const data = yield call(getOrg, payload)
+      if (data) {
+        yield put({
+          type: 'getDicSuccess',
+          payload: treeToArray(data.data),
         })
       }
     },

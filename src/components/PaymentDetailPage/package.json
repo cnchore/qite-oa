@@ -1,0 +1,6 @@
+{
+  "name": "PaymentDetailPage",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./PaymentDetailPage.js"
+}

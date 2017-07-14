@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const UseCar = ({ location, dispatch, useCar, loading }) => {
-  const { list,fileList,dicList,employeeList, pagination, currentItem, modalVisible, modalType } = useCar
+  const { list,fileList,dicList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = useCar
   const { pageSize } = pagination
 
   const modalProps = {
@@ -16,10 +16,12 @@ const UseCar = ({ location, dispatch, useCar, loading }) => {
     fileList,
     employeeList,
     dicList,
+    taskData,
     maskClosable: false,
     submitLoading:loading.effects['useCar/submit'],
     confirmLoading: loading.effects[`useCar/${modalType}`],
-    title: `${modalType === 'create' ? '新增用车申请' : '编辑用车申请'}`,
+    auditLoading:loading.effects['useCar/audit'],
+    title: `${modalType === 'create' ? '新增－用车申请' : modalType==='update'?'编辑－用车申请':'退回修改－用车申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -39,11 +41,23 @@ const UseCar = ({ location, dispatch, useCar, loading }) => {
         payload:fileList
       })
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'useCar/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
+    },
+    onAudit(formItem,taskItem){
+      dispatch({
+        type: 'useCar/audit',
+        payload: {formItem,taskItem},
+      })
+    },
+    onGoback(){
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname:query.from,
+      }))
     },
   }
 
@@ -64,10 +78,10 @@ const UseCar = ({ location, dispatch, useCar, loading }) => {
         },
       }))
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'useCar/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
     onEditItem (item) {
@@ -103,6 +117,7 @@ const UseCar = ({ location, dispatch, useCar, loading }) => {
         payload: {
           modalType: 'create',
           fileList:[],
+          taskData:{},
         },
       })
     },

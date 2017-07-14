@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Budget = ({ location, dispatch, budget, loading }) => {
-  const { list,fileList,dicList,detailList,travelList,employeeList, pagination, currentItem, modalVisible, modalType } = budget
+  const { list,fileList,dicList,detailList,travelList,employeeList, taskData,pagination, currentItem, modalVisible, modalType } = budget
   const { pageSize } = pagination
 
   const modalProps = {
@@ -18,10 +18,12 @@ const Budget = ({ location, dispatch, budget, loading }) => {
     travelList,
     detailList,
     dicList,
+    taskData,
     maskClosable: false,
     submitLoading:loading.effects['budget/submit'],
     confirmLoading: loading.effects[`budget/${modalType}`],
-    title: `${modalType === 'create' ? '新增预算申请' : '编辑预算申请'}`,
+    auditLoading:loading.effects['budget/audit'],
+    title: `${modalType === 'create' ? '新增－预算申请' : modalType==='update'?'编辑－预算申请':'退回修改－预算申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -47,11 +49,23 @@ const Budget = ({ location, dispatch, budget, loading }) => {
         payload:detailList
       })
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'budget/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
+    },
+    onAudit(formItem,taskItem){
+      dispatch({
+        type: 'budget/audit',
+        payload: {formItem,taskItem},
+      })
+    },
+    onGoback(){
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname:query.from,
+      }))
     },
   }
 
@@ -72,10 +86,10 @@ const Budget = ({ location, dispatch, budget, loading }) => {
         },
       }))
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'budget/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
     onEditItem (item) {
@@ -112,6 +126,7 @@ const Budget = ({ location, dispatch, budget, loading }) => {
           modalType: 'create',
           fileList:[],
           detailList:[],
+          taskData:{},
         },
       })
     },

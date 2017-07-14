@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Reimburse = ({ location, dispatch, reimburse, loading }) => {
-  const { list,fileList,dicList,detailList,travelList,employeeList, pagination, currentItem, modalVisible, modalType } = reimburse
+  const { list,fileList,dicList,detailList,taskData,travelList,employeeList, pagination, currentItem, modalVisible, modalType } = reimburse
   const { pageSize } = pagination
 
   const modalProps = {
@@ -18,10 +18,12 @@ const Reimburse = ({ location, dispatch, reimburse, loading }) => {
     travelList,
     detailList,
     dicList,
+    taskData,
     maskClosable: false,
     submitLoading:loading.effects['reimburse/submit'],
     confirmLoading: loading.effects[`reimburse/${modalType}`],
-    title: `${modalType === 'create' ? '新增费用报销申请' : '编辑费用报销申请'}`,
+    auditLoading:loading.effects['reimburse/audit'],
+    title: `${modalType === 'create' ? '新增－费用报销申请' : modalType==='update'?'编辑－费用报销申请':'退回修改－费用报销申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -47,11 +49,23 @@ const Reimburse = ({ location, dispatch, reimburse, loading }) => {
         payload:detailList
       })
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'reimburse/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
+    },
+    onAudit(formItem,taskItem){
+      dispatch({
+        type: 'reimburse/audit',
+        payload: {formItem,taskItem},
+      })
+    },
+    onGoback(){
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname:query.from,
+      }))
     },
   }
 
@@ -72,10 +86,10 @@ const Reimburse = ({ location, dispatch, reimburse, loading }) => {
         },
       }))
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'reimburse/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
     onEditItem (item) {
@@ -112,6 +126,7 @@ const Reimburse = ({ location, dispatch, reimburse, loading }) => {
           modalType: 'create',
           fileList:[],
           detailList:[],
+          taskData:{},
         },
       })
     },

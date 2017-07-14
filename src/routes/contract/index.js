@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Contract = ({ location, dispatch, contract, loading }) => {
-  const { list,fileList,dicList,employeeList, pagination, currentItem, modalVisible, modalType } = contract
+  const { list,fileList,dicList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = contract
   const { pageSize } = pagination
 
   const modalProps = {
@@ -16,10 +16,12 @@ const Contract = ({ location, dispatch, contract, loading }) => {
     fileList,
     employeeList,
     dicList,
+    taskData,
     maskClosable: false,
     submitLoading:loading.effects['contract/submit'],
     confirmLoading: loading.effects[`contract/${modalType}`],
-    title: `${modalType === 'create' ? '新增合同申请' : '编辑合同申请'}`,
+    auditLoading:loading.effects['contract/audit'],
+    title: `${modalType === 'create' ? '新增－合同申请' : modalType==='update'?'编辑－合同申请':'退回修改－合同申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -39,11 +41,23 @@ const Contract = ({ location, dispatch, contract, loading }) => {
         payload:fileList
       })
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'contract/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
+    },
+    onAudit(formItem,taskItem){
+      dispatch({
+        type: 'contract/audit',
+        payload: {formItem,taskItem},
+      })
+    },
+    onGoback(){
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname:query.from,
+      }))
     },
   }
 
@@ -64,10 +78,10 @@ const Contract = ({ location, dispatch, contract, loading }) => {
         },
       }))
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'contract/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
     onEditItem (item) {
@@ -103,6 +117,7 @@ const Contract = ({ location, dispatch, contract, loading }) => {
         payload: {
           modalType: 'create',
           fileList:[],
+          taskData:{},
         },
       })
     },

@@ -1,0 +1,6 @@
+{
+  "name": "ContractDetailPage",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ContractDetailPage.js"
+}

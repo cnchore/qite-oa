@@ -27,7 +27,9 @@ export default {
       if (success) {
         const commentData=yield call(getCommentListBybusiness,{busiCode:other.data.code,busiId:other.data.id})
         let flowImgSrc=null;
-        if(other.data.state!==0)flowImgSrc=yield call(getDiagramByBusiness,{busiCode:other.data.code,busiId:other.data.id})
+        if(other.data.state!==0){
+          flowImgSrc=yield call(getDiagramByBusiness,{busiCode:other.data.code,busiId:other.data.id})
+        }
         yield put({
           type:'queryEmployee',
           payload:other.data.userId

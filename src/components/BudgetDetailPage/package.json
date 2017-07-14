@@ -1,0 +1,6 @@
+{
+  "name": "BudgetDetailPage",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./BudgetDetailPage.js"
+}

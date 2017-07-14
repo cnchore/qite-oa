@@ -21,7 +21,8 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
     maskClosable: false,
     submitLoading:loading.effects['purchase/submit'],
     confirmLoading: loading.effects[`purchase/${modalType}`],
-    title: `${modalType === 'create' ? '新增采购申请' : '编辑采购申请'}`,
+    auditLoading:loading.effects['missClock/audit'],
+    title: `${modalType === 'create' ? '新增－采购申请' : modalType==='update'?'编辑－采购申请':'退回修改－采购申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -47,11 +48,23 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
         payload:detailList
       })
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'purchase/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
+    },
+    onAudit(formItem,taskItem){
+      dispatch({
+        type: 'purchase/audit',
+        payload: {formItem,taskItem},
+      })
+    },
+    onGoback(){
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname:query.from,
+      }))
     },
   }
 
@@ -72,10 +85,10 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
         },
       }))
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'purchase/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
     onEditItem (item) {
@@ -112,6 +125,7 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
           modalType: 'create',
           fileList:[],
           detailList:[],
+          taskData:{},
         },
       })
     },

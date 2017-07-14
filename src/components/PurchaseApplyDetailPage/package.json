@@ -1,0 +1,6 @@
+{
+  "name": "PurchaseApplyDetailPage",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./PurchaseApplyDetailPage.js"
+}

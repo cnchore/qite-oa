@@ -1,5 +1,5 @@
 import { queryById,queryEmployee } from '../services/missClock'
-import { getMyTaskToDoPage,getTaskInfo,audit,getDic } from '../services/workFlow'
+import { getMyTaskToDoPage,getTaskInfo,audit,getDic,getOrg } from '../services/workFlow'
 
 import { treeToArray,config } from '../utils'
 import { parse } from 'qs'
@@ -98,12 +98,20 @@ export default {
             case 'TR':
               dicType='tripMode_item'
               break;
+            case 'UC':
+              dicType='carType_item'
+              break;
           }
           if(dicType){
-           dicRes= yield put({
-              type: 'getDic',
-              payload: {dicType},
-            })
+           dicRes= yield call(getDic, {dicType});
+          }else if(response.data.busiCode.substr(0,2)==='NE'){
+            let orgData=yield call(getOrg, {})
+            if(orgData && orgData.success){
+              dicRes=orgData;
+              dicRes.data=treeToArray(orgData.data);
+            }else{
+              dicRes=null;
+            }
           }
           yield put({ 
             type: 'showModal',

@@ -20,11 +20,11 @@ export default {
           //router:{'/qite':'http://localhost:9000/qite'}
         }
       },
+  
   "env": {
       "development": {
-        
         "extraBabelPlugins": [
-           "dva-hmr",
+          "dva-hmr",
           "transform-runtime",
           ["import", { "libraryName": "antd", "style": true}]
         ]
@@ -36,27 +36,6 @@ export default {
           ["import", { "libraryName": "antd", "style": true}]
         ]
       }
-      /*
-      "proxy": {
-        "/qite": {
-          "target": "http://localhost:9000/qite",
-          "changeOrigin": true,
-          "pathRewrite": { "^/qite" : "/qite" }
-        }
-      },
-      "development": {
-        "extraBabelPlugins": [
-          "dva-hmr",
-          "transform-runtime",
-          ["import", { "libraryName": "antd", "style": true }]
-        ]
-      },
-      "production": {
-        "extraBabelPlugins": [
-          "transform-runtime",
-  		    ["import", { "libraryName": "antd", "style": true}]
-        ]
-      }
-      */
+      
   }
 }

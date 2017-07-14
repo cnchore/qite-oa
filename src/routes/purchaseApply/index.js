@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const PurchaseApply = ({ location, dispatch, purchaseApply, loading }) => {
-  const { list,fileList,dicList,detailList,travelList,employeeList, pagination, currentItem, modalVisible, modalType } = purchaseApply
+  const { list,fileList,dicList,detailList,travelList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = purchaseApply
   const { pageSize } = pagination
 
   const modalProps = {
@@ -18,10 +18,12 @@ const PurchaseApply = ({ location, dispatch, purchaseApply, loading }) => {
     travelList,
     detailList,
     dicList,
+    taskData,
     maskClosable: false,
     submitLoading:loading.effects['purchaseApply/submit'],
     confirmLoading: loading.effects[`purchaseApply/${modalType}`],
-    title: `${modalType === 'create' ? '新增申购申请' : '编辑申购申请'}`,
+    auditLoading:loading.effects['purchaseApply/audit'],
+    title: `${modalType === 'create' ? '新增－申购申请' : modalType==='update'?'编辑－申购申请':'退回修改－申购申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -47,11 +49,23 @@ const PurchaseApply = ({ location, dispatch, purchaseApply, loading }) => {
         payload:detailList
       })
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'purchaseApply/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
+    },
+    onAudit(formItem,taskItem){
+      dispatch({
+        type: 'purchaseApply/audit',
+        payload: {formItem,taskItem},
+      })
+    },
+    onGoback(){
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname:query.from,
+      }))
     },
   }
 
@@ -72,10 +86,10 @@ const PurchaseApply = ({ location, dispatch, purchaseApply, loading }) => {
         },
       }))
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'purchaseApply/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
     onEditItem (item) {
@@ -112,6 +126,7 @@ const PurchaseApply = ({ location, dispatch, purchaseApply, loading }) => {
           modalType: 'create',
           fileList:[],
           detailList:[],
+          taskData:{},
         },
       })
     },

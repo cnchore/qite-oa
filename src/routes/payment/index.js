@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Payment = ({ location, dispatch, payment, loading }) => {
-  const { list,fileList,dicList,purchaseList,employeeList, pagination, currentItem, modalVisible, modalType } = payment
+  const { list,fileList,dicList,purchaseList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = payment
   const { pageSize } = pagination
 
   const modalProps = {
@@ -17,10 +17,12 @@ const Payment = ({ location, dispatch, payment, loading }) => {
     employeeList,
     dicList,
     purchaseList,
+    taskData,
     maskClosable: false,
     submitLoading:loading.effects['payment/submit'],
     confirmLoading: loading.effects[`payment/${modalType}`],
-    title: `${modalType === 'create' ? '新增付款申请' : '编辑付款申请'}`,
+    auditLoading:loading.effects['payment/audit'],
+    title: `${modalType === 'create' ? '新增－付款申请' : modalType==='update'?'编辑－付款申请':'退回修改－付款申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
@@ -40,11 +42,23 @@ const Payment = ({ location, dispatch, payment, loading }) => {
         payload:fileList
       })
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'payment/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
+    },
+    onAudit(formItem,taskItem){
+      dispatch({
+        type: 'payment/audit',
+        payload: {formItem,taskItem},
+      })
+    },
+    onGoback(){
+      const { query, pathname } = location
+      dispatch(routerRedux.push({
+        pathname:query.from,
+      }))
     },
   }
 
@@ -65,10 +79,10 @@ const Payment = ({ location, dispatch, payment, loading }) => {
         },
       }))
     },
-    onSubmit (id,title) {
+    onSubmit (formItem,nextUser) {
       dispatch({
         type: 'payment/submit',
-        payload: {id,title},
+        payload: {formItem,nextUser},
       })
     },
     onEditItem (item) {
@@ -104,6 +118,7 @@ const Payment = ({ location, dispatch, payment, loading }) => {
         payload: {
           modalType: 'create',
           fileList:[],
+          taskData:{},
         },
       })
     },

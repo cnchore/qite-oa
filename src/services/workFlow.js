@@ -1,6 +1,6 @@
 import { request, config } from '../utils'
 const { api,baseURL } = config
-const { workflow,employee,dictionary } = api
+const { workflow,employee,dictionary,organizations } = api
 
 //startProcess,getMyTaskToDoPage,getMyTaskDonePage,getTaskFiledPage,getTaskInfo,audit,
 //getDiagramByBusiness,getCommentListBybusiness
@@ -10,6 +10,13 @@ export function getDiagram (params) {
 export async function getDic (params) {
   return request({
     url: dictionary.getList,
+    method: 'get',
+    data: params,
+  })
+}
+export async function getOrg (params) {
+  return request({
+    url: organizations.query,
     method: 'get',
     data: params,
   })

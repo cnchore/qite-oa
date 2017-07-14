@@ -12,7 +12,16 @@ import TravelDetailPage from '../../components/TravelDetailPage'
 import DimissionDetailPage from '../../components/DimissionDetailPage'
 import RegularDetailPage from '../../components/RegularDetailPage'
 import TravelReimburseDetailPage from '../../components/TravelReimburseDetailPage'
+import ContractDetailPage from '../../components/ContractDetailPage'
+import UseCarDetailPage from '../../components/UseCarDetailPage'
+import PurchaseApplyDetailPage from '../../components/PurchaseApplyDetailPage'
+import PurchaseDetailPage from '../../components/PurchaseDetailPage'
 import CommentTable from '../../components/CommentTable'
+import PaymentDetailPage from '../../components/PaymentDetailPage'
+import RecruitDetailPage from '../../components/RecruitDetailPage'
+import ReimburseDetailPage from '../../components/ReimburseDetailPage'
+import BudgetDetailPage from '../../components/BudgetDetailPage'
+import NoticeDetailPage from '../../components/NoticeDetailPage'
 import styles from './Modal.less'
 
 const confirm = Modal.confirm
@@ -86,28 +95,55 @@ const modal = ({
     switch(taskData.busiCode.substr(0,2)){
       case 'MC':
         detailpage=<MissClockDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
-        break
+        break;
       case 'SC':
         detailpage=<SalaryChangeDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
-        break
+        break;
       case 'LE':
         detailpage=<LeaveDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList?taskData.dicList:[]}/>
-        break
+        break;
       case 'OT':
         detailpage=<OverTimeDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList?taskData.dicList:[]}/>
-        break
+        break;
       case 'TL':
         detailpage=<TravelDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList?taskData.dicList:[]}/>
-        break
+        break;
       case 'DN':
         detailpage=<DimissionDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
-        break
+        break;
       case 'RR':
         detailpage=<RegularDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
-        break
+        break;
       case 'TR':
         detailpage=<TravelReimburseDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList?taskData.dicList:[]}/>
-        break
+        break;
+      case 'CT':
+        detailpage=<ContractDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'UC':
+        detailpage=<UseCarDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList?taskData.dicList:[]}/>
+        break;
+      case 'PA':
+        detailpage=<PurchaseApplyDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'PE':
+        detailpage=<PurchaseDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'PT':
+        detailpage=<PaymentDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'RT':
+        detailpage=<RecruitDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'RE':
+        detailpage=<ReimburseDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'BD':
+        detailpage=<BudgetDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'NE':
+        detailpage=<NoticeDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList?taskData.dicList:[]}/>
+        break;
     }
   }
   return (
