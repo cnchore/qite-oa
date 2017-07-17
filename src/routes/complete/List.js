@@ -36,7 +36,7 @@ const List = ({ location, ...tableProps }) => {
       title: '操作',
       key: 'operation',
       fixed:'right',
-      width: 100,
+      width: 125,
       render: (text, record) => <Link to={`/complete/${record.taskId}?procDefId=${record.procDefId}&procInstId=${record.procInstId}`}>查看</Link>,
     },
   ]

@@ -95,7 +95,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete,location, ...tableProps })
       title: '操作',
       key: 'operation',
       fixed:'right',
-      width: 100,
+      width: 125,
       render: (text, record) => {
          return record.state===0 || record.state===-1?(<span>
           <a onClick={e=>onEditItem(record)}>编辑</a>
