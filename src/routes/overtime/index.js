@@ -84,6 +84,12 @@ const Overtime = ({ location, dispatch, overtime, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'overtime/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'overtime/editItem',

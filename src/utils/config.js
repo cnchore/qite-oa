@@ -1,6 +1,7 @@
 let apiPrefix='/qite/sys',apiPrefixDev='/api/v1',apiPrefixPro='/qite/busi';
 let baseURL=process.env.NODE_ENV === 'production'?'http://192.168.0.142:9000':'http://192.168.0.142:8000';
 //http://test.aylsonclub.com/qite/sys
+//http://192.168.0.142:8000
 module.exports = {
   name: 'Qite OA',
   prefix: 'qiteOa',
@@ -97,6 +98,7 @@ module.exports = {
       add:`${apiPrefixPro}/knowledge/add`,
       update:`${apiPrefixPro}/knowledge/update`,
       change:`${apiPrefixPro}/knowledge/change`,
+      deleteById:`${apiPrefixPro}/knowledge/deleteById`,
     },
     //考勤异常
     missClock:{
@@ -104,6 +106,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/missClock/getById`,
       getList:`${apiPrefixPro}/missClock/getList`,
       save:`${apiPrefixPro}/missClock/save`,
+      deleteById:`${apiPrefixPro}/missClock/deleteById`,
     },
     //请假申请
     leave:{
@@ -111,6 +114,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/leave/getById`,
       getList:`${apiPrefixPro}/leave/getList`,
       save:`${apiPrefixPro}/leave/save`,
+      deleteById:`${apiPrefixPro}/leave/deleteById`,
     },
     //加班申请
     overtime:{
@@ -118,6 +122,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/overtime/getById`,
       getList:`${apiPrefixPro}/overtime/getList`,
       save:`${apiPrefixPro}/overtime/save`,
+      deleteById:`${apiPrefixPro}/overtime/deleteById`,
     },
     //出差申请
     travel:{
@@ -125,6 +130,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/travel/getById`,
       getList:`${apiPrefixPro}/travel/getList`,
       save:`${apiPrefixPro}/travel/save`,
+      deleteById:`${apiPrefixPro}/travel/deleteById`,
     },
     //差旅费报销申请
     travelReimburse:{
@@ -132,6 +138,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/travelReimburse/getById`,
       getList:`${apiPrefixPro}/travelReimburse/getList`,
       save:`${apiPrefixPro}/travelReimburse/save`,
+      deleteById:`${apiPrefixPro}/travelReimburse/deleteById`,
     },
     //合同申请
     contract:{
@@ -139,6 +146,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/contract/getById`,
       getList:`${apiPrefixPro}/contract/getList`,
       save:`${apiPrefixPro}/contract/save`,
+      deleteById:`${apiPrefixPro}/contract/deleteById`,
     },
     //用车申请
     useCar:{
@@ -146,6 +154,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/useCar/getById`,
       getList:`${apiPrefixPro}/useCar/getList`,
       save:`${apiPrefixPro}/useCar/save`,
+      deleteById:`${apiPrefixPro}/useCar/deleteById`,
     },
     //申购申请
     purchaseApply:{
@@ -153,6 +162,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/purchaseApply/getById`,
       getList:`${apiPrefixPro}/purchaseApply/getList`,
       save:`${apiPrefixPro}/purchaseApply/save`,
+      deleteById:`${apiPrefixPro}/purchaseApply/deleteById`,
     },
     //采购申请
     purchase:{
@@ -161,6 +171,7 @@ module.exports = {
       getList:`${apiPrefixPro}/purchase/getList`,
       getApplyList:`${apiPrefixPro}/purchaseDetail/getList`,
       save:`${apiPrefixPro}/purchase/save`,
+      deleteById:`${apiPrefixPro}/purchase/deleteById`,
     },
     //付款申请
     payment:{
@@ -168,6 +179,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/payment/getById`,
       getList:`${apiPrefixPro}/payment/getList`,
       save:`${apiPrefixPro}/payment/save`,
+      deleteById:`${apiPrefixPro}/payment/deleteById`,
     },
     //招聘申请
     recruit:{
@@ -175,6 +187,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/recruit/getById`,
       getList:`${apiPrefixPro}/recruit/getList`,
       save:`${apiPrefixPro}/recruit/save`,
+      deleteById:`${apiPrefixPro}/recruit/deleteById`,
     },
     //离职申请
     dimission:{
@@ -182,6 +195,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/dimission/getById`,
       getList:`${apiPrefixPro}/dimission/getList`,
       save:`${apiPrefixPro}/dimission/save`,
+      deleteById:`${apiPrefixPro}/dimission/deleteById`,
     },
     //转正申请
     regular:{
@@ -189,6 +203,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/regular/getById`,
       getList:`${apiPrefixPro}/regular/getList`,
       save:`${apiPrefixPro}/regular/save`,
+      deleteById:`${apiPrefixPro}/regular/deleteById`,
     },
     //调薪申请
     salaryChange:{
@@ -196,6 +211,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/salaryChange/getById`,
       getList:`${apiPrefixPro}/salaryChange/getList`,
       save:`${apiPrefixPro}/salaryChange/save`,
+      deleteById:`${apiPrefixPro}/salaryChange/deleteById`,
     },
     //费用报销申请
     reimburse:{
@@ -203,6 +219,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/reimburse/getById`,
       getList:`${apiPrefixPro}/reimburse/getList`,
       save:`${apiPrefixPro}/reimburse/save`,
+      deleteById:`${apiPrefixPro}/reimburse/deleteById`,
     },
     //预算申请
     budget:{
@@ -210,6 +227,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/budget/getById`,
       getList:`${apiPrefixPro}/budget/getList`,
       save:`${apiPrefixPro}/budget/save`,
+      deleteById:`${apiPrefixPro}/budget/deleteById`,
     },
     //通知发放申请
     notice:{
@@ -217,6 +235,7 @@ module.exports = {
       queryById:`${apiPrefixPro}/notice/getById`,
       getList:`${apiPrefixPro}/notice/getList`,
       save:`${apiPrefixPro}/notice/save`,
+      deleteById:`${apiPrefixPro}/notice/deleteById`,
     },
     //流程处理
     workflow:{

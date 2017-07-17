@@ -92,6 +92,12 @@ const Budget = ({ location, dispatch, budget, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'budget/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'budget/editItem',

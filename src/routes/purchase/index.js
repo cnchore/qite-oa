@@ -91,6 +91,12 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'purchase/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'purchase/editItem',

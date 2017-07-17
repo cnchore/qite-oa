@@ -84,6 +84,12 @@ const UseCar = ({ location, dispatch, useCar, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'useCar/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'useCar/editItem',

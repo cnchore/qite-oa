@@ -78,6 +78,12 @@ const Dimission = ({ location, dispatch, dimission, loading }) => {
         },
       }))
     },
+    onDelete (id) {
+      dispatch({
+        type: 'dimission/deleteById',
+        payload: {id},
+      })
+    },
     onSubmit (formItem,nextUser) {
       dispatch({
         type: 'dimission/submit',

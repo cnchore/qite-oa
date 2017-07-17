@@ -143,6 +143,20 @@ const modal = ({
     let timeB=new Date(b);
     return ((timeB-timeA)/(3600*1000)).toFixed(2)
   }
+  const getMileage=()=>{
+    const data={...getFieldsValue()};
+    if(data.mileageStart===undefined || data.mileageEnd===undefined){
+      return 0;
+    }
+    return (parseFloat(data.mileageEnd)-parseFloat(data.mileageStart)).toFixed(2);
+  }
+  const getCostTotal=()=>{
+    const data={...getFieldsValue()};
+    if(data.oilCost===undefined || data.roadToll===undefined){
+      return 0;
+    }
+    return (parseFloat(data.oilCost)+parseFloat(data.roadToll)).toFixed(2);
+  }
   const dicOption=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -290,7 +304,96 @@ const modal = ({
 
           </Col>
         </Row>
-       
+        {
+          item.state===-2 || item.mileageStart?
+          <Row gutter={24} className={styles['q-detail']}>
+            <Col span={24} className='qite-list-title'>
+              <Icon type="credit-card" />交车信息
+            </Col>
+          </Row>
+          :null
+        }
+        {
+          item.state===-2 || item.mileageStart?
+          <Row gutter={24} className={styles['q-detail']}>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
+              拿车里程：
+            </Col>
+            <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+              <FormItem style={{width:'80%'}}>
+                {getFieldDecorator('mileageStart', {
+                  initialValue:item.mileageStart!==undefined && item.mileageStart!==null?Number(item.mileageStart):0,
+                  rules: [{required: true,message:'不能为空',},],
+                })(<InputNumber precision={2}
+                  style={{width:'100%'}}/>
+                 )}
+              </FormItem>
+              <FormItem style={{width:'20%'}}>公里</FormItem>
+            </Col>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
+              交车里程：
+            </Col>
+            <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+              <FormItem style={{width:'80%'}}>
+                {getFieldDecorator('mileageEnd', {
+                  initialValue:item.mileageEnd!==undefined && item.mileageEnd!==null?Number(item.mileageEnd):0,
+                  rules: [{required: true,message:'不能为空',},],
+                })(<InputNumber 
+                  style={{width:'100%'}}/>
+                 )}
+              </FormItem>
+              <FormItem style={{width:'20%'}}>公里</FormItem>
+            </Col>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
+              共行驶：
+            </Col>
+            <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+              <FormItem style={{width:'80%'}}>
+                {getMileage()}
+              </FormItem>
+              <FormItem style={{width:'20%'}}>公里</FormItem>
+            </Col>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
+              邮费：
+            </Col>
+            <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+              <FormItem style={{width:'80%'}}>
+                {getFieldDecorator('oilCost', {
+                  initialValue:item.oilCost!==undefined && item.oilCost!==null?Number(item.oilCost):0,
+                  rules: [{required: true,message:'不能为空',},],
+                })(<InputNumber 
+                  style={{width:'100%'}}/>
+                 )}
+              </FormItem>
+              <FormItem style={{width:'20%'}}>元</FormItem>
+            </Col>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
+              过路费：
+            </Col>
+            <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+              <FormItem style={{width:'80%'}}>
+                {getFieldDecorator('roadToll', {
+                  initialValue:item.roadToll!==undefined && item.roadToll!==null?Number(item.roadToll):0,
+                  rules: [{required: true,message:'不能为空',},],
+                })(<InputNumber 
+                  style={{width:'100%'}}/>
+                 )}
+              </FormItem>
+              <FormItem style={{width:'20%'}}>元</FormItem>
+            </Col>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
+              合计费用：
+            </Col>
+            <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+              <FormItem>
+              {getCostTotal()}
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              大写：{changeMoneyToChinese(getCostTotal())}
+              </FormItem>
+            </Col>
+          </Row> 
+          :null
+        }
         
         <Row gutter={24} className={styles['q-detail']}>
 

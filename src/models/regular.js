@@ -1,4 +1,4 @@
-import { query,queryById,save,submit,queryEmployee,getDic } from '../services/regular'
+import { query,queryById,save,deleteById,submit,queryEmployee,getDic } from '../services/regular'
 import { startProcess,getTaskInfo,audit } from '../services/workFlow'
 import { config } from '../utils'
 import { parse } from 'qs'
@@ -207,7 +207,15 @@ export default {
         throw data
       }
     },
-    
+    *deleteById ({ payload }, { call, put }) {
+      const data = yield call(deleteById, {id:payload.id})
+      if (data.success) {
+        message.success('删除成功');
+        yield put({ type: 'query' })
+      } else {
+        throw data
+      }
+    },
     
   },
 

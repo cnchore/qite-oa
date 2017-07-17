@@ -92,6 +92,12 @@ const Reimburse = ({ location, dispatch, reimburse, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'reimburse/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'reimburse/editItem',

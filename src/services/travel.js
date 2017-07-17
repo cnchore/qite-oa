@@ -31,6 +31,13 @@ export async function save (params) {
     data: params,
   })
 }
+export async function deleteById (params) {
+  return request({
+    url: travel.deleteById,
+    method: 'post',
+    data: params,
+  })
+}
 export async function submit (params) {
   return request({
     url: travel.submit,

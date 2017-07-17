@@ -92,6 +92,12 @@ const PurchaseApply = ({ location, dispatch, purchaseApply, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'purchaseApply/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'purchaseApply/editItem',

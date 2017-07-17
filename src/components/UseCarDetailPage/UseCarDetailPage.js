@@ -91,6 +91,59 @@ class UseCarDetailPage extends React.Component {
           </Col>
         
         </Row>
+         {
+          data.mileageStart || data.oilCost?
+          <Row gutter={24} className={styles['q-detail']}>
+            <Col span={24} className='qite-list-title'>
+              <Icon type="credit-card" />交车信息
+            </Col>
+          </Row>
+          :null
+        }
+        {
+          data.oilCost || item.mileageStart?
+          <Row gutter={24} className={styles['q-detail']}>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+              拿车里程：
+            </Col>
+            <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+              {data.mileageStart?data.mileageStart:0}公里
+            </Col>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+              交车里程：
+            </Col>
+            <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+              {data.mileageEnd?data.mileageEnd:0}公里
+            </Col>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+              共行驶：
+            </Col>
+            <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+              {(parseFloat(data.mileageEnd?data.mileageEnd:0)-parseFloat(data.mileageStart?data.mileageStart:0)).toFixed(2)}公里
+            </Col>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+              邮费：
+            </Col>
+            <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+              {data.oilCost?data.oilCost:0}元
+            </Col>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+              过路费：
+            </Col>
+            <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+              {data.roadToll?data.roadToll:0}元
+            </Col>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+              合计费用：
+            </Col>
+            <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+              {(parseFloat(data.oilCost?data.oilCost:0)+parseFloat(data.roadToll?data.roadToll:0)).toFixed(2)}元
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              大写：{changeMoneyToChinese((parseFloat(data.oilCost?data.oilCost:0)+parseFloat(data.roadToll?data.roadToll:0)).toFixed(2))}
+            </Col>
+          </Row> 
+          :null
+        }
         {defaultFileList && defaultFileList[0]?
           <Row gutter={24} className={styles['q-detail']}>
             <Col span={24} className='qite-list-title'>

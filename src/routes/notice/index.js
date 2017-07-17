@@ -92,6 +92,12 @@ const Notice = ({ location, dispatch, notice, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'notice/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'notice/editItem',

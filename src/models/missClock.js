@@ -1,4 +1,4 @@
-import { query,queryById,save,submit,queryEmployee } from '../services/missClock'
+import { query,queryById,save,deleteById,submit,queryEmployee } from '../services/missClock'
 import { startProcess,getTaskInfo,audit } from '../services/workFlow'
 import { treeToArray,config } from '../utils'
 import { parse } from 'qs'
@@ -195,7 +195,15 @@ export default {
         throw data
       }
     },
-    
+    *deleteById ({ payload }, { call, put }) {
+      const data = yield call(deleteById, {id:payload.id})
+      if (data.success) {
+        message.success('删除成功');
+        yield put({ type: 'query' })
+      } else {
+        throw data
+      }
+    },
     
   },
 

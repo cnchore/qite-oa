@@ -31,7 +31,14 @@ module.exports = [
     mpid: 2,
     bpid: 2,
     name: '我的已办',
-    router: '/work1',
+    router: '/complete',
+  },
+  {
+    id: 221,
+    mpid: -1,
+    bpid: 22,
+    name: '详情',
+    router: '/complete/:id',
   },
   {
     id: 23,
@@ -283,7 +290,14 @@ module.exports = [
     mpid: 2,
     bpid: 2,
     name: '归档查询',
-    router:'/work5',
+    router:'/filed',
+  },
+  {
+    id: 241,
+    mpid: -1,
+    bpid: 24,
+    name: '详情',
+    router: '/filed/:id',
   },
   {
     id: 3,

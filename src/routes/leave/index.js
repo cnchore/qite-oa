@@ -84,6 +84,12 @@ const Leave = ({ location, dispatch, leave, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'leave/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'leave/editItem',

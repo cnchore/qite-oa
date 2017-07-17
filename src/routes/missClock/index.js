@@ -82,6 +82,12 @@ const MissClock = ({ location, dispatch, missClock, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'missClock/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'missClock/editItem',

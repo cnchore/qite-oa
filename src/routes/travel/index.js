@@ -84,6 +84,12 @@ const Travel = ({ location, dispatch, travel, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'travel/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'travel/editItem',

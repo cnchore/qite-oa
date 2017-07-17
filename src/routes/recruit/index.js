@@ -84,6 +84,12 @@ const Recruit = ({ location, dispatch, recruit, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'recruit/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'recruit/editItem',

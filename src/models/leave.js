@@ -1,4 +1,4 @@
-import { query,queryById,save,submit,queryEmployee,getDic } from '../services/leave'
+import { query,queryById,save,deleteById,submit,queryEmployee,getDic } from '../services/leave'
 import { startProcess,getTaskInfo,audit } from '../services/workFlow'
 import { config } from '../utils'
 import { parse } from 'qs'
@@ -206,6 +206,15 @@ export default {
       if (data.success) {
         message.success('修改成功');
         yield put({ type: 'hideModal' })
+        yield put({ type: 'query' })
+      } else {
+        throw data
+      }
+    },
+    *deleteById ({ payload }, { call, put }) {
+      const data = yield call(deleteById, {id:payload.id})
+      if (data.success) {
+        message.success('删除成功');
         yield put({ type: 'query' })
       } else {
         throw data

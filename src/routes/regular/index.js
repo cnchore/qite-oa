@@ -84,6 +84,12 @@ const Regular = ({ location, dispatch, regular, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'regular/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'regular/editItem',

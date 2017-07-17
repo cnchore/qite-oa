@@ -8,14 +8,22 @@ import { DropOption,SelectUser } from '../../components'
 
 const confirm = Modal.confirm
 
-const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
+const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }) => {
  const handleSubmit = (record,e) => {
       confirm({
         title: `你确定提交申请么?`,
         onOk () {
-          onSubmit(record,e)
+          onSubmit(record,e);
         },
       })
+  }
+  const handleDel=(id)=>{
+    confirm({
+      title:'你确定要删除这条申请么？',
+      onOk(){
+        onDelete(id);
+      }
+    })
   }
   const getRecordState=(text)=>{
     //状态：0新建  1审核中 2审核通过 3审核不通过
@@ -30,6 +38,10 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
         return <Tag color='#f50'>审核不通过</Tag>;
       case -1:
         return <Tag color='#f00'>退回修改</Tag>;
+      case -2:
+        return <Tag color='#108ee9'>待完善资料</Tag>;
+      case 4:
+        return <Tag color='#2db7f5'>审核通过并完善资料</Tag>;
     }
   }
   const getTripMode=(value,remark=null)=>{
@@ -73,6 +85,10 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
         return record.state===0 || record.state===-1?(<span>
           <a onClick={e=>onEditItem(record)}>编辑</a>
           <SelectUser callBack={e=>handleSubmit(record,e)} />
+          { record.state===0?
+            <a style={{marginLeft:'8px'}} onClick={e=>handleDel(record.id)}>删除</a>
+            :null
+          }
         </span>):null
       },
     },

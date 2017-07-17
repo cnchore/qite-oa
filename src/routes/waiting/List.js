@@ -23,7 +23,10 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
         return <Tag color='#f50'>审核不通过</Tag>;
       case -1:
         return <Tag color='#f00'>退回修改</Tag>;
-      
+      case -2:
+        return <Tag color='#108ee9'>待完善资料</Tag>;
+      case 4:
+        return <Tag color='#2db7f5'>审核通过并完善资料</Tag>;
     }
   }
   
@@ -34,18 +37,45 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
       from:location.pathname
     }
     switch(record.state){
-      case 0:
       case 1:
-      case 2:
-      case 3:
         return <a onClick={e=>onEditItem(record)}>办理</a>;
       case -1:
+      case -2:
         switch(record.busiCode.substr(0,2)){
           case 'MC':
-            return <Link to={`/missClock?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>退回修改</Link>;
+            return <Link to={`/missClock?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
           case 'SC':
-            return <Link to={`/salaryChange?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>退回修改</Link>;
-          
+            return <Link to={`/salaryChange?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'LE':
+            return <Link to={`/leave?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'OT':
+            return <Link to={`/overtime?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'TL':    
+            return <Link to={`/travel?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'TR':
+            return <Link to={`/travelReimburse?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'CT':  
+            return <Link to={`/contract?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'UC':
+            return <Link to={`/useCar?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'PA':
+            return <Link to={`/purchaseApply?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'PE':
+            return <Link to={`/purchase?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'PT':
+            return <Link to={`/payment?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'RT':
+            return <Link to={`/recruit?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'DN':
+            return <Link to={`/dimission?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'RR':
+            return <Link to={`/regular?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'RE':
+            return <Link to={`/reimburse?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'BD':
+            return <Link to={`/budget?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'NE':
+            return <Link to={`/notice?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
           default :
             return null;
         }

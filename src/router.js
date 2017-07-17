@@ -400,6 +400,38 @@ const Routers = function ({ history, app }) {
             }, 'waiting-detail')
           },
         }, {
+          path: '/complete',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/complete'))
+              cb(null, require('./routes/complete/'))
+            }, 'complete')
+          },
+        }, {
+          path: 'complete/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/complete/detail'))
+              cb(null, require('./routes/complete/detail/'))
+            }, 'complete-detail')
+          },
+        }, {
+          path: '/filed',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/filed'))
+              cb(null, require('./routes/filed/'))
+            }, 'filed')
+          },
+        }, {
+          path: 'filed/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/filed/detail'))
+              cb(null, require('./routes/filed/detail/'))
+            }, 'filed-detail')
+          },
+        }, {
           path: 'login',
           getComponent (nextState, cb) {
             require.ensure([], require => {

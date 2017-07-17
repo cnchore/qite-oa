@@ -84,6 +84,12 @@ const Contract = ({ location, dispatch, contract, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'contract/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'contract/editItem',

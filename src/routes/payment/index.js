@@ -85,6 +85,12 @@ const Payment = ({ location, dispatch, payment, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'payment/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'payment/editItem',

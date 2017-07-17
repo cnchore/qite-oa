@@ -1,4 +1,4 @@
-import { query,queryById,save,submit,queryEmployee,getDic } from '../services/reimburse'
+import { query,queryById,save,deleteById,submit,queryEmployee,getDic } from '../services/reimburse'
 import { config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
@@ -221,7 +221,15 @@ export default {
         throw data
       }
     },
-    
+    *deleteById ({ payload }, { call, put }) {
+      const data = yield call(deleteById, {id:payload.id})
+      if (data.success) {
+        message.success('删除成功');
+        yield put({ type: 'query' })
+      } else {
+        throw data
+      }
+    },
     
   },
 

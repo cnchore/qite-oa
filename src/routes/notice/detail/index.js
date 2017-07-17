@@ -6,7 +6,7 @@ import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
 
 const Detail = ({ noticeDetail }) => {
-  const { data,employeeList,dicList } = noticeDetail
+  const { data,employeeList,dicList,commentList } = noticeDetail
   return (
     <div className="content-inner">
       <NoticeDetailPage data={data} employeeList={employeeList} dicList={dicList} />

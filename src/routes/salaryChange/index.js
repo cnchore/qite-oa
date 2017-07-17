@@ -84,6 +84,12 @@ const SalaryChange = ({ location, dispatch, salaryChange, loading }) => {
         payload: {formItem,nextUser},
       })
     },
+    onDelete (id) {
+      dispatch({
+        type: 'salaryChange/deleteById',
+        payload: {id},
+      })
+    },
     onEditItem (item) {
       dispatch({
         type: 'salaryChange/editItem',
