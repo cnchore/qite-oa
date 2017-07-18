@@ -22,7 +22,7 @@ const Routers = function ({ history, app }) {
       },
       childRoutes: [
         {
-          path: 'dashboard',
+          path: '/dashboard',
           getComponent (nextState, cb) {
             require.ensure([], require => {
               registerModel(app, require('./models/dashboard'))
@@ -432,7 +432,7 @@ const Routers = function ({ history, app }) {
             }, 'filed-detail')
           },
         }, {
-          path: 'login',
+          path: '/login',
           getComponent (nextState, cb) {
             require.ensure([], require => {
               registerModel(app, require('./models/login'))

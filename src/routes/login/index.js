@@ -58,11 +58,10 @@ const Login = ({
         </FormItem>
         <Row>
           <Button type="primary" size="large" onClick={handleOk} loading={loginLoading}>
-            Sign in
+            登&nbsp;&nbsp;&nbsp;&nbsp;录
           </Button>
           <p>
-            <span>Username：guest</span>
-            <span>Password：guest</span>
+            <span>忘记密码，请联系管理员</span>
           </p>
         </Row>
 

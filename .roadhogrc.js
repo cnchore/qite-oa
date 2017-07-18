@@ -44,17 +44,17 @@ export default {
         ]
       }
   }
-  // ,
-  // "dllPlugin": {
-  //   "name":"[name].[chunkhash]",
-  //   "exclude": [
-  //     "babel-runtime"
-  //   ],
-  //   "include": [
-  //     'react',
-  //     "dva",
-  //     "dva/router",
-  //   ]
-  // }
+  ,
+  "dllPlugin": {
+   // "name":"[name].[chunkhash]",
+    "exclude": [
+      "babel-runtime"
+    ],
+    "include": [
+      'react',
+      "dva",
+      "dva/router",
+    ]
+  }
 
 }

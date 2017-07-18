@@ -15,7 +15,7 @@ const formItemLayout = {
 }
 
 const modal = ({
-  dicList=[{id:1,dicName:'菜单'},{id:2,dicName:'操作'}],
+  dicList=[{id:1,dicName:'菜单'},{id:2,dicName:'操作'},{id:3,dicName:'导航'}],
   item = {},
   onOk,
   form: {
@@ -47,12 +47,7 @@ const modal = ({
     onOk: handleOk,
   }
   const dicOptions = dicList.map(dic => <Option key={dic.id}>{dic.dicName}</Option>);
-  const handleSelectChange = (value,name) => {
-    
-    setFieldsValue({
-      name: value
-    });
-  }
+ 
 
   return (
     <Modal {...modalOpts}>
@@ -83,7 +78,7 @@ const modal = ({
                
               },
             ],
-          })(<Select onChange={e=>handleSelectChange(e.value,'type')}>{dicOptions}</Select>)}
+          })(<Select >{dicOptions}</Select>)}
         </FormItem>
         <FormItem label="菜单图标" hasFeedback {...formItemLayout}>
           {getFieldDecorator('iconUrl', {

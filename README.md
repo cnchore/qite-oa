@@ -70,6 +70,35 @@ npm run lint
 ```
 ### 更新日志
 
+### 2017-7-18
+1. 发布到apache，解决重定向问题；
+1). 开启重定向
+```
+LoadModule hfs_apple_module libexec/apache2/mod_hfs_apple.so
+```
+2). 配置重定向
+```
+<IfModule alias_module>
+		<Directory "/">
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteRule ^(.*)$ index.html [QSA,L]
+    </Directory>
+<IfModule>
+```
+2. 发布到tomcat，同样解决重定向问题，使用uriRewrite；
+3. 修改职位级别绑定值错误bug，员工管理修改头像bug；
+4. 实现菜单根据权限动态生成
+
+
+### 2017-7-17
+1. 根据用车申请特有状态，修改用车申请和待办，9:00-11:00;
+2. 修改付款申请，11:00-12:00;
+3. 添加我的已办，13:30-14:30;
+4. 添加归档查询，14:30-15:30;
+5. 为17个我的申请，在未提交前，添加删除功能，15:30-18:00。
+
 ### 2017-7-14
 1. 合同－流程，申请提交，审批，返回修改，8:30-9:30；
 2. 用车－流程，申请提交，审批，返回修改，9:30-10:30；

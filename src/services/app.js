@@ -1,6 +1,6 @@
 import { request, config } from '../utils'
 const { api } = config
-const { user,employee } = api
+const { user,employee,menu } = api
 
 export async function login (params) {
   return request({
@@ -18,6 +18,13 @@ export async function logout (params) {
   })
 }
 
+export async function getLoginUserMenu (params) {
+  return request({
+    url: menu.getLoginUserMenu,
+    method: 'get',
+    data: params,
+  })
+}
 export async function query (params) {
   return request({
     url: employee.queryById,

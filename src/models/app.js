@@ -1,13 +1,14 @@
-import { query, logout } from '../services/app'
+import { query, logout,getLoginUserMenu } from '../services/app'
 import { routerRedux } from 'dva/router'
 import { parse } from 'qs'
-import { config } from '../utils'
+import { config,treeMenuToArrayMenu } from '../utils'
 const { prefix } = config
 
 export default {
   namespace: 'app',
   state: {
     user: {},
+    menuList:[],
     menuPopoverVisible: false,
     siderFold: localStorage.getItem(`${prefix}siderFold`) === 'true',
     darkTheme: localStorage.getItem(`${prefix}darkTheme`) === 'true' || true,
@@ -34,12 +35,16 @@ export default {
       payload,
     }, { call, put }) {
       const data = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
-      //yield call(query, parse(payload))
-      if (data&& data.success && data.data) {
+      const menuData=yield call(getLoginUserMenu, {})
+      if (data&& data.success && data.data && menuData && menuData.success) {
         //console.log('userData:',data.message)
+
         yield put({
           type: 'querySuccess',
-          payload: data.data,
+          payload: {
+            user:data.data,
+            menuList:treeMenuToArrayMenu(menuData.data)
+          },
         })
         if (location.pathname === '/login') {
           yield put(routerRedux.push('/dashboard'))
@@ -82,7 +87,7 @@ export default {
     querySuccess (state, { payload }) {
       return {
         ...state,
-        user:payload
+        ...payload,
       }
     },
 

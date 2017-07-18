@@ -16,14 +16,14 @@ const List = ({ location, ...tableProps }) => {
       title: '类型',
       dataIndex: 'type',
       key: 'type',
-      render:(text)=>(text===1?'菜单':'操作'),
+      render:(text)=>(text===1?'菜单':text===2?'操作':'导航'),
     
     }, {
       title: '菜单地址',
       dataIndex: 'src',
       key: 'src',
     }, {
-      title: '说明',
+      title: '菜单说明',
       dataIndex: 'remark',
       key: 'remark',
     },

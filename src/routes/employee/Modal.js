@@ -85,7 +85,9 @@ const modal = ({
       data.birthdayStr=data.birthdayStr?data.birthdayStr.format('YYYY-MM-DD'):null;
       data.departureTimeStr=data.departureTimeStr?data.departureTimeStr.format('YYYY-MM-DD HH:mm:ss'):null;
       data.inductionTimeStr=data.inductionTimeStr?data.inductionTimeStr.format('YYYY-MM-DD HH:mm:ss'):null;
-      //data.photo=item.photo;
+      if(photoUrl){
+        data.photo=photoUrl;
+      }
       if(item.id){
         data.id=item.id
       }

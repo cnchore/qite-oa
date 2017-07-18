@@ -91,7 +91,7 @@ const modal = ({
         </FormItem>
         <FormItem label="职位级别" hasFeedback {...formItemLayout}>
           {getFieldDecorator('postLevel', {
-            initialValue: item.postLevel!==undefined && item.postLevel!==null?item.postLevel:'0',
+            initialValue: item.postLevel!==undefined && item.postLevel!==null?String(item.postLevel):'0',
             rules: [
               {required: true,message:'不能为空',},
             ],

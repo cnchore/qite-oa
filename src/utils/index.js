@@ -1,5 +1,5 @@
 import config from './config'
-import menu from './menu'
+// import menu from './menu'
 import request from './request'
 import classnames from 'classnames'
 import { color } from './theme'
@@ -234,10 +234,39 @@ const changeMoneyToChinese=(n)=>{
   for (var i=0; i < n.length; i++)
   str += '零壹贰叁肆伍陆柒捌玖'.charAt(n.charAt(i)) + unit.charAt(i);
   return str.replace(/零(仟|佰|拾|角)/g, "零").replace(/(零)+/g, "零").replace(/零(万|亿|元)/g, "$1").replace(/(亿)万|壹(拾)/g, "$1$2").replace(/^元零?|零分/g,"").replace(/元$/g, "元整");
+}
+const treeMenuToArrayMenu=(treeList)=>{
+  var list=treeToArray(treeList,0,'parentId','id');
+  var menuList=[];
+  if(list&&list[0]){
+    list.forEach(item=>{
+        var menuItem={
+          id:item.id,
+          mpid:item.type===3?-1:item.parentId,
+          bpid:item.parentId,
+          name:item.menuName
+        }
+        if(item.src){
+          menuItem.router=item.src;
+        }
+        if(item.iconUrl){
+          menuItem.icon=item.iconUrl;
+        }
+        menuList.push(menuItem)
+    })
+    return menuList;
+  }else{
+    return [{
+    id: 1,
+    icon: 'laptop',
+    name: 'Dashboard',
+    router: '/dashboard',
+  }];
+  }
 } 
 module.exports = {
   config,
-  menu,
+  treeMenuToArrayMenu,
   request,
   color,
   classnames,
