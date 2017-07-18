@@ -89,7 +89,8 @@ LoadModule hfs_apple_module libexec/apache2/mod_hfs_apple.so
 ```
 2. 发布到tomcat，同样解决重定向问题，使用uriRewrite；
 3. 修改职位级别绑定值错误bug，员工管理修改头像bug；
-4. 实现菜单根据权限动态生成
+4. 实现菜单根据权限动态生成；
+5. 添加build文件夹到gitignore。
 
 
 ### 2017-7-17
