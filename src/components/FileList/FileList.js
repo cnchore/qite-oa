@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './FileList.less'
-import { Icon,Progress,Row,Col } from 'antd'
+import { Icon,Progress,Row,Col,Modal } from 'antd'
 import classNames from 'classnames';
 import DOC from '../../../assets/doc.png'
 import DOCX from '../../../assets/docx.png'
@@ -26,6 +26,9 @@ class FileList extends React.Component {
     showPreviewIcon: true,
   };
   state = {
+    previewVisible:false,
+    previewImage:null,
+    previewName:''
   }
   
   getThumbUrl=(file)=>{
@@ -63,10 +66,19 @@ class FileList extends React.Component {
 
     }
   }
-  
+  handleCancel=()=>{
+    this.setState({previewVisible:false});
+  }
+  handlePreview=(file)=>{
+    this.setState({
+      previewImage:this.getThumbUrl(file),
+      previewName:file.name,
+      previewVisible:true,
+    });
+  }
   render () {
-
-    const { fileList,showRemoveIcon,onRemove } = this.props
+    const {previewVisible,previewImage,previewName }= this.state; 
+    const { fileList,showRemoveIcon,onRemove } = this.props;
     const handleRemove=(file)=>{
       if(onRemove){
         onRemove(file);
@@ -77,10 +89,13 @@ class FileList extends React.Component {
       return (
         <Row key={file.uid} gutter={12} className={styles['file-list']} style={{margin:'0px'}} type="flex" justify="space-around" align="middle">
           <Col span={4} style={{paddingLeft:'0px'}}>
-            { (thumbUrl)?
-            <img className={styles.fileImg} src={thumbUrl} alt={file.name} />
-            :<Icon type="loading" />
-          }
+            { thumbUrl?
+              <img className={styles.fileImg} src={thumbUrl} alt={file.name} onClick={e=>this.handlePreview(file)} />
+              :null
+            }
+            <Modal visible={previewVisible} footer={null} width={800} onCancel={this.handleCancel}>
+              <img alt={previewName} style={{ width: '100%' }} src={previewImage} />
+            </Modal>
           </Col>
           <Col span={file.createTime?12:18}>
             {file.name}

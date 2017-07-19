@@ -255,6 +255,8 @@ module.exports = {
       audit:`${apiPrefixPro}/workflow/audit`,
       getDiagramByBusiness:`${apiPrefixPro}/workflow/getDiagramByBusiness`,
       getCommentListBybusiness:`${apiPrefixPro}/workflow/getCommentListBybusiness`,
+      getTaskWaitSignPage:`${apiPrefixPro}/workflow/getTaskWaitSignPage`,
+      signTask:`${apiPrefixPro}/workflow/signTask`,
     },
   },
 }

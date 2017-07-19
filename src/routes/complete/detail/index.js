@@ -84,15 +84,20 @@ const Detail = ({ completeDetail }) => {
   //console.log(data,employeeList)
   return (
     <div className="content-inner">
+      <a href="javascript:window.history.back();" className="q-goback">
+        <Icon type="close-circle-o" />
+      </a>
        {detailpage}
-       { data && data.flowImgSrc?
-          <FlowImg path={data.flowImgSrc} />
-        :null}
        {
-        data && data.commentList?
-          <CommentTable data={data.commentList} />
+        data.commentList && data.commentList[0]?
+        <CommentTable data={data.commentList} />
         :null
-       }
+      } 
+      {
+        data && data.flowImgSrc?
+        <FlowImg path={data.flowImgSrc} />
+        :null
+      }
     </div>)
 }
 

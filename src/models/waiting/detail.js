@@ -19,6 +19,7 @@ export default {
           dispatch({ type: 'query', payload: {...location.query,taskId: match[1]} })
         }
       })
+      
     },
   },
   effects: {

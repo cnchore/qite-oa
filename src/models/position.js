@@ -56,6 +56,7 @@ export default {
     *query ({ payload }, { call, put }) {
 
       payload = parse(location.search.substr(1))
+      payload={...payload,rows:payload.pageSize}
       const data = yield call(query, payload)
 
       if (data) {

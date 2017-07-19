@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './FileUpload.less'
-import { Upload, Icon, message,Progress,Row,Col } from 'antd'
+import { Upload, Icon, message,Progress,Row,Col,Modal } from 'antd'
 import config from '../../utils/config'
 import classNames from 'classnames';
 import DOC from '../../../assets/doc.png'
@@ -28,7 +28,9 @@ class FileUpload extends React.Component {
   };
   state = {
     fileList:this.props.defaultFileList || [],
-   
+    previewImage:null,
+    previewName:'',
+    previewVisible:false,
   }
   acceptList=['image/jpeg',
     'application/vnd.ms-excel',
@@ -121,9 +123,19 @@ class FileUpload extends React.Component {
 
     //if(this.props.fileList)this.props.fileList=l;
   }
+  handleCancel=()=>{
+    this.setState({previewVisible:false});
+  }
+  handlePreview=(file)=>{
+    this.setState({
+      previewImage:this.getThumbUrl(file),
+      previewName:file.name,
+      previewVisible:true,
+    });
+  }
   render () {
     const fileData={bucket:`${config.bucket}`,type:'qiteOa'};
-
+    const {previewVisible,previewImage,previewName }= this.state; 
     const { prefixCls,fileList,showPreviewIcon, showRemoveIcon } = this.props
     const _fileList = this.state.fileList.map((file,index)=>{
       let thumbUrl=this.getThumbUrl(file);
@@ -131,9 +143,12 @@ class FileUpload extends React.Component {
         <Row key={file.uid} gutter={24} className={styles['file-list']} style={{margin:'0px'}} type="flex" justify="space-around" align="middle">
           <Col span={4} style={{paddingLeft:'2px'}} className={styles['file-img-div']}>
             { (thumbUrl)?
-            <img className={styles.fileImg} src={thumbUrl} alt={file.name} />
-            :<Icon type="loading" />
-          }
+              <img className={styles.fileImg} src={thumbUrl} alt={file.name} onClick={e=>this.handlePreview(file)}/>
+              :<Icon type="loading" />  
+            }
+             <Modal visible={previewVisible} footer={null} width={800} onCancel={this.handleCancel}>
+              <img alt={previewName} style={{ width: '100%' }} src={previewImage} />
+            </Modal>
           </Col>
           <Col span={16}>
             {file.name}

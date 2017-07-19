@@ -92,7 +92,6 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
       title: '申请单号',
       dataIndex: 'busiCode',
       key: 'busiCode',
-      render: (text, record) => <Link to={`/waiting/${record.taskId}?procDefId=${record.procDefId}&procInstId=${record.procInstId}`}>{text}</Link>,
     }, {
       title: '流程名称',
       dataIndex: 'flowName',
@@ -118,8 +117,11 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
       title: '操作',
       key: 'operation',
       fixed:'right',
-      width: 100,
-      render: (text, record) => getAction(record),
+      width: 180,
+      render: (text, record) => (<div>
+        <Link to={`/waiting/${record.taskId}?procDefId=${record.procDefId}&procInstId=${record.procInstId}`} style={{marginRight:'8px'}}>查看</Link>
+        {getAction(record)}
+      </div>)
     },
   ]
 

@@ -11,15 +11,18 @@ const Detail = ({ leaveDetail }) => {
   const { data,employeeList,dicList,commentList } = leaveDetail
   return (
     <div className="content-inner">
+      <a href="javascript:window.history.back();" className="q-goback">
+        <Icon type="close-circle-o" />
+      </a>
       <LeaveDetailPage data={data} employeeList={employeeList} dicList={dicList} />
-      {
-        data && data.flowImgSrc?
-        <FlowImg path={data.flowImgSrc} />
-        :null
-      }
       {
         commentList && commentList[0]?
         <CommentTable data={commentList} />
+        :null
+      } 
+      {
+        data && data.flowImgSrc?
+        <FlowImg path={data.flowImgSrc} />
         :null
       }
     </div>)

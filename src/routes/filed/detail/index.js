@@ -85,14 +85,16 @@ const Detail = ({ filedDetail }) => {
   return (
     <div className="content-inner">
        {detailpage}
-       { data && data.flowImgSrc?
-          <FlowImg path={data.flowImgSrc} />
-        :null}
        {
-        data && data.commentList?
-          <CommentTable data={data.commentList} />
+        data.commentList && data.commentList[0]?
+        <CommentTable data={data.commentList} />
         :null
-       }
+      } 
+      {
+        data && data.flowImgSrc?
+        <FlowImg path={data.flowImgSrc} />
+        :null
+      }
     </div>)
 }
 

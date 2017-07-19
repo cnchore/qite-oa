@@ -10,13 +10,13 @@ const Detail = ({ dimissionDetail }) => {
     <div className="content-inner">
       <DimissionDetailPage data={data} employeeList={employeeList} />
       {
-        data && data.flowImgSrc?
-        <FlowImg path={data.flowImgSrc} />
-        :null
-      }
-      {
         commentList && commentList[0]?
         <CommentTable data={commentList} />
+        :null
+      } 
+      {
+        data && data.flowImgSrc?
+        <FlowImg path={data.flowImgSrc} />
         :null
       }
     </div>)

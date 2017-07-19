@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import styles from './index.less'
-import { Row,Col,Icon} from 'antd'
+import { Icon} from 'antd'
 import MissClockDetailPage from '../../../components/MissClockDetailPage'
 import SalaryChangeDetailPage from '../../../components/SalaryChangeDetailPage'
 import LeaveDetailPage from '../../../components/LeaveDetailPage'
@@ -82,17 +82,23 @@ const Detail = ({ waitingDetail }) => {
     }
   }
   //console.log(data,employeeList)
+
   return (
     <div className="content-inner">
+      <a href="javascript:window.history.back();" className="q-goback">
+        <Icon type="close-circle-o" />
+      </a>
        {detailpage}
-       { data && data.flowImgSrc?
-          <FlowImg path={data.flowImgSrc} />
-        :null}
        {
-        data && data.commentList?
-          <CommentTable data={data.commentList} />
+        data.commentList && data.commentList[0]?
+        <CommentTable data={data.commentList} />
         :null
-       }
+      } 
+      {
+        data && data.flowImgSrc?
+        <FlowImg path={data.flowImgSrc} />
+        :null
+      }
     </div>)
 }
 

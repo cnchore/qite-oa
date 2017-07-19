@@ -49,7 +49,6 @@ const List = ({ onSubmit, onEditItem,onDelete, location, ...tableProps }) => {
       title: '申请单号',
       dataIndex: 'code',
       key: 'code',width:220,
-      render: (text, record) => <Link to={`/missClock/${record.id}`}>{text}</Link>,
     }, {
       title: '创建时间',
       dataIndex: 'createTime',width:170,
@@ -67,11 +66,12 @@ const List = ({ onSubmit, onEditItem,onDelete, location, ...tableProps }) => {
       title: '操作',
       key: 'operation',
       fixed:'right',
-      width: 125,
+      width: 180,
       render: (text, record) => {
         return record.state===0 || record.state===-1?(<span>
-          <a onClick={e=>onEditItem(record)}>编辑</a>
-          <SelectUser callBack={e=>handleSubmit(record,e)} />
+          <Link to={`/missClock/${record.id}`} style={{marginRight:'8px'}}>查看</Link>
+          { record.state===0?<a onClick={e=>onEditItem(record)}>编辑</a>:null}
+          { record.state===0?<SelectUser callBack={e=>handleSubmit(record,e)} />:null}
           { record.state===0?
             <a style={{marginLeft:'8px'}} onClick={e=>handleDel(record.id)}>删除</a>
             :null

@@ -4,20 +4,24 @@ import { connect } from 'dva'
 import PaymentDetailPage from '../../../components/PaymentDetailPage'
 import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
+import { Icon} from 'antd'
 const Detail = ({ paymentDetail }) => {
   const { data,employeeList,commentList } = paymentDetail
  
   return (
     <div className="content-inner">
+      <a href="javascript:window.history.back();" className="q-goback">
+        <Icon type="close-circle-o" />
+      </a>
       <PaymentDetailPage data={data} employeeList={employeeList} />
-      {
-        data && data.flowImgSrc?
-        <FlowImg path={data.flowImgSrc} />
-        :null
-      }
       {
         commentList && commentList[0]?
         <CommentTable data={commentList} />
+        :null
+      } 
+      {
+        data && data.flowImgSrc?
+        <FlowImg path={data.flowImgSrc} />
         :null
       }
     </div>)

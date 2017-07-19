@@ -8,7 +8,7 @@ import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 import city from '../../utils/chinaCity'
 import {changeMoneyToChinese} from '../../utils'
-
+import CommentTable from '../../components/CommentTable'
 const confirm = Modal.confirm
 const { RangePicker } = DatePicker
 const RadioGroup = Radio.Group;

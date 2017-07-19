@@ -119,7 +119,7 @@ const Routers = function ({ history, app }) {
             }, 'missClock')
           },
         }, {
-          path: 'missClock/:id',
+          path: '/missClock/:id',
           getComponent (nextState, cb) {
             require.ensure([], require => {
               registerModel(app, require('./models/missClock/detail'))
@@ -430,6 +430,22 @@ const Routers = function ({ history, app }) {
               registerModel(app, require('./models/filed/detail'))
               cb(null, require('./routes/filed/detail/'))
             }, 'filed-detail')
+          },
+        }, {
+          path: '/waitSign',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/waitSign'))
+              cb(null, require('./routes/waitSign/'))
+            }, 'waitSign')
+          },
+        }, {
+          path: 'waitSign/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/waitSign/detail'))
+              cb(null, require('./routes/waitSign/detail/'))
+            }, 'waitSign-detail')
           },
         }, {
           path: '/login',

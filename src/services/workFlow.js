@@ -3,7 +3,7 @@ const { api,baseURL } = config
 const { workflow,employee,dictionary,organizations } = api
 
 //startProcess,getMyTaskToDoPage,getMyTaskDonePage,getTaskFiledPage,getTaskInfo,audit,
-//getDiagramByBusiness,getCommentListBybusiness
+//getDiagramByBusiness,getCommentListBybusiness,getTaskWaitSignPage,signTask
 export function getDiagram (params) {
   return `${baseURL}${workflow.getDiagram}?procDefId=${params.procDefId}&procInstId=${params.procInstId}`;
 }
@@ -74,4 +74,17 @@ export async function getCommentListBybusiness(params){
     data:params,
   })
 }
-
+export async function getTaskWaitSignPage(params){
+  return request({
+    url:workflow.getTaskWaitSignPage,
+    method:'get',
+    data:params,
+  })
+}
+export async function signTask(params){
+  return request({
+    url:workflow.signTask,
+    method:'post',
+    data:params,
+  })
+}
