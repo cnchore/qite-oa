@@ -49,6 +49,8 @@ const modal = ({
   employeeList,
   dicList,
   taskData={},
+  isNeedSel,
+  setNeedSel,
   form: {
     getFieldDecorator,
     validateFields,
@@ -83,11 +85,12 @@ const modal = ({
       onOk(fields)
     }
   }
-  let actionRadio=[],isNeedSel=false;
+  let actionRadio=[];
   if(taskData.actionMap && taskData.actionMap[0]){
     actionRadio=Object.keys(taskData.actionMap).map(act=>{
-        if(act==='1'){isNeedSel=true}
-     return <Radio value={act} key={act}>{ taskData.actionMap[act]}</Radio>
+      // console.log("key:",act)
+      // if(act==='1'){isNeedSel=true}
+      return <Radio value={act} key={act}>{ taskData.actionMap[act]}</Radio>
     })
   }
   let detailpage=null;
@@ -146,6 +149,14 @@ const modal = ({
         break;
     }
   }
+  const handleActChange=(e)=>{
+      // console.log(e.target.value,);
+      if(e.target.value==='1'){
+        setNeedSel(true);
+      }else{
+        setNeedSel(false);
+      }
+  }
   return (
       <Form layout='horizontal'>
         <Row gutter={24} className={styles['q-detail']}>
@@ -182,6 +193,7 @@ const modal = ({
               {getFieldDecorator('action', {
                 initialValue:null,
                 rules: [ { required: true,message:'不能为空',},],
+                onChange:handleActChange
               })(<RadioGroup>{actionRadio}</RadioGroup>)}
             </FormItem>
           </Col>

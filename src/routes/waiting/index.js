@@ -7,13 +7,14 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Waiting = ({ location, dispatch, waiting, loading }) => {
-  const { list,fileList,employeeList,dicList, pagination, taskData, modalVisible } = waiting
+  const { list,fileList,employeeList,dicList,isNeedSel, pagination, taskData, modalVisible } = waiting
   const { pageSize } = pagination
 
   const modalProps = {
     taskData,
     visible: modalVisible,
     employeeList,
+    isNeedSel,
     maskClosable: false,
     confirmLoading: loading.effects['waiting/submit'],
     title: '流程办理',
@@ -23,7 +24,12 @@ const Waiting = ({ location, dispatch, waiting, loading }) => {
         type: 'waiting/hideModal',
       })
     },
-    
+    setNeedSel(isNeedSel){
+      dispatch({
+        type:'waiting/setNeedSel',
+        payload:isNeedSel
+      })
+    },
     onOk (formItem) {
       dispatch({
         type: 'waiting/submit',

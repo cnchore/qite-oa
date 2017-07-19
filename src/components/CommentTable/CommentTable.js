@@ -41,7 +41,13 @@ class CommentTable extends React.Component {
         title: '完成耗时',
         dataIndex: 'duration',
         key: 'duration',
-        render:(text)=>text?(parseFloat(text)/3600000).toFixed(2):'0.00',
+        render:(text)=>{
+          var t=text?parseFloat(text)/1000:0,
+              h=Math.floor(t/3600),
+              m=Math.floor((t%3600)/60),
+              s=Math.ceil((t%3600)%60);
+          return `${h}时${m}分${s}秒`
+        },
       },
     ]
 

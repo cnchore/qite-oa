@@ -236,8 +236,8 @@ const modal = ({
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             请假时间：
           </Col>
-          <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
+          <Col xs={18} md={8} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}}>
               {getFieldDecorator('leaveTime', {
                 initialValue:initialLeaveTime,
                 rules: [
@@ -245,9 +245,13 @@ const modal = ({
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<RangePicker showTime format={dateTimeFormat}  style={{width:'400px'}}/>)}
+              })(<RangePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
             </FormItem>
-            <FormItem>共</FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            共：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem >
               {getFieldDecorator('leaveHours', {
                 initialValue:item.leaveHours,
@@ -259,7 +263,6 @@ const modal = ({
               })(<InputNumber step={0.1} />)}
             </FormItem>
             <FormItem>小时</FormItem>
-
           </Col>
         </Row>
         <Row gutter={24} className={styles['q-detail']}>

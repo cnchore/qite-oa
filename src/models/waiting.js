@@ -17,6 +17,7 @@ export default {
     modalVisible: false,
     fileList:[],
     employeeList:[],
+    isNeedSel:false,
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -174,6 +175,7 @@ export default {
       return { ...state, 
         taskData:action.payload.taskData, 
         employeeList:action.payload.employeeList[0],
+        isNeedSel:false,
         modalVisible: true }
     },
     getDicSuccess(state,action){
@@ -186,7 +188,9 @@ export default {
     setFileList(state,action){
       return {...state,fileList:action.payload}
     },
-
+    setNeedSel(state,action){
+      return {...state,isNeedSel:action.payload}
+    },
   },
 
 }
