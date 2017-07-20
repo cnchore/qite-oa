@@ -55,7 +55,8 @@ export default {
 
   effects: {
     *query ({ payload }, { call, put }) {
-      payload = parse(location.search.substr(1))
+      payload=parse(location.hash.split('#/leave?')[1]); 
+      // payload = parse(location.search.substr(1))
       const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       if (userInfo && userInfo.data) {
         payload.userId=userInfo.data.id;
@@ -76,13 +77,13 @@ export default {
           },
         })
       }else {
-        if (location.pathname !== '/login') {
-          let from = location.pathname
-          if (location.pathname === '/dashboard') {
-            from = '/dashboard'
-          }
-          window.location = `${location.origin}/login?from=${from}`
-        }
+        // if (location.pathname !== '/login') {
+        //   let from = location.pathname
+        //   if (location.pathname === '/dashboard') {
+        //     from = '/dashboard'
+        //   }
+        //   window.location = `${location.origin}/login?from=${from}`
+        // }
       }
     },
     *getDic ({ payload }, { call, put }) {

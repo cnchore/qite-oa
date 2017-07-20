@@ -2,6 +2,8 @@ import { myCity, queryWeather, query } from '../services/dashboard'
 import { parse } from 'qs'
 import { config } from '../utils'
 const { prefix } = config
+import { routerRedux } from 'dva/router'
+
 // zuimei 摘自 http://www.zuimeitianqi.com/res/js/index.js
 let zuimei = {
   parseActualData (actual) {
@@ -183,21 +185,23 @@ export default {
    
   },
   subscriptions: {
-    setup ({ dispatch }) {
-      const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
-      if(userInfo&& userInfo.success && userInfo.data){
-        dispatch({ type: 'query' })
-        dispatch({ type: 'queryWeather' })
-      }else{
-        if (location.pathname !== '/login') {
-          let from = location.pathname
-          if (location.pathname === '/dashboard') {
-            from = '/dashboard'
-          }
-          window.location = `${location.origin}/login?from=${from}`
+    setup ({ dispatch,history }) {
+      history.listen(location => {
+        const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
+        if(userInfo&& userInfo.success && userInfo.data){
+          dispatch({ type: 'query' })
+          dispatch({ type: 'queryWeather' })
+        }else{
+          // // if (location.pathname !== '/login') {
+          //   let _from = location.pathname
+          //   if (location.pathname === '/dashboard') {
+          //     _from = '/dashboard'
+          //   }
+          //   // window.location = `${location.origin}/login?from=${_from}`
+          //   routerRedux.replace(`/login`)
+          // }
         }
-      }
-      
+      })
     },
   },
   effects: {

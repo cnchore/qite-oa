@@ -9,6 +9,7 @@ import styles from './Modal.less'
 import {changeMoneyToChinese} from '../../utils'
 import EditCellTable from './EditCellTable'
 import { FileUpload,SelectUser } from '../../components'
+import CommentTable from '../../components/CommentTable'
 
 const confirm = Modal.confirm
 //const { RangePicker } = DatePicker

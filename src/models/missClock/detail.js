@@ -11,7 +11,8 @@ export default {
   },
   subscriptions: {
     setup ({ dispatch, history }) {
-      history.listen(() => {
+      history.listen(location => {
+        // console.log(location,location.pathname)
         const match = pathToRegexp('/missClock/:id').exec(location.pathname)
         if (match) {
           dispatch({ type: 'query', payload: { id: match[1] } })

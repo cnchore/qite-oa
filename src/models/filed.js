@@ -43,7 +43,8 @@ export default {
   effects: {
     *query ({ payload }, { call, put }) {
 
-      payload = parse(location.search.substr(1))
+      payload=parse(location.hash.split('#/filed?')[1]); 
+      // payload = parse(location.search.substr(1))
       const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       
       if (userInfo && userInfo.data) {
@@ -66,13 +67,13 @@ export default {
           throw data;
         }
       }else {
-        if (location.pathname !== '/login') {
-          let from = location.pathname
-          if (location.pathname === '/dashboard') {
-            from = '/dashboard'
-          }
-          window.location = `${location.origin}/login?from=${from}`
-        }
+        // if (location.pathname !== '/login') {
+        //   let from = location.pathname
+        //   if (location.pathname === '/dashboard') {
+        //     from = '/dashboard'
+        //   }
+        //   window.location = `${location.origin}/login?from=${from}`
+        // }
       }
     },
     

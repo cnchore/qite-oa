@@ -62,7 +62,8 @@ export default {
   effects: {
     *query ({ payload }, { call, put }) {
 
-      payload = parse(location.search.substr(1))
+      payload=parse(location.hash.split('#/employee?')[1]); 
+      // payload = parse(location.search.substr(1))
       payload={...payload,rows:payload.pageSize}
       const data = yield call(query, payload)
 

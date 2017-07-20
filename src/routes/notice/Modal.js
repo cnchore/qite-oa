@@ -10,6 +10,7 @@ import styles from './Modal.less'
 //import {changeMoneyToChinese} from '../../utils'
 import { convertToRaw } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
+import CommentTable from '../../components/CommentTable'
 
 const confirm = Modal.confirm
 //const { RangePicker } = DatePicker

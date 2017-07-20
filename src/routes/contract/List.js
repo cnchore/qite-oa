@@ -96,7 +96,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete,location, ...tableProps })
       fixed:'right',
       width: 180,
       render: (text, record) => {
-         return record.state===0 || record.state===-1?(<span>
+         return record.state!==undefined?(<span>
           <Link to={`/contract/${record.id}`} style={{marginRight:'8px'}}>查看</Link>
           { record.state===0?<a onClick={e=>onEditItem(record)}>编辑</a>:null}
           { record.state===0?<SelectUser callBack={e=>handleSubmit(record,e)} />:null}

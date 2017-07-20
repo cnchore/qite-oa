@@ -10,6 +10,7 @@ import styles from './Modal.less'
 //import {changeMoneyToChinese} from '../../utils'
 import EditCellTable from './EditCellTable'
 import templateUrl from '../../../assets/template/财务报销单据.xlsx'
+import CommentTable from '../../components/CommentTable'
 
 const confirm = Modal.confirm
 //const { RangePicker } = DatePicker

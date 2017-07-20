@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Router } from 'dva/router'
 import App from './routes/app'
-
+import { config } from './utils'
+const { prefix } = config
 const registerModel = (app, model) => {
   if (!(app._models.filter(m => m.namespace === model.namespace).length === 1)) {
     app.model(model)
@@ -467,7 +468,18 @@ const Routers = function ({ history, app }) {
       ],
     },
   ]
-
+ 
+  history.listen(location=>{
+    // console.log('history listen:',location)
+    const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
+    if (!userInfo || (userInfo && !userInfo.data)) {
+      if(location.pathname!=='/login'){
+        console.log('no login');
+        history.replace(`/login?from=${location.pathname}`)
+        return;
+      }
+    }
+  })
   return <Router history={history} routes={routes} />
 }
 

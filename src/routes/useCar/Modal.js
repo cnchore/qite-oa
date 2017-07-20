@@ -8,6 +8,7 @@ import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
 import {changeMoneyToChinese} from '../../utils'
+import CommentTable from '../../components/CommentTable'
 
 const confirm = Modal.confirm
 const { RangePicker } = DatePicker
@@ -63,7 +64,7 @@ const modal = ({
       if (errors) {
         return null;
       }
-      const data = {...getFieldsValue()}
+      data = {...getFieldsValue()}
       if(fileList && fileList.length>0){
         fileList.map((f,index)=>{
           if(f.id) data[`attachList[${index}].id`]=f.id;

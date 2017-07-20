@@ -53,7 +53,8 @@ export default {
   effects: {
     *query ({ payload }, { call, put }) {
 
-      payload = parse(location.search.substr(1))
+      payload=parse(location.hash.split('#/knowledge?')[1]); 
+      // payload = parse(location.search.substr(1))
       const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
 
       if (userInfo && userInfo.data) {

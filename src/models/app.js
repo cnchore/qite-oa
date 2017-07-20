@@ -49,14 +49,19 @@ export default {
         if (location.pathname === '/login') {
           yield put(routerRedux.push('/dashboard'))
         }
+
       } else {
-        if (location.pathname !== '/login') {
-          let from = location.pathname
-          if (location.pathname === '/dashboard') {
-            from = '/dashboard'
-          }
-          window.location = `${location.origin}/login?from=${from}`
-        }
+        // console.log(location)
+        // // if (location.pathname !== '/login') {
+        //   let _from = location.pathname
+        //   if (location.pathname === '/dashboard') {
+        //     _from = '/dashboard'
+        //   }
+        //   // window.location = `${location.origin}/login?from=${_from}`
+        //   // console.log('routerRedux:',routerRedux,_from)
+        //   yield put(routerRedux.replace(`/login?from=${_from}`))
+        // }
+        // yield put(routerRedux.replace(`/login`))
       }
     },
 

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 //import ReactDOM from 'react-dom'
 import styles from './SelectUser.less'
-import { Row,Col,Tree,Table,Modal,Button } from 'antd'
+import { Row,Col,Tree,Table,Modal,Button,message } from 'antd'
 import {getOrg,queryList} from '../../services/employee'
 
 const TreeNode = Tree.TreeNode;
@@ -24,6 +24,10 @@ class SelectUser extends React.Component {
   handleOk = (e) => {
     //console.log(e);
     const { selectedRow} =this.state;
+    if(selectedRow && !selectedRow.userId ){
+      message.error('请选择一个人后，再试');
+      return;
+    }
     this.setState({
       modalVisible: false,
     });

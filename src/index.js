@@ -2,20 +2,21 @@
 import 'babel-polyfill'
 import dva from 'dva'
 import createLoading from 'dva-loading'
-import { browserHistory } from 'dva/router'
+import { hashHistory } from 'dva/router'
 import { message } from 'antd'
-
+//hashHistory
+//browserHistory
 // 1. Initialize
 const app = dva({
   ...createLoading({
     effects: true,
   }),
-  history: browserHistory,
+  history: hashHistory,
   //全局错误抛出
   onError (error) {
     message.error(error.message,5)
   },
-  
+
 })
 
 // 2. Model

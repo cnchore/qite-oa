@@ -3,6 +3,7 @@ import { startProcess,getTaskInfo,audit } from '../services/workFlow'
 import { treeToArray,config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
+import pathToRegexp from 'path-to-regexp'
 const { prefix } = config
 export default {
   namespace: 'missClock',
@@ -25,6 +26,7 @@ export default {
   subscriptions: {
     setup ({ dispatch, history }) {
       history.listen(location => {
+        // console.log('location:',location)
         if (location.pathname === '/missClock') {
           let query=location.query;
           if(query && query.taskId && query.busiId && query.from){
@@ -45,7 +47,9 @@ export default {
 
   effects: {
     *query ({ payload }, { call, put }) {
-      payload = parse(location.search.substr(1))
+      // console.log(parse(location.hash.split('#/missClock?')[1]))
+      // payload = parse(location.search.substr(1))
+      payload=parse(location.hash.split('#/missClock?')[1]); 
       const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       if (userInfo && userInfo.data) {
         payload.userId=userInfo.data.id;
@@ -66,13 +70,13 @@ export default {
           },
         })
       }else {
-        if (location.pathname !== '/login') {
-          let from = location.pathname
-          if (location.pathname === '/dashboard') {
-            from = '/dashboard'
-          }
-          window.location = `${location.origin}/login?from=${from}`
-        }
+        // if (location.pathname !== '/login') {
+        //   let from = location.pathname
+        //   if (location.pathname === '/dashboard') {
+        //     from = '/dashboard'
+        //   }
+        //   window.location = `${location.origin}/login?from=${from}`
+        // }
       }
     },
 

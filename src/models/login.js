@@ -18,11 +18,11 @@ export default {
       yield put({ type: 'hideLoginLoading' })
       if (data.success) {
         yield put({type:'loginSuccess',payload:data})
-        const from = queryURL('from')
+        const _from = queryURL('from')
 
         yield put({ type: 'app/query'})
-        if (from) {
-          yield put(routerRedux.push(from))
+        if (_from) {
+          yield put(routerRedux.push(_from))
         } else {
           yield put(routerRedux.push('/dashboard'))
         }
