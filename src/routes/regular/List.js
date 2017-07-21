@@ -82,7 +82,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
       title: '操作',
       key: 'operation',
       fixed:'right',
-      width: 180,
+      width: 250,
       render: (text, record) => {
         return record.state!==undefined?(<span>
           <Link to={`/regular/${record.id}`} style={{marginRight:'8px'}}>查看</Link>

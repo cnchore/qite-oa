@@ -94,7 +94,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete,location, ...tableProps })
       title: '操作',
       key: 'operation',
       fixed:'right',
-      width: 180,
+      width: 250,
       render: (text, record) => {
          return record.state!==undefined?(<span>
           <Link to={`/contract/${record.id}`} style={{marginRight:'8px'}}>查看</Link>
@@ -116,7 +116,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete,location, ...tableProps })
         {...tableProps}
         className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 1300 }}
+        scroll={{ x: 1400 }}
         columns={columns}
         simple
         rowKey={record => record.id}

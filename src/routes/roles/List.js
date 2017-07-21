@@ -43,7 +43,7 @@ const List = ({ onDeleteItem, onEditItem, location, ...tableProps }) => {
       fixed:'right',
       width: 100,
       render: (text, record) => {
-          return  (<Button size="small" icon="edit" type="ghost" onClick={e=>onEditItem(record)} >编辑</Button>)
+          return  (<a onClick={e=>onEditItem(record)} >编辑</a>)
         //return <DropOption onMenuClick={e => handleMenuClick(record, e)} menuOptions={[{ key: '1', name: '编辑' }]} />
       },
     },

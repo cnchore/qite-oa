@@ -62,7 +62,7 @@ export default {
   effects: {
     *query ({ payload }, { call, put }) {
 
-      payload=parse(location.hash.split('#/employee?')[1]); 
+      payload=parse(location.hash.split('#/setting/employee?')[1]); 
       // payload = parse(location.search.substr(1))
       payload={...payload,rows:payload.pageSize}
       const data = yield call(query, payload)
@@ -75,7 +75,7 @@ export default {
             pagination: {
               current: Number(payload.page) || 1,
               pageSize: Number(payload.pageSize) || 10,
-              total: data.total,
+              total: data.data.total,
             },
           },
         })

@@ -13,7 +13,7 @@ const Detail = ({ budgetDetail }) => {
       <a href="javascript:window.history.back();" className="q-goback">
         <Icon type="close-circle-o" />
       </a>
-      <MissClockDetailPage data={data} employeeList={employeeList} />
+      <BudgetDetailPage data={data} employeeList={employeeList} />
       {
         commentList && commentList[0]?
         <CommentTable data={commentList} />

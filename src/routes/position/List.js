@@ -70,7 +70,7 @@ const List = ({ onTreeSelect,location, ...tableProps }) => {
      
       <Col className={styles.tree} xl={{ span: 6 }} md={{ span: 6 }} sm={{ span: 8 }} xs={{span:24}}>
          <h3>组织机构</h3>
-        <Tree onSelect={onSelect} showLine>
+        <Tree onSelect={onSelect} showLine defaultExpandAll>
           {treeNodes}
         </Tree>
       </Col>

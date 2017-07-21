@@ -91,7 +91,8 @@ const modal = ({
       if(item.id){
         data.id=item.id
       }
-      onOk(data)
+      handleSetUserRole();
+      onOk(data);
     })
   }
   const handleSetUserRole=()=>{
@@ -153,7 +154,7 @@ const modal = ({
     <Modal {...modalOpts}
       footer={[
         <Button key="back" size="large" onClick={onCancel}>取消</Button>,
-        <Button key="setUserRole" disabled={item.id?false:true} size="large" loading={setUserRoleLoading} onClick={handleSetUserRole}>设置用户角色</Button>,
+        // <Button key="setUserRole" disabled={item.id?false:true} size="large" loading={setUserRoleLoading} onClick={handleSetUserRole}>设置用户角色</Button>,
         <Button key="submit" type="primary" size="large" loading={confirmLoading} onClick={handleOk}>
           确定
         </Button>

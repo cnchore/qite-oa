@@ -70,7 +70,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
       dataIndex: 'createTime',width:170,
       key: 'createTime',
     }, {
-      title: '收款方',width:120,
+      title: '收款方',
       dataIndex: 'payee',
       key: 'payee',
       
@@ -87,7 +87,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
       title: '操作',
       key: 'operation',
       fixed:'right',
-      width: 180,
+      width: 250,
       render: (text, record) => {
         return record.state!==undefined?(<span>
           <Link to={`/payment/${record.id}`} style={{marginRight:'8px'}}>查看</Link>
@@ -109,7 +109,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
         {...tableProps}
         className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 1100 }}
+        scroll={{ x: 1200 }}
         columns={columns}
         simple
         rowKey={record => record.id}

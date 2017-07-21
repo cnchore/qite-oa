@@ -70,17 +70,15 @@ const List = ({ onUserChange,onResetPwd, onEditItem,onTreeSelect,location, ...ta
       title: '操作',
       key: 'operation',
       fixed:'right',
-      width: 100,
+      width: 220,
       render: (text, record) => {
-        return (<DropOption onMenuClick={e => handleMenuClick(record, e)} 
-          menuOptions={[{ 
-            key: '1', name: '员工编辑' 
-          }, { 
-            key: '2', name: record.isDisable?'账号启用':'账号禁用' 
-          },{ 
-            key: '3', name: '密码重置' 
-          }]} 
-        />)
+        return (
+          <span className={styles['q-operation']}>
+            <a onClick={e=>handleMenuClick(record,{key:'1'})}>员工编辑</a>
+            <a onClick={e=>handleMenuClick(record,{key:'2'})}>{record.isDisable?'账号启用':'账号禁用'}</a>
+            <a onClick={e=>handleMenuClick(record,{key:'3'})}>密码重置</a>
+          </span>
+        )
       },
     },
   ]
@@ -100,7 +98,7 @@ const List = ({ onUserChange,onResetPwd, onEditItem,onTreeSelect,location, ...ta
      
       <Col className={styles.tree} xl={{ span: 6 }} md={{ span: 6 }} sm={{ span: 8 }} xs={{span:24}}>
          <h3>组织机构</h3>
-        <Tree onSelect={onSelect} showLine>
+        <Tree onSelect={onSelect} showLine defaultExpandAll>
           {treeNodes}
         </Tree>
       </Col>
@@ -109,7 +107,7 @@ const List = ({ onUserChange,onResetPwd, onEditItem,onTreeSelect,location, ...ta
           {...tableProps}
           className={classnames({ [styles.table]: true })}
           bordered
-          scroll={{ x: 767 }}
+          scroll={{ x: 967 }}
           columns={columns}
           simple
           rowKey={record => record.id}

@@ -83,7 +83,7 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
       title: '操作',
       key: 'operation',
       fixed:'right',
-      width: 180,
+      width: 250,
       render: (text, record) => {
         return record.state!==undefined?(<span>
           <Link to={`/dimission/${record.id}`} style={{marginRight:'8px'}}>查看</Link>
@@ -105,7 +105,7 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
         {...tableProps}
         className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 767 }}
+        scroll={{ x: 927 }}
         columns={columns}
         simple
         rowKey={record => record.id}

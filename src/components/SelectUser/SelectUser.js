@@ -28,6 +28,9 @@ class SelectUser extends React.Component {
       this.setState({orgTree:res.data,modalVisible: true});
     });
   }
+  handleCallBackNull=()=>{
+    if(this.props.callBack)this.props.callBack({userId:-1});
+  }
   handleOk = (e) => {
     //console.log(e);
     const { selectedRow} =this.state;
@@ -120,14 +123,18 @@ class SelectUser extends React.Component {
     )
     return (
       <span style={{marginLeft:'8px'}}>
-      { type && type==='button'?
-      <Button size="large" type="primary" onClick={e=>this.showModal()}>提交</Button>
-      :
-      <a onClick={e=>this.showModal()}>提交</a>
+      { type && type==='button'?<span>
+        <Button size="large" type="primary" onClick={e=>this.handleCallBackNull()}>提交</Button>
+        <Button size="large" type="primary" style={{marginLeft:'8px'}} onClick={e=>this.showModal()}>指定审批人</Button>
+      </span>
+      :<span>
+        <a onClick={e=>this.handleCallBackNull()}>提交</a>
+        <a style={{marginLeft:'8px'}} onClick={e=>this.showModal()}>指定审批人</a>
+      </span>
       }
       <Modal
         width={600}
-        title="选择人员"
+        title="选择审批人"
         visible={this.state.modalVisible}
         onOk={this.handleOk}
         onCancel={this.handleCancel}

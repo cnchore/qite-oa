@@ -84,6 +84,9 @@ const Detail = ({ filedDetail }) => {
   //console.log(data,employeeList)
   return (
     <div className="content-inner">
+        <a href="javascript:window.history.back();" className="q-goback">
+          <Icon type="close-circle-o" />
+        </a>
        {detailpage}
        {
         data.commentList && data.commentList[0]?
