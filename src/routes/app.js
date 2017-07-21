@@ -8,14 +8,14 @@ import '../themes/index.less'
 import './app.less'
 import NProgress from 'nprogress'
 import {BackTop} from 'antd'
-
+import EditPwdModal from './editPwd'
 const { prefix } = config
 
 const { Header, Bread, Footer, Sider, styles } = Layout
 let lastHref
 
 const App = ({ children, location, dispatch, app, loading }) => {
-  const { user,menuList, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys } = app
+  const { user,editPwdModal,menuList, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys } = app
   const href = window.location.href
   //console.log(`user:`,user)
   if (lastHref !== href) {
@@ -25,7 +25,23 @@ const App = ({ children, location, dispatch, app, loading }) => {
       lastHref = href
     }
   }
-
+  const editPwdProps={
+    visible:editPwdModal,
+    maskClosable:false,
+    confirmLoading:loading.effects['app/editPwd'],
+    title:'修改密码',
+    onOk(data){
+      dispatch({
+        type:'app/editPwd',
+        payload:data,
+      })
+    },
+    onCancel(){
+      dispatch({
+        type:'app/hideEditPwdModal'
+      })
+    }
+  }
   const headerProps = {
     menu:menuList,
     user,
@@ -39,6 +55,9 @@ const App = ({ children, location, dispatch, app, loading }) => {
     },
     logout () {
       dispatch({ type: 'app/logout' })
+    },
+    toEditPwd(){
+      dispatch({type:'app/showEditPwdModal'})
     },
     switchSider () {
       dispatch({ type: 'app/switchSider' })
@@ -101,6 +120,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
           <Footer />
         </div>
       </div>
+      {editPwdModal && <EditPwdModal {...editPwdProps} />}
     </div>
   )
 }

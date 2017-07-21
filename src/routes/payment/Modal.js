@@ -244,12 +244,12 @@ const modal = ({
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             采购申请单：
           </Col>
-          <Col xs={18} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('purchaseIds', {
-                initialValue:item.purchaseIds===undefined||item.purchaseIds===''?[]:item.purchaseIds.split(','),
+                initialValue:item.purchaseIds===undefined||item.purchaseIds==='' || item.purchaseIds===null?[]:item.purchaseIds.split(','),
                 onChange:handleSelectChange,
-              })(<Select mode="multiple">{purchaseOption}</Select>)}
+              })(<Select mode="multiple" >{purchaseOption}</Select>)}
               
             </FormItem>
             

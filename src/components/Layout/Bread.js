@@ -10,9 +10,10 @@ const Bread = ({ menu }) => {
   // 匹配当前路由
   // console.log('bread:',menu && menu.length)
   let pathArray = []
-  let current
+  let current,_pathname=location.hash?location.hash.split('?')[0].substr(1):location.pathname;
+  // console.log("bread:",_pathname)
   for (let index in menu) {
-    if (menu[index].router && pathToRegexp(menu[index].router).exec(location.pathname)) {
+    if (menu[index].router && pathToRegexp(menu[index].router).exec(_pathname)) {
       current = menu[index]
       break
     }

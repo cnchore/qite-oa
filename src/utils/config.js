@@ -33,6 +33,7 @@ module.exports = {
       logout:`${apiPrefix}/user/loginOut`,
       userChange:`${apiPrefix}/user/change`,
       resetPwd:`${apiPrefix}/user/resetPwd`,
+      editPwd:`${apiPrefix}/user/editPwd`,
     },
     //组织机构
     organizations:{

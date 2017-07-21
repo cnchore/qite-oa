@@ -17,6 +17,13 @@ export async function logout (params) {
     data: params,
   })
 }
+export async function editPwd (params) {
+  return request({
+    url: user.editPwd,
+    method: 'post',
+    data: params,
+  })
+}
 
 export async function getLoginUserMenu (params) {
   return request({

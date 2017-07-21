@@ -1,7 +1,8 @@
-import { query, logout,getLoginUserMenu } from '../services/app'
+import { query, logout,getLoginUserMenu,editPwd } from '../services/app'
 import { routerRedux } from 'dva/router'
 import { parse } from 'qs'
 import { config,treeMenuToArrayMenu } from '../utils'
+import { message } from 'antd'
 const { prefix } = config
 
 export default {
@@ -10,6 +11,7 @@ export default {
     user: {},
     menuList:[],
     menuPopoverVisible: false,
+    editPwdModal:false,
     siderFold: localStorage.getItem(`${prefix}siderFold`) === 'true',
     darkTheme: localStorage.getItem(`${prefix}darkTheme`) === 'true' || true,
     isNavbar: document.body.clientWidth < 769,
@@ -31,14 +33,11 @@ export default {
   },
   effects: {
 
-    *query ({
-      payload,
-    }, { call, put }) {
+    *query ({payload}, { call, put }) {
       const data = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       const menuData=yield call(getLoginUserMenu, {})
       if (data&& data.success && data.data && menuData && menuData.success) {
         //console.log('userData:',data.message)
-
         yield put({
           type: 'querySuccess',
           payload: {
@@ -50,36 +49,30 @@ export default {
           yield put(routerRedux.push('/dashboard'))
         }
 
-      } else {
-        // console.log(location)
-        // // if (location.pathname !== '/login') {
-        //   let _from = location.pathname
-        //   if (location.pathname === '/dashboard') {
-        //     _from = '/dashboard'
-        //   }
-        //   // window.location = `${location.origin}/login?from=${_from}`
-        //   // console.log('routerRedux:',routerRedux,_from)
-        //   yield put(routerRedux.replace(`/login?from=${_from}`))
-        // }
-        // yield put(routerRedux.replace(`/login`))
-      }
+      } 
     },
 
-    *logout ({
-      payload,
-    }, { call, put }) {
-      const data = yield call(logout, parse(payload))
+    *logout ({payload}, { call, put }) {
+      const data = yield call(logout, {})
       if (data.success) {
         sessionStorage.setItem(`${prefix}userInfo`,JSON.stringify({}))
-        yield put({ type: 'query' })
+        yield put(routerRedux.push('/login'))
+        // yield put({ type: 'query' })
       } else {
         throw (data)
       }
     },
-
-    *changeNavbar ({
-      payload,
-    }, { put, select }) {
+    *editPwd ({payload}, { call, put }) {
+      const data = yield call(editPwd, parse(payload))
+      if (data.success) {
+        message.success('密码修改成功');
+        yield put({type:'editPwdSuccess'})
+        yield put(routerRedux.push('/login'))
+      } else {
+        throw (data)
+      }
+    },
+    *changeNavbar ({payload}, { put, select }) {
       const { app } = yield(select(_ => _))
       const isNavbar = document.body.clientWidth < 769
       if (isNavbar !== app.isNavbar) {
@@ -103,7 +96,15 @@ export default {
         siderFold: !state.siderFold,
       }
     },
-
+    showEditPwdModal(state){
+      return {...state,editPwdModal:true}
+    },
+    hideEditPwdModal(state){
+      return {...state,editPwdModal:false}
+    },
+    editPwdSuccess(state,{payload}){
+      return {...state,editPwdModal:false}
+    },
     switchTheme (state) {
       localStorage.setItem(`${prefix}darkTheme`, !state.darkTheme)
       return {

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './PurchaseApplyDetailPage.less'
-import { Icon,Row,Col } from 'antd'
+import { Icon,Row,Col,Table } from 'antd'
 import classNames from 'classnames';
 import FileList from '../FileList'
 import {changeMoneyToChinese} from '../../utils'

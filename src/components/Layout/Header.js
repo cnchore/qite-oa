@@ -6,8 +6,8 @@ import Menus from './Menu'
 
 const SubMenu = Menu.SubMenu
 
-const Header = ({ user, logout, switchSider, siderFold, isNavbar, menuPopoverVisible, location, switchMenuPopover, navOpenKeys, changeOpenKeys, menu }) => {
-  let handleClickMenu = e => e.key === 'logout' && logout()
+const Header = ({ user, logout,toEditPwd, switchSider, siderFold, isNavbar, menuPopoverVisible, location, switchMenuPopover, navOpenKeys, changeOpenKeys, menu }) => {
+  let handleClickMenu = e => e.key === 'logout'?logout():e.key==='editPwd'?toEditPwd():null
   const menusProps = {
     menu,
     siderFold: false,
@@ -36,7 +36,7 @@ const Header = ({ user, logout, switchSider, siderFold, isNavbar, menuPopoverVis
           <Icon type="bell" />
         </div>
         <Menu mode="horizontal" onClick={handleClickMenu}>
-          <SubMenu style={{
+          <SubMenu mode="vertaical" style={{
             float: 'right',
           }} title={
             <span> 
@@ -45,6 +45,9 @@ const Header = ({ user, logout, switchSider, siderFold, isNavbar, menuPopoverVis
             </span>
             }
           >
+            <Menu.Item key="editPwd">
+              <Icon type="lock" />修改密码
+            </Menu.Item>
             <Menu.Item key="logout">
               <Icon type="logout" />注销
             </Menu.Item>
@@ -59,6 +62,7 @@ Header.propTypes = {
   menu: PropTypes.array,
   user: PropTypes.object,
   logout: PropTypes.func,
+  toEditPwd:PropTypes.func,
   switchSider: PropTypes.func,
   siderFold: PropTypes.bool,
   isNavbar: PropTypes.bool,

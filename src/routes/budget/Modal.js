@@ -69,7 +69,7 @@ const modal = ({
       if (errors) {
         return null;
       }
-      const data = {...getFieldsValue()}
+      data = {...getFieldsValue()}
       if(fileList && fileList.length>0){
         fileList.map((f,index)=>{
           if(f.id) data[`attachList[${index}].id`]=f.id;

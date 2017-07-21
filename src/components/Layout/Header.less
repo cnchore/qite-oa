@@ -14,7 +14,7 @@
   justify-content: space-between;
   height: 47px;
   background-color: #fff;
-
+  z-index: 100;
   .rightWarpper {
     display: flex;
     padding-right: 16px;
@@ -54,5 +54,9 @@
     .ant-menu-inline .ant-menu-selected {
       border-right: 0;
     }
+
   }
+}
+:global .ant-menu.ant-menu-dark .ant-menu-item-selected{
+  background-color: #494949;
 }

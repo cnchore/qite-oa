@@ -101,7 +101,7 @@ class UseCarDetailPage extends React.Component {
           :null
         }
         {
-          data.oilCost || item.mileageStart?
+          data.oilCost || data.mileageStart?
           <Row gutter={24} className={styles['q-detail']}>
             <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
               拿车里程：

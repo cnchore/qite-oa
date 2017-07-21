@@ -4,16 +4,23 @@ import PropTypes from 'prop-types'
 import styles from './SelectUser.less'
 import { Row,Col,Tree,Table,Modal,Button,message } from 'antd'
 import {getOrg,queryList} from '../../services/employee'
-
+import {config } from '../../utils'
+const {prefix} =config;
 const TreeNode = Tree.TreeNode;
-
-
 class SelectUser extends React.Component {
   state = {
     employeeList:[],
     orgTree:[],
     modalVisible:false,
     selectedRow:{},
+    mobilePhone: -1,
+  }
+  componentWillMount(){
+    const userInfo=JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
+    if(userInfo && userInfo.data && userInfo.data.userName){
+      this.setState({mobilePhone:userInfo.data.userName})
+      // console.log(userInfo.data.id)
+    }
   }
   showModal = () => {
     getOrg().then(res=>{
@@ -62,13 +69,16 @@ class SelectUser extends React.Component {
         selectedRow.userName=selectedRows[0].userName;
         this.setState({selectedRow})
       },
-      
+      getCheckboxProps: record => ({
+        disabled: record.mobilePhone === this.state.mobilePhone, 
+      }),
       type:'radio',
     };
     const tableProps = {
       dataSource: employeeList,
       pagination:false,
       rowSelection,
+      title:()=><h4>可选人员</h4>
     }
     const loop = data => data.map((item) => {
       if (item.children && item.children[0]) {
@@ -92,8 +102,8 @@ class SelectUser extends React.Component {
     const content=(
       <Row gutter={24} style={{width:'580px'}}>
         <Col className={styles.tree} span={12}>
-           <h3>组织机构</h3>
-          <Tree onSelect={onSelect} showLine>
+           <h4>组织机构</h4>
+          <Tree onSelect={onSelect} showLine defaultExpandAll>
             {treeNodes}
           </Tree>
         </Col>
