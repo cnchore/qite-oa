@@ -32,10 +32,17 @@ export default {
       history.listen(location => {
 
         if (location.pathname === '/waiting') {
-          dispatch({
-            type: 'query',
-            payload: location.query,
-          })
+          if(location.query && location.query.homeTaskId){
+            dispatch({
+              type: 'editItem',
+              payload: {taskId:location.query.homeTaskId},
+            })
+          }else{
+            dispatch({
+              type: 'query',
+              payload: location.query,
+            })
+          }
           dispatch({
             type: 'getDic',
             payload: {dicType:'flowType_item'},
@@ -47,12 +54,9 @@ export default {
 
   effects: {
     *query ({ payload }, { call, put }) {
-
       payload=parse(location.hash.split('#/waiting?')[1]); 
       // payload = parse(location.search.substr(1))
       const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
-      
-      
       if (userInfo && userInfo.data) {
         payload={...payload,rows:payload.pageSize}
         const data = yield call(getMyTaskToDoPage, payload)
@@ -72,14 +76,6 @@ export default {
         }else{
           throw data;
         }
-      }else {
-        // if (location.pathname !== '/login') {
-        //   let from = location.pathname
-        //   if (location.pathname === '/dashboard') {
-        //     from = '/dashboard'
-        //   }
-        //   window.location = `${location.origin}/login?from=${from}`
-        // }
       }
     },
     *editItem ({ payload }, { call, put }) {
@@ -135,8 +131,13 @@ export default {
       const data = yield call(audit, payload)
       if (data.success) {
         message.success('办理成功');
-        yield put({ type: 'hideModal' })
-        yield put({ type: 'query' })
+        let queryList=parse(location.hash.substr(location.hash.indexOf('?')+1)); 
+        if(queryList && queryList.from){
+          window.location = `${location.origin}${location.pathname}#${queryList.from}?t=${Math.random()}`;
+        }else{
+          yield put({ type: 'hideModal' })
+          yield put({ type: 'query' })
+        }
       } else {
         throw data
       }
@@ -153,7 +154,10 @@ export default {
         })
       }
     },
-    
+    *closeAndReload({},{call,put}){
+      yield put({type:'hideModal'})
+      yield put({type:'query'})
+    },
   },
 
   reducers: {

@@ -1,0 +1,55 @@
+@import "../../../themes/vars.less";
+
+.userInfo {
+  padding: 32px;
+  margin-bottom: 24px;
+  cursor: pointer;
+
+  .photo {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: #369;
+    float: left;
+    box-shadow: 0 0 3rem #369;
+    animation: nucleus 2s infinite linear;
+    -webkit-animation: nucleus 2s infinite linear;
+    -moz-animation: nucleus 2s infinite linear;
+  }
+  @keyframes nucleus{
+    0% {box-shadow: 0 0 0 transparent;}
+    50% {box-shadow: 0 0 1.5rem #369;}
+    100% {box-shadow: 0 0 0 transparent;}
+  }
+  @-webkit-keyframes nucleus{
+    0% {box-shadow: 0 0 0 transparent;}
+    50% {box-shadow: 0 0 1.5rem #369;}
+    100% {box-shadow: 0 0 0 transparent;}
+  }
+  @-moz-keyframes nucleus{
+    0% {box-shadow: 0 0 0 transparent;}
+    50% {box-shadow: 0 0 1.5rem #369;}
+    100% {box-shadow: 0 0 0 transparent;}
+  }
+  .content {
+    width: 100%;
+    padding-left: 78px;
+
+    .title {
+      line-height: 54px;
+      // font-size: 18px;
+      // color: fade(#000, 25%);
+      // margin-bottom: 8px;
+      height: 54px;
+      .text-overflow();
+    }
+
+    .realName {
+      padding-left: 8px;
+      line-height: 16px;
+      font-size: 16px;
+      height: 16px;
+      .text-overflow();
+    }
+  }
+}

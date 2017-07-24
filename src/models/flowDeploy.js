@@ -34,6 +34,7 @@ export default {
   subscriptions: {
     setup ({ dispatch, history }) {
       history.listen(location => {
+        console.log('flowDeploy location:',location)
         if (location.pathname === '/setting/flowDeploy') {
           dispatch({
             type: 'query',
@@ -55,7 +56,7 @@ export default {
   effects: {
     *query ({ payload }, { call, put }) {
 
-      payload=parse(location.hash.split('#/setting/flowDeploy?')[1]); 
+      // payload=parse(location.hash.split('#/setting/flowDeploy?')[1]); 
       // payload = parse(location.search.substr(1))
       
       payload={...payload,rows:payload.pageSize}
@@ -76,10 +77,9 @@ export default {
       }
     },
     *getPDPage ({ payload }, { call, put }) {
-
-      payload = parse(location.search.substr(1))
-      
-      payload={...payload,rows:payload.pdPageSize}
+      // payload=parse(location.hash.split('#/setting/flowDeploy?')[1]); 
+      // payload = parse(location.search.substr(1))
+      payload={...payload,rows:payload.pageSize}
       const data = yield call(getPDPage, payload)
       
       if (data) {
@@ -88,8 +88,8 @@ export default {
           payload: {
             list: data.data.rowsObject,//arrayToTree(data.data.rowsObject,'id','parentId'),
             pagination: {
-              current: Number(payload.pdPage) || 1,
-              pdPageSize: Number(payload.pdPageSize) || 10,
+              current: Number(payload.page) || 1,
+              pageSize: Number(payload.pageSize) || 10,
               total: data.data.total,
             }
           },

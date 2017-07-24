@@ -77,14 +77,6 @@ export default {
           },
         })
         
-      }else {
-        // if (location.pathname !== '/login') {
-        //   let from = location.pathname
-        //   if (location.pathname === '/dashboard') {
-        //     from = '/dashboard'
-        //   }
-        //   window.location = `${location.origin}/login?from=${from}`
-        // }
       }
     },
     *getDic ({ payload }, { call, put }) {
@@ -152,8 +144,8 @@ export default {
           if(data.success) {
             message.success('[退回修改]成功');
             //yield put({ type: 'hideModal' })
-
-            window.location = `${location.origin}/waiting`
+            let queryList=parse(location.hash.substr(location.hash.indexOf('?')+1)); 
+            window.location = `${location.origin}${location.pathname}#${queryList.from}?t=${Math.random()}`;
             
           } else {
             throw data

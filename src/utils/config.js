@@ -1,5 +1,5 @@
 let apiPrefix='/qite/sys',apiPrefixDev='/api/v1',apiPrefixPro='/qite/busi';
-let baseURL=process.env.NODE_ENV === 'production'?'http://192.168.0.142:9000':'http://192.168.0.142:8000';
+let baseURL=process.env.NODE_ENV === 'production'?'http://test.aylsonclub.com':'http://192.168.0.142:8000';
 //http://test.aylsonclub.com/qite/sys
 //http://192.168.0.142:8000
 //http://192.168.0.142:9000
@@ -18,16 +18,13 @@ module.exports = {
   apiPrefix: apiPrefixDev,
   bucket:process.env.NODE_ENV==='production'?'aihama-qite':'dc-test',
   api: {
-    //userLogin: `${apiPrefixDev}/user/login`,
-    //userLogout: `${apiPrefixDev}/user/logout`,
-    //userInfo: `${apiPrefixDev}/userInfo`,
-    //users: `${apiPrefixDev}/users`,
-    //user: `${apiPrefixDev}/user/:id`,
     dashboard: `${apiPrefixDev}/dashboard`,
-    //organization:`${apiPrefixDev}/setting/organization/:id`,
     //图片上传
     imgUpload:`${apiPrefix}/fileHandle/imgUpload`,
     //用户管理
+    message:{
+      getPage:`${apiPrefix}/message/getPage`,
+    },
     user:{
       login:`${apiPrefix}/user/login`,
       logout:`${apiPrefix}/user/loginOut`,

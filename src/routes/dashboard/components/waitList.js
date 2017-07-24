@@ -1,35 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table, Modal,Button,Tag } from 'antd'
-import styles from './List.less'
-import classnames from 'classnames'
-import { DropOption,SelectUser } from '../../components'
+import { Table} from 'antd'
 import { Link } from 'dva/router'
 
-const confirm = Modal.confirm
-
-const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
-  
-  const getRecordState=(text)=>{
-    //状态：0新建  1审核中 2审核通过 3审核不通过 -1退回修改
-    switch(text){
-      case 0:
-        return <Tag color=''>新建</Tag>;
-      case 1:
-        return <Tag color='#87d068'>审核中</Tag>;
-      case 2:
-        return <Tag color='#2db7f5'>审核通过</Tag>;
-      case 3:
-        return <Tag color='#f50'>审核不通过</Tag>;
-      case -1:
-        return <Tag color='#f00'>退回修改</Tag>;
-      case -2:
-        return <Tag color='#108ee9'>待完善资料</Tag>;
-      case 4:
-        return <Tag color='#2db7f5'>审核通过并完善资料</Tag>;
-    }
-  }
-  
+const WaitList = ({ location, ...tableProps }) => {
   const getAction=(record)=>{
     let query={
       taskId:record.taskId,
@@ -38,7 +12,7 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
     }
     switch(record.state){
       case 1:
-        return <a onClick={e=>onEditItem(record)}>办理</a>;
+        return <Link to={`/waiting?homeTaskId=${record.taskId}&from=${query.from}&t=${Math.random()}`}>办理</Link>;
       case -1:
       case -2:
         switch(record.busiCode.substr(0,2)){
@@ -97,7 +71,7 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
       dataIndex: 'flowName',
       key: 'flowName',
     }, {
-      title: '创建时间',
+      title: '申请时间',
       dataIndex: 'applyTime',width:170,
       key: 'applyTime',
     }, {
@@ -109,19 +83,23 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
       dataIndex: 'nodeName',
       key: 'nodeName',
     }, {
-      title: '状态',
-      dataIndex: 'state',
-      key: 'state',
-      render:(text)=>getRecordState(text),
+      title: '办理时长',
+      key: 'dotime',
+      render:(text,record)=>{
+        var start=record.applyTime? new Date(record.applyTime) :0,
+            end=record.receiveTime? new Date(record.receiveTime) :0,
+            t=parseFloat(end-start)/1000,
+            h=Math.floor(t/3600),
+            m=Math.floor((t%3600)/60),
+            s=Math.ceil((t%3600)%60);
+        return `${h}时${m}分${s}秒`
+      },
     }, {
       title: '操作',
       key: 'operation',
       fixed:'right',
-      width: 250,
-      render: (text, record) => (<div>
-        <Link to={`/waiting/${record.taskId}?procDefId=${record.procDefId}&procInstId=${record.procInstId}`} style={{marginRight:'8px'}}>查看</Link>
-        {getAction(record)}
-      </div>)
+      width: 120,
+      render: (text, record) => getAction(record),
     },
   ]
 
@@ -132,18 +110,18 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
         {...tableProps}
         // className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 1280 }}
+        scroll={{ x: 1180 }}
         columns={columns}
         simple
+        size='small'
         rowKey={record => record.taskId}
       />
     </div>
   )
 }
 
-List.propTypes = {
-  onEditItem: PropTypes.func,
+WaitList.propTypes = {
   location: PropTypes.object,
 }
 
-export default List
+export default WaitList

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { routerRedux } from 'dva/router'
+// import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
 import List from './List'
 import Filter from './Filter'
@@ -30,15 +30,13 @@ const FlowDeploy = ({ location, dispatch, flowDeploy, loading }) => {
     pagination,
     location,
     onChange (page) {
-      const { query, pathname } = location
-      dispatch(routerRedux.push({
-        pathname,
-        query: {
-          ...query,
-          page: page.current,
-          pageSize: page.pageSize,
-        },
-      }))
+      dispatch({
+        type:'flowDeploy/query',
+        payload:{
+          page:page.current,
+          pageSize:page.pageSize,
+        }
+      })
     },
    
     onEditItem (item) {
@@ -55,15 +53,13 @@ const FlowDeploy = ({ location, dispatch, flowDeploy, loading }) => {
       pagination:pdPagination,
       location,
       onChange(page){
-        const {query,pathname}=location
-        dispatch(routerRedux.push({
-          pathname,
-          query:{
-            ...query,
-            pdPage:page.current,
-            pdPageSize:page.pageSize,
+        dispatch({
+          type:'flowDeploy/getPDPage',
+          payload:{
+            page:page.current,
+            pageSize:page.pageSize,
           }
-        }))
+        })
       }
     }
   }

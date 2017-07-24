@@ -47,6 +47,8 @@ export default {
 
   effects: {
     *query ({ payload }, { call, put }) {
+      console.log('hashHistory:',location)
+      // hashHistory && hashHistory.go('/waiting')
       // console.log(parse(location.hash.split('#/missClock?')[1]))
       // payload = parse(location.search.substr(1))
       payload=parse(location.hash.split('#/missClock?')[1]); 
@@ -69,14 +71,6 @@ export default {
             employeeList:userInfo.data.employeeVo,
           },
         })
-      }else {
-        // if (location.pathname !== '/login') {
-        //   let from = location.pathname
-        //   if (location.pathname === '/dashboard') {
-        //     from = '/dashboard'
-        //   }
-        //   window.location = `${location.origin}/login?from=${from}`
-        // }
       }
     },
 
@@ -131,9 +125,8 @@ export default {
           if(data.success) {
             message.success('[退回修改]成功');
             //yield put({ type: 'hideModal' })
-
-            window.location = `${location.origin}/waiting`
-            
+            let queryList=parse(location.hash.substr(location.hash.indexOf('?')+1)); 
+            window.location = `${location.origin}${location.pathname}#${queryList.from}?t=${Math.random()}`;
           } else {
             throw data
           }

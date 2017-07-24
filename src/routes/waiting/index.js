@@ -20,9 +20,15 @@ const Waiting = ({ location, dispatch, waiting, loading }) => {
     title: '流程办理',
     wrapClassName: 'vertical-center-modal',
     onCancel () {
-      dispatch({
-        type: 'waiting/hideModal',
-      })
+      if(location.query && location.query.homeTaskId && location.query.from){
+        dispatch(routerRedux.push({
+          pathname:location.query.from,
+        }))
+      }else{
+        dispatch({
+          type: 'waiting/hideModal',
+        })
+      }
     },
     setNeedSel(isNeedSel){
       dispatch({
