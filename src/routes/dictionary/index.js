@@ -9,7 +9,7 @@ import { message } from 'antd'
 
 
 const Dictionary = ({ location, dispatch, dictionary, loading }) => {
-  const { list, pagination, currentItem, modalVisible, modalType } = dictionary
+  const { list, pagination, currentItem, modalVisible, modalType,selectedRowKeys } = dictionary
   const { pageSize } = pagination
 
   const modalProps = {
@@ -33,13 +33,13 @@ const Dictionary = ({ location, dispatch, dictionary, loading }) => {
   }
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log('selectedRows:',selectedRows[0]);
+      // console.log('selectedRows:',selectedRows[0]);
       dispatch({
         type: 'dictionary/setState',
         payload:selectedRows[0]
       })
     },
-    
+    selectedRowKeys,
     type:'radio',
   };
   const listProps = {
@@ -60,15 +60,16 @@ const Dictionary = ({ location, dispatch, dictionary, loading }) => {
         },
       }))
     },
-    
+    onRowClick(record){
+      dispatch({
+        type:'dictionary/setState',
+        payload:record,
+      })
+    },
   }
 
   const filterProps = {
-    
-    
-   
     onAdd () {
-      
       dispatch({
         type: 'dictionary/showModal',
         payload: {

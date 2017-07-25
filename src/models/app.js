@@ -18,8 +18,10 @@ export default {
     navOpenKeys: JSON.parse(localStorage.getItem(`${prefix}navOpenKeys`)) || [],
   },
   subscriptions: {
-
-    setup ({ dispatch }) {
+    setup ({ dispatch,history }) {
+      // history.listen(location=>{
+      //   console.log('app location:',location)
+      // })
       dispatch({ type: 'query' })
       let tid
       window.onresize = () => {
@@ -28,8 +30,18 @@ export default {
           dispatch({ type: 'changeNavbar' })
         }, 300)
       }
+      var timesRun = 0;
+      var interval = setInterval(function(){
+        ++timesRun;
+        if(timesRun === 10){
+          clearInterval(interval);
+          console.log('times stop')
+        }else{
+          console.log('timesRun:',timesRun)
+        }
+        //do whatever here..
+      }, 50);
     },
-
   },
   effects: {
 

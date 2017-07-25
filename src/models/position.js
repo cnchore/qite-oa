@@ -17,6 +17,7 @@ export default {
     currentItem: {},
     modalVisible: false,
     modalType: 'create',
+    selectedRowKeys:[],
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -39,10 +40,10 @@ export default {
             type: 'getOrg',
             payload: location.query,
           })
-          dispatch({
-            type: 'getDic',
-            payload: {dicType:'positionType_item'},
-          })
+          // dispatch({
+          //   type: 'getDic',
+          //   payload: {dicType:'positionType_item'},
+          // })
           dispatch({
             type: 'getPostLevel',
             payload: {dicType:'postLevel_item'},
@@ -68,7 +69,7 @@ export default {
             pagination: {
               current: Number(payload.page) || 1,
               pageSize: Number(payload.pageSize) || 10,
-              total: data.total,
+              total: data.data.total,
             },
           },
         })
@@ -172,6 +173,7 @@ export default {
       //console.log('position:',list);
       return { ...state,
         list,
+        selectedRowKeys:[],
         pagination: {
           ...state.pagination,
           ...pagination,
@@ -206,7 +208,7 @@ export default {
       return { ...state, modalVisible: false }
     },
     setState(state,action){
-      return {...state,currentItem:action.payload}
+      return {...state,currentItem:action.payload,selectedRowKeys:[action.payload.id]}
     },
     setOrgKey(state,action){
       return {...state,orgKey:action.payload}

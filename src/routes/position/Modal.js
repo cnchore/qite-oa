@@ -60,7 +60,7 @@ const modal = ({
   }
   const orgOptions = orgList.map(org => <Option key={org.id}>{org.orgName}</Option>);
   
-  const dicOptions=dicList.map(dic=><Option key={dic.dicName}>{dic.dicName}</Option>);
+  // const dicOptions=dicList.map(dic=><Option key={dic.dicName}>{dic.dicName}</Option>);
   const postLeveOptions=postLevelList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>);
 
   return (
@@ -97,13 +97,6 @@ const modal = ({
             ],
           })(<Select >{postLeveOptions}</Select>)}
         </FormItem>
-        <FormItem label="职位类型" hasFeedback {...formItemLayout}>
-          {getFieldDecorator('postTypeName', {
-            initialValue: item.postTypeName,
-            
-          })(<Select >{dicOptions}</Select>)}
-        </FormItem>
-        
         <FormItem label="所属机构" hasFeedback {...formItemLayout}>
           {getFieldDecorator('orgId', {
             initialValue:String(item.orgId===undefined?'':item.orgId),
@@ -111,12 +104,6 @@ const modal = ({
               {required: true,message:'不能为空',},
             ],
           })(<Select >{orgOptions}</Select>)}
-        </FormItem>
-        <FormItem label="是否主管" hasFeedback {...formItemLayout}>
-          {getFieldDecorator('isManager', {
-            initialValue: Boolean(item.isManager),
-            
-          })(<Switch defaultChecked={item.isManager} checkedChildren={'是'} unCheckedChildren={'否'} />)}
         </FormItem>
       </Form>
     </Modal>

@@ -11,6 +11,7 @@ export default {
     currentItem: {},
     modalVisible: false,
     modalType: 'create',
+    selectedRowKeys:[],
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -114,7 +115,7 @@ export default {
       const { list, pagination } = action.payload
       return { ...state,
         list,
-        
+        selectedRowKeys:[],
         pagination: {
           ...state.pagination,
           ...pagination,
@@ -130,7 +131,7 @@ export default {
       return { ...state, modalVisible: false }
     },
     setState(state,action){
-      return {...state,currentItem:action.payload}
+      return {...state,currentItem:action.payload,selectedRowKeys:[action.payload.id]}
     },
 
   },

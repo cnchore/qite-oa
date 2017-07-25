@@ -2,9 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Input, Modal,Row,Col,Tree,Table } from 'antd'
 import styles from './List.less'
-import classnames from 'classnames'
 const TreeNode = Tree.TreeNode;
-
 const modal = ({
   onOk,
   onTreeSelect,
@@ -12,12 +10,14 @@ const modal = ({
   positionList,
   loading,
   orgKey=-1,
-  positionItem={},
+  // positionItem={},
+  selectedPosition,
+  setSelectedPosition,
   ...positSelModalProps
 }) => {
   const handleOk = () => {
-    //console.log(positionId);
-    onOk(positionItem);
+    // console.log(positionItem);
+    onOk(selectedPosition);
   }
   //console.log(positionList);
   const columns = [
@@ -34,17 +34,22 @@ const modal = ({
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
      // console.log('selectedRows:',selectedRows[0]);
-      positionItem={id:selectedRows[0].id,postName:selectedRows[0].postName};
+      // positionItem={id:selectedRows[0].id,postName:selectedRows[0].postName};
+      // selectedRowKeys=[selectedRows[0].id];
+      setSelectedPosition && setSelectedPosition(selectedRows[0]);
     },
-    
+    selectedRowKeys: selectedPosition && selectedPosition.id && [selectedPosition.id] || [],
     type:'radio',
   };
   const tableProps = {
     dataSource: positionList,
     loading,
     pagination:false,
-    
     rowSelection,
+    onRowClick(record){
+      // selectedRowKeys=[record.id];
+      setSelectedPosition && setSelectedPosition(record);
+    },
   }
   const loop = data => data.map((item) => {
     if (item.children && item.children[0]) {
@@ -69,16 +74,14 @@ const modal = ({
      
       <Col className={styles.tree} span={12}>
          <h3>组织机构</h3>
-        <Tree onSelect={onSelect} showLine>
+        <Tree onSelect={onSelect} showLine defaultExpandAll>
           {treeNodes}
         </Tree>
       </Col>
       <Col span={12}>
         <Table
           {...tableProps}
-          className={classnames({ [styles.table]: true })}
           bordered
-          
           columns={columns}
           simple
           rowKey={record => record.id}

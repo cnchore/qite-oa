@@ -9,7 +9,7 @@ import { message,Affix } from 'antd'
 
 
 const MenuManage = ({ location, dispatch, menuManage, loading }) => {
-  const { list, pagination, currentItem, modalVisible, modalType } = menuManage
+  const { list, pagination, currentItem, modalVisible, modalType,selectedRowKeys } = menuManage
   const { pageSize } = pagination
 
   const modalProps = {
@@ -39,7 +39,7 @@ const MenuManage = ({ location, dispatch, menuManage, loading }) => {
         payload:selectedRows[0]
       })
     },
-    
+    selectedRowKeys,
     type:'radio',
   };
   const listProps = {
@@ -60,7 +60,12 @@ const MenuManage = ({ location, dispatch, menuManage, loading }) => {
         },
       }))
     },
-    
+    onRowClick(record){
+      dispatch({
+        type:'menuManage/setState',
+        payload:record,
+      })
+    }
   }
 
   const filterProps = {

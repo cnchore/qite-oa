@@ -23,6 +23,7 @@ export default {
     positSelModalVisible:false,
     modalType: 'create',
     expand:false,
+    selectedPosition:{},
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -285,7 +286,7 @@ export default {
     },
     showPositSelModal (state, action) {
 
-      return { ...state, ...action.payload, positSelModalVisible: true }
+      return { ...state, ...action.payload, positSelModalVisible: true,selectedPosition:{},}
     },
 
     hidePositSelModal (state) {
@@ -310,6 +311,9 @@ export default {
     },
     toggle(state,action){
       return {...state,expand:!state.expand}
+    },
+    setSelectedPosition(state,action){
+      return {...state,selectedPosition:action.payload}
     },
   },
 

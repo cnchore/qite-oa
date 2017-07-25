@@ -47,9 +47,7 @@ export default {
 
   effects: {
     *query ({ payload }, { call, put }) {
-      console.log('hashHistory:',location)
-      // hashHistory && hashHistory.go('/waiting')
-      // console.log(parse(location.hash.split('#/missClock?')[1]))
+      // console.log('hashHistory:',location)
       // payload = parse(location.search.substr(1))
       payload=parse(location.hash.split('#/missClock?')[1]); 
       const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));

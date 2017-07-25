@@ -1,6 +1,7 @@
 import NumberCard from './numberCard'
 import UserInfo from './userInfo'
 import WaitList from './waitList'
+import WaitSignList from './waitSignList'
 // import Quote from './quote'
 // import Sales from './sales'
 // import Weather from './weather'
@@ -11,4 +12,4 @@ import WaitList from './waitList'
 // import Cpu from './cpu'
 // import User from './user'
 
-export { NumberCard,UserInfo,WaitList }
+export { NumberCard,UserInfo,WaitList,WaitSignList }

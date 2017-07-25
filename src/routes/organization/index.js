@@ -9,7 +9,7 @@ import { message } from 'antd'
 
 
 const Organization = ({ location, dispatch, organization, loading }) => {
-  const { list, pagination, currentItem, modalVisible, modalType } = organization
+  const { list, pagination, currentItem, modalVisible, modalType,selectedRowKeys } = organization
   const { pageSize } = pagination
 
   const modalProps = {
@@ -39,7 +39,7 @@ const Organization = ({ location, dispatch, organization, loading }) => {
         payload:selectedRows[0]
       })
     },
-    
+    selectedRowKeys,
     type:'radio',
   };
   const listProps = {
@@ -60,7 +60,13 @@ const Organization = ({ location, dispatch, organization, loading }) => {
         },
       }))
     },
-    
+    onRowClick(record,index,event){
+      // console.log('onRowClick:',record,index,event)
+      dispatch({
+        type: 'organization/setState',
+        payload:record,
+      })
+    },
   }
 
   const filterProps = {

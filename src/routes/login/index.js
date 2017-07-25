@@ -13,6 +13,8 @@ const Login = ({
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
+    getFieldValue,
+    setFieldsValue,
   },
 }) => {
   const { loginLoading } = login
@@ -26,9 +28,17 @@ const Login = ({
     })
   }
   let lg={
-    userName:'13800001118',
+    userName:'',
     pwd:'000000'
   }
+  const emitEmpty = () => {
+    setFieldsValue({'userName':''});
+  }
+  const pwdEmitEmpty = () => {
+    setFieldsValue({'pwd':''});
+  }
+  const suffix = getFieldValue('userName') ? <Icon type="close-circle" onClick={e=>emitEmpty()} /> : null;
+  const pwdSuffix = getFieldValue('pwd')? <Icon type="close-circle" onClick={e=>pwdEmitEmpty()} /> :null;
   return (
     <div className={styles.form}>
       <div className={styles.logo}>
@@ -36,7 +46,7 @@ const Login = ({
         <span>{config.name}</span>
       </div>
       <form>
-        <FormItem hasFeedback>
+        <FormItem >
           {getFieldDecorator('userName', {
             initialValue:lg.userName,
             rules: [
@@ -44,9 +54,10 @@ const Login = ({
                 required: true,message:'不能为空',
               },
             ],
-          })(<Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} size="large" onPressEnter={handleOk} placeholder="Username" />)}
+          })(<Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} size="large" 
+          suffix={suffix} onPressEnter={handleOk} placeholder="用户名" />)}
         </FormItem>
-        <FormItem hasFeedback>
+        <FormItem >
           {getFieldDecorator('pwd', {
             initialValue:lg.pwd,
             rules: [
@@ -54,7 +65,8 @@ const Login = ({
                 required: true,message:'不能为空',
               },
             ],
-          })(<Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} size="large" type="password" onPressEnter={handleOk} placeholder="Password" />)}
+          })(<Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} size="large" 
+          suffix={pwdSuffix} type="password" onPressEnter={handleOk} placeholder="密码" />)}
         </FormItem>
         <Row>
           <Button type="primary" size="large" onClick={handleOk} loading={loginLoading}>

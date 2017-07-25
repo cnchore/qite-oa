@@ -9,7 +9,7 @@ import { message } from 'antd'
 
 
 const Position = ({ location, dispatch, position, loading }) => {
-  const { list,orgList,orgTree,dicList,orgKey,postLevelList, pagination, currentItem, modalVisible, modalType } = position
+  const { list,orgList,orgTree,dicList,orgKey,postLevelList, pagination, currentItem, modalVisible, modalType,selectedRowKeys } = position
   const { pageSize } = pagination
 
   const modalProps = {
@@ -43,7 +43,7 @@ const Position = ({ location, dispatch, position, loading }) => {
         payload:selectedRows[0]
       })
     },
-    
+    selectedRowKeys,
     type:'radio',
   };
   const listProps = {
@@ -66,6 +66,18 @@ const Position = ({ location, dispatch, position, loading }) => {
           pageSize: page.pageSize,
         },
       }))
+    },
+    onDel(id){
+      dispatch({
+        type:'position/delete',
+        payload:id,
+      })
+    },
+    onRowClick(record){
+      dispatch({
+        type:'position/setState',
+        payload:record,
+      })
     },
     onTreeSelect(key){
       const { query, pathname } = location

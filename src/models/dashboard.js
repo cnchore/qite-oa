@@ -1,8 +1,9 @@
-import { getMyTaskToDoPage,getMessageList,getNoticeList,getTaskWaitSignPage } from '../services/dashboard'
+import { getMyTaskToDoPage,getMessageList,getNoticeList,getTaskWaitSignPage,signTask } from '../services/dashboard'
 import { parse } from 'qs'
 import { config } from '../utils'
 const { prefix } = config
 // import { routerRedux } from 'dva/router'
+import { message } from 'antd'
 
 export default {
   namespace: 'dashboard',
@@ -16,14 +17,34 @@ export default {
   subscriptions: {
     setup ({ dispatch,history }) {
       history.listen(location => {
-        const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
-        if(userInfo&& userInfo.success && userInfo.data){
-          let uf={
-            photo:userInfo.data.employeeVo && userInfo.data.employeeVo.photo || '',
-            realName:userInfo.data.employeeVo && userInfo.data.employeeVo.realName || '未知姓名',
-            orgName:userInfo.data.employeeVo && userInfo.data.employeeVo.postList &&  userInfo.data.employeeVo.postList[0].orgName || '未知部门'
+        // console.log('dashboard',location)
+        if(location.pathname==='/dashboard' || location.pathname==='/'){
+          const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
+          if(userInfo&& userInfo.success && userInfo.data){
+            let uf={
+              photo:userInfo.data.employeeVo && userInfo.data.employeeVo.photo || '',
+              realName:userInfo.data.employeeVo && userInfo.data.employeeVo.realName || '未知姓名',
+              orgName:userInfo.data.employeeVo && userInfo.data.employeeVo.postList &&  userInfo.data.employeeVo.postList[0].orgName || '未知部门'
+            }
+            dispatch({ 
+              type: 'query',
+              payload:{userInfo:uf} 
+            });
+            dispatch({
+              type:'getMessageList',
+              payload:{
+                receiveUserId:userInfo.data.id,
+              }
+            });
+            dispatch({
+              type:'getNoticeList',
+              payload:{isMyNotice:true},//
+            });
+            dispatch({
+               type:'getTaskWaitSignPage',
+               payload:{}
+            });
           }
-          dispatch({ type: 'query',payload:{userInfo:uf,userId:userInfo.data.id} })
         }
       })
     },
@@ -32,20 +53,7 @@ export default {
     *query ({payload,}, { call, put }) {
       const data = yield call(getMyTaskToDoPage, {rows:5})
       if(data.success){
-        yield put({
-          type:'getMessageList',
-          payload:{
-            receiveUserId:payload.userId,
-          }
-        })
-        yield put({
-          type:'getNoticeList',
-          payload:{}
-        })
-        yield put({
-          type:'getTaskWaitSignPage',
-          payload:{}
-        })
+        
         yield put({ 
           type: 'querySuccess', 
           payload: { 
@@ -99,6 +107,16 @@ export default {
             }
           }
         })
+      }
+    },
+    *signTask ({ payload }, { call, put }) {
+      const data = yield call(signTask, payload)
+      if (data.success) {
+        message.success('签收成功，请在［我的待办］页面，进行办理');
+        yield put({ type: 'query' })
+        yield put({ type: 'getTaskWaitSignPage' })
+      } else {
+        throw data
       }
     },
   },

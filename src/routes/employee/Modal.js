@@ -87,6 +87,8 @@ const modal = ({
       data.inductionTimeStr=data.inductionTimeStr?data.inductionTimeStr.format('YYYY-MM-DD HH:mm:ss'):null;
       if(photoUrl){
         data.photo=photoUrl;
+      }else{
+        data.photo=null;
       }
       if(item.id){
         data.id=item.id
@@ -456,17 +458,17 @@ const modal = ({
             {getFieldDecorator('birthdayStr', {
               initialValue: (item.birthdayStr || item.birthday)?moment(item.birthdayStr || item.birthday, dateFormat):null,
               
-            })(<DatePicker format={dateFormat} />)}
+            })(<DatePicker format={dateFormat} style={{width:'100%'}}/>)}
           </FormItem>
           </Col>
           ):null}
           {expand||modalType!=='update'?(
           <Col span={8}>
-            <FormItem label="入职时间"  {...formItemLayout}>
+            <FormItem label="入职时间"  {...formItemLayout} >
               {getFieldDecorator('inductionTimeStr', {
                 initialValue:(item.inductionTimeStr || item.inductionTime)? moment(item.inductionTimeStr || item.inductionTime,dateTimeFormat):null,
                 
-              })(<DatePicker showTime format={dateTimeFormat} />)}
+              })(<DatePicker showTime format={dateTimeFormat} style={{width:'100%'}}/>)}
             </FormItem>
           </Col>
            ):null}
@@ -476,7 +478,7 @@ const modal = ({
               {getFieldDecorator('departureTimeStr', {
                 initialValue:(item.departureTimeStr || item.departureTime)? moment(item.departureTimeStr || item.departureTime,dateTimeFormat):null,
                 
-              })(<DatePicker showTime format={dateTimeFormat} />)}
+              })(<DatePicker showTime format={dateTimeFormat} style={{width:'100%'}}/>)}
             </FormItem>
           </Col>
           ):null}

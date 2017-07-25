@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Row, Col, Card,Icon } from 'antd'
-import { NumberCard, UserInfo,WaitList } from './components'
+import { NumberCard, UserInfo,WaitList,WaitSignList } from './components'
 import styles from './index.less'
 import { color } from '../../utils'
 import { Link } from 'dva/router'
@@ -17,18 +17,34 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
     color: color.blue,
     title: '待办件',
     number: waitData && waitData.total || 0,
+    linkto:'/waiting',
+    desc:'指定本人处理的业务',
   }
   const waitSignNum={
     icon: 'message',
     color: color.purple,
     title: '待签收件',
     number: waitSignData && waitSignData.total || 0,
+    linkto:'/waitSign',
+    desc:'未选择指定处理人，需手动签收本人应处理的业务',
   }
   const waitProps={
     dataSource:waitData && waitData.list || [],
     loading:loading.effects['dashboard/query'],
     pagination:false,
     location,
+  }
+  const waitSignProps={
+    dataSource:waitSignData && waitSignData.list || [],
+    pagination:false,
+    location,
+    loading:loading.effects['dashboard/getTaskWaitSignPage'],
+    onEditItem (item) {
+      dispatch({
+        type: 'dashboard/signTask',
+        payload: item,
+      })
+    },
   }
   const messageList=messageData && messageData.list && messageData.list[0] && messageData.list.map((item,index)=><p key={index} 
     className={styles.msgp}>
@@ -38,7 +54,9 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
   const noticeList =noticeData && noticeData.list && noticeData.list[0] && noticeData.list.map((item,index)=><p key={index}
     className={styles.msgp}
     >
-      <span className={styles.msgtitle}>{index+1}.{item.title}</span>
+      <Link to={ `/notice/${item.id}`} >
+        <span className={styles.msgtitle}>{index+1}.{item.title}</span>
+      </Link>
       <span className={styles.msgtime}>--{item.postingTime}</span>
     </p>) || <span className={styles.msgtime}>暂无通知公告</span>;
   return (
@@ -48,19 +66,20 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
         <UserInfo {...userInfo}/>
       </Col> 
       <Col lg={8} md={12}>
-        <NumberCard {...waitNum}/>
+          <NumberCard {...waitNum}/>
       </Col> 
       <Col lg={8} md={12}>
         <NumberCard {...waitSignNum}/>
-      </Col>      
+      </Col>
       <Col lg={16} md={24}>
         <Card bordered={false} className={styles.waitcard}
-        title={<span><Icon type="dot-chart" /> 我的待办业务</span>} extra={<Link to='/waiting'>更多</Link>}
+        title={<span><Icon type="dot-chart" /> 我的待签收</span>} extra={<Link to='/waitSign'>更多</Link>}
         bodyStyle={{height:364}}
         >
-          <WaitList {...waitProps} />
+          <WaitSignList {...waitSignProps} />
         </Card>
-      </Col>
+      </Col>      
+     
       <Col lg={8} md={24}>
         <Card bordered={false} className={styles.msgcard} 
         title={<span><Icon type="message" /> 消息</span>} 
@@ -70,12 +89,12 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
           {messageList}
         </Card>
       </Col>
-      <Col lg={16} md={24}>
+       <Col lg={16} md={24}>
         <Card bordered={false} className={styles.waitcard}
-        title={<span><Icon type="dot-chart" /> 我的待签收</span>} extra={<Link to='/waitSign'>更多</Link>}
+        title={<span><Icon type="dot-chart" /> 我的待办业务</span>} extra={<Link to='/waiting'>更多</Link>}
         bodyStyle={{height:364}}
         >
-          <p>开发中...</p>
+          <WaitList {...waitProps} />
         </Card>
       </Col>
       <Col lg={8} md={24}>

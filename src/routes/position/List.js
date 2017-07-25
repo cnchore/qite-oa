@@ -1,14 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table,Row, Col,Tree } from 'antd'
+import { Table,Row,Modal, Col,Tree } from 'antd'
 import styles from './List.less'
 import classnames from 'classnames'
 
 const TreeNode = Tree.TreeNode;
-
+const confirm=Modal.confirm;
 const List = ({ onTreeSelect,location, ...tableProps }) => {
-  const { orgList,orgTree,postLevelList }=tableProps;
-
+  const { orgList,orgTree,postLevelList,onDel }=tableProps;
+  const handerDel=(id)=>{
+    confirm({
+      title:'删除该职位，将删除已绑定员工的该职位信息',
+      onOk(){
+        onDel(id);
+      },
+    })
+  }
   const getOrgName=(value)=>{
     let n=orgList.filter(item=>String(item.id)===String(value));
     //console.log(orgList,...n,value);
@@ -30,10 +37,10 @@ const List = ({ onTreeSelect,location, ...tableProps }) => {
       title: '职位名称',
       dataIndex: 'postName',
       key: 'postName',className:'q-left',
-    }, {
-      title: '职位编码',
-      dataIndex: 'postCode',
-      key: 'postCode',
+    // }, {
+    //   title: '职位编码',
+    //   dataIndex: 'postCode',
+    //   key: 'postCode',
     
     }, {
       title: '岗位级别',
@@ -41,19 +48,23 @@ const List = ({ onTreeSelect,location, ...tableProps }) => {
       key: 'postLevel',
       render: (text) =>getPostLevel(text),
       
-    }, {
-      title: '职位类型',
-      dataIndex: 'postTypeName',
-      key: 'postTypeName',
-    }, {
-      title: '是否主管',
-      dataIndex: 'isManager',
-      key: 'isManager',
-      render: (text, record, index) =>{
-        return text?'是':'否'
-      }
-    },
-  ]
+    // }, {
+    //   title: '职位类型',
+    //   dataIndex: 'postTypeName',
+    //   key: 'postTypeName',
+    // }, {
+    //   title: '是否主管',
+    //   dataIndex: 'isManager',
+    //   key: 'isManager',
+    //   render: (text, record, index) =>{
+    //     return text?'是':'否'
+    //   }
+    },{
+      title: '操作',
+      key: 'operation',
+      render:(text,record)=><a onClick={e=>handerDel(record.id)}>删除职位</a>,
+    
+  }]
   const loop = data => data.map((item) => {
     if (item.children && item.children[0]) {
       return <TreeNode title={item.orgName} key={item.id}>{loop(item.children)}</TreeNode>;
@@ -79,7 +90,7 @@ const List = ({ onTreeSelect,location, ...tableProps }) => {
           {...tableProps}
           className={classnames({ [styles.table]: true })}
           bordered
-          scroll={{ x: 767 }}
+          scroll={{ x: 400 }}
           columns={columns}
           simple
           rowKey={record => record.id}

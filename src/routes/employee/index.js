@@ -12,7 +12,7 @@ import { message } from 'antd'
 
 const Employee = ({ location, dispatch, employee, loading }) => {
   const { list,orgList,photoUrl,dicList,orgTree,positionList,positSelList,orgKey,expand,
-    pagination, currentItem, modalVisible,positSelModalVisible, modalType } = employee
+    pagination, currentItem, modalVisible,positSelModalVisible, modalType,selectedPosition } = employee
   const { pageSize } = pagination
 
   const modalProps = {
@@ -69,6 +69,7 @@ const Employee = ({ location, dispatch, employee, loading }) => {
   const positSelModalProps={
     orgTree,
     positionList,
+    selectedPosition,
     orgKey,
     loading:loading.effects['employee/getPosition'],
     visible:positSelModalVisible,
@@ -87,7 +88,12 @@ const Employee = ({ location, dispatch, employee, loading }) => {
         type:'employee/hidePositSelModal',
       })
     },
-    
+    setSelectedPosition(item){
+      dispatch({
+        type:'employee/setSelectedPosition',
+        payload:item,
+      })
+    },
     onTreeSelect(key){
       
       dispatch({

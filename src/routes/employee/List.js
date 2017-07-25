@@ -56,7 +56,7 @@ const List = ({ onUserChange,onResetPwd, onEditItem,onTreeSelect,location, ...ta
       title: '入职时间',
       dataIndex: 'inductionTime',
       key: 'inductionTime',
-    
+      width:170,
     }, {
       title: '职位状态',
       dataIndex: 'positionState',
@@ -107,7 +107,7 @@ const List = ({ onUserChange,onResetPwd, onEditItem,onTreeSelect,location, ...ta
           {...tableProps}
           className={classnames({ [styles.table]: true })}
           bordered
-          scroll={{ x: 967 }}
+          scroll={{ x: 1024 }}
           columns={columns}
           simple
           rowKey={record => record.id}
