@@ -14,7 +14,7 @@ export default {
     orgTree:[],
     positSelList:[],
     positionList:[],
-    //roleList:[],
+    roleList:[],
     dicList:[],
     photoUrl:null,
     orgKey:null,
@@ -49,6 +49,10 @@ export default {
           dispatch({
             type: 'getPosition',
             payload: location.query,
+          })
+          dispatch({
+            type:'getRoles',
+            payload:{},
           })
           //empoyeeState_item
           dispatch({

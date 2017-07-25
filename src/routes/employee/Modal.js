@@ -61,9 +61,10 @@ const modal = ({
   photoUrl,
   dicList,
   setPhoto,
+  roleList,
   form: {
     getFieldDecorator,
-    validateFields,
+    validateFieldsAndScroll,
     getFieldsValue,
     setFieldsValue,
   },
@@ -73,11 +74,11 @@ const modal = ({
     item.orgId=orgKey;
   }
   const handleOk = () => {
-    validateFields((errors) => {
+    validateFieldsAndScroll((errors,values) => {
       if (errors) {
         return
       }
-      const data = {...getFieldsValue()}
+      const data = values;//{...getFieldsValue()}
       //let _ls=orgList.filter(item=>String(item.id)===data.orgId);
       //console.log('orgParentId:',_ls[0].parentId)
 
@@ -93,7 +94,8 @@ const modal = ({
       if(item.id){
         data.id=item.id
       }
-      handleSetUserRole();
+      data.roleIds=data.roleIds.join();
+      // handleSetUserRole();
       onOk(data);
     })
   }
@@ -150,7 +152,7 @@ const modal = ({
       setPhoto(info.file.response.data);
     }
   }
-  const roleOptions=item.roleList?item.roleList.map(role=><Option key={role.id}>{role.roleName}</Option>):null;
+  const roleOptions=roleList&&roleList[0]?roleList.map(role=><Option key={role.id}>{role.roleName}</Option>):null;
   const dicOptions=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
   return (
     <Modal {...modalOpts}
@@ -278,7 +280,7 @@ const modal = ({
               </FormItem>
           </Col>
           ):null}
-          {expand?(
+         
           <Col span={8}>
               <FormItem label="户籍" hasFeedback {...formItemLayout}>
                 {getFieldDecorator('householdRegister', {
@@ -287,7 +289,7 @@ const modal = ({
                 })(<Input />)}
               </FormItem>
           </Col>
-          ):null}
+          
           {expand?(
             <Col span={8}>
           <FormItem label="健康状况" hasFeedback {...formItemLayout}>
@@ -433,13 +435,13 @@ const modal = ({
             </Col>
             ):null}
           {expand?(
-            <Col span={8}>
-          <FormItem label="紧急联系人" hasFeedback {...formItemLayout}>
-            {getFieldDecorator('emergencyContactName', {
-              initialValue: item.emergencyContactName,
-              
-            })(<Input />)}
-          </FormItem>
+          <Col span={8}>
+            <FormItem label="紧急联系人" hasFeedback {...formItemLayout}>
+              {getFieldDecorator('emergencyContactName', {
+                initialValue: item.emergencyContactName,
+                
+              })(<Input />)}
+            </FormItem>
           </Col>
           ):null}
           {expand?(
@@ -452,16 +454,16 @@ const modal = ({
           </FormItem>
           </Col>
           ):null}
-          {expand?(
-            <Col span={8}>
-          <FormItem label="生日"  {...formItemLayout}>
-            {getFieldDecorator('birthdayStr', {
-              initialValue: (item.birthdayStr || item.birthday)?moment(item.birthdayStr || item.birthday, dateFormat):null,
-              
-            })(<DatePicker format={dateFormat} style={{width:'100%'}}/>)}
-          </FormItem>
+          
+          <Col span={8}>
+            <FormItem label="生日"  {...formItemLayout}>
+              {getFieldDecorator('birthdayStr', {
+                initialValue: (item.birthdayStr || item.birthday)?moment(item.birthdayStr || item.birthday, dateFormat):null,
+                
+              })(<DatePicker format={dateFormat} style={{width:'100%'}}/>)}
+            </FormItem>
           </Col>
-          ):null}
+         
           {expand||modalType!=='update'?(
           <Col span={8}>
             <FormItem label="入职时间"  {...formItemLayout} >
@@ -482,16 +484,16 @@ const modal = ({
             </FormItem>
           </Col>
           ):null}
-          {modalType==='update'?(
-            <Col span={16}>
-              <FormItem label="用户角色"  {...twoFormItemLayout}>
-              {getFieldDecorator('roleIds', {
-                initialValue:getRolesRows(),
-                
-              })(<Select mode="multiple">{roleOptions}</Select>)}
-              </FormItem>
-            </Col>
-          ):null}
+          
+          <Col span={16}>
+            <FormItem label="角色"  {...twoFormItemLayout}>
+            {getFieldDecorator('roleIds', {
+              initialValue:getRolesRows(),
+              rules:[{required: true,message:'不能为空',}]
+            })(<Select mode="multiple">{roleOptions}</Select>)}
+            </FormItem>
+          </Col>
+        
           <Col span={8} style={{textAlign:'right'}}>
             <FormItem {...threeFormItemLayout}>
               <a  onClick={toggle} >
