@@ -8,10 +8,11 @@ import { queryArray } from '../../utils'
 
 const Bread = ({ menu }) => {
   // 匹配当前路由
-  // console.log('bread:',menu && menu.length)
   let pathArray = []
   let current,_pathname=location.hash?location.hash.split('?')[0].substr(1):location.pathname;
-  // console.log("bread:",_pathname)
+  if(location.hash && location.hash.indexOf('#/report?')>-1){
+    _pathname=location.hash.split('&_k=')[0].substr(1);
+  }
   for (let index in menu) {
     if (menu[index].router && pathToRegexp(menu[index].router).exec(_pathname)) {
       current = menu[index]

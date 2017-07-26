@@ -80,7 +80,7 @@ class EditCellTable extends React.Component {
       dataIndex: 'operation',
       fixed:'right',width:120,
       render: (text, record, index) => {
-        const { editable } = this.state.data[index].materialName;
+        const { editable } = this.state.data[index].amount;
         return (
           <div className="editable-row-operations">
             {
@@ -168,10 +168,10 @@ class EditCellTable extends React.Component {
     }
   }
   add=(keys=[])=>{
-    const { count, data} =this.state;
+    let { count, data} =this.state;
     const {applyList} =this.props;
     const newRow={
-        key: count,
+        key: count+Math.random(),
         applyDept: {
           editable: true,
           value: '',
@@ -223,7 +223,7 @@ class EditCellTable extends React.Component {
             //console.log('useTimeStr:',item[key])
           }else if(key!=='useTimeStr'){
             obj[key]={};
-            obj[key].editable=false;
+            obj[key].editable=key==='amount'?true:false;
             obj[key].value=item[key];
           }
         });
@@ -289,11 +289,12 @@ class EditCellTable extends React.Component {
     return c.toFixed(2);
   }
   del(_index){
-    const data =this.state.data[0]?this.state.data.filter((item,index)=>index!==_index):[];
-    
+    let data =this.state.data;
+    data.splice(_index,1);
+    //?this.state.data.filter((item,index)=>index!==_index):[];
+    // console.log(data);
     this.setState({data});
     if(this.props.callbackParent)this.props.callbackParent(data);
-    //this.getActualExpense(data);
   }
   editDone(index, type) {
     const { data } = this.state;
@@ -332,11 +333,15 @@ class EditCellTable extends React.Component {
     const onCancel =()=> {
         this.setState({modalVisable:false});
     }
-    const handleOk=(data)=>{
+    const handleOk=(_data)=>{
       //console.log(data);
-      this.add(data)
+      this.add(_data)
       this.setState({modalVisable:false});
-
+      // const { data } =this.state;
+      
+      // if(this.props.callbackParent){
+      //   this.props.callbackParent(data);
+      // }
     }
     const modalProps={
       visible:modalVisable,
@@ -359,7 +364,7 @@ class EditCellTable extends React.Component {
               columns={columns} 
               pagination={false}
               scroll={{ x: 1500 }}
-              rowKey={record=>record.id} 
+              rowKey={record=>record.key} 
               footer={()=>(
                 <div>
                 采购总数量：{this.getTotalNum()}

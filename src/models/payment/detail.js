@@ -1,8 +1,8 @@
 import pathToRegexp from 'path-to-regexp'
 import { queryById,queryEmployee,getDic } from '../../services/payment'
-//import { treeToArray } from '../../utils'
+import { config } from '../../utils'
 import { getDiagramByBusiness,getCommentListBybusiness } from '../../services/workFlow'
-
+const { prefix } =config;
 export default {
 
   namespace: 'paymentDetail',
@@ -64,13 +64,12 @@ export default {
       }
     },
     *queryEmployee({payload},{call,put}){
-        const userInfo=yield call(queryEmployee,{userId:payload})//other.data.userId
-        if(userInfo&&userInfo.success){
-          //console.log(userInfo.data.rowsObject[0])
+        const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
+        if (userInfo && userInfo.data) {
           yield put({
             type: 'queryEmployeeSuccess',
             payload: {
-              employeeList:userInfo.data.rowsObject,
+              employeeList:userInfo.data.employeeVo,
             },
           })
         }else{
@@ -94,7 +93,7 @@ export default {
       
       return {
         ...state,
-        employeeList:payload.employeeList[0],
+        employeeList:payload.employeeList,
       }
     },
   },

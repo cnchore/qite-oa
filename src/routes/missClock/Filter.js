@@ -31,7 +31,7 @@ const Filter = ({
     setFieldsValue,
   },
 }) => {
-  const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
+  const dateTimeFormat='YYYY-MM-DD'
 
   const handleFields = (fields) => {
     const { createTime,missTime } = fields
@@ -89,7 +89,7 @@ const Filter = ({
             initialValue:createTime? moment(createTime):null,
           })(
             <DatePicker style={{ width: '100%' }} size="large" 
-            showTime format={dateTimeFormat} 
+             format={dateTimeFormat} 
             onChange={handleChange.bind(null, 'createTime')} />
           )}
         </FilterItem>
@@ -100,7 +100,7 @@ const Filter = ({
             initialValue:missTime? moment(missTime):null,
           })(
             <DatePicker style={{ width: '100%' }} size="large" 
-            showTime format={dateTimeFormat} 
+             format={dateTimeFormat} 
             onChange={handleChange.bind(null, 'missTime')} />
           )}
         </FilterItem>

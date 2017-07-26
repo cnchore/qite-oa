@@ -32,9 +32,13 @@ const Header = ({ user, logout,toEditPwd, switchSider, siderFold, isNavbar, menu
           </div>
       }
       <div className={styles.rightWarpper}>
-        <div className={styles.button}>
-          <Icon type="bell" />
-        </div>
+        {
+          false?
+          <div className={styles.button}>
+            <Icon type="bell" />
+          </div>
+          :null
+        }
         <Menu mode="horizontal" onClick={handleClickMenu}>
           <SubMenu mode="vertaical" style={{
             float: 'right',

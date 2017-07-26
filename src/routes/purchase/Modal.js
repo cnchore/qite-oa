@@ -128,6 +128,7 @@ const modal = ({
   const handleOk = () => {
     let fields=getFields();
     if(fields){
+      // console.log(fields,detailList)
       onOk(fields)
     }
   }

@@ -33,7 +33,7 @@ const MenuManage = ({ location, dispatch, menuManage, loading }) => {
   }
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log('selectedRows:',selectedRows[0]);
+      // console.log('selectedRows:',selectedRows[0]);
       dispatch({
         type: 'menuManage/setState',
         payload:selectedRows[0]

@@ -54,7 +54,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
   const noticeList =noticeData && noticeData.list && noticeData.list[0] && noticeData.list.map((item,index)=><p key={index}
     className={styles.msgp}
     >
-      <Link to={ `/notice/${item.id}`} >
+      <Link to={ `/notice/${item.id}?noComment=true`} >
         <span className={styles.msgtitle}>{index+1}.{item.title}</span>
       </Link>
       <span className={styles.msgtime}>--{item.postingTime}</span>

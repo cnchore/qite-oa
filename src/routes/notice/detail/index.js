@@ -7,6 +7,7 @@ import FlowImg from '../../../components/FlowImg'
 import { Icon} from 'antd'
 const Detail = ({ noticeDetail }) => {
   const { data,employeeList,dicList,commentList } = noticeDetail
+  const noComment=location.hash.indexOf('noComment')>0?true:false;
   return (
     <div className="content-inner">
       <a href="javascript:window.history.back();" className="q-goback">
@@ -14,12 +15,12 @@ const Detail = ({ noticeDetail }) => {
       </a>
       <NoticeDetailPage data={data} employeeList={employeeList} dicList={dicList} />
       {
-        commentList && commentList[0]?
+        !noComment&& commentList && commentList[0]?
         <CommentTable data={commentList} />
         :null
       } 
       {
-        data && data.flowImgSrc?
+        !noComment && data && data.flowImgSrc?
         <FlowImg path={data.flowImgSrc} />
         :null
       }

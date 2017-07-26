@@ -4,7 +4,8 @@ import { Table, Modal,Button,Tag } from 'antd'
 import styles from './List.less'
 import classnames from 'classnames'
 import { Link } from 'dva/router'
-
+import ExportCsv from '../../utils/export-csv'
+import Csv from '../../utils/csv'
 const List = ({ location, ...tableProps }) => {
  
   const columns = [
@@ -41,7 +42,21 @@ const List = ({ location, ...tableProps }) => {
       render: (text, record) => <Link to={`/filed/${record.taskId}?procDefId=${record.procDefId}&procInstId=${record.procInstId}`}>查看</Link>,
     },
   ]
+  const handleExportCsv=()=>{
+    let _columns=columns.slice(0,-1);
+    let {dataSource}= tableProps;
+    let csvData=Csv(_columns,dataSource,',',false);
+    console.log(csvData)
+    let filename='淇特办公归档数据'+Date.now()+'.csv';
+    ExportCsv.download(filename,csvData);
+  }
+  const handleExportCsvAll=()=>{
 
+  }
+  const footer=()=><div>
+    <a onClick={handleExportCsv} style={{marginRight:'8px'}}>导出本页到csv</a>
+    <a onClick={handleExportCsvAll}>导出全部到csv</a>
+  </div>
 
   return (
     <div>
@@ -53,6 +68,7 @@ const List = ({ location, ...tableProps }) => {
         columns={columns}
         simple
         rowKey={record => record.taskId}
+        footer={footer}
       />
     </div>
   )

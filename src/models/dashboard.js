@@ -53,17 +53,28 @@ export default {
     *query ({payload,}, { call, put }) {
       const data = yield call(getMyTaskToDoPage, {rows:5})
       if(data.success){
-        
-        yield put({ 
-          type: 'querySuccess', 
-          payload: { 
-            waitData:{
-              list:data.data.rowsObject,
-              total:data.data.total,
-            },
-            userInfo:payload.userInfo 
-          } 
-        })
+        if(payload && payload.userInfo){
+          yield put({ 
+            type: 'querySuccess', 
+            payload: { 
+              waitData:{
+                list:data.data.rowsObject,
+                total:data.data.total,
+              },
+              userInfo:payload.userInfo,
+            } 
+          })
+        }else{
+          yield put({ 
+            type: 'querySuccess', 
+            payload: { 
+              waitData:{
+                list:data.data.rowsObject,
+                total:data.data.total,
+              },
+            } 
+          })
+        }
       }
     },
     

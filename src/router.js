@@ -456,7 +456,13 @@ const Routers = function ({ history, app }) {
               cb(null, require('./routes/login/'))
             }, 'login')
           },
-       
+        }, {
+          path: '/report',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              cb(null, require('./routes/report/'))
+            }, 'report')
+          },
         }, {
           path: '*',
           getComponent (nextState, cb) {

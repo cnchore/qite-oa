@@ -33,7 +33,7 @@ render () {
       <div>
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} className='qite-list-title'>
-              <Icon type="credit-card" />请假信息
+              <Icon type="credit-card" />加班信息
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>姓名：</Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>{employeeList?employeeList.realName:'无'}</Col>

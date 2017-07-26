@@ -43,6 +43,7 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
       })
     },
     getDetailList(detailList){
+      // console.log('detailList',detailList)
       dispatch({
         type:'purchase/setDetailList',
         payload:detailList

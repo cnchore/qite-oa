@@ -15,6 +15,14 @@ export async function getTaskWaitSignPage(params){
     data:params,
   })
 }
+
+export async function signTask(params){
+  return request({
+    url:workflow.signTask,
+    method:'post',
+    data:params,
+  })
+}
 export async function getMessageList(params){
   return request({
     url:message.getPage,
