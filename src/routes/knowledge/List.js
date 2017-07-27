@@ -59,11 +59,12 @@ const List = ({ onItemChange, onEditItem, location, ...tableProps }) => {
       title: '操作',
       key: 'operation',
       fixed:'right',
-      width: 100,
+      width: 150,
       render: (text, record) => {
-        //  return  (<Button size="small" icon="edit" type="ghost" onClick={e=>onEditItem(record)} >编辑</Button>)
-        return <DropOption onMenuClick={e => handleMenuClick(record, e)} 
-        menuOptions={[{ key: '1', name: '编辑' },{ key: '2', name: record.state===0||record.state===2?'发布':'下线' }]} />
+        return  <div>
+            <a onClick={e=>handleMenuClick(record,{key:'1'})} style={{marginRight:'8px'}}>编辑</a>
+            <a onClick={e=>handleMenuClick(record,{key:'2'})}>{record.state===0||record.state===2?'发布':'下线'}</a>
+          </div>
       },
     },
   ]

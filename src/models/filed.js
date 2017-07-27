@@ -1,11 +1,17 @@
 import { queryById,queryEmployee } from '../services/missClock'
 import { getTaskFiledPage,getTaskInfo,audit,getDic,getOrg } from '../services/workFlow'
-
 import { treeToArray,config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
+import ExportCsv from '../utils/export-csv'
+import Csv from '../utils/csv'
 
 const { prefix } = config
+const exportDataToCsv=(_columns,dataSource)=>{
+    let csvData=Csv(_columns,dataSource,',',false);
+    let filename='淇特办公归档数据'+Date.now()+'.csv';
+    ExportCsv.download(filename,csvData);
+}
 export default {
 
   namespace: 'filed',
@@ -66,14 +72,6 @@ export default {
         }else{
           throw data;
         }
-      }else {
-        // if (location.pathname !== '/login') {
-        //   let from = location.pathname
-        //   if (location.pathname === '/dashboard') {
-        //     from = '/dashboard'
-        //   }
-        //   window.location = `${location.origin}/login?from=${from}`
-        // }
       }
     },
     
@@ -89,7 +87,23 @@ export default {
         })
       }
     },
-    
+    *exportAllRows({payload},{call,put}){
+      let queryObj=parse(location.hash.split('#/filed?')[1]); 
+      let _columns=payload.colums;
+      payload={...queryObj,rows:payload.rows,page:1}
+      // message.loading('正在获取导出数据...',2);
+      const data=yield call(getTaskFiledPage,payload);
+      if(data && data.success){
+        exportDataToCsv(_columns,data.data.rowsObject);
+        message.success('导出成功')
+      }else{
+        throw data;
+      }
+    },
+    *exportNowPage({payload},{call,put}){
+      exportDataToCsv(payload.colums,payload.data);
+      message.success('导出成功')
+    }
   },
 
   reducers: {

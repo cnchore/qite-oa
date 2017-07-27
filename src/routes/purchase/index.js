@@ -7,7 +7,8 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Purchase = ({ location, dispatch, purchase, loading }) => {
-  const { list,fileList,dicList,detailList,applyList,employeeList, pagination, currentItem, modalVisible, modalType } = purchase
+  const { list,fileList,dicList,detailList,applyList,employeeList, pagination, 
+    currentItem, modalVisible, modalType,isEditable } = purchase
   const { pageSize } = pagination
 
   const modalProps = {
@@ -18,6 +19,7 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
     applyList,
     detailList,
     dicList,
+    isEditable,
     maskClosable: false,
     submitLoading:loading.effects['purchase/submit'],
     confirmLoading: loading.effects[`purchase/${modalType}`],
@@ -35,7 +37,12 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
         type: 'purchase/hideModal',
       })
     },
-    
+    setIsEditable(isEditable){
+      dispatch({
+        type:'purchase/setIsEditable',
+        payload:isEditable
+      })
+    },
     getFileList(fileList){
       dispatch({
         type:'purchase/setFileList',

@@ -8,7 +8,7 @@ import InputCell from '../../../components/InputCell'
 import InputCurrencyCell from '../../../components/InputCurrencyCell'
 import DateTimeCell from '../../../components/DateTimeCell'
 import SelectCell from '../../../components/SelectCell'
-import {changeMoneyToChinese} from '../../../utils'
+import {changeMoneyToChinese,findIsEditable} from '../../../utils'
 
 class EditCellTable extends React.Component {
   constructor(props) {
@@ -111,7 +111,7 @@ class EditCellTable extends React.Component {
   add=()=>{
     const { count, data} =this.state;
     const newRow={
-        key: count,
+        key: count+Math.random(),
         uses: {
           editable: true,
           value: '',
@@ -129,6 +129,7 @@ class EditCellTable extends React.Component {
       data:[...data,newRow],
       count:count+1,
     })
+    this.props.setIsEditable && this.props.setIsEditable(true);
   }
   handleChange(key, index, value) {
     const { data } = this.state;
@@ -143,6 +144,7 @@ class EditCellTable extends React.Component {
       }
     });
     this.setState({ data });
+    this.props.setIsEditable && this.props.setIsEditable(true);
   }
   getTotalAmount(){
     const { data } =this.state;
@@ -180,6 +182,7 @@ class EditCellTable extends React.Component {
       this.props.callbackParent(data);
       //this.getActualExpense(data);
     }
+    this.props.setIsEditable && this.props.setIsEditable(findIsEditable(this.state.data));
   }
   render() {
     const { data} = this.state;
@@ -207,7 +210,7 @@ class EditCellTable extends React.Component {
               columns={columns} 
               pagination={false}
               scroll={{ x: 767 }} 
-              rowKey={record => record.id}
+              rowKey={record => record.key}
               footer={()=>(
                 <div>
                 合计金额：{`¥ ${this.getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}

@@ -4,10 +4,10 @@ import { Table, Modal,Button,Tag } from 'antd'
 import styles from './List.less'
 import classnames from 'classnames'
 import { Link } from 'dva/router'
-import ExportCsv from '../../utils/export-csv'
-import Csv from '../../utils/csv'
+// import ExportCsv from '../../utils/export-csv'
+// import Csv from '../../utils/csv'
 const List = ({ location, ...tableProps }) => {
- 
+  const { expNowPageLoading,expAllPageLoading } =tableProps;
   const columns = [
     {
       title: '申请人',
@@ -43,19 +43,20 @@ const List = ({ location, ...tableProps }) => {
     },
   ]
   const handleExportCsv=()=>{
+    const { exportNowPage,dataSource } = tableProps
     let _columns=columns.slice(0,-1);
-    let {dataSource}= tableProps;
-    let csvData=Csv(_columns,dataSource,',',false);
-    console.log(csvData)
-    let filename='淇特办公归档数据'+Date.now()+'.csv';
-    ExportCsv.download(filename,csvData);
+    exportNowPage(dataSource,_columns);
   }
+  
   const handleExportCsvAll=()=>{
-
+    const { exportAllRows,pagination } = tableProps
+    let _columns=columns.slice(0,-1);
+    exportAllRows(pagination.total,_columns);
+    
   }
   const footer=()=><div>
-    <a onClick={handleExportCsv} style={{marginRight:'8px'}}>导出本页到csv</a>
-    <a onClick={handleExportCsvAll}>导出全部到csv</a>
+    <Button onClick={handleExportCsv} style={{marginRight:'8px'}}  loading={expNowPageLoading}>导出本页到csv</Button>
+    <Button onClick={handleExportCsvAll} loading={expAllPageLoading}>导出全部到csv</Button>
   </div>
 
   return (

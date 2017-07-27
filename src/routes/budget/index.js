@@ -7,7 +7,8 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Budget = ({ location, dispatch, budget, loading }) => {
-  const { list,fileList,dicList,detailList,travelList,employeeList, taskData,pagination, currentItem, modalVisible, modalType } = budget
+  const { list,fileList,dicList,detailList,travelList,employeeList, taskData,
+    pagination, currentItem, modalVisible, modalType,isEditable } = budget
   const { pageSize } = pagination
 
   const modalProps = {
@@ -19,6 +20,7 @@ const Budget = ({ location, dispatch, budget, loading }) => {
     detailList,
     dicList,
     taskData,
+    isEditable,
     maskClosable: false,
     submitLoading:loading.effects['budget/submit'],
     confirmLoading: loading.effects[`budget/${modalType}`],
@@ -36,7 +38,12 @@ const Budget = ({ location, dispatch, budget, loading }) => {
         type: 'budget/hideModal',
       })
     },
-    
+    setIsEditable(isEditable){
+      dispatch({
+        type:'budget/setIsEditable',
+        payload:isEditable,
+      })
+    },
     getFileList(fileList){
       dispatch({
         type:'budget/setFileList',

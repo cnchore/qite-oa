@@ -13,6 +13,8 @@ const Filed = ({ location, dispatch, filed, loading }) => {
     loading: loading.effects['filed/query'],
     pagination,
     location,
+    expNowPageLoading:loading.effects['filed/exportNowPage'],
+    expAllPageLoading:loading.effects['filed/exportAllRows'],
     onChange (page) {
       const { query, pathname } = location
       dispatch(routerRedux.push({
@@ -24,7 +26,24 @@ const Filed = ({ location, dispatch, filed, loading }) => {
         },
       }))
     },
-    
+    exportNowPage(data,colums){
+      dispatch({
+        type:'filed/exportNowPage',
+        payload:{
+          data,
+          colums,
+        }
+      })
+    },
+    exportAllRows(rows,colums){
+      dispatch({
+        type:'filed/exportAllRows',
+        payload:{
+          rows,
+          colums,
+        }
+      })
+    }
   }
 
   const filterProps = {

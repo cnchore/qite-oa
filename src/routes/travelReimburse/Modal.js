@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input,Radio,InputNumber,Modal,Row,Col,Select,Button,Icon,Affix } from 'antd'
+import { Form, Input,Radio,InputNumber,Modal,Row,Col,Select,Button,Icon,Affix,message } from 'antd'
 //import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
@@ -54,6 +54,8 @@ const modal = ({
   taskData={},
   auditLoading,
   onGoback,
+  setIsEditable,
+  isEditable,
   form: {
     getFieldDecorator,
     validateFields,
@@ -68,6 +70,10 @@ const modal = ({
     let data=null;
     validateFields((errors) => {
       if (errors) {
+        return null;
+      }
+      if(isEditable){
+        message.warning('请先保存差旅费明细');
         return null;
       }
       data = {...getFieldsValue()}
@@ -380,9 +386,8 @@ const modal = ({
         <EditCellTable dicList={dicList} 
           dataSource={defaultDetailList} 
           callbackParent={getDetailList}
+          setIsEditable={setIsEditable}
           className={styles['q-detail']}/> 
-
-        
         
         <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>

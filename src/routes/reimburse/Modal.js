@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form,Radio,Input,Modal,Row,Col,Button,Icon,Affix } from 'antd'
+import { Form,Radio,Input,Modal,Row,Col,Button,Icon,Affix,message } from 'antd'
 //import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
@@ -54,6 +54,8 @@ const modal = ({
   taskData={},
   auditLoading,
   onGoback,
+  isEditable,
+  setIsEditable,
   form: {
     getFieldDecorator,
     validateFields,
@@ -68,6 +70,10 @@ const modal = ({
     let data=null;
     validateFields((errors) => {
       if (errors) {
+        return null;
+      }
+      if(isEditable){
+        message.warning('请先保存费用明细');
         return null;
       }
       data = {...getFieldsValue()}
@@ -250,6 +256,7 @@ const modal = ({
         <EditCellTable dicList={dicList} 
           dataSource={defaultDetailList} 
           callbackParent={getDetailList}
+          setIsEditable={setIsEditable}
           className={styles['q-detail']}/> 
          
         <Row gutter={24} className={styles['q-detail']}>

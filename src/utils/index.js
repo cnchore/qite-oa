@@ -263,6 +263,17 @@ const treeMenuToArrayMenu=(treeList)=>{
     router: '/dashboard',
   }];
   }
+}
+const findIsEditable=(data)=>{
+    let _isEditable=false;
+    data.forEach(item=>{
+      Object.keys(item).forEach((child)=>{
+        if(item[child] && item[child].editable!==undefined && item[child].editable===true){
+          _isEditable=true;
+        }
+      })
+    })
+    return _isEditable;
 } 
 module.exports = {
   config,
@@ -278,4 +289,5 @@ module.exports = {
   getChildren,
   getAnotB,
   changeMoneyToChinese,
+  findIsEditable,
 }

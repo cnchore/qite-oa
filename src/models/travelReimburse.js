@@ -21,6 +21,7 @@ export default {
     employeeList:[],
     travelList:[],
     taskData:{},
+    isEditable:false,
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -293,6 +294,9 @@ export default {
     },
     setDetailList(state,action){
       return {...state,detailList:action.payload}
+    },
+    setIsEditable(state,action){
+      return {...state,isEditable:action.payload}
     },
   },
 

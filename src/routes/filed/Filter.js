@@ -101,7 +101,7 @@ const Filter = ({
   return (
     <Row gutter={24}>
       
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
+      <Col {...ColProps} xl={{ span: 8 }} md={{ span: 8 }} >
         <FilterItem label="申请时间">
           {getFieldDecorator('applyTimeStr', { 
             initialValue:initialApplyTime,
@@ -112,7 +112,7 @@ const Filter = ({
           )}
         </FilterItem>
       </Col>
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
+      <Col {...ColProps} xl={{ span: 8 }} md={{ span: 8 }} >
         <FilterItem label="接收时间">
           {getFieldDecorator('receiveTimeStr', { 
             initialValue:initialReceiveTime,
@@ -123,7 +123,7 @@ const Filter = ({
           )}
         </FilterItem>
       </Col>
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
+      <Col {...ColProps} xl={{ span: 8 }} md={{ span: 8 }} >
         <FilterItem label="审批时间">
           {getFieldDecorator('auditTimeStr', { 
             initialValue:initialAuditTime,
@@ -134,7 +134,7 @@ const Filter = ({
           )}
         </FilterItem>
       </Col>
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }}>
+      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
         {getFieldDecorator('applyNameLike', 
           { initialValue: applyNameLike 
           })(<Search placeholder="申请人" size="large" onSearch={handleSubmit} />)}
@@ -144,10 +144,11 @@ const Filter = ({
           { initialValue: auditerNameLike 
           })(<Search placeholder="审核人" size="large" onSearch={handleSubmit} />)}
       </Col>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
-        {getFieldDecorator('flowNameLike', 
-          { initialValue: flowNameLike 
-          })(<Search placeholder="流程名称" size="large" onSearch={handleSubmit} />)}
+      
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
+       {getFieldDecorator('nodeNameLike', 
+          { initialValue: nodeNameLike?nodeNameLike:null, 
+          })(<Search placeholder="当前阶段" size="large" onSearch={handleSubmit} />)}
       </Col>
       <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
         <FilterItem label="申请类型">
@@ -158,13 +159,8 @@ const Filter = ({
           )}
         </FilterItem>
       </Col>
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
-       {getFieldDecorator('nodeNameLike', 
-          { initialValue: nodeNameLike?nodeNameLike:null, 
-          })(<Search placeholder="当前阶段" size="large" onSearch={handleSubmit} />)}
-      </Col>
       
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }} >
+      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 16 }} >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>
             <Button icon="reload" size="large" onClick={handleReset}>重置</Button>

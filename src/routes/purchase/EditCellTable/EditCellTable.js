@@ -10,9 +10,10 @@ import InputCurrencyCell from '../../../components/InputCurrencyCell'
 import DateTimeCell from '../../../components/DateTimeCell'
 import SelectCell from '../../../components/SelectCell'
 import EmployeeCell from '../../../components/EmployeeCell'
-import {changeMoneyToChinese} from '../../../utils'
+import {changeMoneyToChinese,config,findIsEditable} from '../../../utils'
 import SelectPurchaseApply from '../SelectPurchaseApply'
-
+const { prefix } =config;
+const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
 class EditCellTable extends React.Component {
   constructor(props) {
     super(props);
@@ -110,6 +111,7 @@ class EditCellTable extends React.Component {
       actualExpense:0,
       modalVisable:false,
       applyList:[],
+      actionInfo:userInfo && userInfo.data && userInfo.data.employeeVo || {}
     };
   }
   
@@ -168,17 +170,17 @@ class EditCellTable extends React.Component {
     }
   }
   add=(keys=[])=>{
-    let { count, data} =this.state;
+    let { count, data,actionInfo} =this.state;
     const {applyList} =this.props;
     const newRow={
         key: count+Math.random(),
         applyDept: {
           editable: true,
-          value: '',
+          value: actionInfo.postList && actionInfo.postList[0] && actionInfo.postList[0].orgName || '',
         },
         applyName: {
           editable: true,
-          value: '',
+          value: actionInfo.realName || '',
         },
         materialName: {
           editable: true,
@@ -240,23 +242,22 @@ class EditCellTable extends React.Component {
         count:count+1,
       })
     }
+    this.props.setIsEditable && this.props.setIsEditable(true);
+
   }
   selectList=()=>{
     const { applyList } =this.props;
     const {data}=this.state;
     let list=applyList.filter(item=>data.findIndex(d=>String(item.id)===String(d.id))===-1);
-
     this.setState({modalVisable:true,applyList:list});
   }
   handleChange(key, index, value,selectedRow=null) {
     const { data } = this.state;
-    if(selectedRow){
-      //console.log('selectedRow:',selectedRow)
+    if(selectedRow && selectedRow[0]){
       data[index]['applyDept'].value=selectedRow.orgName;
     }
     data[index][key].value = value;
     this.setState({ data });
-    
   }
   edit(index) {
     const { data } = this.state;
@@ -266,6 +267,7 @@ class EditCellTable extends React.Component {
       }
     });
     this.setState({ data });
+    this.props.setIsEditable && this.props.setIsEditable(true);
   }
   getTotalNum(){
     const { data } =this.state;
@@ -280,7 +282,6 @@ class EditCellTable extends React.Component {
   getTotalAmount(){
     const { data } =this.state;
     let c=0.00;
-    //console.log(data)
     if(data && data[0]){
       data.map(t=>{
         c+=parseFloat(t.num.value)*parseFloat(t.amount.value===null||t.amount.value===''|| t.amount.value===undefined?0:t.amount.value);
@@ -291,8 +292,6 @@ class EditCellTable extends React.Component {
   del(_index){
     let data =this.state.data;
     data.splice(_index,1);
-    //?this.state.data.filter((item,index)=>index!==_index):[];
-    // console.log(data);
     this.setState({data});
     if(this.props.callbackParent)this.props.callbackParent(data);
   }
@@ -313,13 +312,11 @@ class EditCellTable extends React.Component {
     });
     if(this.props.callbackParent){
       this.props.callbackParent(data);
-      //this.getActualExpense(data);
     }
+    this.props.setIsEditable && this.props.setIsEditable(findIsEditable(this.state.data));
   }
   render() {
     const { data,modalVisable,applyList, actualExpense} = this.state;
-    //const {applyList} =this.props;
-    //console.log(data)
     const dataSource = data.map((item) => {
       const obj = {};
       Object.keys(item).forEach((key) => {
@@ -327,21 +324,13 @@ class EditCellTable extends React.Component {
       });
       return obj;
     });
-    //this.getActualExpense();
-    //console.log(dataSource)
     const columns = this.columns;
     const onCancel =()=> {
         this.setState({modalVisable:false});
     }
     const handleOk=(_data)=>{
-      //console.log(data);
       this.add(_data)
       this.setState({modalVisable:false});
-      // const { data } =this.state;
-      
-      // if(this.props.callbackParent){
-      //   this.props.callbackParent(data);
-      // }
     }
     const modalProps={
       visible:modalVisable,

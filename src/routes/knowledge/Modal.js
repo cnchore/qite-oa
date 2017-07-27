@@ -142,16 +142,8 @@ const modal = ({
             </FormItem>
           </Col>
           <Col span={8}>  
-            <FormItem label="知识点状态" hasFeedback {...formItemLayout}>
-              {getFieldDecorator('state', { 
-                initialValue: String(item.state===undefined?'':item.state)
-              })(
-                <Select size="large" style={{width:'100%'}}>
-                  <Option key='0'>未发布</Option>
-                  <Option key='1'>已发布</Option>
-                  <Option key='2'>已下线</Option>
-                </Select>
-              )}
+            <FormItem label="知识点状态" {...formItemLayout}>
+              {item.state===2?'已下线':item.state===1?'已发布':'未发布'}
             </FormItem>
           </Col> 
           <Col span={16}>
