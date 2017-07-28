@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Notice = ({ location, dispatch, notice, loading }) => {
-  const { list,fileList,dicList,employeeList,editorState,taskData,
+  const { list,fileList,dicList,employeeList,editorContent,taskData,
    pagination, currentItem, modalVisible, modalType } = notice
   const { pageSize } = pagination
 
@@ -16,7 +16,7 @@ const Notice = ({ location, dispatch, notice, loading }) => {
     visible: modalVisible,
     fileList,
     employeeList,
-    editorState,
+    editorContent,
     dicList,
     taskData,
     maskClosable: false,
@@ -61,7 +61,7 @@ const Notice = ({ location, dispatch, notice, loading }) => {
         pathname:query.from,
       }))
     },
-    setEditorState(ed){
+    editorCallback(ed){
       dispatch({
         type:'notice/setEditorState',
         payload:ed

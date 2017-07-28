@@ -73,16 +73,19 @@ const Filter = ({
   const { codeLike, createTime,fileNumLike,titleLike } = filter
 
   const dicOption=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
-
+  const isMyNotice=location.hash && location.hash.indexOf('isMyNotice=true')>-1 ? true :false;
   return (
     <Row gutter={24}>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
-        {getFieldDecorator('codeLike', 
-          { initialValue: codeLike 
-          })(<Search placeholder="申请单号" size="large" onSearch={handleSubmit} />)}
-      </Col>
+
+      { isMyNotice?null
+        :<Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
+          {getFieldDecorator('codeLike', 
+            { initialValue: codeLike 
+            })(<Search placeholder="申请单号" size="large" onSearch={handleSubmit} />)}
+        </Col>
+      }
      
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: isMyNotice?7:8 }} >
         <FilterItem label="申请时间">
           {getFieldDecorator('createTime', { 
             initialValue:createTime? moment(createTime):null,
@@ -93,25 +96,40 @@ const Filter = ({
           )}
         </FilterItem>
       </Col>
-       <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
+       <Col {...ColProps} xl={{ span: isMyNotice?6:4 }} md={{ span: isMyNotice?6:8  }}>
         {getFieldDecorator('fileNumLike', 
           { initialValue: fileNumLike 
           })(<Search placeholder="文件编号" size="large" onSearch={handleSubmit} />)}
       </Col>
-       <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
+       <Col {...ColProps} xl={{ span: isMyNotice?6:4 }} md={{ span: isMyNotice?6:8  }}>
         {getFieldDecorator('titleLike', 
           { initialValue: titleLike 
           })(<Search placeholder="通知标题" size="large" onSearch={handleSubmit} />)}
       </Col>
-      <Col {...TwoColProps} xl={{ span: 6 }} md={{ span: 16 }} >
+      <Col {...TwoColProps} xl={{ span: 6 }} md={{ span: isMyNotice?5:16  }} >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div >
+          {
+            !isMyNotice?
+            <div>
+              <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>
+              <Button icon="reload" size="large" onClick={handleReset}>重置</Button>
+            </div>
+            :null
+          }
+          {
+            isMyNotice?
             <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>
+            :null
+          } 
+          {
+            isMyNotice?
             <Button icon="reload" size="large" onClick={handleReset}>重置</Button>
-          </div>
-          <div>
-            <Button icon="plus" size="large" type="ghost" onClick={onAdd}>新增</Button>
-          </div>
+            :null
+          } 
+          {
+            isMyNotice?null
+            :<Button icon="plus" size="large" type="ghost" onClick={onAdd}>新增</Button>
+          }
         </div>
       </Col>
     </Row>

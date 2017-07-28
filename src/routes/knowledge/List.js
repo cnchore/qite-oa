@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Table, Modal,Button,Tag } from 'antd'
-import styles from './List.less'
-import classnames from 'classnames'
-import { DropOption } from '../../components'
 import { Link } from 'dva/router'
 
 const confirm = Modal.confirm
@@ -31,7 +28,29 @@ const List = ({ onItemChange, onEditItem, location, ...tableProps }) => {
     return '';
   }
   //tableProps={...tableProps,dataSource:[]}
-  const columns = [
+  const isMyKnowledge=location.query && location.query.isMyKnowledge || false;
+  const columns = isMyKnowledge?
+  [
+    {
+      title: '知识主题',
+      dataIndex: 'title',
+      key: 'title',
+    }, {
+      title: '发布人',
+      dataIndex: 'publisher',
+      key: 'publisher',
+    }, {
+      title: '发布时间',
+      dataIndex: 'publishTime',
+      key: 'publishTime',
+    }, {
+      title: '操作',
+      key: 'operation',
+      fixed:'right',
+      width: 80,
+      render: (text, record) => <Link to={`knowledge/${record.id}?noComment=true`}>查看</Link>
+    },
+  ]:[
     {
       title: '知识主题',
       dataIndex: 'title',
@@ -62,7 +81,8 @@ const List = ({ onItemChange, onEditItem, location, ...tableProps }) => {
       width: 150,
       render: (text, record) => {
         return  <div>
-            <a onClick={e=>handleMenuClick(record,{key:'1'})} style={{marginRight:'8px'}}>编辑</a>
+            <Link to={`knowledge/${record.id}`}>查看</Link>
+            <a onClick={e=>handleMenuClick(record,{key:'1'})} style={{marginLeft:'8px',marginRight:'8px'}}>编辑</a>
             <a onClick={e=>handleMenuClick(record,{key:'2'})}>{record.state===0||record.state===2?'发布':'下线'}</a>
           </div>
       },
@@ -74,7 +94,6 @@ const List = ({ onItemChange, onEditItem, location, ...tableProps }) => {
     <div>
       <Table
         {...tableProps}
-        className={classnames({ [styles.table]: true})}
         bordered
         scroll={{ x: 767 }}
         columns={columns}

@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import { Form,Radio, Input,Select,Modal,Row,Col,DatePicker,Button,Icon,Affix } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
-import { Editor,FileUpload,SelectUser } from '../../components'
-import uploadImageCallBack from '../../services/uploadImageCallBack'
+import { HtmlEditor,FileUpload,SelectUser } from '../../components'
+// import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
 //import {changeMoneyToChinese} from '../../utils'
-import { convertToRaw } from 'draft-js'
-import draftToHtml from 'draftjs-to-html'
+// import { convertToRaw } from 'draft-js'
+// import draftToHtml from 'draftjs-to-html'
 import CommentTable from '../../components/CommentTable'
 
 const confirm = Modal.confirm
@@ -46,8 +46,8 @@ const modal = ({
   onSubmit,
   employeeList,
   defaultFileList=[],
-  editorState,
-  setEditorState,
+  editorContent,
+  editorCallback,
   onAudit,
   taskData={},
   auditLoading,
@@ -83,7 +83,8 @@ const modal = ({
         })
       }
       data.postingTimeStr=data.postingTimeStr?data.postingTimeStr.format(dateTimeFormat):null;
-      data.content=draftToHtml(convertToRaw(editorState.getCurrentContent()));
+      data.content=editorContent;
+      // draftToHtml(convertToRaw(editorState.getCurrentContent()));
       
       //console.log('-----',data)
       if(item.id){
@@ -149,11 +150,19 @@ const modal = ({
     return ((timeB-timeA)/(3600*1000)).toFixed(2)
   }
   const dicOption=dicList.map(dic=><Option key={dic.id}>{dic.orgName}</Option>)
-  const onEditorStateChange = (editorContent) => {
-    setEditorState(editorContent);
+  // const onEditorStateChange = (editorContent) => {
+  //   setEditorState(editorContent);
+  // }
+  // const uploadImgCallBack=(file)=>uploadImageCallBack(file,'kgimg');
+  const editorProps={
+    editorStyle:{
+      height:'400px',
+    },
+    content:item.content,
+    callback(ht){
+      editorCallback && editorCallback(ht);
+    }
   }
-  const uploadImgCallBack=(file)=>uploadImageCallBack(file,'kgimg');
- 
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -305,19 +314,7 @@ const modal = ({
           </Col>
           <Col span={24}>
             <FormItem >
-
-              <Editor
-                wrapperStyle={{
-                  minHeight: 500,
-                }}
-                editorStyle={{
-                  height: 396,
-                }}
-                editorState={editorState}
-                onEditorStateChange={onEditorStateChange}
-                uploadCallback={uploadImgCallBack}
-                //toolbar={{image: { uploadCallback: uploadImageCallBack }}}
-              />
+              <HtmlEditor {...editorProps} />
             </FormItem>
           </Col>
       </Row>

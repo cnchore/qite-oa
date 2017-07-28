@@ -2,13 +2,13 @@ import { query,queryById,create, change, update,fileUpload,getOrg } from '../ser
 import { treeToArray,config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
-import { EditorState, ContentState, convertFromHTML } from 'draft-js'
+// import { EditorState, ContentState, convertFromHTML } from 'draft-js'
 
-const getEditorState=(html)=>EditorState.createWithContent(
-    ContentState.createFromBlockArray(
-      convertFromHTML(html)
-    )
-  )
+// const getEditorState=(html)=>EditorState.createWithContent(
+//     ContentState.createFromBlockArray(
+//       convertFromHTML(html)
+//     )
+//   )
 const { prefix } = config
 
 export default {
@@ -20,7 +20,7 @@ export default {
     currentItem: {},
     modalVisible: false,
     modalType: 'create',
-    editorState:null,
+    editorContent:'',
     fileList:[],
     orgList:[],
     pagination: {
@@ -119,18 +119,13 @@ export default {
     *editItem ({ payload }, { call, put }) {
       const id=payload.currentItem.id;
       const data = yield call(queryById, {id})
-
       if (data.success) {
-        let editorState=null;
-        if(data.data&&data.data.content){
-          editorState=getEditorState(data.data.content);
-        }
         yield put({ 
           type: 'showModal',
           payload:{
             ...payload,
             currentItem:data.data,
-            editorState,
+            editorContent:'',
             fileList:[],
           } 
         })
@@ -203,7 +198,7 @@ export default {
       return {...state,currentItem:action.payload}
     },
     setEditorState(state,action){
-      return {...state,editorState:action.payload}
+      return {...state,editorContent:action.payload}
     },
     setFileList(state,action){
       return {...state,fileList:action.payload}

@@ -3,10 +3,7 @@ import PropTypes from 'prop-types'
 import { Form, Input, Modal,Row,Col,DatePicker,Select,Button,Icon,Affix } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
-import { Editor,FileUpload } from '../../components'
-import { convertToRaw } from 'draft-js'
-import draftToHtml from 'draftjs-to-html'
-import uploadImageCallBack from '../../services/uploadImageCallBack'
+import { HtmlEditor,FileUpload } from '../../components'
 
 const confirm = Modal.confirm
 
@@ -24,7 +21,7 @@ const formItemLayout = {
 
 const twoFormItemLayout = {
   labelCol: {
-    span: 4,
+    span: 5,
   },
   wrapperCol: {
     span: 19,
@@ -32,15 +29,14 @@ const twoFormItemLayout = {
 }
 
 const modal = ({
-  editorState,
+  editorContent,
+  editorCallback,
   item = {},
   onOk,
   title,
   onCancel,
-  setEditorState,
   fileList,
   getFileList,
-  onUploadImg,
   confirmLoading,
   changeLoading,
   orgList,
@@ -60,7 +56,8 @@ const modal = ({
         return
       }
       const data = {...getFieldsValue()}
-      data.content=draftToHtml(convertToRaw(editorState.getCurrentContent()));
+      data.content=editorContent;
+      // draftToHtml(convertToRaw(editorState.getCurrentContent()));
       if(fileList && fileList.length>0){
         fileList.map((f,index)=>{
           if(f.id) data[`attachList[${index}].id`]=f.id;
@@ -91,11 +88,19 @@ const modal = ({
   }
   const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
 
- 
-  const onEditorStateChange = (editorContent) => {
-    setEditorState(editorContent);
-  }
-  const uploadImgCallBack=(file)=>uploadImageCallBack(file,'kgimg');
+  const editorProps={
+    editorStyle:{
+      height:'400px',
+    },
+    content:item.content,
+    callback(ht){
+      editorCallback && editorCallback(ht);
+    }
+  } 
+  // const onEditorStateChange = (editorContent) => {
+  //   setEditorState(editorContent);
+  // }
+  // const uploadImgCallBack=(file)=>uploadImageCallBack(file,'kgimg');
   //const handleGet=()=>console.log('',fileList)
 
   const orgOptions = orgList.map(org => <Option key={org.id}>{org.orgName}</Option>);
@@ -129,7 +134,7 @@ const modal = ({
           <Col span={24} className='qite-list-title'>
             <Icon type="credit-card" />知识点信息
           </Col>
-          <Col span={16}>
+          <Col span={14}>
             <FormItem label="知识点主题" hasFeedback {...twoFormItemLayout}>
               {getFieldDecorator('title', {
                 initialValue: item.title,
@@ -141,12 +146,11 @@ const modal = ({
               })(<Input />)}
             </FormItem>
           </Col>
-          <Col span={8}>  
-            <FormItem label="知识点状态" {...formItemLayout}>
-              {item.state===2?'已下线':item.state===1?'已发布':'未发布'}
+          <Col span={10}>  
+            <FormItem  {...formItemLayout}>
             </FormItem>
           </Col> 
-          <Col span={16}>
+          <Col span={14}>
             <FormItem label="知识点对象" hasFeedback {...twoFormItemLayout}>
               {getFieldDecorator('toId', {
                 initialValue: String(item.toId===undefined?'':item.toId),
@@ -163,7 +167,7 @@ const modal = ({
               )}
             </FormItem>
           </Col>
-          <Col span={8}>  
+          <Col span={10}>  
             <FormItem label="知识点有效期" hasFeedback {...formItemLayout}>
               {getFieldDecorator('effectiveTimeStr', {
                 initialValue:(item.effectiveTimeStr || item.effectiveTime)? moment(item.effectiveTimeStr || item.effectiveTime,dateTimeFormat):null,
@@ -176,19 +180,7 @@ const modal = ({
           </Col>
           <Col span={24}>
             <FormItem >
-
-              <Editor
-                wrapperStyle={{
-                  minHeight: 500,
-                }}
-                editorStyle={{
-                  height: 396,
-                }}
-                editorState={editorState}
-                onEditorStateChange={onEditorStateChange}
-                uploadCallback={uploadImgCallBack}
-                //toolbar={{image: { uploadCallback: uploadImageCallBack }}}
-              />
+              <HtmlEditor {...editorProps} />
             </FormItem>
           </Col>
           <Col span={24} className='qite-list-title'>

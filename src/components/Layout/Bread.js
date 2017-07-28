@@ -12,6 +12,14 @@ const Bread = ({ menu }) => {
   let current,_pathname=location.hash?location.hash.split('?')[0].substr(1):location.pathname;
   if(location.hash && location.hash.indexOf('#/report?')>-1){
     _pathname=location.hash.split('&_k=')[0].substr(1);
+  }else if(location.hash && location.hash.indexOf('#/notice?isMyNotice=true')>-1){
+    _pathname='/notice?isMyNotice=true';
+  }else if(location.hash && location.hash.indexOf('#/notice')>-1 && location.hash.indexOf('?noComment=true')>-1){
+    _pathname='/notice?isMyNotice=true';
+  }else if(location.hash && location.hash.indexOf('#/knowledge?isMyKnowledge=true')>-1){
+    _pathname='/knowledge?isMyKnowledge=true';
+  }else if(location.hash && location.hash.indexOf('#/isMyKnowledge')>-1 && location.hash.indexOf('?noComment=true')>-1){
+    _pathname='/knowledge?isMyKnowledge=true';
   }
   for (let index in menu) {
     if (menu[index].router && pathToRegexp(menu[index].router).exec(_pathname)) {
@@ -19,7 +27,6 @@ const Bread = ({ menu }) => {
       break
     }
   }
-
   const getPathArray = (item) => {
     pathArray.unshift(item)
     if (item.bpid) {

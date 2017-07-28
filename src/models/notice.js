@@ -2,14 +2,14 @@ import { query,queryById,save,deleteById,submit,queryEmployee,getDic } from '../
 import { config,treeToArray } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
-import { EditorState, ContentState, convertFromHTML } from 'draft-js'
+// import { EditorState, ContentState, convertFromHTML } from 'draft-js'
 import { startProcess,getTaskInfo,audit } from '../services/workFlow'
 
-const getEditorState=(html)=>EditorState.createWithContent(
-    ContentState.createFromBlockArray(
-      convertFromHTML(html)
-    )
-  )
+// const getEditorState=(html)=>EditorState.createWithContent(
+//     ContentState.createFromBlockArray(
+//       convertFromHTML(html)
+//     )
+//   )
 const { prefix } = config
 
 export default {
@@ -23,7 +23,7 @@ export default {
     modalType: 'create',
     fileList:[],
     dicList:[],
-    editorState:null,
+    editorContent:'',
     employeeList:[],
     taskData:{},
     pagination: {
@@ -204,16 +204,12 @@ export default {
       const data = yield call(queryById, {id})
 
       if (data.success) {
-        let editorState=null;
-        if(data.data&&data.data.content){
-          editorState=getEditorState(data.data.content);
-        }
         yield put({ 
           type: 'showModal',
           payload:{
             ...payload,
             currentItem:data.data,
-            editorState,
+            editorContent:'',
             fileList:[],
             taskData:{},
           } 
@@ -276,7 +272,7 @@ export default {
       return {...state,currentItem:action.payload}
     },
     setEditorState(state,action){
-      return {...state,editorState:action.payload}
+      return {...state,editorContent:action.payload}
     },
     setFileList(state,action){
       return {...state,fileList:action.payload}

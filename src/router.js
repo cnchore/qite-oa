@@ -464,6 +464,13 @@ const Routers = function ({ history, app }) {
             }, 'report')
           },
         }, {
+          path: '/temppage',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              cb(null, require('./routes/temppage/'))
+            }, 'temppage')
+          },
+        }, {
           path: '*',
           getComponent (nextState, cb) {
             require.ensure([], require => {

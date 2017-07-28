@@ -7,18 +7,7 @@ import { FileList } from '../../../components'
 
 const Detail = ({ knowledgeDetail }) => {
   const { data,orgList } = knowledgeDetail
-  /*
-  const content = []
-  for (let key in data) {
-    if ({}.hasOwnProperty.call(data, key)) {
-      content.push(<div key={key} className={styles.item}>
-        <div>{key}</div>
-        <div>{String(data[key])}</div>
-      </div>)
-    }
-  }
-  attachList
-  */
+  
   let defaultFileList=[];
   if(data.attachList&& data.attachList[0]){
     defaultFileList=data.attachList.map((temp)=>{
@@ -56,14 +45,18 @@ const Detail = ({ knowledgeDetail }) => {
           <div className={styles['q-detail-html-conent']} dangerouslySetInnerHTML={{__html: data.content}}></div>
         </Col>
       </Row>
-      <Row gutter={24} className={styles['q-detail']}>
-        <Col span={24} className='qite-list-title'>
-          <Icon type="paper-clip" />知识点资料
-        </Col>
-        <Col span={24} style={{paddingLeft:'12px',paddingRight:'12px'}}>
-          <FileList fileList={defaultFileList} showRemoveIcon={false}/>
-        </Col>
-      </Row>
+      {
+        defaultFileList && defaultFileList[0]?
+          <Row gutter={24} className={styles['q-detail']}>
+            <Col span={24} className='qite-list-title'>
+              <Icon type="paper-clip" />知识点资料
+            </Col>
+            <Col span={24} style={{paddingLeft:'12px',paddingRight:'12px'}}>
+              <FileList fileList={defaultFileList} showRemoveIcon={false}/>
+            </Col>
+          </Row>
+        :null
+      }
     </div>)
 }
 

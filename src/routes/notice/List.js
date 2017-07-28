@@ -60,7 +60,31 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
     let timeB=new Date(b);
     return ((timeB-timeA)/(3600*1000)).toFixed(2)
   }
-  const columns = [
+  console.log(location)
+  const isMyNotice=location.query && location.query.isMyNotice || false;
+
+  const columns = isMyNotice
+  ?[
+    {
+      title: '文件编号',
+      dataIndex: 'fileNum',
+      key: 'fileNum',
+    }, {
+      title: '文件标题',
+      key: 'title',
+      dataIndex:'title',
+    },{
+      title: '发文日期',
+      dataIndex: 'postingTime',
+      key: 'postingTime',
+    }, {
+      title: '操作',
+      key: 'operation',
+      fixed:'right',
+      width: 80,
+      render: (text, record) => <Link to={`/notice/${record.id}?noComment=true`} style={{marginRight:'8px'}}>查看</Link>
+    }
+  ]:[
     {
       title: '申请单号',
       dataIndex: 'code',width:220,
@@ -114,7 +138,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
         {...tableProps}
         className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 1250 }}
+        scroll={{ x: isMyNotice?767:1250 }}
         columns={columns}
         simple
         rowKey={record => record.id}

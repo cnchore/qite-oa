@@ -7,13 +7,13 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Knowledge = ({ location, dispatch, knowledge, loading }) => {
-  const { list,editorState,fileList,orgList, pagination, currentItem, modalVisible, modalType } = knowledge
+  const { list,editorContent,fileList,orgList, pagination, currentItem, modalVisible, modalType } = knowledge
   const { pageSize } = pagination
 
   const modalProps = {
     item: modalType === 'create' ? {} : currentItem,
     visible: modalVisible,
-    editorState,
+    editorContent,
     fileList,
     orgList,
     maskClosable: false,
@@ -32,18 +32,13 @@ const Knowledge = ({ location, dispatch, knowledge, loading }) => {
         type: 'knowledge/hideModal',
       })
     },
-    setEditorState(ed){
+    editorCallback(ed){
       dispatch({
         type:'knowledge/setEditorState',
         payload:ed
       })
     },
-    onUploadImg(data){
-      dispatch({
-        type:'knowledge/fileUpload',
-        payload:data
-      })
-    },
+    
     getFileList(fileList){
       dispatch({
         type:'knowledge/setFileList',

@@ -76,44 +76,55 @@ const Filter = ({
   if (filter.publishTimeEnd) {
     initialCreateTime[1] = moment(filter.publishTimeEnd)
   }
+  const isMyKnowledge=location.hash && location.hash.indexOf('isMyKnowledge=true')>-1 ? true :false;
 
   return (
     <Row gutter={24}>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
+      <Col {...ColProps} xl={{ span: 4 }} md={{ span: isMyKnowledge?6:8 }}>
         {getFieldDecorator('titleLike', 
           { initialValue: titleLike 
           })(<Search placeholder="知识主题" size="large" onSearch={handleSubmit} />)}
       </Col>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
+      <Col {...ColProps} xl={{ span: 4 }} md={{ span: isMyKnowledge?4:8 }}>
         {getFieldDecorator('publisherLike', { initialValue: publisherLike })(
           <Search placeholder="发布人" size="large" onSearch={handleSubmit} />
           )}
       </Col>
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} sm={{ span: 12 }}>
+      <Col {...ColProps} xl={{ span: isMyKnowledge?10:6 }} md={{ span: isMyKnowledge?9:8 }} >
         <FilterItem label="发布时间">
           {getFieldDecorator('createTime', { initialValue: initialCreateTime })(
             <RangePicker style={{ width: '100%' }} size="large" onChange={handleChange.bind(null, 'createTime')} />
           )}
         </FilterItem>
       </Col>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
-        {getFieldDecorator('state', { initialValue: String(state===undefined?'':state) })(
-          <Select placeholder="发布人" size="large" onChange={handleSubmit} style={{width:'100%'}}>
-            <Option key='0'>未发布</Option>
-            <Option key='1'>已发布</Option>
-            <Option key='2'>已下线</Option>
-          </Select>
+      { isMyKnowledge?null:
+        <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
+          {getFieldDecorator('state', { initialValue: String(state===undefined?'':state) })(
+            <Select placeholder="发布人" size="large" onChange={handleSubmit} style={{width:'100%'}}>
+              <Option key='0'>未发布</Option>
+              <Option key='1'>已发布</Option>
+              <Option key='2'>已下线</Option>
+            </Select>
           )}
-      </Col>
-      <Col {...TwoColProps} xl={{ span: 6 }} md={{ span: 16 }} sm={{ span: 24 }}>
+        </Col>
+      }
+      <Col {...TwoColProps} xl={{ span: 6 }} md={{ span: isMyKnowledge?5:16 }} >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div >
-            <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>
-            <Button icon="reload" size="large" onClick={handleReset}>重置</Button>
-          </div>
-          <div>
+          {isMyKnowledge?null:
+            <div >
+              <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>
+              <Button icon="reload" size="large" onClick={handleReset}>重置</Button>
+            </div>
+          }
+          {isMyKnowledge?
+              <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>
+            :null}
+          {isMyKnowledge?
+              <Button icon="reload" size="large" onClick={handleReset}>重置</Button>
+            :null}
+          {isMyKnowledge?null:
             <Button icon="plus" size="large" type="ghost" onClick={onAdd}>新增</Button>
-          </div>
+          }
         </div>
       </Col>
     </Row>
