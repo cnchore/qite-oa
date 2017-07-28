@@ -1,4 +1,4 @@
-import { getMyTaskToDoPage,getMessageList,getNoticeList,getTaskWaitSignPage,signTask } from '../services/dashboard'
+import { getMyTaskToDoPage,getMessageList,getNoticeList,getTaskWaitSignPage,signTask,getKnowledgeList } from '../services/dashboard'
 import { parse } from 'qs'
 import { config } from '../utils'
 const { prefix } = config
@@ -13,6 +13,7 @@ export default {
     messageData:{},
     noticeData:{},
     waitSignData:{},
+    knowledgeData:{},
   },
   subscriptions: {
     setup ({ dispatch,history }) {
@@ -39,6 +40,10 @@ export default {
             dispatch({
               type:'getNoticeList',
               payload:{isMyNotice:true},//
+            });
+            dispatch({
+              type:'getKnowledgeList',
+              payload:{isMyKnowledge:true,userId:userInfo.data.id},//
             });
             dispatch({
                type:'getTaskWaitSignPage',
@@ -120,6 +125,21 @@ export default {
         })
       }
     },
+    
+   *getKnowledgeList({payload},{call,put}){
+      const data=yield call(getKnowledgeList,{...payload,rows:10});
+      if(data.success){
+        yield put({
+          type:'getKnowledgeListSuccess',
+          payload:{
+            knowledgeData:{
+              list:data.data.rowsObject,
+              total:data.data.total,
+            }
+          }
+        })
+      }
+    },
     *signTask ({ payload }, { call, put }) {
       const data = yield call(signTask, payload)
       if (data.success) {
@@ -151,6 +171,12 @@ export default {
       }
     },
     getNoticeListSuccess (state, action) {
+      return {
+        ...state,
+        ...action.payload,
+      }
+    },
+    getKnowledgeListSuccess (state, action) {
       return {
         ...state,
         ...action.payload,

@@ -24,6 +24,9 @@ const Detail = ({ knowledgeDetail }) => {
   }
   return (
     <div className="content-inner">
+      <a href="javascript:window.history.back();" className="q-goback">
+        <Icon type="close-circle-o" />
+      </a>
       <Row gutter={24} className={styles['q-detail']}>
         <Col span={24} className='qite-list-title'>
             <Icon type="credit-card" />知识点信息

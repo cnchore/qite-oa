@@ -18,7 +18,7 @@ const Bread = ({ menu }) => {
     _pathname='/notice?isMyNotice=true';
   }else if(location.hash && location.hash.indexOf('#/knowledge?isMyKnowledge=true')>-1){
     _pathname='/knowledge?isMyKnowledge=true';
-  }else if(location.hash && location.hash.indexOf('#/isMyKnowledge')>-1 && location.hash.indexOf('?noComment=true')>-1){
+  }else if(location.hash && location.hash.indexOf('#/knowledge')>-1 && location.hash.indexOf('?noComment=true')>-1){
     _pathname='/knowledge?isMyKnowledge=true';
   }
   for (let index in menu) {

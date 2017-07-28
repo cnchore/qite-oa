@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
-import { Row, Col, Card,Icon } from 'antd'
+import { Row, Col, Card,Icon,Tabs } from 'antd'
 import { NumberCard, UserInfo,WaitList,WaitSignList } from './components'
 import styles from './index.less'
 import { color } from '../../utils'
 import { Link } from 'dva/router'
-
+const TabPane=Tabs.TabPane;
 function Dashboard ({ dashboard,loading,location,dispatch }) {
-  const { userInfo,waitData,messageData,noticeData,waitSignData } = dashboard
+  const { userInfo,waitData,messageData,noticeData,waitSignData,knowledgeData } = dashboard
   // const numberCards = numbers.map((item, key) => <Col key={key} lg={6} md={12}>
   //   <NumberCard {...item} />
   // </Col>)
@@ -59,6 +59,15 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
       </Link>
       <span className={styles.msgtime}>--{item.postingTime}</span>
     </p>) || <span className={styles.msgtime}>暂无通知公告</span>;
+  const knowledgeList =knowledgeData && knowledgeData.list && knowledgeData.list[0] && knowledgeData.list.map((item,index)=><p key={index}
+    className={styles.msgp}
+    >
+      <Link to={ `/knowledge/${item.id}?noComment=true`} >
+        <span className={styles.msgtitle}>{index+1}.{item.title}</span>
+      </Link>
+      <span className={styles.msgtime}>--{item.publishTime}</span>
+    </p>) || <span className={styles.msgtime}>暂无通知公告</span>;
+  
   return (
     
     <Row gutter={24} >
@@ -98,13 +107,35 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
         </Card>
       </Col>
       <Col lg={8} md={24}>
-        <Card bordered={false} className={styles.noticecard} 
-        title={<span><Icon type="notification" /> 通知公告</span>} extra={<Link to='/notice'>更多</Link>}
-        bodyStyle={{
-          height: 364,overflowY:'auto',
-        }}>
-          {noticeList}
-        </Card>
+        <Tabs defaultActiveKey="2" className={styles.tabpane}>
+          <TabPane tab={<span><Icon type="notification" />通知公告</span>} key="1">
+            <Card bordered={false} className={styles.noticecard} 
+            bodyStyle={{
+              height: 326,overflowY:'auto',
+            }}>
+              {noticeList}
+              {
+                noticeData && noticeData.total>10?
+                <Link to='/notice?isMyNotice=true' className={styles.floatRight}>更多</Link>
+                :null
+              }
+            </Card>
+          </TabPane>
+          <TabPane tab={<span><Icon type="book" />知识库</span>} key="2">
+            <Card bordered={false} className={styles.noticecard} 
+            bodyStyle={{
+              height: 326,overflowY:'auto',
+            }}>
+              {knowledgeList}
+              {
+                knowledgeData && knowledgeData.total>10?
+                <Link to='/knowledge?isMyKnowledge=true' className={styles.floatRight}>更多</Link>
+                :null
+              }
+            </Card>
+          </TabPane>
+        </Tabs>
+        
       </Col>
         
      
