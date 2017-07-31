@@ -48,7 +48,7 @@ const List = ({ onSubmit, onEditItem,onDelete, location, ...tableProps }) => {
     {
       title: '申请单号',
       dataIndex: 'code',
-      key: 'code',width:220,
+      key: 'code',
     }, {
       title: '创建时间',
       dataIndex: 'createTime',width:170,
@@ -86,7 +86,7 @@ const List = ({ onSubmit, onEditItem,onDelete, location, ...tableProps }) => {
         {...tableProps}
         className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 767 }}
+        scroll={{ x: 867 }}
         columns={columns}
         simple
         rowKey={record => record.id}

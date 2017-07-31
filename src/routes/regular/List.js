@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Table, Modal,Button,Tag } from 'antd'
-import styles from './List.less'
-import classnames from 'classnames'
-import { DropOption,SelectUser } from '../../components'
+// import styles from './List.less'
+import { SelectUser } from '../../components'
 import { Link } from 'dva/router'
 
 const confirm = Modal.confirm
@@ -63,7 +62,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
   const columns = [
     {
       title: '申请单号',
-      dataIndex: 'code',width:220,
+      dataIndex: 'code',
       key: 'code',
     }, {
       title: '申请时间',
@@ -102,9 +101,8 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
     <div>
       <Table
         {...tableProps}
-        className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 767 }}
+        scroll={{ x: 900 }}
         columns={columns}
         simple
         rowKey={record => record.id}

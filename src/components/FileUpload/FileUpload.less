@@ -18,12 +18,21 @@
 }
 
 .fileRow{
+ 
+  .file-col{
+    margin-left: -1px;
+    margin-top: -1px;
+  }
   .file-list{
+
     border: 1px solid #d9d9d9;
     &:nth-child(even){
-      border-top:none; 
+      // border-top:none; 
     }
     div{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: center;
       i{
         cursor: pointer;
         color:#108ee9;
@@ -33,7 +42,9 @@
       }
     }
     .file-img-div{
+      text-align: left;
       padding-top: 2px;
+      padding-left: 1px;
       height: 62px;
       i{
         font-size: 48px;

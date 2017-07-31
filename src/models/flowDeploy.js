@@ -34,7 +34,7 @@ export default {
   subscriptions: {
     setup ({ dispatch, history }) {
       history.listen(location => {
-        console.log('flowDeploy location:',location)
+        // console.log('flowDeploy location:',location)
         if (location.pathname === '/setting/flowDeploy') {
           dispatch({
             type: 'query',

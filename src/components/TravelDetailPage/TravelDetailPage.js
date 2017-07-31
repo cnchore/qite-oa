@@ -36,87 +36,94 @@ class TravelDetailPage extends React.Component {
         <Col span={24} className='qite-list-title'>
             <Icon type="credit-card" />出差信息
         </Col>
-        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>姓名：</Col>
-        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>{employeeList?employeeList.realName:'无'}</Col>
-        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>部门：</Col>
-        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>{employeeList.postList?(employeeList.postList[0].orgName ||'无'):'无'}</Col>
-        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>岗位：</Col>
-        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>{employeeList.postList?(employeeList.postList[0].postName || '无'):'无'}</Col>
-        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>申请单号：</Col>
-        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>{data.code}</Col>
-        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>申请时间：</Col>
-        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>{data.createTime || data.createTimeStr}</Col>
+        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          姓名：
+        </Col>
+        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          {employeeList?employeeList.realName:'无'}
+        </Col>
+        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          部门：
+        </Col>
+        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          {employeeList.postList?(employeeList.postList[0].orgName ||'无'):'无'}
+        </Col>
+        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          岗位：
+        </Col>
+        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          {employeeList.postList?(employeeList.postList[0].postName || '无'):'无'}
+        </Col>
+        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          申请单号：
+        </Col>
+        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          {data.code}
+        </Col>
+        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          申请时间：
+        </Col>
+        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          {data.createTime || data.createTimeStr}
+        </Col>
         
-      </Row>
-   
-        <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            同行人：
-          </Col>
-          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            
-            {data.colleaguesNames?data.colleaguesNames:'无'}
-          </Col>
-         
-        </Row>
-        
-        <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
-            预计出差时间：
-          </Col>
-          <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            
-          {data.travelTimeStartStr || data.travelTimeStart || '无'} 至
-          {data.travelTimeEndStr || data.travelTimeEnd || '无'}，共 {getHours(data.travelTimeStart,data.travelTimeEnd)} 小时
-          </Col>
-        </Row>
+         <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          同行人：
+        </Col>
+        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          
+          {data.colleaguesNames?data.colleaguesNames:'无'}
+        </Col>
        
-        <Row gutter={24} className={styles['q-detail']}>
+        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
+          预计出差时间：
+        </Col>
+        <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          {data.travelTimeStartStr || data.travelTimeStart || '无'} 
+          <span className='q-pd-8'>至</span>
+          {data.travelTimeEndStr || data.travelTimeEnd || '无'}
+          <span className='q-pd-8'>共</span>
+          {getHours(data.travelTimeStart,data.travelTimeEnd)}
+          <span className='q-pd-8'>小时</span>
+        </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' ,paddingLeft:'0px'}} className={styles['q-detail-label']}>
-            出差地点：
-          </Col>
-          <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {`${data.province?data.province:''}${data.city?data.city:''}${data.area?data.area:''}${data.address?data.address:''}`}
+          出差地点：
+        </Col>
+        <Col xs={12} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          {`${data.province?data.province:''}${data.city?data.city:''}${data.area?data.area:''}${data.address?data.address:''}`}
 
-          </Col>
-        </Row>
-        <Row gutter={24} className={styles['q-detail']}>
+        </Col>
+        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          拜访客户：
+        </Col>
+        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          {data.customers?data.customers:'无'}
+        </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            拜访客户：
-          </Col>
-          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.customers?data.customers:'无'}
-          </Col>
-        </Row>
-        <Row gutter={24} className={styles['q-detail']}>
+          出差事由：
+        </Col>
+        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+         
+          {data.remark?data.remark:'无'}
+        </Col>
+        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          出行方式：
+        </Col>
+        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+         
+          {getDicType(data.tripMode, data.tripModeRemark)||'无'}
+        </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            出差事由：
-          </Col>
-          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-           
-            {data.remark?data.remark:'无'}
-          </Col>
-        </Row>
-        <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            出行方式：
-          </Col>
-          <Col xs={18} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-           
-            {getDicType(data.tripMode, data.tripModeRemark)||'无'}
-          </Col>
-        </Row>
-        <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            申请费用：
-          </Col>
-          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            
-            {`¥ ${data.expense?data.expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}   大写：`}
-            {changeMoneyToChinese(data.expense)}
-          </Col>
-        </Row>
-        <Row gutter={12} className={styles['q-detail']} style={{marginLeft:'2px',marginRight:'2px'}}>
+          申请费用：
+        </Col>
+        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          
+          {`¥ ${data.expense?data.expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}`}
+          <span className='q-pd-8'>大写：</span>
+          {changeMoneyToChinese(data.expense)}
+        </Col>
+      </Row>
+      <Row gutter={12} className={styles['q-detail']} style={{marginLeft:'2px',marginRight:'2px'}}>
           <blockquote>
             <p>
               备注：<br/>

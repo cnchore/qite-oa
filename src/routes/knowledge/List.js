@@ -55,7 +55,6 @@ const List = ({ onItemChange, onEditItem, location, ...tableProps }) => {
       title: '知识主题',
       dataIndex: 'title',
       key: 'title',
-      render: (text, record) => <Link to={`knowledge/${record.id}`}>{text}</Link>,
     }, {
       title: '发布人',
       dataIndex: 'publisher',

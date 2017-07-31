@@ -76,13 +76,13 @@ const Filter = ({
 
   return (
     <Row gutter={24}>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 12 }}>
         {getFieldDecorator('codeLike', 
           { initialValue: codeLike 
           })(<Search placeholder="申请单号" size="large" onSearch={handleSubmit} />)}
       </Col>
      
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
+      <Col {...ColProps} xl={{ span: 8 }} md={{ span: 12 }} >
         <FilterItem label="申请时间">
           {getFieldDecorator('createTime', { 
             initialValue:createTime? moment(createTime):null,
@@ -94,7 +94,7 @@ const Filter = ({
         </FilterItem>
       </Col>
       
-      <Col {...TwoColProps} xl={{ span: 12 }} md={{ span: 8 }} >
+      <Col {...TwoColProps} xl={{ span: 10 }} md={{ span: 24 }} >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div >
             <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>

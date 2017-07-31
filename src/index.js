@@ -1,5 +1,7 @@
 // import './index.html'
 import 'babel-polyfill'
+
+import './utils/wordExport'
 import dva from 'dva'
 import createLoading from 'dva-loading'
 import { hashHistory } from 'dva/router'

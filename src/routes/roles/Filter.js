@@ -57,14 +57,14 @@ const Filter = ({
 
   return (
     <Row gutter={24}>
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 7 }} xs={{ span: 12 }} >
+      <Col {...ColProps} md={{ span: 6 }} xs={{ span: 12 }} >
         {getFieldDecorator('roleNameLike', { initialValue: roleNameLike })(<Search placeholder="角色名称" size="large" onSearch={handleSubmit} />)}
       </Col>
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 7 }} xs={{ span: 12 }}>
+      <Col {...ColProps} md={{ span: 6 }} xs={{ span: 12 }}>
         {getFieldDecorator('roleCodeLike', { initialValue: roleCodeLike })(<Search placeholder="角色编码" size="large" onSearch={handleSubmit} />)}
       </Col>
       
-      <Col {...TwoColProps} xl={{ span: 12 }} md={{ span: 10 }} xs={{ span: 24 }}>
+      <Col {...TwoColProps}  md={{ span: 12 }} xs={{ span: 24 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div >
             <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>

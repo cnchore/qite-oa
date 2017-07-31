@@ -9,6 +9,10 @@ const List = ({ location, ...tableProps }) => {
  
   const columns = [
     {
+      title: '申请人',
+      dataIndex: 'applyName',
+      key: 'applyName',
+    },{
       title: '申请单号',
       dataIndex: 'busiCode',
       key: 'busiCode',
@@ -48,7 +52,7 @@ const List = ({ location, ...tableProps }) => {
         {...tableProps}
         className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 1050 }}
+        scroll={{ x: 1150 }}
         columns={columns}
         simple
         rowKey={record => record.taskId}

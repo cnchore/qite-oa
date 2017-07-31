@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './CommentTable.less'
-import { Icon,Row,Col,Table } from 'antd'
-import classNames from 'classnames';
-
+import { Icon,Row,Col,Table,Tooltip } from 'antd'
 
 class CommentTable extends React.Component {
   
@@ -26,9 +24,10 @@ class CommentTable extends React.Component {
         dataIndex: 'auditerName',
         key: 'auditerName',
       }, {
-        title: '审批意见',
+        title: '审批意见',width:250,
         dataIndex: 'approvalOpinion',
         key: 'approvalOpinion',
+        render:(text)=><Tooltip title={text}><span className={styles['text-overflow']} >{text}</span></Tooltip>
       }, {
         title: '接收时间',
         dataIndex: 'receiveTime',
@@ -61,7 +60,7 @@ class CommentTable extends React.Component {
               pagination={false}
               dataSource={data}
               bordered
-              scroll={{ x: 767 }}
+              scroll={{ x: 967 }}
               columns={columns}
               simple
               rowKey={record => record.taskId}

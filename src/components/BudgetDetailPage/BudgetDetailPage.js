@@ -20,7 +20,7 @@ class BudgetDetailPage extends React.Component {
       let c=0;
       if(data && data.detailList && data.detailList[0]){
         data.detailList.map(t=>{
-          c+=parseFloat(t.amount)
+          c+=parseFloat(t.amount?t.amount:0)
         })
       }
       return c.toFixed(2);

@@ -140,32 +140,39 @@ class FileUpload extends React.Component {
     const _fileList = this.state.fileList.map((file,index)=>{
       let thumbUrl=this.getThumbUrl(file);
       return (
-        <Row key={file.uid} gutter={24} className={styles['file-list']} style={{margin:'0px'}} type="flex" justify="space-around" align="middle">
-          <Col span={4} style={{paddingLeft:'2px'}} className={styles['file-img-div']}>
-            { (thumbUrl)?
-              <img className={styles.fileImg} src={thumbUrl} alt={file.name} onClick={e=>this.handlePreview(file)}/>
-              :<Icon type="loading" />  
+         <Col md={24} xl={12} className={styles['file-col']}>
+          <Row key={file.uid} gutter={0} className={styles['file-list']} style={{margin:'0px'}} type="flex" justify="space-around" align="middle">
+            <Col span={4}  className={styles['file-img-div']}>
+              { (thumbUrl)?
+                <img className={styles.fileImg} src={thumbUrl} alt={file.name} onClick={e=>this.handlePreview(file)}/>
+                :<Icon type="loading" />  
+              }
+               <Modal visible={previewVisible} footer={null} width={800} onCancel={this.handleCancel}>
+                <img alt={previewName} style={{ width: '100%' }} src={previewImage} />
+              </Modal>
+            </Col>
+            <Col span={file.createTime?8:16}>
+              {file.name}
+              {file.status==='done'?null:<Progress type="line" {...this.props.progressAttr} percent={file.percent} />}
+            </Col>
+            {
+              file.createTime?(
+              <Col span={8}>{file.createTime}</Col>
+              ):null
             }
-             <Modal visible={previewVisible} footer={null} width={800} onCancel={this.handleCancel}>
-              <img alt={previewName} style={{ width: '100%' }} src={previewImage} />
-            </Modal>
-          </Col>
-          <Col span={16}>
-            {file.name}
-            {file.status==='done'?null:<Progress type="line" {...this.props.progressAttr} percent={file.percent} />}
-          </Col>
-          <Col span={2}>
-            <a
-            href={file.url}
-            target="_blank"
-            >
-              <Icon type="download" style={{ fontSize: 18 }} />
-            </a>
-          </Col>
-          <Col span={2}>
-              <Icon type="delete" style={{ fontSize: 18 }} onClick={() => this.handleRemove(file)}/>
-          </Col>
-        </Row>
+            <Col span={2}>
+              <a
+              href={file.url}
+              target="_blank"
+              >
+                <Icon type="download" style={{ fontSize: 18 }} />
+              </a>
+            </Col>
+            <Col span={2}>
+                <Icon type="delete" style={{ fontSize: 18 }} onClick={() => this.handleRemove(file)}/>
+            </Col>
+          </Row>
+        </Col>
       );
     });
 
@@ -187,10 +194,11 @@ class FileUpload extends React.Component {
           </Upload>
         </Col>
         <Col md={20} xl={21}>
+          <Row gutter={0}>
           {_fileList}
+          </Row>
         </Col>
       </Row>
-      
     )
   }
 }

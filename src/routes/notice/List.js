@@ -60,7 +60,6 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
     let timeB=new Date(b);
     return ((timeB-timeA)/(3600*1000)).toFixed(2)
   }
-  console.log(location)
   const isMyNotice=location.query && location.query.isMyNotice || false;
 
   const columns = isMyNotice
@@ -87,7 +86,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
   ]:[
     {
       title: '申请单号',
-      dataIndex: 'code',width:220,
+      dataIndex: 'code',
       key: 'code',
     }, {
       title: '申请时间',

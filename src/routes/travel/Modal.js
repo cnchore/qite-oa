@@ -306,7 +306,7 @@ const modal = ({
             出差地点：
           </Col>
           <Col xs={18} md={8} xl={10} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
+            <FormItem style={{ width: '100%' }}>
               {getFieldDecorator('destination', {
                 initialValue:initialDestination,
                 rules: [{required: true,message:'不能为空',},],
@@ -314,7 +314,7 @@ const modal = ({
               })(
                 <Cascader
                   size="large"
-                  style={{ width: '400px' }}
+                  
                   options={city}
                 />
               )}
@@ -399,37 +399,29 @@ const modal = ({
             :null}
           </Col>
         </Row>
-        <Row gutter={24} className={styles['q-detail']}>
+       <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             申请费用：
           </Col>
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem  >
+            <FormItem >
               {getFieldDecorator('expense', {
                 initialValue:(item.expense===undefined||item.expense===null)?0:Number(item.expense),
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
+                rules: [{required: true,message:'不能为空',},],
                 onChange:handleExpenseChange,
               })(
                 <InputNumber
-                  step={0.01} style={{width:'120px'}}
+                  step={0.01} style={{width:'150px'}}
                   formatter={value => `¥ ${value?value.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}`}
                   parser={value => value?value.toString().replace(/¥\s?|(,*)/g, ''):0}
-                  
                 />
               )}
-              
             </FormItem>
             {item.expense?
             <FormItem >
               大写：{getExpense()}
             </FormItem>
             :null}
-         
           </Col>
         </Row>
         <Row gutter={12} className={styles['q-detail']} style={{marginLeft:'2px',marginRight:'2px'}}>

@@ -37,6 +37,7 @@
     "eslint-plugin-jsx-a11y": "^1.4.2",
     "eslint-plugin-react": "^5.1.1",
     "html-webpack-plugin": "^2.28.0",
+    "jquery": "^2.2.3",
     "jsonp": "^0.2.1",
     "less-vars-to-js": "^1.1.2",
     "mockjs": "^1.0.1-beta3",
@@ -52,7 +53,7 @@
     "lint"
   ],
   "scripts": {
-    "dev:win": "set BROWSER=none&&set HOST=192.168.0.142&&roadhog server",
+    "dev:win": "set BROWSER=none&&set HOST=192.168.1.104&&roadhog server",
     "dev": "HOST=192.168.0.142 CLEAR_CONSOLE=none roadhog server",
     "lint": "eslint --fix --ext .js src",
     "build": "roadhog build",

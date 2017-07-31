@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Table } from 'antd'
-import styles from './List.less'
-import classnames from 'classnames'
-
+// import styles from './List.less'
+// import classnames from 'classnames'
 
 const List = ({ location, ...tableProps }) => {
   
@@ -20,8 +19,6 @@ const List = ({ location, ...tableProps }) => {
       title: '机构类型',
       dataIndex: 'orgTypeName',
       key: 'orgTypeName',
-    
-   
     },
   ]
 
@@ -30,9 +27,7 @@ const List = ({ location, ...tableProps }) => {
     <div>
       <Table
         {...tableProps}
-        className={classnames({ [styles.table]: true })}
         bordered
-        scroll={{ x: 767 }}
         columns={columns}
         simple
         rowKey={record => record.id}

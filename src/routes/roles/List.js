@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Table, Modal,Button } from 'antd'
-import styles from './List.less'
-import classnames from 'classnames'
+// import styles from './List.less'
+// import classnames from 'classnames'
 //import { DropOption } from '../../components'
 //import { Link } from 'dva/router'
 
@@ -44,7 +44,6 @@ const List = ({ onDeleteItem, onEditItem, location, ...tableProps }) => {
       width: 100,
       render: (text, record) => {
           return  (<a onClick={e=>onEditItem(record)} >编辑</a>)
-        //return <DropOption onMenuClick={e => handleMenuClick(record, e)} menuOptions={[{ key: '1', name: '编辑' }]} />
       },
     },
   ]
@@ -54,9 +53,7 @@ const List = ({ onDeleteItem, onEditItem, location, ...tableProps }) => {
     <div>
       <Table
         {...tableProps}
-        className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 767 }}
         columns={columns}
         simple
         rowKey={record => record.id}

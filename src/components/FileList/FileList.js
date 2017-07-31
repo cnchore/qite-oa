@@ -85,45 +85,47 @@ class FileList extends React.Component {
       }
     }
     const _fileList = fileList.map((file,index)=>{
+        // 
       let thumbUrl=this.getThumbUrl(file);
       return (
-        <Row key={file.uid} gutter={12} className={styles['file-list']} style={{margin:'0px'}} type="flex" justify="space-around" align="middle">
-          <Col span={4} style={{paddingLeft:'0px'}}>
-            { thumbUrl?
-              <img className={styles.fileImg} src={thumbUrl} alt={file.name} onClick={e=>this.handlePreview(file)} />
-              :null
+        <Col key={index} md={24} xl={12} className={styles['file-container']}>
+          <Row key={file.uid} className={styles['file-list']} style={{margin:'0px'}} type="flex" justify="space-around" align="middle">
+            <Col key={index+1+Math.random()} span={4}>
+              { thumbUrl?
+                <img className={styles.fileImg} src={thumbUrl} alt={file.name} onClick={e=>this.handlePreview(file)} />
+                :null
+              }
+              <Modal visible={previewVisible} footer={null} width={800} onCancel={this.handleCancel}>
+                <img alt={previewName} style={{ width: '100%' }} src={previewImage} />
+              </Modal>
+            </Col>
+            <Col key={index+2+Math.random()} span={file.createTime?10:16}>
+              {file.name}
+              {file.status==='done'?null:<Progress type="line" {...this.props.progressAttr} percent={file.percent} />}
+            </Col>
+            {
+              file.createTime?(
+              <Col key={index+3+Math.random()} span={8}>{file.createTime}</Col>
+              ):null
             }
-            <Modal visible={previewVisible} footer={null} width={800} onCancel={this.handleCancel}>
-              <img alt={previewName} style={{ width: '100%' }} src={previewImage} />
-            </Modal>
-          </Col>
-          <Col span={file.createTime?12:18}>
-            {file.name}
-            {file.status==='done'?null:<Progress type="line" {...this.props.progressAttr} percent={file.percent} />}
-          </Col>
-          {
-            file.createTime?(
-            <Col span={6}>{file.createTime}</Col>
-            ):null
-          }
-          <Col span={2}>
-            <a
-            href={file.url}
-            target="_blank"
-            >
-              <Icon type="download" style={{ fontSize: 18 }} />
-            </a>
-          </Col>
-          
-        </Row>
+            <Col key={index+4+Math.random()} span={2}>
+              <a
+              href={file.url}
+              target="_blank"
+              >
+                <Icon type="download" style={{ fontSize: 18 }} />
+              </a>
+            </Col>
+          </Row>
+        </Col>
       );
     });
-
+        // </Row>
     return (
      
-      <Row gutter={4} style={{margin:0,marginBottom:'12px'}} className={styles.fileRow}>
+      <Row gutter={0} className={styles.fileRow}>
         
-          {_fileList[0]?_fileList:<Col span={24}>暂无内容</Col>}
+        {_fileList[0]?_fileList:<Col span={24}>暂无内容</Col>}
         
       </Row>
       

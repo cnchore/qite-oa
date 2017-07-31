@@ -63,7 +63,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete,location, ...tableProps })
   const columns = [
     {
       title: '申请单号',
-      dataIndex: 'code',width:220,
+      dataIndex: 'code',
       key: 'code',
     }, {
       title: '申请时间',
