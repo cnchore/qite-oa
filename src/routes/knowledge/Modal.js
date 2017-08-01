@@ -44,18 +44,18 @@ const modal = ({
   defaultFileList=[],
   form: {
     getFieldDecorator,
-    validateFields,
+    validateFieldsAndScroll,
     getFieldsValue,
     setFieldsValue,
   },
   ...modalProps
 }) => {
   const handleOk = () => {
-    validateFields((errors) => {
-      if (errors) {
+    validateFieldsAndScroll((err,values) => {
+      if (err) {
         return
       }
-      const data = {...getFieldsValue()}
+      const data = {...values}
       data.content=editorContent;
       // draftToHtml(convertToRaw(editorState.getCurrentContent()));
       if(fileList && fileList.length>0){
@@ -125,7 +125,7 @@ const modal = ({
          
               <div style={{backgroundColor:'#fff'}}>
                 {item.id?<Button  type="primary" onClick={handleItemChange} size="large" loading={changeLoading}>{(item.state===0||item.state===2)?'发布':'下线'}</Button>:null}
-                <Button style={{ marginLeft: 12,marginRight: 12 }} type="primary" loading={confirmLoading} onClick={handleOk} size="large">确定</Button>
+                <Button style={{ marginLeft: 12,marginRight: 12 }} type="primary" loading={confirmLoading} onClick={handleOk} size="large">暂存</Button>
                 <Button  type="ghost" onClick={onCancel} size="large">取消</Button>
               </div>
             </Affix>

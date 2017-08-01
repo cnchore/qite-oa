@@ -59,10 +59,10 @@ export default {
       // payload=parse(location.hash.split('#/setting/flowDeploy?')[1]); 
       // payload = parse(location.search.substr(1))
       
-      payload={...payload,rows:payload.pageSize}
+      payload={...payload,rows:payload&&payload.pageSize||10}
       const data = yield call(getDeployPage, payload)
       
-      if (data) {
+      if (data && data.data) {
         yield put({
           type: 'querySuccess',
           payload: {
@@ -79,7 +79,7 @@ export default {
     *getPDPage ({ payload }, { call, put }) {
       // payload=parse(location.hash.split('#/setting/flowDeploy?')[1]); 
       // payload = parse(location.search.substr(1))
-      payload={...payload,rows:payload.pageSize}
+      payload={...payload,rows:payload&&payload.pageSize||10}
       const data = yield call(getPDPage, payload)
       
       if (data) {

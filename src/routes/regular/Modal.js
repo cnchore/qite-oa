@@ -51,7 +51,7 @@ const modal = ({
   onGoback,
   form: {
     getFieldDecorator,
-    validateFields,
+    validateFieldsAndScroll,
     getFieldsValue,
     setFieldsValue,
   },
@@ -61,11 +61,11 @@ const modal = ({
 
   const getFields = () => {
     let data=null;
-    validateFields((errors) => {
-      if (errors) {
+    validateFieldsAndScroll((err,values) => {
+      if (err) {
         return null;
       }
-      data = {...getFieldsValue()}
+      data = {...values}
       if(fileList && fileList.length>0){
         fileList.map((f,index)=>{
           if(f.id) data[`attachList[${index}].id`]=f.id;
@@ -149,7 +149,7 @@ const modal = ({
                 <div style={{backgroundColor:'#fff'}}>
                   <a href={templateUrl}  style={{ marginRight: 12 }} target="_blank">转正申请表[模版下载]</a>
                   <SelectUser type="button" callBack={handleSubmit}  loading={submitLoading}>提交</SelectUser>
-                  <Button style={{ marginLeft: 12,marginRight: 12 }} type="primary" loading={confirmLoading} onClick={handleOk} size="large">确定</Button>
+                  <Button style={{ marginLeft: 12,marginRight: 12 }} type="primary" loading={confirmLoading} onClick={handleOk} size="large">暂存</Button>
                   <Button  type="ghost" onClick={onCancel} size="large">取消</Button>
                 </div>)
               }

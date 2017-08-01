@@ -53,14 +53,14 @@ const Filter = ({
 
   return (
     <Row gutter={24}>
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 7 }} xs={{ span: 12 }} >
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 6 }} xs={{ span: 12 }} >
         {getFieldDecorator('realNameLike', { initialValue: realNameLike })(<Search placeholder="姓名" size="large" onSearch={handleSubmit} />)}
       </Col>
       <Col {...ColProps} xl={{ span: 6 }} md={{ span: 7 }} xs={{ span: 12 }}>
         {getFieldDecorator('mobilePhoneLike', { initialValue: mobilePhoneLike })(<Search placeholder="手机号码" size="large" onSearch={handleSubmit} />)}
       </Col>
       
-      <Col {...ColProps} xl={{ span: 12 }} md={{ span: 10 }} xs={{ span: 24 }}>
+      <Col {...ColProps} xl={{ span: 12 }} md={{ span: 11 }} xs={{ span: 24 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div >
             <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>

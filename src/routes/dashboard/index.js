@@ -48,7 +48,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
   }
   const messageList=messageData && messageData.list && messageData.list[0] && messageData.list.map((item,index)=><p key={index} 
     className={styles.msgp}>
-      <span className={styles.msgtitle}>{index+1}.{item.content}</span>
+      <span className={styles.msgtitle}>{index+1}.{item.content?item.content.replace('您提交的单号为','').replace(item.remark,'').replace('的',''):''}</span>
       <span className={styles.msgtime}>--{item.createTime}</span>
     </p>) || <span className={styles.msgtime}>暂无消息</span>;
   const noticeList =noticeData && noticeData.list && noticeData.list[0] && noticeData.list.map((item,index)=><p key={index}

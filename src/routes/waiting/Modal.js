@@ -86,9 +86,10 @@ const modal = ({
     }
   }
   let actionRadio=[];
-  if(taskData.actionMap && taskData.actionMap[0]){
+  // console.log("actionMap:",taskData.actionMap,Object.keys(taskData.actionMap)[0])
+  if(taskData.actionMap){
     actionRadio=Object.keys(taskData.actionMap).map(act=>{
-      // console.log("key:",act)
+       // console.log("key:",act)
       // if(act==='1'){isNeedSel=true}
       return <Radio value={act} key={act}>{ taskData.actionMap[act]}</Radio>
     })
