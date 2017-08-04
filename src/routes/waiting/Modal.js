@@ -163,7 +163,7 @@ const modal = ({
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} style={{display:'flex',justifyContent:'space-between',marginBottom:'24px',paddingBottom:'12px',borderBottom:'1px solid #d9d9d9'}}>
             <div className='qite-title'><Icon type="schedule" />{title}</div>
-            <Affix target={()=>document.getElementById('layout-main')}>
+            <Affix target={()=>document.getElementById('layout-main')} style={{minWidth:'300px',textAlign:'right'}}>
               <div style={{backgroundColor:'#fff'}}>
                 { isNeedSel?
                 <SelectUser type="button" callBack={handleSubmit}  loading={confirmLoading}/>

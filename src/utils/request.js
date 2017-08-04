@@ -96,6 +96,11 @@ export default function request (options) {
   return fetch(options).then((response) => {
     const { statusText, status } = response
     let data = options.fetchType === 'YQL' ? response.data.query.results.json : response.data
+    if(options.fetchType!=='YQL' && response.data && !response.data.success 
+      && response.data.message==='login_timeout' && window.location.hash.indexOf('#/login')===-1){
+      message.error('登录已过期，请重新登录');
+      window.location.href=window.location.origin+window.location.pathname+'#/login?'+Math.random();
+    }
     return {
       success: true,
       message: statusText,

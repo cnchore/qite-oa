@@ -483,12 +483,21 @@ const Routers = function ({ history, app }) {
   ]
  
   history.listen(location=>{
+    const {query,search,pathname}=location;
+    if(!search || search.indexOf('__t=')===-1){
+      let _search=search;
+      _search+=search?'&__t=':'?__t=';
+      _search+=Date.now();
+      // console.log('_pathname:',pathname,_search)
+      history.replace(`${pathname}${_search}`)
+      return;
+    }
     // console.log('history listen:',location)
     const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
     if (!userInfo || (userInfo && !userInfo.data)) {
-      if(location.pathname!=='/login'){
+      if(pathname!=='/login'){
         console.log('no login');
-        history.replace(`/login?from=${location.pathname}`)
+        history.replace(`/login?from=${pathname}${search}`)
         return;
       }
     }

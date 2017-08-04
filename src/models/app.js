@@ -3,8 +3,9 @@ import { routerRedux } from 'dva/router'
 import { parse } from 'qs'
 import { config,treeMenuToArrayMenu } from '../utils'
 import { message } from 'antd'
+// import io from 'socket.io-client'
 const { prefix } = config
-
+  
 export default {
   namespace: 'app',
   state: {
@@ -22,34 +23,18 @@ export default {
       // history.listen(location=>{
       //   console.log('app location:',location)
       // })
-      dispatch({ type: 'query' })
-      let tid
-      window.onresize = () => {
-        clearTimeout(tid)
-        tid = setTimeout(() => {
-          dispatch({ type: 'changeNavbar' })
-        }, 300)
-      }
-      var timesRun = 0;
-      var interval = setInterval(function(){
-        ++timesRun;
-        if(timesRun === 10){
-          clearInterval(interval);
-          console.log('times stop')
-        }else{
-          console.log('timesRun:',timesRun)
-        }
-        //do whatever here..
-      }, 50);
+      dispatch({ type: 'query',payload:{bindsocket:true} })
+      
     },
   },
   effects: {
 
     *query ({payload}, { call, put }) {
+      // console.log('app payload:',payload);
       const data = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       const menuData=yield call(getLoginUserMenu, {})
-      if (data&& data.success && data.data && menuData && menuData.success) {
-        //console.log('userData:',data.message)
+      if (data&& data.success && data.data  && menuData && menuData.success) {
+        // console.log('userData:',data.message)
         yield put({
           type: 'querySuccess',
           payload: {
@@ -57,6 +42,33 @@ export default {
             menuList:treeMenuToArrayMenu(menuData.data)
           },
         })
+        // console.info('do socket')
+        //创建socket
+        let _url='ws://test.aylsonclub.com/qite/websocket/socketServer.do';
+        // let _url='ws://192.168.0.108:8080/qite/websocket/socketServer.do';
+        let websocket=null;
+        try{
+          if('WebSocket' in window){
+            websocket = new WebSocket(_url);
+            websocket.onconnect=function(){
+              console.log('websocket connect.');
+            }
+           
+            websocket.onerror=function(error){
+              console.error('socket error:',error);
+            }
+          
+            websocket.onmessage=function(evt){
+              console.log('websocket message:',evt);
+            }
+            
+            window.close=function(){
+              websocket.onclose();
+            }
+          }
+        }catch(er){
+          console.error('catch websocket error:',er)
+        }
         if (location.pathname === '/login') {
           yield put(routerRedux.push('/dashboard'))
         }

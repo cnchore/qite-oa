@@ -65,7 +65,7 @@ export default {
       payload={...payload,rows:payload.pageSize}
       const data = yield call(query, payload)
       
-      if (data && userInfo && userInfo.data) {
+      if (data && data.success && userInfo && userInfo.data) {
         yield put({
           type: 'querySuccess',
           payload: {

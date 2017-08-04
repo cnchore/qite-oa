@@ -95,7 +95,7 @@ const Detail = ({ filedDetail }) => {
       } 
       {
         data && data.flowImgSrc?
-        <FlowImg path={data.flowImgSrc} />
+        <FlowImg path={data.flowImgSrc+'&_t='+Math.random()} />
         :null
       }
     </div>)

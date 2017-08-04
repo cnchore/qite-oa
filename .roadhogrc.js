@@ -13,15 +13,27 @@ export default {
   //   "react": "react"
   // },
   "proxy": {
-    '/qite':{
-      //http://test.aylsonclub.com
-      target: "http://test.aylsonclub.com",
-      //host:"test.aylsonclub.com",
+    '/qite/sys':{
+      target: "http://192.168.0.108:8080",
+      // target: "http://test.aylsonclub.com",
       changeOrigin: true,
       secure: false,
-      pathRewrite: {'^/qite' : '/qite'},
-      //router:{'/qite':'http://localhost:9000/qite'}
-    }
+      pathRewrite: {'^/qite/sys' : '/qite/sys'},
+    },
+    '/qite/busi':{
+      // target: "http://test.aylsonclub.com",
+      target: "http://192.168.0.108:8080",
+      changeOrigin: true,
+      secure: false,
+      pathRewrite: {'^/qite/busi' : '/qite/busi'},
+    },
+    '/qite/websocket':{
+      // target: "ws://test.aylsonclub.com",
+      target: "ws://192.168.0.108:8080",
+      changeOrigin: true,
+      secure: false,
+      pathRewrite: {'^/qite/websocket' : '/qite/websocket'},
+    },
   },
   
   "env": {

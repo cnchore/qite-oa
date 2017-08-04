@@ -46,9 +46,54 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
       })
     },
   }
+  const getAction=(item)=>{
+    let codeStr=item.remark,
+        id=codeStr&&codeStr.split('#')[1]||-1,
+        codeType=codeStr.substr(0,2),
+        content=item.content?item.content.replace('您提交的单号为','').replace(item.remark,'').replace('的',''):'';
+    if(codeType&&id!==-1){
+      switch(codeType){
+        case 'MC':
+          return <Link to={`/missClock/${id}`}>{content}</Link>
+        case 'SC':
+          return <Link to={`/salaryChange/${id}`}>{content}</Link>
+        case 'LE':
+          return <Link to={`/leave/${id}`}>{content}</Link>
+        case 'OT':
+          return <Link to={`/overTime/${id}`}>{content}</Link>
+        case 'TL':
+          return <Link to={`/travel/${id}`}>{content}</Link>
+        case 'DN':
+          return <Link to={`/dimission/${id}`}>{content}</Link>
+        case 'RR':
+          return <Link to={`/regular/${id}`}>{content}</Link>
+        case 'TR':
+          return <Link to={`/travelReimburse/${id}`}>{content}</Link>
+        case 'CT':
+          return <Link to={`/contract/${id}`}>{content}</Link>
+        case 'UC':
+          return <Link to={`/useCar/${id}`}>{content}</Link>
+        case 'PA':
+          return <Link to={`/purchaseApply/${id}`}>{content}</Link>
+        case 'PE':
+          return <Link to={`/purchase/${id}`}>{content}</Link>
+        case 'PT':
+          return <Link to={`/payment/${id}`}>{content}</Link>
+        case 'RT':
+          return <Link to={`/recruit/${id}`}>{content}</Link>
+        case 'RE':
+          return <Link to={`/reimburse/${id}`}>{content}</Link>
+        case 'BD':
+          return <Link to={`/budget/${id}`}>{content}</Link>
+        case 'NE':
+          return <Link to={`/notice/${id}`}>{content}</Link>
+      }
+    }
+    return content;
+  }
   const messageList=messageData && messageData.list && messageData.list[0] && messageData.list.map((item,index)=><p key={index} 
     className={styles.msgp}>
-      <span className={styles.msgtitle}>{index+1}.{item.content?item.content.replace('您提交的单号为','').replace(item.remark,'').replace('的',''):''}</span>
+      <span className={styles.msgtitle}>{index+1}.{getAction(item)}</span>
       <span className={styles.msgtime}>--{item.createTime}</span>
     </p>) || <span className={styles.msgtime}>暂无消息</span>;
   const noticeList =noticeData && noticeData.list && noticeData.list[0] && noticeData.list.map((item,index)=><p key={index}
@@ -71,11 +116,11 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
   return (
     
     <Row gutter={24} >
-      <Col lg={8} md={12}>
+      <Col lg={8} md={12} >
         <UserInfo {...userInfo}/>
       </Col> 
       <Col lg={8} md={12}>
-          <NumberCard {...waitNum}/>
+        <NumberCard {...waitNum}/>
       </Col> 
       <Col lg={8} md={12}>
         <NumberCard {...waitSignNum}/>
@@ -83,7 +128,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
       <Col lg={16} md={24}>
         <Card bordered={false} className={styles.waitcard}
         title={<span><Icon type="dot-chart" /> 我的待签收</span>} extra={<Link to='/waitSign'>更多</Link>}
-        bodyStyle={{height:364}}
+        bodyStyle={{height:364,}}
         >
           <WaitSignList {...waitSignProps} />
         </Card>
@@ -101,7 +146,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
        <Col lg={16} md={24}>
         <Card bordered={false} className={styles.waitcard}
         title={<span><Icon type="dot-chart" /> 我的待办业务</span>} extra={<Link to='/waiting'>更多</Link>}
-        bodyStyle={{height:364}}
+        bodyStyle={{height:364,}}
         >
           <WaitList {...waitProps} />
         </Card>
