@@ -62,7 +62,7 @@ class PurchaseDetailPage extends React.Component {
       dataIndex: 'totalAmount',
       render:(text,record,index)=>{
         let t=parseFloat(record.num)*parseFloat(record.amount!==undefined&&record.amount!==null&&record.amount!==''?record.amount:0);
-        return `¥ ${t?t.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
+        return `¥ ${t?t.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
       },
     }, {
       title: '使用时间',

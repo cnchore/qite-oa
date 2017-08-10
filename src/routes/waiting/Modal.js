@@ -151,8 +151,8 @@ const modal = ({
     }
   }
   const handleActChange=(e)=>{
-      // console.log(e.target.value,);
-      if(e.target.value==='1'){
+      // 1 同意；3 返回上一步
+      if(e.target.value==='1' || e.target.value==='3'){
         setNeedSel(true);
       }else{
         setNeedSel(false);

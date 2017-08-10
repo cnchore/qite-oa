@@ -253,7 +253,7 @@ const modal = ({
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
-              {item.code || '无'}
+              {item.code || '系统自动生成'}
             </FormItem>
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
@@ -261,7 +261,7 @@ const modal = ({
           </Col>
           <Col xs={18} md={8} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
-              {item.createTime || item.createTimeStr || '无'}
+              {item.createTime || item.createTimeStr || '系统自动生成'}
             </FormItem>
           </Col>
         </Row>

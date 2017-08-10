@@ -8,6 +8,7 @@ const SubMenu = Menu.SubMenu
 
 const Header = ({ user, logout,toEditPwd, switchSider, siderFold, isNavbar, menuPopoverVisible, location, switchMenuPopover, navOpenKeys, changeOpenKeys, menu }) => {
   let handleClickMenu = e => e.key === 'logout'?logout():e.key==='editPwd'?toEditPwd():null
+  // console.log('user:',user)
   const menusProps = {
     menu,
     siderFold: false,
@@ -45,7 +46,7 @@ const Header = ({ user, logout,toEditPwd, switchSider, siderFold, isNavbar, menu
           }} title={
             <span> 
               <Icon type="user" />
-              {user.userName} 
+              {user && user.employeeVo && user.employeeVo.realName || '系统用户'} 
             </span>
             }
           >
