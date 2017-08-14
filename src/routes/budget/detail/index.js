@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Icon} from 'antd'
+import cs from 'classnames'
 import BudgetDetailPage from '../../../components/BudgetDetailPage'
 import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
@@ -9,7 +10,7 @@ const Detail = ({ budgetDetail }) => {
   const { data,employeeList,commentList } = budgetDetail
   
   return (
-    <div className="content-inner">
+    <div className={cs({'content-inner':true,'audited':data && data.state===2})}>
       <a href="javascript:window.history.back();" className="q-goback">
         <Icon type="close-circle-o" />
       </a>

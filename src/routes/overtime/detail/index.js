@@ -5,10 +5,12 @@ import OverTimeDetailPage from '../../../components/OverTimeDetailPage'
 import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
 import { Icon} from 'antd'
+import cs from 'classnames'
+
 const Detail = ({ overtimeDetail }) => {
   const { data,employeeList,dicList,commentList } = overtimeDetail
   return (
-    <div className="content-inner">
+    <div className={cs({'content-inner':true,'audited':data && data.state===2})}>
       <a href="javascript:window.history.back();" className="q-goback">
         <Icon type="close-circle-o" />
       </a>

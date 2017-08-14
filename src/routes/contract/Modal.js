@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input,Radio,InputNumber,Modal,Row,Col,DatePicker,Button,Icon,Affix } from 'antd'
+import { Form, Input,Radio,InputNumber,Modal,Row,Col,DatePicker,Button,Icon,Affix,message } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
@@ -93,6 +93,10 @@ const modal = ({
   const handleOk = () => {
     let fields=getFields();
     if(fields){
+      if(!fields['attachList[0].attachUrl']){
+        message.error('请上传附件')
+        return;
+      }
       onOk(fields)
     }
   }
@@ -104,15 +108,19 @@ const modal = ({
     defaultFileList=[];
   }
   const handleSubmit=(data)=>{
-    confirm({
+    let fields=getFields();
+    if(fields){
+      if(!fields['attachList[0].attachUrl']){
+        message.error('请上传附件')
+        return;
+      }
+      confirm({
         title: `你确定提交申请么?`,
         onOk () {
-          let fields=getFields();
-          if(fields){
-            onSubmit(fields,data)
-          }
+          onSubmit(fields,data)
         },
       })
+    }
   }
   const handleAudit=()=>{
     let taskItem={},formItem=getFields();
@@ -297,10 +305,10 @@ const modal = ({
                 ],
                 onChange:handleChange,
               })(
-                <InputNumber
+                <InputNumber step={1}
                   precision={2} style={{width:'120px'}}
                   formatter={value =>`¥ ${value?value.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-                  parser={value => value?value.toString().replace(/¥\s?|(,*)/g, ''):0}
+                  parser={value => value?value.toFixed(2).toString().replace(/¥\s?|(,*)/g, ''):0}
                   
                 />
               )}

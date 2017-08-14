@@ -118,6 +118,10 @@ const modal = ({
   const handleOk = () => {
     let fields=getFields();
     if(fields){
+      if(!fields['attachList[0].attachUrl']){
+        message.error('请上传附件')
+        return;
+      }
       onOk(fields)
     }
   }
@@ -153,15 +157,19 @@ const modal = ({
     defaultDetailList=[];
   }
   const handleSubmit=(data)=>{
-    confirm({
+    let fields=getFields();
+    if(fields){
+      if(!fields['attachList[0].attachUrl']){
+        message.error('请上传附件')
+        return;
+      }
+      confirm({
         title: `你确定提交申请么?`,
         onOk () {
-          let fields=getFields();
-          if(fields){
-            onSubmit(fields,data)
-          }
+          onSubmit(fields,data)
         },
       })
+    }
   }
   const handleAudit=()=>{
     let taskItem={},formItem=getFields();

@@ -44,8 +44,9 @@ export default {
         })
         // console.info('do socket')
         //创建socket
-        let _url='ws://test.aylsonclub.com/qite/websocket/socketServer.do';
-        // let _url='ws://192.168.0.108:8080/qite/websocket/socketServer.do';
+        // let _url='ws://www.aylsonclub.com/qite/websocket/socketServer.do';
+        // let _url='ws://test.aylsonclub.com/qite/websocket/socketServer.do';
+        let _url='ws://192.168.0.108:8080/qite/websocket/socketServer.do';
         let websocket=null;
         try{
           if('WebSocket' in window){

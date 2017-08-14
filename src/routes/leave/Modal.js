@@ -260,7 +260,7 @@ const modal = ({
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<InputNumber step={0.1} />)}
+              })(<InputNumber step={1} />)}
             </FormItem>
             <FormItem>小时</FormItem>
           </Col>

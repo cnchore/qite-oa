@@ -51,6 +51,7 @@ const modal = ({
   taskData={},
   isNeedSel,
   setNeedSel,
+  reasonStr,
   form: {
     getFieldDecorator,
     validateFields,
@@ -151,11 +152,15 @@ const modal = ({
     }
   }
   const handleActChange=(e)=>{
+      var _reasonStr='';
+      if(e.target.value==='1' || e.target.value==='2'){
+        _reasonStr='同意';
+      }
       // 1 同意；3 返回上一步
       if(e.target.value==='1' || e.target.value==='3'){
-        setNeedSel(true);
+        setNeedSel(true,_reasonStr);
       }else{
-        setNeedSel(false);
+        setNeedSel(false,_reasonStr);
       }
   }
   return (
@@ -207,7 +212,7 @@ const modal = ({
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {getFieldDecorator('approvalOpinion', {
-                initialValue:'',
+                initialValue:reasonStr,
                 rules: [{required: true,message:'不能为空',},],
               })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
             </FormItem>

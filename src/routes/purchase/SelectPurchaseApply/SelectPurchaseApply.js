@@ -9,35 +9,35 @@ class SelectPurchaseApply extends React.Component {
   constructor(props) {
     super(props);
     this.columns = [{
-      title: '申购部门',
+      title: '申购部门',width:100,
       dataIndex: 'applyDept',
       key:'applyDept',
     },{
-      title: '申购人',
+      title: '申购人',width:100,
       dataIndex: 'applyName',
       key:'applyName',
     },{
-      title: '物料名称',
+      title: '物料名称',width:100,
       dataIndex: 'materialName',
       key:'materialName',
     }, {
-      title: '规格',
+      title: '规格',width:100,
       dataIndex: 'spec',
       key:'spec',
     }, {
-      title: '数量',
+      title: '数量',width:100,
       dataIndex: 'num',
       key:'num',
     }, {
-      title: '单位',
+      title: '单位',width:100,
       dataIndex: 'unit',
       key:'unit',
     }, {
-      title: '使用时间',
+      title: '使用时间',width:170,
       dataIndex: 'useTime',
       key:'useTime',
     }, {
-      title: '原因和用途',
+      title: '原因和用途',width:150,
       dataIndex: 'remark',
       key:'remark',
     }];
@@ -65,7 +65,7 @@ class SelectPurchaseApply extends React.Component {
     }
     const modalOpts = {
       ...modalProps,
-      width:800,
+      width:950,
       title:'选择申购物品',
       wrapClassName: 'vertical-center-modal',
       maskClosable: false,
@@ -97,6 +97,7 @@ class SelectPurchaseApply extends React.Component {
                 columns={columns} 
                 pagination={false}
                 rowSelection={rowSelection}
+                rowKey={record => record.key}
                 />
           </Col>
           

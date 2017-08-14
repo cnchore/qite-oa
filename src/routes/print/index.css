@@ -1,0 +1,38 @@
+
+.print-container{
+	width: 210mm;
+	margin: 20px auto;
+
+}
+.print-btn {
+	text-align: right;
+}
+	.btn{
+		padding: 7px 10px;
+		border-radius: 3px;
+		background-color: #fff;
+		color: #999;
+		box-shadow: none;
+		
+	}
+.print-content{
+	width: 100%;
+	overflow: hidden;
+}
+@media print{
+
+	/*隐藏不打印的元素*/
+	.print-btn{
+		display:none;
+	}
+	/*其他打印样式*/
+}
+@page{
+	font-size: 12px;
+	font-family: '黑体';
+
+	size: A5 landscape;       
+	margin: 10px;
+	width: 210mm;
+	padding: 0px;
+}

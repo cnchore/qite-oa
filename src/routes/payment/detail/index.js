@@ -5,11 +5,12 @@ import PaymentDetailPage from '../../../components/PaymentDetailPage'
 import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
 import { Icon} from 'antd'
+import cs from 'classnames'
 const Detail = ({ paymentDetail }) => {
   const { data,employeeList,commentList } = paymentDetail
  
   return (
-    <div className="content-inner">
+    <div className={cs({'content-inner':true,'audited':data && data.state===2})}>
       <a href="javascript:window.history.back();" className="q-goback">
         <Icon type="close-circle-o" />
       </a>

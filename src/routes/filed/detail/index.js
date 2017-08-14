@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
+import cs from 'classnames'
 import styles from './index.less'
 import { Row,Col,Icon} from 'antd'
 import MissClockDetailPage from '../../../components/MissClockDetailPage'
@@ -25,9 +26,29 @@ import NoticeDetailPage from '../../../components/NoticeDetailPage'
 
 const Detail = ({ filedDetail }) => {
   const { data,employeeList,dicList } = filedDetail
-  let detailpage=null;
+  let detailpage=null,
+      printData={},
+      _code='';
   if(data && data.busiData && data.userVo && data.userVo.employeeVo){
-    switch(data.busiCode.substr(0,2)){
+    _code=data.busiCode.substr(0,2);
+    switch(_code){
+      case 'TR':
+      case 'PT':
+      case 'RE':
+      case 'BD':
+      case 'PE':
+      case 'PA':
+        printData={
+          busiData:data.busiData,
+          employeeList:data.userVo.employeeVo,
+          dicList:dicList
+        }
+        sessionStorage.setItem('printData', JSON.stringify(printData));
+        break;
+      default:
+        break;
+    }
+    switch(_code){
       case 'MC':
         detailpage=<MissClockDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
         break
@@ -83,10 +104,15 @@ const Detail = ({ filedDetail }) => {
   }
   //console.log(data,employeeList)
   return (
-    <div className="content-inner">
-        <a href="javascript:window.history.back();" className="q-goback">
-          <Icon type="close-circle-o" />
-        </a>
+    <div className={cs({'content-inner':true,'audited':data && data.busiData && data.busiData.state===2})}>
+        <div className="q-goback">
+          <a href={`${location.origin}${location.pathname}#/print`} target="_black" className="q-print-link">
+            打印表单
+          </a>
+          <a href="javascript:window.history.back();">
+            <Icon type="close-circle-o" />
+          </a>
+        </div>
        {detailpage}
        {
         data.commentList && data.commentList[0]?

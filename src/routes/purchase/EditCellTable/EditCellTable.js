@@ -120,7 +120,7 @@ class EditCellTable extends React.Component {
     let isCanEdit=data[index].applyId;
     //console.log('isCanEdit:',isCanEdit)
     const { dicList } =this.props;
-    if (typeof editable === 'undefined' || (isCanEdit && key!=='amount')) {
+    if (typeof editable === 'undefined' || (isCanEdit && key!=='amount' && key!=='num')) {
       return text;
     }
     switch(colType){
@@ -225,7 +225,7 @@ class EditCellTable extends React.Component {
             //console.log('useTimeStr:',item[key])
           }else if(key!=='useTimeStr'){
             obj[key]={};
-            obj[key].editable=key==='amount'?true:false;
+            obj[key].editable=key==='amount' || key==='num'?true:false;
             obj[key].value=item[key];
           }
         });

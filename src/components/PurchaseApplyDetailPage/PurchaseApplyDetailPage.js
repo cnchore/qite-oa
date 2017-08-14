@@ -66,6 +66,7 @@ class PurchaseApplyDetailPage extends React.Component {
             columns={columns} 
             pagination={false}
             scroll={{ x: 1100 }} 
+            rowKey={record=>record.key}
             />
         )
     }

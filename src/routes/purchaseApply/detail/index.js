@@ -7,11 +7,12 @@ import { FileList } from '../../../components'
 import PurchaseApplyDetailPage from '../../../components/PurchaseApplyDetailPage'
 import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
+import cs from 'classnames'
 const Detail = ({ purchaseApplyDetail }) => {
   const { data,employeeList,commentList } = purchaseApplyDetail
   
   return (
-    <div className="content-inner">
+    <div className={cs({'content-inner':true,'audited':data && data.state===2})}>
       <a href="javascript:window.history.back();" className="q-goback">
         <Icon type="close-circle-o" />
       </a>

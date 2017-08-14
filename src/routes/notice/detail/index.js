@@ -5,11 +5,12 @@ import NoticeDetailPage from '../../../components/NoticeDetailPage'
 import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
 import { Icon} from 'antd'
+import cs from 'classnames'
 const Detail = ({ noticeDetail }) => {
   const { data,employeeList,dicList,commentList } = noticeDetail
   const noComment=location.hash.indexOf('noComment')>0?true:false;
   return (
-    <div className="content-inner">
+    <div className={cs({'content-inner':true,'audited':data && data.state===2})}>
       <a href="javascript:window.history.back();" className="q-goback">
         <Icon type="close-circle-o" />
       </a>

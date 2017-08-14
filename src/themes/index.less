@@ -44,8 +44,8 @@ body {
     }
     .ant-table-tbody > tr > td,
     .ant-table-thead > tr > th {
-        height: 51px;
-        padding:10px 8px;
+      height: 51px;
+      padding:10px 8px;
     }
     
     &.ant-table-small {
@@ -202,7 +202,23 @@ body {
     padding-left: 8px;
     padding-right: 8px;
   }
-  
+  .audited:after{
+    content: '';
+    position: absolute;
+    right: 50px;
+    top: 53px;
+    width: 100px;
+    height: 100px;
+    
+    background: url('../../assets/audited.png') no-repeat;
+    background-size: cover;
+  }
+  .q-print-link{
+    font-size:initial;
+    margin-right: 8px;
+    line-height: 33px;
+    vertical-align: top;
+  }
 }
 
 @media (min-width: 1600px) {

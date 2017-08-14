@@ -18,6 +18,7 @@ export default {
     fileList:[],
     employeeList:[],
     isNeedSel:false,
+    reasonStr:'',
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -194,7 +195,7 @@ export default {
       return {...state,fileList:action.payload}
     },
     setNeedSel(state,action){
-      return {...state,isNeedSel:action.payload}
+      return {...state,...action.payload}
     },
   },
 

@@ -463,6 +463,13 @@ const Routers = function ({ history, app }) {
               cb(null, require('./routes/report/'))
             }, 'report')
           },
+        },{
+          path: '/print',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              cb(null, require('./routes/print/'))
+            }, 'print')
+          },
         }, {
           path: '/temppage',
           getComponent (nextState, cb) {

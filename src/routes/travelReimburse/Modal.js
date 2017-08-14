@@ -406,9 +406,9 @@ const modal = ({
                 onChange:handleAdvanceExpenseChange,
               })(
                 <InputNumber
-                  step={0.01} style={{width:'120px'}}
+                  step={1} style={{width:'120px'}}
                   formatter={value => `¥ ${value?value.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-                  parser={value => value?value.toString().replace(/¥\s?|(,*)/g, ''):0}
+                  parser={value => value?value.toFixed(2).toString().replace(/¥\s?|(,*)/g, ''):0}
                   
                 />
               )}

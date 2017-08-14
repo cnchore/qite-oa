@@ -22,6 +22,7 @@ import RecruitDetailPage from '../../../components/RecruitDetailPage'
 import ReimburseDetailPage from '../../../components/ReimburseDetailPage'
 import BudgetDetailPage from '../../../components/BudgetDetailPage'
 import NoticeDetailPage from '../../../components/NoticeDetailPage'
+import cs from 'classnames'
 
 const Detail = ({ completeDetail }) => {
   const { data,employeeList,dicList } = completeDetail
@@ -83,7 +84,7 @@ const Detail = ({ completeDetail }) => {
   }
   //console.log(data,employeeList)
   return (
-    <div className="content-inner">
+    <div className={cs({'content-inner':true,'audited':data && data.busiData && data.busiData.state===2})}>
       <a href="javascript:window.history.back();" className="q-goback">
         <Icon type="close-circle-o" />
       </a>
