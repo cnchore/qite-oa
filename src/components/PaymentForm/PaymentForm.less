@@ -1,0 +1,51 @@
+
+.table{
+  margin-top: 10px;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+    // overflow: hidden;
+    border: 0;
+    padding: 0;
+    border-top: 1px solid #555;
+    border-left: 1px solid #555;
+    .title{
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .hr{
+      height: 1px;
+      padding: 0;
+    }
+    td{
+      word-break: break-all;
+      padding: 6px 8px;
+      border-right: 1px solid #555;
+      border-bottom: 1px solid #555;
+      height: 34px;
+      vertical-align: middle;
+      width: 100/6%;
+      text-align: left;
+      div{
+        display: flex;
+        span{
+          flex:1;
+          text-align: left;
+        }
+        .span3{
+          flex:3;
+        }
+      }
+    }
+  }
+
+/*其他打印样式*/
+  @page{
+    font-size: 12px;
+    font-family: '宋体';
+    size: A5 landscape;       
+    margin: 0;
+    width: 210mm;
+    padding: 0;
+  }

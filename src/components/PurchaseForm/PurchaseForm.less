@@ -1,6 +1,6 @@
 .contanier{
   font-family: '黑体';
-  width: 100%;
+  width: 280mm;
   background-color: #fff;
   .table{
     width: 100%;
@@ -12,15 +12,15 @@
     padding: 0;
     border-top: 1px solid #555;
     border-left: 1px solid #555;
-    .t1{
-      width: 100/12%;
-    }
-    .t2{
-      width: 200/12%;
-    }
-    .t4{
-      width: 400/12%;
-    }
+    // .t1{
+    //   width: 100/24%;
+    // }
+    // .t2{
+    //   width: 200/24%;
+    // }
+    // .t4{
+    //   width: 400/24%;
+    // }
     td{
       word-break: break-all;
       padding: 6px 8px;
@@ -60,11 +60,13 @@
 
 }
 /*其他打印样式*/
+@media print{
   @page{
     font-size: 12px;
     font-family: '黑体';
-    size: A5 landscape;       
-    margin: 0;
-    width: 210mm;
+    size: A4 landscape;       
+    margin: 10px;
+    width: 280mm;
     padding: 0;
   }
+}

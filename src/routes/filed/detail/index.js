@@ -104,11 +104,15 @@ const Detail = ({ filedDetail }) => {
   }
   //console.log(data,employeeList)
   return (
-    <div className={cs({'content-inner':true,'audited':data && data.busiData && data.busiData.state===2})}>
+    <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.busiData && data.busiData.state}":true}`)})}>
         <div className="q-goback">
-          <a href={`${location.origin}${location.pathname}#/print`} target="_black" className="q-print-link">
-            打印表单
-          </a>
+          {
+            printData && printData.busiData?
+            <a href={`${location.origin}${location.pathname}#/print`} target="_black" className="q-print-link">
+              打印表单
+            </a>
+            :null
+          }
           <a href="javascript:window.history.back();">
             <Icon type="close-circle-o" />
           </a>

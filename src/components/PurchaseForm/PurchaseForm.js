@@ -1,31 +1,42 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './PurchaseApplyForm.less'
+import styles from './PurchaseForm.less'
 // import cs from 'classnames';
 import {config} from '../../utils'
 import aylson from '../../../assets/aylson.png'
-class PurchaseApplyForm extends React.Component {
+class PurchaseForm extends React.Component {
   render () {
     const { data,employeeList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     const getTable=()=>{
       let defaultRows=[];
-      let rows=data && data.purchaseDetailList && data.purchaseDetailList.map((item,index)=>(
-        <tr key={item.id}>
-          <td>{index+1}</td>
-          <td>{ item.materialName && item.materialName}</td>
-          <td>{item.spec && item.spec}</td>
-          <td>{item.num && item.num}</td>
-          <td>{item.unit && item.unit}</td>
-          <td>{item.useTime && item.useTime.substr(5,5)}</td>
-          <td>{item.remark}</td>
-        </tr>
+      let rows=data && data.purchaseDetailList && data.purchaseDetailList.map((item,index)=>{
+        let t=parseFloat(item.num)*parseFloat(item.amount!==undefined&&item.amount!==null&&item.amount!==''?item.amount:0);
+        return (
+          <tr key={item.id}>
+            <td>{index+1}</td>
+            <td>{item.applyDept && item.applyDept}</td>
+            <td>{item.applyName && item.applyName}</td>
+            <td>{item.materialName && item.materialName}</td>
+            <td>{item.spec && item.spec}</td>
+            <td>{item.num && item.num}</td>
+            <td>{item.unit && item.unit}</td>
+            <td>{item.amount && item.amount}</td>
+            <td>{t&&t.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+            <td>{item.useTime && item.useTime.substr(5,5)}</td>
+            <td>{item.remark}</td>
+          </tr>
         )
+        }
       )
       if(data && data.purchaseDetailList && data.purchaseDetailList.length<5){
         for(var i=0;i<(5-data.purchaseDetailList.length);i++){
           defaultRows.push(
             <tr key={5+i}>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -41,10 +52,14 @@ class PurchaseApplyForm extends React.Component {
         <table className={styles['table']}>
           <tr>
             <td className={styles['t1']}>序号</td>
+            <td className={styles['t2']}>申购部门</td>
+            <td className={styles['t1']}>申购人</td>
             <td className={styles['t2']}>物料名称</td>
             <td className={styles['t1']}>规格</td>
             <td className={styles['t1']}>数量</td>
             <td className={styles['t1']}>单位</td>
+            <td className={styles['t1']}>单价</td>
+            <td className={styles['t1']}>金额</td>
             <td className={styles['t2']}>需用日期</td>
             <td className={styles['t4']}>请购原因及用途</td>
           </tr>
@@ -76,6 +91,6 @@ class PurchaseApplyForm extends React.Component {
       )
   }
 }
-PurchaseApplyForm.propTypes = {
+PurchaseForm.propTypes = {
 }
-export default PurchaseApplyForm
+export default PurchaseForm

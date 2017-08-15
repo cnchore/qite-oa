@@ -1,0 +1,6 @@
+{
+  "name": "PaymentForm",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./PaymentForm.js"
+}

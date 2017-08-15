@@ -22,6 +22,7 @@ import RecruitDetailPage from '../../../components/RecruitDetailPage'
 import ReimburseDetailPage from '../../../components/ReimburseDetailPage'
 import BudgetDetailPage from '../../../components/BudgetDetailPage'
 import NoticeDetailPage from '../../../components/NoticeDetailPage'
+import cs from 'classnames'
 
 const Detail = ({ waitingDetail }) => {
   const { data,employeeList,dicList } = waitingDetail
@@ -84,7 +85,7 @@ const Detail = ({ waitingDetail }) => {
   //console.log(data,employeeList)
 
   return (
-    <div className="content-inner">
+    <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.busiData && data.busiData.state}":true}`)})}>
       <a href="javascript:window.history.back();" className="q-goback">
         <Icon type="close-circle-o" />
       </a>

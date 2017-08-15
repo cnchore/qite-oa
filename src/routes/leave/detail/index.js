@@ -11,7 +11,7 @@ import cs from 'classnames'
 const Detail = ({ leaveDetail }) => {
   const { data,employeeList,dicList,commentList } = leaveDetail
   return (
-    <div className={cs({'content-inner':true,'audited':data && data.state===2})}>
+    <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>
       <a href="javascript:window.history.back();" className="q-goback">
         <Icon type="close-circle-o" />
       </a>

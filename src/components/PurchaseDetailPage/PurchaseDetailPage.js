@@ -65,8 +65,7 @@ class PurchaseDetailPage extends React.Component {
         return `¥ ${t?t.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
       },
     }, {
-      title: '使用时间',
-      dataIndex: 'useTime',
+      title: '使用时间',      dataIndex: 'useTime',
       key:'useTime',
     }, {
       title: '原因和用途',

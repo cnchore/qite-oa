@@ -8,9 +8,10 @@ import { Icon} from 'antd'
 import cs from 'classnames'
 const Detail = ({ useCarDetail }) => {
   const { data,employeeList,dicList,commentList } = useCarDetail
- 
+  
+    //...JSON.parse(`{"audited${data && data.state && data.state}":true}`)
   return (
-    <div className={cs({'content-inner':true,'audited':data && data.state===2})}>
+    <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`)})}>
       <a href="javascript:window.history.back();" className="q-goback">
         <Icon type="close-circle-o" />
       </a>
