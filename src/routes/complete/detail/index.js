@@ -23,12 +23,29 @@ import ReimburseDetailPage from '../../../components/ReimburseDetailPage'
 import BudgetDetailPage from '../../../components/BudgetDetailPage'
 import NoticeDetailPage from '../../../components/NoticeDetailPage'
 import cs from 'classnames'
+import {setPrintData} from '../../../utils'
 
 const Detail = ({ completeDetail }) => {
   const { data,employeeList,dicList } = completeDetail
-  let detailpage=null;
+  let detailpage=null,
+      printData=false,
+      _code='';
   if(data && data.busiData && data.userVo && data.userVo.employeeVo){
-    switch(data.busiCode.substr(0,2)){
+    _code=data.busiCode.substr(0,2);
+    switch(_code){
+      case 'TR':
+      case 'PT':
+      case 'RE':
+      case 'BD':
+      case 'PE':
+      case 'PA':
+        printData=true;
+        setPrintData(data.busiData,data.userVo.employeeVo,dicList)
+        break;
+      default:
+        break;
+    }
+    switch(_code){
       case 'MC':
         detailpage=<MissClockDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
         break
@@ -85,9 +102,18 @@ const Detail = ({ completeDetail }) => {
   //console.log(data,employeeList)
   return (
     <div className={cs({'content-inner':true,'audited':data && data.busiData && data.busiData.state===2})}>
-      <a href="javascript:window.history.back();" className="q-goback">
-        <Icon type="close-circle-o" />
-      </a>
+      <div className="q-goback">
+        {
+          printData?
+          <a href={`${location.origin}${location.pathname}#/print`} target="_black" className="q-print-link">
+            打印表单
+          </a>
+          :null
+        }
+        <a href="javascript:window.history.back();">
+          <Icon type="close-circle-o" />
+        </a>
+      </div>
        {detailpage}
        {
         data.commentList && data.commentList[0]?

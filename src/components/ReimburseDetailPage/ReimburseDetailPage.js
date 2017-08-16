@@ -33,7 +33,6 @@ class ReimburseDetailPage extends React.Component {
         title: '用途',
         dataIndex: 'uses',
         key:'uses',
-        width: 120,
       }, {
         title: '金额',
         dataIndex: 'amount',

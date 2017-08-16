@@ -23,11 +23,11 @@ import RecruitDetailPage from '../../../components/RecruitDetailPage'
 import ReimburseDetailPage from '../../../components/ReimburseDetailPage'
 import BudgetDetailPage from '../../../components/BudgetDetailPage'
 import NoticeDetailPage from '../../../components/NoticeDetailPage'
-
+import {setPrintData} from '../../../utils'
 const Detail = ({ filedDetail }) => {
   const { data,employeeList,dicList } = filedDetail
   let detailpage=null,
-      printData={},
+      printData=false,
       _code='';
   if(data && data.busiData && data.userVo && data.userVo.employeeVo){
     _code=data.busiCode.substr(0,2);
@@ -38,12 +38,8 @@ const Detail = ({ filedDetail }) => {
       case 'BD':
       case 'PE':
       case 'PA':
-        printData={
-          busiData:data.busiData,
-          employeeList:data.userVo.employeeVo,
-          dicList:dicList
-        }
-        sessionStorage.setItem('printData', JSON.stringify(printData));
+        printData=true;
+        setPrintData(data.busiData,data.userVo.employeeVo,dicList)
         break;
       default:
         break;
@@ -107,7 +103,7 @@ const Detail = ({ filedDetail }) => {
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.busiData && data.busiData.state}":true}`)})}>
         <div className="q-goback">
           {
-            printData && printData.busiData?
+            printData?
             <a href={`${location.origin}${location.pathname}#/print`} target="_black" className="q-print-link">
               打印表单
             </a>

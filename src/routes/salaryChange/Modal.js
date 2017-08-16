@@ -266,7 +266,7 @@ const modal = ({
                 <InputNumber
                   step={1} style={{width:'100%'}}
                   formatter={value => `¥ ${value?value.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-                  parser={value => value?value.toFixed(2).toString().replace(/¥\s?|(,*)/g, ''):0}
+                  parser={value => value?value.toString().replace(/¥\s?|(,*)/g, ''):0}
                   
                 />
               )}
@@ -320,7 +320,7 @@ const modal = ({
                 <InputNumber
                   step={1} style={{width:'100%'}}
                   formatter={value => `¥ ${value?value.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-                  parser={value => value?value.toFixed(2).toString().replace(/¥\s?|(,*)/g, ''):0}
+                  parser={value => value?value.toString().replace(/¥\s?|(,*)/g, ''):0}
                   
                 />
               )}

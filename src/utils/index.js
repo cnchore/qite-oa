@@ -275,6 +275,14 @@ const findIsEditable=(data)=>{
     })
     return _isEditable;
 } 
+const setPrintData=(data,employeeList,dicList={})=>{
+  let printData={
+    busiData:data,
+    employeeList:employeeList,
+    dicList:dicList,
+  }
+  window.sessionStorage.setItem('printData', JSON.stringify(printData));
+}
 module.exports = {
   config,
   treeMenuToArrayMenu,
@@ -290,4 +298,5 @@ module.exports = {
   getAnotB,
   changeMoneyToChinese,
   findIsEditable,
+  setPrintData,
 }

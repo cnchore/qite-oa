@@ -8,14 +8,25 @@ import PurchaseApplyDetailPage from '../../../components/PurchaseApplyDetailPage
 import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
 import cs from 'classnames'
+import {setPrintData} from '../../../utils'
 const Detail = ({ purchaseApplyDetail }) => {
   const { data,employeeList,commentList } = purchaseApplyDetail
+  setPrintData(data,employeeList)
   
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>
-      <a href="javascript:window.history.back();" className="q-goback">
-        <Icon type="close-circle-o" />
-      </a>
+    <div className="q-goback">
+        {
+          data?
+          <a href={`${location.origin}${location.pathname}#/print`} target="_black" className="q-print-link">
+            打印表单
+          </a>
+          :null
+        }
+        <a href="javascript:window.history.back();">
+          <Icon type="close-circle-o" />
+        </a>
+      </div>
       <PurchaseApplyDetailPage data={data} employeeList={employeeList} />
       {
         commentList && commentList[0]?

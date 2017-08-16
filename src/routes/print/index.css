@@ -25,6 +25,7 @@
 }
 .print-content{
 	width: 100%;
+	
 	// overflow: hidden;
 }
 @media print{
@@ -34,7 +35,7 @@
 		display:none;
 	}
 	 @page{
-    margin: 10px;
+    margin: 0 !important;
     padding: 0;
   }
 }

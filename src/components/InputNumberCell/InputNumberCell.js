@@ -42,7 +42,7 @@ class InputNumberCell extends React.Component {
               <InputNumber step={1}
                 defaultValue={value}
                 formatter={temp => `${temp?temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-                parser={temp => temp?temp.toFixed(2).toString().replace(/\¥\s?|(,*)/g, ''):0}
+                parser={temp => temp?temp.toString().replace(/\¥\s?|(,*)/g, ''):0}
                 onChange={e=>this.handleChange(e)}
               />
             </div>

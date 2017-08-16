@@ -5,6 +5,9 @@ import styles from './index.css'
 import PurchaseApplyForm from '../../components/PurchaseApplyForm'
 import PaymentForm from '../../components/PaymentForm'
 import PurchaseForm from '../../components/PurchaseForm'
+import ReimburseForm from '../../components/ReimburseForm'
+import TravelReimburseForm from '../../components/TravelReimburseForm'
+import BudgetForm from '../../components/BudgetForm'
 import cs from 'classnames'
 class Print extends React.Component {
   render () {
@@ -15,11 +18,19 @@ class Print extends React.Component {
 		if(printData && printData.busiData && printData.busiData.code){
 			switch(printData.busiData.code.substr(0,2)){
 				case 'TR':
+					printForm=<TravelReimburseForm data={printData.busiData} employeeList={printData.employeeList} dicList={printData.dicList}/>
+					isA4=true;
+					break;
 				case 'PT':
 					printForm=<PaymentForm data={printData.busiData} employeeList={printData.employeeList}></PaymentForm>
 					break;
 				case 'RE':
+					printForm=<ReimburseForm  data={printData.busiData} employeeList={printData.employeeList}></ReimburseForm>
+					break;
 				case 'BD':
+					printForm=<BudgetForm  data={printData.busiData} employeeList={printData.employeeList}></BudgetForm>
+					isA4=true;
+					break;
 				case 'PE':
 					printForm=<PurchaseForm data={printData.busiData} employeeList={printData.employeeList}></PurchaseForm>
 					isA4=true;
