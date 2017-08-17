@@ -7,8 +7,9 @@ import FlowImg from '../../../components/FlowImg'
 import { Icon} from 'antd'
 import cs from 'classnames'
 import {setPrintData} from '../../../utils'
+import TaskNodeList from '../../../components/TaskNodeList'
 const Detail = ({ reimburseDetail }) => {
-  const { data,employeeList,commentList } = reimburseDetail
+  const { data,employeeList,commentList,taskNode } = reimburseDetail
   setPrintData(data,employeeList)
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>
@@ -25,6 +26,11 @@ const Detail = ({ reimburseDetail }) => {
         </a>
       </div>
       <ReimburseDetailPage data={data} employeeList={employeeList} />
+      {
+        taskNode && taskNode[0] && data && data.state<2?
+        <TaskNodeList data={taskNode} />
+        :null
+      }
       {
         commentList && commentList[0]?
         <CommentTable data={commentList} />

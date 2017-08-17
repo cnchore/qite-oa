@@ -27,7 +27,7 @@ const Filter = ({
     <div style={{ display: 'flex', justifyContent: 'flex-end',marginBottom:16 }}>
       <ButtonGroup>
         <Button icon="plus" size="large" type="primary" onClick={onAdd}>新增</Button>
-        <Button icon="plus" size="large" type="primary" onClick={onAddFirst}>新增第一层菜单</Button>
+        <Button icon="plus" size="large" type="primary" onClick={onAddFirst}>新增第一级菜单</Button>
         <Button icon="edit" type="primary" size="large" onClick={onEditItem}>编辑</Button>
         <Button icon="delete" type="primary" size="large" onClick={onDelete}>删除</Button>
       </ButtonGroup>

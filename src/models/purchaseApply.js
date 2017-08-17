@@ -44,6 +44,10 @@ export default {
               payload: query,
             })
           }
+          dispatch({
+            type:'getDic',
+            payload:{dicType:'purchaseType_item'},
+          })
         }
       })
     },
@@ -75,19 +79,9 @@ export default {
           },
         })
         
-      }else {
-        // if (location.pathname !== '/login') {
-        //   let from = location.pathname
-        //   if (location.pathname === '/dashboard') {
-        //     from = '/dashboard'
-        //   }
-        //   window.location = `${location.origin}/login?from=${from}`
-        // }
       }
     },
     *getDic ({ payload }, { call, put }) {
-
-     // payload = parse(location.search.substr(1))
       const data = yield call(getDic, payload)
 
       if (data) {

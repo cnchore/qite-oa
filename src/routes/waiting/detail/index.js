@@ -22,6 +22,7 @@ import RecruitDetailPage from '../../../components/RecruitDetailPage'
 import ReimburseDetailPage from '../../../components/ReimburseDetailPage'
 import BudgetDetailPage from '../../../components/BudgetDetailPage'
 import NoticeDetailPage from '../../../components/NoticeDetailPage'
+import LegworkDetailPage from '../../../components/LegworkDetailPage'
 import cs from 'classnames'
 
 const Detail = ({ waitingDetail }) => {
@@ -76,6 +77,9 @@ const Detail = ({ waitingDetail }) => {
         break
       case 'BD':
         detailpage=<BudgetDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
+        break
+      case 'LW'://外勤
+        detailpage=<LegworkDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
         break
       case 'NE':
         detailpage=<NoticeDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList} />

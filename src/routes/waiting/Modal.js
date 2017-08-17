@@ -156,6 +156,9 @@ const modal = ({
       if(e.target.value==='1' || e.target.value==='2'){
         _reasonStr='同意';
       }
+      if(e.target.value==='3' || e.target.value==='4'){
+        _reasonStr='不同意，退回修改';
+      }
       // 1 同意；3 返回上一步
       if(e.target.value==='1' || e.target.value==='3'){
         setNeedSel(true,_reasonStr);

@@ -175,7 +175,22 @@ const Routers = function ({ history, app }) {
               cb(null, require('./routes/travel/detail/'))
             }, 'travel-detail')
           },
-          
+        }, {
+          path: '/legwork',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/legwork'))
+              cb(null, require('./routes/legwork/'))
+            }, 'legwork')
+          },
+        }, {
+          path: 'legwork/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/legwork/detail'))
+              cb(null, require('./routes/legwork/detail/'))
+            }, 'legwork-detail')
+          },
         }, {
           path: '/travelReimburse',
           getComponent (nextState, cb) {

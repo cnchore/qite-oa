@@ -41,19 +41,19 @@ class RegularDetailPage extends React.Component {
             员工编号：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {employeeList?employeeList.empNum:'无'}
+            {employeeList && employeeList.empNum?employeeList.empNum:'无'}
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             学历：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {employeeList?employeeList.education:'无'}
+            {employeeList && employeeList.education?employeeList.education:'无'}
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             入职时间：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {employeeList?employeeList.inductionTime:'无'}
+            {employeeList&& employeeList.inductionTime && employeeList.inductionTime || '无'}
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请单号：

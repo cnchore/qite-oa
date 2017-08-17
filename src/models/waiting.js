@@ -182,7 +182,8 @@ export default {
         taskData:action.payload.taskData, 
         employeeList:action.payload.employeeList[0],
         isNeedSel:false,
-        modalVisible: true }
+        modalVisible: true,
+        reasonStr:'', }
     },
     getDicSuccess(state,action){
       return {...state,dicList:action.payload}

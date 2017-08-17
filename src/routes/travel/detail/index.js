@@ -6,8 +6,9 @@ import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
 import { Icon} from 'antd'
 import cs from 'classnames'
+import TaskNodeList from '../../../components/TaskNodeList'
 const Detail = ({ travelDetail }) => {
-  const { data,employeeList,dicList,commentList } = travelDetail
+  const { data,employeeList,dicList,commentList,taskNode } = travelDetail
   
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>
@@ -15,6 +16,11 @@ const Detail = ({ travelDetail }) => {
         <Icon type="close-circle-o" />
       </a>
       <TravelDetailPage data={data} employeeList={employeeList} dicList={dicList} />
+      {
+        taskNode && taskNode[0] && data && data.state<2?
+        <TaskNodeList data={taskNode} />
+        :null
+      }
       {
         commentList && commentList[0]?
         <CommentTable data={commentList} />

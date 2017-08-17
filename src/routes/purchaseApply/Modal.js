@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input,Radio,InputNumber,Modal,Row,Col,Button,Icon,Affix,message } from 'antd'
+import { Form, Input,Radio,InputNumber,Modal,Row,Col,Button,Icon,Affix,message,Select } from 'antd'
 //import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
@@ -15,7 +15,7 @@ const confirm = Modal.confirm
 //const { RangePicker } = DatePicker
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item
-//const Option =Select.Option;
+const Option =Select.Option;
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -205,6 +205,8 @@ const modal = ({
     }
   }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
+  const dicOption=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
+
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -267,9 +269,26 @@ const modal = ({
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请时间：
           </Col>
-          <Col xs={18} md={8} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {item.createTime || item.createTimeStr || '系统自动生成'}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            申购类型：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem style={{width:'100%'}}>
+              {getFieldDecorator('type', {
+                initialValue:item.type?String(item.type):'固定资产',
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                   
+                  },
+                ],
+              })(<Select >{dicOption}</Select>)}
+              
             </FormItem>
           </Col>
         </Row>

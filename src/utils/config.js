@@ -135,6 +135,14 @@ module.exports = {
       save:`${apiPrefixPro}/travel/save`,
       deleteById:`${apiPrefixPro}/travel/deleteById`,
     },
+    //外勤申请
+    legwork:{
+      query:`${apiPrefixPro}/legwork/getPage`,
+      queryById:`${apiPrefixPro}/legwork/getById`,
+      getList:`${apiPrefixPro}/legwork/getList`,
+      save:`${apiPrefixPro}/legwork/save`,
+      deleteById:`${apiPrefixPro}/legwork/deleteById`,
+    },
     //差旅费报销申请
     travelReimburse:{
       query:`${apiPrefixPro}/travelReimburse/getPage`,
@@ -257,6 +265,7 @@ module.exports = {
       getCommentListBybusiness:`${apiPrefixPro}/workflow/getCommentListBybusiness`,
       getTaskWaitSignPage:`${apiPrefixPro}/workflow/getTaskWaitSignPage`,
       signTask:`${apiPrefixPro}/workflow/signTask`,
+      getTaskListByBusinessKey:`${apiPrefixPro}/workflow/getTaskListByBusinessKey`,
     },
   },
 }

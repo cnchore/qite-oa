@@ -6,8 +6,10 @@ import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
 import { Icon} from 'antd'
 import cs from 'classnames'
+import TaskNodeList from '../../../components/TaskNodeList'
+
 const Detail = ({ noticeDetail }) => {
-  const { data,employeeList,dicList,commentList } = noticeDetail
+  const { data,employeeList,dicList,commentList,taskNode } = noticeDetail
   const noComment=location.hash.indexOf('noComment')>0?true:false;
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>
@@ -15,6 +17,11 @@ const Detail = ({ noticeDetail }) => {
         <Icon type="close-circle-o" />
       </a>
       <NoticeDetailPage data={data} employeeList={employeeList} dicList={dicList} />
+      {
+        taskNode && taskNode[0] && data && data.state<2?
+        <TaskNodeList data={taskNode} />
+        :null
+      }
       {
         !noComment&& commentList && commentList[0]?
         <CommentTable data={commentList} />

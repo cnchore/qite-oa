@@ -6,9 +6,10 @@ import cs from 'classnames'
 import BudgetDetailPage from '../../../components/BudgetDetailPage'
 import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
+import TaskNodeList from '../../../components/TaskNodeList'
 import {setPrintData} from '../../../utils'
 const Detail = ({ budgetDetail }) => {
-  const { data,employeeList,commentList } = budgetDetail
+  const { data,employeeList,commentList,taskNode } = budgetDetail
   setPrintData(data,employeeList)
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>
@@ -26,6 +27,11 @@ const Detail = ({ budgetDetail }) => {
       </div>
 
       <BudgetDetailPage data={data} employeeList={employeeList} />
+      {
+        taskNode && taskNode[0] && data && data.state<2?
+        <TaskNodeList data={taskNode} />
+        :null
+      }
       {
         commentList && commentList[0]?
         <CommentTable data={commentList} />

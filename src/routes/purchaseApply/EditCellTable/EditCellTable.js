@@ -37,7 +37,7 @@ class EditCellTable extends React.Component {
     }, {
       title: '单位',
       dataIndex: 'unit',
-      width: 120,
+      width: 80,
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'unit', text,'input'),
     }, {
       title: '使用时间',

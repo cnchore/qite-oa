@@ -7,8 +7,9 @@ import FlowImg from '../../../components/FlowImg'
 import { Icon} from 'antd'
 import cs from 'classnames'
 import {setPrintData} from '../../../utils'
+import TaskNodeList from '../../../components/TaskNodeList'
 const Detail = ({ paymentDetail }) => {
-  const { data,employeeList,commentList } = paymentDetail
+  const { data,employeeList,commentList,taskNode } = paymentDetail
   setPrintData(data,employeeList)
  
   return (
@@ -27,6 +28,11 @@ const Detail = ({ paymentDetail }) => {
       </div>
       
       <PaymentDetailPage data={data} employeeList={employeeList} />
+      {
+        taskNode && taskNode[0] && data && data.state<2?
+        <TaskNodeList data={taskNode} />
+        :null
+      }
       {
         commentList && commentList[0]?
         <CommentTable data={commentList} />

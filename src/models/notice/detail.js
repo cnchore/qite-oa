@@ -1,7 +1,7 @@
 import pathToRegexp from 'path-to-regexp'
 import { queryById,queryEmployee,getDic } from '../../services/notice'
 import { treeToArray } from '../../utils'
-import { getDiagramByBusiness,getCommentListBybusiness } from '../../services/workFlow'
+import { getDiagramByBusiness,getCommentListBybusiness,getTaskListByBusinessKey } from '../../services/workFlow'
 
 export default {
 
@@ -12,6 +12,7 @@ export default {
     employeeList:[],
     dicList:[],
     commentList:[],
+    taskNode:[],
   },
 
   subscriptions: {
@@ -40,6 +41,13 @@ export default {
           flowImgSrc=yield call(getDiagramByBusiness,{busiCode:other.data.code,busiId:other.data.id})
         }
         yield put({
+          type:'getTaskListByBusinessKey',
+          payload:{
+            busiCode:other.data.code,
+            busiId:other.data.id
+          }
+        })
+        yield put({
           type:'queryEmployee',
           payload:other.data.userId
         })
@@ -63,6 +71,15 @@ export default {
         yield put({
           type: 'getDicSuccess',
           payload: treeToArray(data.data),
+        })
+      }
+    },
+    *getTaskListByBusinessKey ({ payload }, { call, put }) {
+      const data = yield call(getTaskListByBusinessKey, payload)
+      if (data) {
+        yield put({
+          type: 'getTaskListByBusinessKeySuccess',
+          payload: data.data,
         })
       }
     },
@@ -90,8 +107,12 @@ export default {
         ...payload,
       }
     },
+
     getDicSuccess(state,action){
       return {...state,dicList:action.payload}
+    },
+    getTaskListByBusinessKeySuccess(state,action){
+      return {...state,taskNode:action.payload}
     },
     queryEmployeeSuccess (state, { payload }) {
       

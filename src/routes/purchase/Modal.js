@@ -99,7 +99,7 @@ const modal = ({
           data[`purchaseDetailList[${index}].applyName`]=f.applyName.value;
           data[`purchaseDetailList[${index}].materialName`]=f.materialName.value;
           data[`purchaseDetailList[${index}].spec`]=f.spec.value;
-          data[`purchaseDetailList[${index}].num`]=f.num.value;
+          data[`purchaseDetailList[${index}].purchaseNum`]=f.num.value;
           data[`purchaseDetailList[${index}].unit`]=f.unit.value;
           data[`purchaseDetailList[${index}].amount`]=f.amount.value;
           data[`purchaseDetailList[${index}].useTimeStr`]=f.useTimeStr.value;
@@ -114,7 +114,7 @@ const modal = ({
           data[`purchaseDetailList[${index}].applyName`]=f.applyName.value;
           data[`purchaseDetailList[${index}].materialName`]=f.materialName.value;
           data[`purchaseDetailList[${index}].spec`]=f.spec.value;
-          data[`purchaseDetailList[${index}].num`]=f.num.value;
+          data[`purchaseDetailList[${index}].purchaseNum`]=f.num.value;
           data[`purchaseDetailList[${index}].unit`]=f.unit.value;
           data[`purchaseDetailList[${index}].amount`]=f.amount.value;
           data[`purchaseDetailList[${index}].useTimeStr`]=f.useTimeStr.value;
@@ -173,7 +173,7 @@ const modal = ({
         },
         num: {
           editable:false,
-          value: temp.num,
+          value: temp.purchaseNum!==undefined&&temp.purchaseNum!==null?temp.purchaseNum:temp.num,
         },
         unit: {
           editable:false,

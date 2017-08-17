@@ -1,7 +1,7 @@
 import pathToRegexp from 'path-to-regexp'
 import { queryById,queryEmployee,getDic } from '../../services/contract'
 import { config } from '../../utils'
-import { getDiagramByBusiness,getCommentListBybusiness } from '../../services/workFlow'
+import { getDiagramByBusiness,getCommentListBybusiness,getTaskListByBusinessKey } from '../../services/workFlow'
 const { prefix } =config
 export default {
   namespace: 'contractDetail',
@@ -10,6 +10,7 @@ export default {
     employeeList:[],
     dicList:[],
     commentList:[],
+    taskNode:[],
   },
   subscriptions: {
     setup ({ dispatch, history }) {
@@ -31,6 +32,13 @@ export default {
         const commentData=yield call(getCommentListBybusiness,{busiCode:other.data.code,busiId:other.data.id})
         let flowImgSrc=null;
         if(other.data.state!==0)flowImgSrc=yield call(getDiagramByBusiness,{busiCode:other.data.code,busiId:other.data.id})
+        yield put({
+          type:'getTaskListByBusinessKey',
+          payload:{
+            busiCode:other.data.code,
+            busiId:other.data.id
+          }
+        })
         yield put({
           type:'queryEmployee',
           payload:other.data.userId
@@ -58,6 +66,15 @@ export default {
         })
       }
     },
+    *getTaskListByBusinessKey ({ payload }, { call, put }) {
+      const data = yield call(getTaskListByBusinessKey, payload)
+      if (data) {
+        yield put({
+          type: 'getTaskListByBusinessKeySuccess',
+          payload: data.data,
+        })
+      }
+    },
     *queryEmployee({payload},{call,put}){
         const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
         if (userInfo && userInfo.data) {
@@ -80,6 +97,9 @@ export default {
         ...state,
         ...payload,
       }
+    },
+    getTaskListByBusinessKeySuccess(state,action){
+      return {...state,taskNode:action.payload}
     },
     getDicSuccess(state,action){
       return {...state,dicList:action.payload}

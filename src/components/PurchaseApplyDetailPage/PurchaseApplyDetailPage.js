@@ -106,6 +106,12 @@ class PurchaseApplyDetailPage extends React.Component {
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             {data.createTime || data.createTimeStr}
           </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            申购类型：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data && data.type && data.type || '无'}
+          </Col>
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
           <Col xs={24} md={24} xl={24} className={styles['q-detail-conent']}>

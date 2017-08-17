@@ -88,3 +88,11 @@ export async function signTask(params){
     data:params,
   })
 }
+
+export async function getTaskListByBusinessKey(params){
+  return request({
+    url:workflow.getTaskListByBusinessKey,
+    method:'get',
+    data:params,
+  })
+}

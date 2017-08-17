@@ -75,6 +75,7 @@ const modal = ({
       }
       data.leaveTimeStartStr=data.leaveTime?data.leaveTime[0].format(dateTimeFormat):null;
       data.leaveTimeEndStr=data.leaveTime?data.leaveTime[1].format(dateTimeFormat):null;
+      data.leaveTime=null;
       if(item.id){
         data.id=item.id;
         data.code=item.code;

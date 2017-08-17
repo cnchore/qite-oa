@@ -79,7 +79,7 @@ const modal = ({
       }
       data.travelTimeStartStr=data.travelTime?data.travelTime[0].format(dateTimeFormat):null;
       data.travelTimeEndStr=data.travelTime?data.travelTime[1].format(dateTimeFormat):null;
-      
+      data.travelTime=null;
       data.provinceId=data.destination?data.destination[0]:-1;
       data.cityId=data.destination?data.destination[1]:-1;
       data.areaId=data.destination?data.destination[2]:-1;

@@ -1,7 +1,7 @@
 import pathToRegexp from 'path-to-regexp'
 import { queryEmployee } from '../../services/missClock'
 import { treeToArray } from '../../utils'
-import { getTaskInfo,getDiagram,getDic,getOrg } from '../../services/workFlow'
+import { getTaskInfo,getDiagram,getDic,getOrg,getTaskListByBusinessKey } from '../../services/workFlow'
 
 export default {
   namespace: 'completeDetail',
@@ -9,6 +9,7 @@ export default {
     data: {},
     employeeList:[],
     dicList:[],
+    taskNode:[],
   },
   subscriptions: {
     setup ({ dispatch, history }) {
@@ -53,6 +54,13 @@ export default {
           yield put({type: 'getOrg', payload: {},})
         }
         yield put({
+          type:'getTaskListByBusinessKey',
+          payload:{
+            busiCode:other.data.busiCode,
+            busiId:other.data.busiId
+          }
+        })
+        yield put({
           type: 'querySuccess',
           payload: {
             data: other.data
@@ -80,6 +88,15 @@ export default {
         })
       }
     },
+    *getTaskListByBusinessKey ({ payload }, { call, put }) {
+      const data = yield call(getTaskListByBusinessKey, payload)
+      if (data) {
+        yield put({
+          type: 'getTaskListByBusinessKeySuccess',
+          payload: data.data,
+        })
+      }
+    },
     *queryEmployee({payload},{call,put}){
         const userInfo=yield call(queryEmployee,{userId:payload})//other.data.userId
         if(userInfo&&userInfo.success){
@@ -102,6 +119,9 @@ export default {
         ...state,
         data:payload.data,
       }
+    },
+    getTaskListByBusinessKeySuccess(state,action){
+      return {...state,taskNode:action.payload}
     },
     getDicSuccess(state,action){
       return {...state,dicList:action.payload}

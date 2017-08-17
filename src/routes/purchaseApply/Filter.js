@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { FilterItem } from '../../components'
-import { Form, Button, Row, Col, DatePicker, Input } from 'antd'
+import { Form, Button, Row, Col, DatePicker, Input,Select } from 'antd'
 
 const Search = Input.Search
 //const { RangePicker } = DatePicker
-//const Option = Select.Option;
+const Option = Select.Option;
 
 const ColProps = {
   xs: 24,
@@ -70,7 +70,7 @@ const Filter = ({
     fields = handleFields(fields)
     onFilterChange(fields)
   }
-  const { codeLike, createTime } = filter
+  const { codeLike, createTime,type } = filter
 
   const dicOption=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
 
@@ -82,7 +82,7 @@ const Filter = ({
           })(<Search placeholder="申请单号" size="large" onSearch={handleSubmit} />)}
       </Col>
      
-      <Col {...ColProps} xl={{ span: 8 }} md={{ span: 12 }} >
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 12 }} >
         <FilterItem label="申请时间">
           {getFieldDecorator('createTime', { 
             initialValue:createTime? moment(createTime):null,
@@ -93,8 +93,20 @@ const Filter = ({
           )}
         </FilterItem>
       </Col>
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 12 }} >
+        <FilterItem label="申购类型">
+          {getFieldDecorator('type', { 
+            initialValue:type? type:null,
+          })(
+            <Select style={{ width: '100%' }} size="large" allowClear
+            onChange={handleChange.bind(null, 'type')} >
+            {dicOption}
+            </Select>
+          )}
+        </FilterItem>
+      </Col>
       
-      <Col {...TwoColProps} xl={{ span: 10 }} md={{ span: 24 }} >
+      <Col {...TwoColProps} xl={{ span:6 }} md={{ span: 12 }} >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div >
             <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>

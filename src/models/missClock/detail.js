@@ -1,6 +1,6 @@
 import pathToRegexp from 'path-to-regexp'
 import { queryById,queryEmployee } from '../../services/missClock'
-import { getDiagramByBusiness,getCommentListBybusiness } from '../../services/workFlow'
+import { getDiagramByBusiness,getCommentListBybusiness,getTaskListByBusinessKey } from '../../services/workFlow'
 import { config } from '../../utils'
 const { prefix } = config
 
@@ -34,6 +34,13 @@ export default {
           flowImgSrc=yield call(getDiagramByBusiness,{busiCode:other.data.code,busiId:other.data.id})
         }
         yield put({
+          type:'getTaskListByBusinessKey',
+          payload:{
+            busiCode:other.data.code,
+            busiId:other.data.id
+          }
+        })
+        yield put({
           type:'queryEmployee',
           payload:other.data.userId
         })
@@ -46,6 +53,15 @@ export default {
         })
       } else {
         throw data
+      }
+    },
+    *getTaskListByBusinessKey ({ payload }, { call, put }) {
+      const data = yield call(getTaskListByBusinessKey, payload)
+      if (data) {
+        yield put({
+          type: 'getTaskListByBusinessKeySuccess',
+          payload: data.data,
+        })
       }
     },
     *queryEmployee({payload},{call,put}){
@@ -69,6 +85,9 @@ export default {
         ...state,
         ...payload,
       }
+    },
+    getTaskListByBusinessKeySuccess(state,action){
+      return {...state,taskNode:action.payload}
     },
      queryEmployeeSuccess (state, { payload }) {
       

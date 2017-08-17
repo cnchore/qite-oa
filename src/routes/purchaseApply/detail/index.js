@@ -9,8 +9,9 @@ import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
 import cs from 'classnames'
 import {setPrintData} from '../../../utils'
+import TaskNodeList from '../../../components/TaskNodeList'
 const Detail = ({ purchaseApplyDetail }) => {
-  const { data,employeeList,commentList } = purchaseApplyDetail
+  const { data,employeeList,commentList,taskNode } = purchaseApplyDetail
   setPrintData(data,employeeList)
   
   return (
@@ -28,6 +29,11 @@ const Detail = ({ purchaseApplyDetail }) => {
         </a>
       </div>
       <PurchaseApplyDetailPage data={data} employeeList={employeeList} />
+      {
+        taskNode && taskNode[0] && data && data.state<2?
+        <TaskNodeList data={taskNode} />
+        :null
+      }
       {
         commentList && commentList[0]?
         <CommentTable data={commentList} />

@@ -22,11 +22,13 @@ import RecruitDetailPage from '../../../components/RecruitDetailPage'
 import ReimburseDetailPage from '../../../components/ReimburseDetailPage'
 import BudgetDetailPage from '../../../components/BudgetDetailPage'
 import NoticeDetailPage from '../../../components/NoticeDetailPage'
+import LegworkDetailPage from '../../../components/LegworkDetailPage'
 import cs from 'classnames'
 import {setPrintData} from '../../../utils'
+import TaskNodeList from '../../../components/TaskNodeList'
 
 const Detail = ({ completeDetail }) => {
-  const { data,employeeList,dicList } = completeDetail
+  const { data,employeeList,dicList,taskNode } = completeDetail
   let detailpage=null,
       printData=false,
       _code='';
@@ -94,6 +96,9 @@ const Detail = ({ completeDetail }) => {
       case 'BD':
         detailpage=<BudgetDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
         break
+      case 'LW':
+        detailpage=<LegworkDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
+        break
       case 'NE':
         detailpage=<NoticeDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList} />
         break
@@ -101,7 +106,7 @@ const Detail = ({ completeDetail }) => {
   }
   //console.log(data,employeeList)
   return (
-    <div className={cs({'content-inner':true,'audited':data && data.busiData && data.busiData.state===2})}>
+    <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.busiData && data.busiData.state}":true}`)})}>
       <div className="q-goback">
         {
           printData?
@@ -114,7 +119,12 @@ const Detail = ({ completeDetail }) => {
           <Icon type="close-circle-o" />
         </a>
       </div>
-       {detailpage}
+      {detailpage}
+      {
+        taskNode && taskNode[0] && data && data.busiData && data.busiData.state<2?
+        <TaskNodeList data={taskNode} />
+        :null
+      }
        {
         data.commentList && data.commentList[0]?
         <CommentTable data={data.commentList} />

@@ -85,7 +85,7 @@ class FileUpload extends React.Component {
       case '.pptx':
         return PPTX;
       case '.xls':
-        return XlS;
+        return XLS;
       case '.xlsx':
         return XLSX;
       case '.zip':
@@ -140,7 +140,7 @@ class FileUpload extends React.Component {
     const _fileList = this.state.fileList.map((file,index)=>{
       let thumbUrl=this.getThumbUrl(file);
       return (
-         <Col md={24} xl={12} className={styles['file-col']}>
+         <Col md={24} xl={12} className={styles['file-col']} key={`file-${index}`}>
           <Row key={file.uid} gutter={0} className={styles['file-list']} style={{margin:'0px'}} type="flex" justify="space-around" align="middle">
             <Col span={4}  className={styles['file-img-div']}>
               { (thumbUrl)?

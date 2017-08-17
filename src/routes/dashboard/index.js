@@ -50,42 +50,42 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
     let codeStr=item.remark,
         id=codeStr&&codeStr.split('#')[1]||-1,
         codeType=codeStr.substr(0,2),
-        content=item.content?item.content.replace('您提交的单号为','').replace(item.remark,'').replace('的',''):'';
+        content=item.content?item.content:'';
     if(codeType&&id!==-1){
       switch(codeType){
-        case 'MC':
+        case 'MC'://考勤异常
           return <Link to={`/missClock/${id}`}>{content}</Link>
-        case 'SC':
+        case 'SC'://调薪
           return <Link to={`/salaryChange/${id}`}>{content}</Link>
-        case 'LE':
+        case 'LE'://请假
           return <Link to={`/leave/${id}`}>{content}</Link>
-        case 'OT':
+        case 'OT'://加班
           return <Link to={`/overTime/${id}`}>{content}</Link>
-        case 'TL':
+        case 'TL'://出差
           return <Link to={`/travel/${id}`}>{content}</Link>
-        case 'DN':
+        case 'DN'://离职
           return <Link to={`/dimission/${id}`}>{content}</Link>
-        case 'RR':
+        case 'RR'://转正
           return <Link to={`/regular/${id}`}>{content}</Link>
-        case 'TR':
-          return <Link to={`/travelReimburse/${id}`}>{content}</Link>
-        case 'CT':
-          return <Link to={`/contract/${id}`}>{content}</Link>
-        case 'UC':
+        case 'TR'://出差报销
+          return <Link to={`/travelReimburse/${id}`}>{content}，请打印表单，并黏贴附件交财务部。</Link>
+        case 'CT'://合同
+          return <Link to={`/contract/${id}`}>{content}，请打印表单，并黏贴附件交财务部。</Link>
+        case 'UC'://用车
           return <Link to={`/useCar/${id}`}>{content}</Link>
-        case 'PA':
+        case 'PA'://申购
           return <Link to={`/purchaseApply/${id}`}>{content}</Link>
-        case 'PE':
-          return <Link to={`/purchase/${id}`}>{content}</Link>
-        case 'PT':
-          return <Link to={`/payment/${id}`}>{content}</Link>
-        case 'RT':
+        case 'PE'://采购
+          return <Link to={`/purchase/${id}`}>{content}，请打印表单，并黏贴附件交财务部。</Link>
+        case 'PT'://付款
+          return <Link to={`/payment/${id}`}>{content}，请打印表单，并黏贴附件交财务部。</Link>
+        case 'RT'://招聘
           return <Link to={`/recruit/${id}`}>{content}</Link>
-        case 'RE':
-          return <Link to={`/reimburse/${id}`}>{content}</Link>
-        case 'BD':
-          return <Link to={`/budget/${id}`}>{content}</Link>
-        case 'NE':
+        case 'RE'://费用报销
+          return <Link to={`/reimburse/${id}`}>{content}，请打印表单，并黏贴附件交财务部。</Link>
+        case 'BD'://预算
+          return <Link to={`/budget/${id}`}>{content}，请打印表单，并黏贴附件交财务部。</Link>
+        case 'NE'://通知
           return <Link to={`/notice/${id}`}>{content}</Link>
       }
     }
@@ -152,7 +152,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
         </Card>
       </Col>
       <Col lg={8} md={24}>
-        <Tabs defaultActiveKey="2" className={styles.tabpane}>
+        <Tabs defaultActiveKey="1" className={styles.tabpane}>
           <TabPane tab={<span><Icon type="notification" />通知公告</span>} key="1">
             <Card bordered={false} className={styles.noticecard} 
             bodyStyle={{
