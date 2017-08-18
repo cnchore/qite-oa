@@ -48,7 +48,10 @@ class PurchaseDetailPage extends React.Component {
       title: '数量',
       dataIndex: 'purchaseNum',
       key:'purchaseNum',
-      render: (text) => `${text?String(text).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '0.00',
+      render: (text,record) => {
+        let _num=text?text:record.num;
+        return  `${_num?String(_num).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '0.00'
+      },
     }, {
       title: '单位',
       dataIndex: 'unit',
@@ -61,7 +64,7 @@ class PurchaseDetailPage extends React.Component {
       title: '金额',
       dataIndex: 'totalAmount',
       render:(text,record,index)=>{
-        let t=parseFloat(record.purchaseNum)*parseFloat(record.amount!==undefined&&record.amount!==null&&record.amount!==''?record.amount:0);
+        let t=parseFloat(record.purchaseNum ? record.purchaseNum : record.num)*parseFloat(record.amount!==undefined&&record.amount!==null&&record.amount!==''?record.amount:0);
         return `¥ ${t?t.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
       },
     }, {

@@ -76,6 +76,11 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
       key: 'type',
       render:(text,record)=>getLeaveType(text,record.typeRemark),
     }, {
+      title: '任务代理人',
+      dataIndex: 'agentUserName',
+      key: 'agentUserName',
+    }, {
+      
       title: '状态',
       dataIndex: 'state',
       key: 'state',
@@ -104,7 +109,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
         {...tableProps}
         className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 1350 }}
+        scroll={{ x: 1450 }}
         columns={columns}
         simple
         rowKey={record => record.id}

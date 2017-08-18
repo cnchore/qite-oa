@@ -13,8 +13,9 @@
 
 <body>
   <div id="root"></div>
+  <% if(process.env.NODE_ENV !== 'production'){ %>
   <script src="roadhog.dll.js"></script>
-	
+	<% } %>
 </body>
 
 </html>

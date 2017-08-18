@@ -4,7 +4,7 @@ import { parse } from 'qs'
 import { config,treeMenuToArrayMenu } from '../utils'
 import { message } from 'antd'
 // import io from 'socket.io-client'
-const { prefix } = config
+const { prefix,websocketUrl } = config
   
 export default {
   namespace: 'app',
@@ -45,12 +45,12 @@ export default {
         // console.info('do socket')
         //创建socket
         // let _url='ws://www.aylsonclub.com/qite/websocket/socketServer.do';
-        let _url='ws://test.aylsonclub.com/qite/websocket/socketServer.do';
+        // let _url='ws://test.aylsonclub.com/qite/websocket/socketServer.do';
         // let _url='ws://192.168.0.108:8080/qite/websocket/socketServer.do';
         let websocket=null;
         try{
           if('WebSocket' in window){
-            websocket = new WebSocket(_url);
+            websocket = new WebSocket(websocketUrl);
             websocket.onconnect=function(){
               console.log('websocket connect.');
             }

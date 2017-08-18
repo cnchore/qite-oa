@@ -69,7 +69,10 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
       title: '申请时间',
       dataIndex: 'createTime',width:170,
       key: 'createTime',
-    
+    }, {
+      title: '申购类型',
+      dataIndex: 'type',
+      key: 'type',
     }, {
       title: '状态',
       dataIndex: 'state',

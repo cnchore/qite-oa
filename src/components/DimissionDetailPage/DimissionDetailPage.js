@@ -23,7 +23,7 @@ class DimissionDetailPage extends React.Component {
             姓名：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {employeeList?employeeList.realName:'无'}
+            {employeeList.realName?employeeList.realName:'无'}
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             部门：
@@ -41,19 +41,19 @@ class DimissionDetailPage extends React.Component {
             性别：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {employeeList?employeeList.sex?'男':'女':'无'}
+            {employeeList.sex?employeeList.sex?'男':'女':'无'}
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             联系电话：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {employeeList?employeeList.mobilePhone:'无'}
+            {employeeList.mobilePhone?employeeList.mobilePhone:'无'}
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             入职时间：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {employeeList?employeeList.inductionTime:'无'}
+            {employeeList.inductionTime?employeeList.inductionTime:'无'}
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请单号：

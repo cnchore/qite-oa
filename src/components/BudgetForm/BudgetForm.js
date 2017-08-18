@@ -45,7 +45,7 @@ class BudgetForm extends React.Component {
       }
     return (
       <div >
-        <div className={styles['title']}>佛山市艾臣家居科技有限公司<span>月付款计划</span></div>
+        <div className={styles['title']}>付款计划</div>
         <table className={styles['table']}>
           <tbody>
             <tr>

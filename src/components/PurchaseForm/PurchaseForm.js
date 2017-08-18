@@ -11,7 +11,7 @@ class PurchaseForm extends React.Component {
     const getTable=()=>{
       let defaultRows=[];
       let rows=data && data.purchaseDetailList && data.purchaseDetailList.map((item,index)=>{
-        let t=parseFloat(item.num)*parseFloat(item.amount!==undefined&&item.amount!==null&&item.amount!==''?item.amount:0);
+        let t=parseFloat(item.purchaseNum ? item.purchaseNum : item.num)*parseFloat(item.amount!==undefined&&item.amount!==null&&item.amount!==''?item.amount:0);
         return (
           <tr key={item.id}>
             <td>{index+1}</td>
@@ -19,7 +19,7 @@ class PurchaseForm extends React.Component {
             <td>{item.applyName && item.applyName}</td>
             <td>{item.materialName && item.materialName}</td>
             <td>{item.spec && item.spec}</td>
-            <td>{item.num && item.num}</td>
+            <td>{item.purchaseNum ? item.purchaseNum : item.num}</td>
             <td>{item.unit && item.unit}</td>
             <td>{item.amount && item.amount}</td>
             <td>{t&&t.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
@@ -77,7 +77,7 @@ class PurchaseForm extends React.Component {
         <div className={styles['header']}>
           <img src={aylson}/>
           <div>
-            <h1>请购单</h1>
+            <h1>采购单</h1>
             <p>{getCreateDate()}</p>
           </div>
         </div>

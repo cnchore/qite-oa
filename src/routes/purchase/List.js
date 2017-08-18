@@ -13,7 +13,11 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
       confirm({
         title: `你确定提交申请么?`,
         onOk () {
-          onSubmit(record,e)
+          return new Promise((resolve, reject) => {
+            // setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+            onSubmit(record,e);
+            resolve();
+          }).catch((reason) => console.error(reason));
         },
       })
   }

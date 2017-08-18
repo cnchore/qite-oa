@@ -83,7 +83,7 @@ class TravelDetailPage extends React.Component {
           <span className='q-pd-8'>至</span>
           {data.travelTimeEndStr || data.travelTimeEnd || '无'}
           <span className='q-pd-8'>共</span>
-          {getHours(data.travelTimeStart,data.travelTimeEnd)}
+          {data.travelHours?data.travelHours:getHours(data.travelTimeStart,data.travelTimeEnd)}
           <span className='q-pd-8'>小时</span>
         </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' ,paddingLeft:'0px'}} className={styles['q-detail-label']}>

@@ -50,6 +50,8 @@ const WaitList = ({ location, ...tableProps }) => {
             return <Link to={`/budget?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
           case 'NE':
             return <Link to={`/notice?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
+          case 'LW':
+            return <Link to={`/legwork?taskId=${query.taskId}&busiId=${query.busiId}&from=${query.from}&t=${Math.random()}`}>{record.state===-2?'返回完善资料':'退回修改'}</Link>;
           default :
             return null;
         }

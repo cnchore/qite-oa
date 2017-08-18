@@ -7,7 +7,8 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Leave = ({ location, dispatch, leave, loading }) => {
-  const { list,fileList,dicList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = leave
+  const { list,fileList,dicList,employeeList,taskData, pagination, currentItem, 
+    modalVisible, modalType,agentObject } = leave
   const { pageSize } = pagination
 
   const modalProps = {
@@ -17,6 +18,7 @@ const Leave = ({ location, dispatch, leave, loading }) => {
     employeeList,
     dicList,
     taskData,
+    agentObject,
     maskClosable: false,
     submitLoading:loading.effects['leave/submit'],
     confirmLoading: loading.effects[`leave/${modalType}`],
@@ -39,6 +41,12 @@ const Leave = ({ location, dispatch, leave, loading }) => {
       dispatch({
         type:'leave/setFileList',
         payload:fileList
+      })
+    },
+    setAgent(agentObject){
+      dispatch({
+        type:'leave/setAgent',
+        payload:agentObject
       })
     },
     onSubmit (formItem,nextUser) {
@@ -124,6 +132,7 @@ const Leave = ({ location, dispatch, leave, loading }) => {
           modalType: 'create',
           fileList:[],
           taskData:{},
+          agentObject:{},
         },
       })
     },

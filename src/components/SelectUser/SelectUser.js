@@ -70,6 +70,7 @@ class SelectUser extends React.Component {
         let { selectedRow} =this.state;
         selectedRow.userId=selectedRows[0].userId;
         selectedRow.userName=selectedRows[0].userName;
+        selectedRow.realName=selectedRows[0].realName;
         this.setState({selectedRow})
       },
       getCheckboxProps: record => ({
@@ -127,14 +128,17 @@ class SelectUser extends React.Component {
         <Button size="large" type="primary" onClick={e=>this.handleCallBackNull()}>提交</Button>
         <Button size="large" type="primary" style={{marginLeft:'8px'}} onClick={e=>this.showModal()}>指定审批人</Button>
       </span>
-      :<span>
+      :type && type==='selectAgent'?
+      <Button style={{marginLeft:'8px'}} onClick={e=>this.showModal()}>选择代理人</Button>
+      :
+      <span>
         <a onClick={e=>this.handleCallBackNull()}>提交</a>
         <a style={{marginLeft:'8px'}} onClick={e=>this.showModal()}>指定审批人</a>
       </span>
       }
       <Modal
         width={600}
-        title="选择审批人"
+        title={type && type!=='selectAgent'?"选择审批人":'选择任务代理人'}
         visible={this.state.modalVisible}
         onOk={this.handleOk}
         onCancel={this.handleCancel}

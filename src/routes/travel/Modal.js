@@ -284,20 +284,34 @@ const modal = ({
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             预计出差时间：
           </Col>
-          <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
+          <Col xs={18} md={8} xl={10} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}} >
               {getFieldDecorator('travelTime', {
                 initialValue:initialTravelTime,
                 rules: [
                   {
                     required: true,message:'不能为空',
-                   
                   },
                 ],
-              })(<RangePicker showTime format={dateTimeFormat}  style={{width:'400px'}}/>)}
+              })(<RangePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
             </FormItem>
-            <FormItem> 共 {getHours()} 小时</FormItem>
-
+            
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
+            共：
+          </Col>
+          <Col xs={18} md={8} xl={10} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem >
+              {getFieldDecorator('travelHours', {
+                initialValue:item.travelHours?item.travelHours:getHours(),
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<InputNumber step={1} />)}
+            </FormItem>
+            <FormItem >小时</FormItem>
           </Col>
         </Row>
        

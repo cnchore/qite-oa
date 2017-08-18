@@ -23,6 +23,7 @@ import ReimburseDetailPage from '../../components/ReimburseDetailPage'
 import BudgetDetailPage from '../../components/BudgetDetailPage'
 import NoticeDetailPage from '../../components/NoticeDetailPage'
 import styles from './Modal.less'
+import LegworkDetailPage from '../../components/LegworkDetailPage'
 
 const confirm = Modal.confirm
 const FormItem = Form.Item
@@ -145,6 +146,9 @@ const modal = ({
         break;
       case 'BD':
         detailpage=<BudgetDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'LW':
+        detailpage=<LegworkDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
         break;
       case 'NE':
         detailpage=<NoticeDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList?taskData.dicList:[]}/>

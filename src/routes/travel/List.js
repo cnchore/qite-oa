@@ -77,7 +77,8 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
     }, {
       title: '预计出差时长',width:120,
       key: 'travelHours',
-      render:(text,record)=>getHours(record.travelTimeStart,record.travelTimeEnd),
+      dataIndex: 'travelHours',
+      render:(text,record)=>text?text:getHours(record.travelTimeStart,record.travelTimeEnd),
     }, {
       title: '出差地点',
       dataIndex: 'address',

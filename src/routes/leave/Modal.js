@@ -43,6 +43,8 @@ const modal = ({
   auditLoading,
   onGoback,
   defaultFileList=[],
+  agentObject={},
+  setAgent,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -52,7 +54,7 @@ const modal = ({
   ...modalProps
 }) => {
   const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
-
+  
   const getFields = () => {
     let data=null;
     validateFieldsAndScroll((err,values) => {
@@ -76,6 +78,9 @@ const modal = ({
       data.leaveTimeStartStr=data.leaveTime?data.leaveTime[0].format(dateTimeFormat):null;
       data.leaveTimeEndStr=data.leaveTime?data.leaveTime[1].format(dateTimeFormat):null;
       data.leaveTime=null;
+      data.agentUserName= agentObject.agentUserName && agentObject.agentUserName || item.agentUserName;
+      data.agentUserId= agentObject.agentUserId && agentObject.agentUserId || item.agentUserId;
+
       if(item.id){
         data.id=item.id;
         data.code=item.code;
@@ -106,6 +111,14 @@ const modal = ({
           }
         },
       })
+  }
+  const handleAgent=(data)=>{
+    // console.log('data:',data)
+    if(data && data.userId){
+      setAgent({agentUserId:data.userId,agentUserName:data.realName})
+      // item.agentUserName=data.realName;
+      // item.agentUserId=data.userId;
+    }
   }
   const handleAudit=()=>{
     let taskItem={},formItem=getFields();
@@ -200,9 +213,20 @@ const modal = ({
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请时间：
           </Col>
-          <Col xs={18} md={8} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {item.createTime || item.createTimeStr || '系统自动生成'}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            任务代理人：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem >
+                {agentObject.agentUserName && agentObject.agentUserName || item.agentUserName}
+            </FormItem>
+            <FormItem >
+              <SelectUser type="selectAgent" callBack={handleAgent} ></SelectUser>
             </FormItem>
           </Col>
         </Row>

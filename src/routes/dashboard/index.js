@@ -50,7 +50,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
     let codeStr=item.remark,
         id=codeStr&&codeStr.split('#')[1]||-1,
         codeType=codeStr.substr(0,2),
-        content=item.content?item.content:'';
+        content=item.content?item.content.replace('您有一条',''):'';
     if(codeType&&id!==-1){
       switch(codeType){
         case 'MC'://考勤异常
@@ -68,25 +68,27 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
         case 'RR'://转正
           return <Link to={`/regular/${id}`}>{content}</Link>
         case 'TR'://出差报销
-          return <Link to={`/travelReimburse/${id}`}>{content}，请打印表单，并黏贴附件交财务部。</Link>
+          return <Link to={`/travelReimburse/${id}`}>{content}{content.indexOf('已经通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
         case 'CT'://合同
-          return <Link to={`/contract/${id}`}>{content}，请打印表单，并黏贴附件交财务部。</Link>
+          return <Link to={`/contract/${id}`}>{content}{content.indexOf('已经通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
         case 'UC'://用车
           return <Link to={`/useCar/${id}`}>{content}</Link>
         case 'PA'://申购
           return <Link to={`/purchaseApply/${id}`}>{content}</Link>
         case 'PE'://采购
-          return <Link to={`/purchase/${id}`}>{content}，请打印表单，并黏贴附件交财务部。</Link>
+          return <Link to={`/purchase/${id}`}>{content}{content.indexOf('已经通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
         case 'PT'://付款
-          return <Link to={`/payment/${id}`}>{content}，请打印表单，并黏贴附件交财务部。</Link>
+          return <Link to={`/payment/${id}`}>{content}{content.indexOf('已经通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
         case 'RT'://招聘
           return <Link to={`/recruit/${id}`}>{content}</Link>
         case 'RE'://费用报销
-          return <Link to={`/reimburse/${id}`}>{content}，请打印表单，并黏贴附件交财务部。</Link>
+          return <Link to={`/reimburse/${id}`}>{content}{content.indexOf('已经通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
         case 'BD'://预算
-          return <Link to={`/budget/${id}`}>{content}，请打印表单，并黏贴附件交财务部。</Link>
+          return <Link to={`/budget/${id}`}>{content}{content.indexOf('已经通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
         case 'NE'://通知
           return <Link to={`/notice/${id}`}>{content}</Link>
+        case 'LW'://外勤
+          return <Link to={`/legwork/${id}`}>{content}</Link>
       }
     }
     return content;
