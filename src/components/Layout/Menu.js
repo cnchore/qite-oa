@@ -21,7 +21,7 @@ const Menus = ({ siderFold, darkTheme, location, handleClickNavMenu, navOpenKeys
           <Menu.SubMenu
             key={item.id}
             title={<span>
-              {item.icon && <Icon type={item.icon} />}
+              {item.icon && <i className={`iconfont ${item.icon}`} />}
               {(!siderFoldN || menuTree.indexOf(item) < 0) && item.name}
             </span>}
           >
@@ -32,7 +32,7 @@ const Menus = ({ siderFold, darkTheme, location, handleClickNavMenu, navOpenKeys
       return (
         <Menu.Item key={item.id}>
           <Link to={item.router}>
-            {item.icon && <Icon type={item.icon} />}
+            {item.icon && <i className={`iconfont ${item.icon}`} />}
             {(!siderFoldN || menuTree.indexOf(item) < 0) && item.name}
           </Link>
         </Menu.Item>

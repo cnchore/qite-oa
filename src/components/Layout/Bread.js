@@ -48,7 +48,7 @@ const Bread = ({ menu }) => {
   const breads = pathArray.map((item, key) => {
     const content = (
       <span>{item &&item.icon
-          ? <Icon type={item.icon} style={{ marginRight: 4 }} />
+          ? <i className={`iconfont ${item.icon}`} style={{ marginRight: 4 }}/>
           : ''}{item && item.name}</span>
     )
     return (
