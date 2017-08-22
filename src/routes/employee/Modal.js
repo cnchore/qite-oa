@@ -217,7 +217,7 @@ const modal = ({
                   name="avatar"
                   showUploadList={false}
                   data={fileData}
-                  action={`${config.baseURL}${config.api.imgUpload}`}
+                  action={`${config.baseURL()}${config.api.imgUpload}`}
                   beforeUpload={beforeUpload}
                   onChange={handleChange}
                 >

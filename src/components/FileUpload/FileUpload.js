@@ -186,7 +186,7 @@ class FileUpload extends React.Component {
             showUploadList={false}
             data={fileData}
             //accept={this.acceptList.join()}
-            action={`${config.baseURL}${config.api.imgUpload}`}
+            action={`${config.baseURL()}${config.api.imgUpload}`}
             beforeUpload={this.beforeUpload}
             onChange={this.handleChange}
           >

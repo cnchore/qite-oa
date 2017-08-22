@@ -5,7 +5,7 @@ const { workflow,employee,dictionary,organizations } = api
 //startProcess,getMyTaskToDoPage,getMyTaskDonePage,getTaskFiledPage,getTaskInfo,audit,
 //getDiagramByBusiness,getCommentListBybusiness,getTaskWaitSignPage,signTask
 export function getDiagram (params) {
-  return `${baseURL}${workflow.getDiagram}?procDefId=${params.procDefId}&procInstId=${params.procInstId}`;
+  return `${baseURL()}${workflow.getDiagram}?procDefId=${params.procDefId}&procInstId=${params.procInstId}`;
 }
 export async function getDic (params) {
   return request({
@@ -65,7 +65,7 @@ export async function audit(params){
 }
 
 export function getDiagramByBusiness (params) {
-  return `${baseURL}${workflow.getDiagramByBusiness}?busiId=${params.busiId}&busiCode=${params.busiCode}`;
+  return `${baseURL()}${workflow.getDiagramByBusiness}?busiId=${params.busiId}&busiCode=${params.busiCode}`;
 }
 export async function getCommentListBybusiness(params){
   return request({

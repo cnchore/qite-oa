@@ -10,7 +10,7 @@ class ReimburseForm extends React.Component {
     let remark=[],totalAmount=0,defaultRows=[];
     const getCreateDate=()=>{
       let _date=data.createTime && new Date(data.createTime) || new Date();
-      return `${_date.getFullYear()}年${_date.getMonth()}月${_date.getDate()}日`
+      return `${_date.getFullYear()}年${_date.getMonth()+1}月${_date.getDate()}日`
     }
     const getRows=data && data.detailList && data.detailList.map((item,index)=>{
       if(item.remark) remark.push(<p key={index+Math.random()}>{`${index+1}.${item.remark && item.remark}`}</p>);

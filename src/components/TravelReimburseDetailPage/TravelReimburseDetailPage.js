@@ -92,6 +92,7 @@ class TravelReimburseDetailPage extends React.Component {
             columns={columns} 
             pagination={false}
             scroll={{ x: 1200 }} 
+            rowKey={record=>record.id}
             />
         )
     }

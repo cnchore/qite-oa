@@ -14,7 +14,7 @@ export default {
   // },
   "proxy": {
     '/qite/sys':{
-      // target: "http://192.168.0.108:8080",
+      // target: "http://192.168.0.119:8080",
       target: "http://test.aylsonclub.com",
       // target: "http://www.aylsonclub.com",
       changeOrigin: true,
@@ -23,7 +23,7 @@ export default {
     },
     '/qite/busi':{
       target: "http://test.aylsonclub.com",
-      // target: "http://192.168.0.108:8080",
+      // target: "http://192.168.0.119:8080",
       // target: "http://www.aylsonclub.com",
       changeOrigin: true,
       secure: false,
@@ -32,7 +32,7 @@ export default {
     '/qite/websocket':{
       // target: "ws://www.aylsonclub.com",
       target: "ws://test.aylsonclub.com",
-      // target: "ws://192.168.0.108:8080",
+      // target: "ws://192.168.0.119:8080",
       changeOrigin: true,
       secure: false,
       pathRewrite: {'^/qite/websocket' : '/qite/websocket'},

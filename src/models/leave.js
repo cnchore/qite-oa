@@ -127,23 +127,31 @@ export default {
           nextTaskUserId:nextUser.userId
         })
       }
-      if (data.success) {
+      if (data && data.success) {
         message.success('提交成功');
         yield put({ type: 'hideModal' })
         yield put({ type: 'query' })
       } else {
-        throw data
+        if(!data && newData){
+          throw newData;
+        }else{
+          throw data
+        }
       }
     },
     *audit ({ payload }, { call, put }) {
       const {formItem,taskItem}=payload
       let newData=null,data=null;
       if(formItem && formItem.id){
-        newData=yield call(save,formItem);
+        if(formItem.state===-2){
+          newData={success:true};
+        }else{
+          newData=yield call(save,formItem);
+        }
         if(newData && newData.success){
           data=yield call(audit,taskItem)
           if(data.success) {
-            message.success('[退回修改]成功');
+            message.success(formItem.state===-2?'[销假]成功':'[退回修改]成功');
             //yield put({ type: 'hideModal' })
             let queryList=parse(location.hash.substr(location.hash.indexOf('?')+1)); 
             window.location = `${location.origin}${location.pathname}#${queryList.from}?t=${Math.random()}`;

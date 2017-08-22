@@ -55,7 +55,7 @@ class PurchaseApplyForm extends React.Component {
     }
     const getCreateDate=()=>{
       let _date=data.createTime && new Date(data.createTime) || new Date();
-      return `${_date.getFullYear()}年${_date.getMonth()}月${_date.getDate()}日`
+      return `${_date.getFullYear()}年${_date.getMonth()+1}月${_date.getDate()}日`
     }
     return (
       <div className={styles['contanier']}>

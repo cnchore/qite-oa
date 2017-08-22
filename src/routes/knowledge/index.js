@@ -45,10 +45,10 @@ const Knowledge = ({ location, dispatch, knowledge, loading }) => {
         payload:fileList
       })
     },
-    onItemChange (id,title) {
+    onItemChange (fields,id,title) {
       dispatch({
         type: 'knowledge/change',
-        payload: {id,title},
+        payload: {fields,id,title},
       })
     },
   }
@@ -73,7 +73,7 @@ const Knowledge = ({ location, dispatch, knowledge, loading }) => {
     onItemChange (id,title) {
       dispatch({
         type: 'knowledge/change',
-        payload: {id,title},
+        payload: {fields:null,id,title},
       })
     },
     onEditItem (item) {

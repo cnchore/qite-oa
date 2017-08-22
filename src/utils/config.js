@@ -1,15 +1,15 @@
 let apiPrefix='/qite/sys',apiPrefixDev='/api/v1',apiPrefixPro='/qite/busi';
-let baseURL=process.env.NODE_ENV === 'production'?'http://www.aylsonclub.com':'http://192.168.0.142:8000';
-// let baseURL=process.env.NODE_ENV === 'production'?'http://test.aylsonclub.com':'http://192.168.0.142:8000';
-// let baseURL=process.env.NODE_ENV === 'production'?'http://192.168.0.108:8080':'http://192.168.0.142:8000';
+// let baseURL=process.env.NODE_ENV === 'production'?'http://www.aylsonclub.com':'http://192.168.0.142:8000';
+// let baseURL=process.env.NODE_ENV === 'production'?'http://test.aylsonclub.com':'http://192.168.0.114:8000';
+// let baseURL=process.env.NODE_ENV === 'production'?'http://192.168.0.119:8080':'http://192.168.0.142:8000';
 //http://test.aylsonclub.com/qite/sys
 //http://192.168.1.104:8000
 //http://192.168.0.142:9000
-//http://192.168.0.108:8080
+//http://192.168.0.119:8080
 
-let websocketUrl='ws://www.aylsonclub.com/qite/websocket/socketServer.do';
-// let websocketUrl='ws://test.aylsonclub.com/qite/websocket/socketServer.do';
-// let websocketUrl='ws://192.168.0.108:8080/qite/websocket/socketServer.do';
+// let websocketUrl='ws://www.aylsonclub.com/qite/websocket/socketServer.do';
+let websocketUrl='ws://test.aylsonclub.com/qite/websocket/socketServer.do';
+// let websocketUrl='ws://192.168.0.119:8080/qite/websocket/socketServer.do';
 
 module.exports = {
   name: '淇特办公系统',
@@ -18,13 +18,23 @@ module.exports = {
   logo: 'logo.png',
   iconFontCSS: 'iconfont.css',
   iconFontJS: 'iconfont.js',
-  baseURL: baseURL,
+  baseURL: function(){
+    return window.location.origin;
+  },
   YQL: ['http://www.zuimeitianqi.com'],
   CORS: ['http://localhost:7000'],
   openPages: ['/login','/print'],
   apiPrefix: apiPrefixDev,
   bucket:process.env.NODE_ENV==='production'?'aihama-qite':'dc-test',
-  websocketUrl:websocketUrl,
+  websocketUrl:function(){
+    var _url=websocketUrl? new window.URL(websocketUrl) : null;
+    if(_url && _url.pathname){
+      _url.hostname=window.location.hostname;
+      _url.port=window.location.port;
+      return _url.href;
+    } 
+    return '';
+  },
   api: {
     dashboard: `${apiPrefixDev}/dashboard`,
     //图片上传

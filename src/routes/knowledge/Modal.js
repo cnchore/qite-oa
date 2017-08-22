@@ -50,12 +50,13 @@ const modal = ({
   },
   ...modalProps
 }) => {
-  const handleOk = () => {
+  const getFields = () => {
+    let data=null;
     validateFieldsAndScroll((err,values) => {
       if (err) {
-        return
+        return null;
       }
-      const data = {...values}
+      data = {...values}
       data.content=editorContent;
       // draftToHtml(convertToRaw(editorState.getCurrentContent()));
       if(fileList && fileList.length>0){
@@ -74,10 +75,17 @@ const modal = ({
       data.effectiveTimeStr=data.effectiveTimeStr?data.effectiveTimeStr.format('YYYY-MM-DD HH:mm:ss'):null;
       
       if(item.id){
-        data.id=item.id
+        data.id=item.id;
+        data.code=item.code;
       }
-      onOk(data)
     })
+    return data;
+  }
+  const handleOk = () => {
+    let fields=getFields();
+    if(fields){
+      onOk(fields)
+    }
   }
   if(item.attachList&& item.attachList[0]){
     defaultFileList=item.attachList.map((temp)=>{
@@ -104,12 +112,21 @@ const modal = ({
   //const handleGet=()=>console.log('',fileList)
 
   const orgOptions = orgList.map(org => <Option key={org.id}>{org.orgName}</Option>);
-
+  const getChangeName=(state)=>{
+    if(state===undefined || state===null && state===0|| state===2){
+      return true;
+    }
+    return false;
+  }
   const handleItemChange=()=>{
     confirm({
-        title: `你确定${item.state===0||item.state===2?'发布':'下线'}这条知识项么?`,
+        title: `你确定${getChangeName(item.state)?'发布':'下线'}这条知识项么?`,
         onOk () {
-          onItemChange(item.id,(item.state===0||item.state===2?'发布':'下线'))
+          let fields=getFields();
+            console.log(fields)
+          if(fields){
+            onItemChange(fields,item.id,(getChangeName(item.state)?'发布':'下线'))
+          }
         },
       })
   }
@@ -124,7 +141,7 @@ const modal = ({
             <Affix target={()=>document.getElementById('layout-main')}>
          
               <div style={{backgroundColor:'#fff'}}>
-                {item.id?<Button  type="primary" onClick={handleItemChange} size="large" loading={changeLoading}>{(item.state===0||item.state===2)?'发布':'下线'}</Button>:null}
+                <Button  type="primary" onClick={handleItemChange} size="large" loading={changeLoading}>{(getChangeName(item.state))?'发布':'下线'}</Button>
                 <Button style={{ marginLeft: 12,marginRight: 12 }} type="primary" loading={confirmLoading} onClick={handleOk} size="large">暂存</Button>
                 <Button  type="ghost" onClick={onCancel} size="large">取消</Button>
               </div>

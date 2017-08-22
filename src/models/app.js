@@ -50,7 +50,7 @@ export default {
         let websocket=null;
         try{
           if('WebSocket' in window){
-            websocket = new WebSocket(websocketUrl);
+            websocket = new WebSocket(websocketUrl());
             websocket.onconnect=function(){
               console.log('websocket connect.');
             }

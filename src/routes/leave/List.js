@@ -39,9 +39,9 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
       case -1:
         return <Tag color='#f00'>退回修改</Tag>;
       case -2:
-        return <Tag color='#108ee9'>待完善资料</Tag>;
+        return <Tag color='#108ee9'>待销假</Tag>;
       case 4:
-        return <Tag color='#2db7f5'>审核通过并完善资料</Tag>;
+        return <Tag color='#2db7f5'>已销假</Tag>;
     }
   }
   const getLeaveType=(value,remark=null)=>{
@@ -93,8 +93,8 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
       render: (text, record) => {
         return record.state!==undefined?(<span>
           <Link to={`/leave/${record.id}`} style={{marginRight:'8px'}}>查看</Link>
-          { record.state===0?<a onClick={e=>onEditItem(record)}>编辑</a>:null}
-          { record.state===0?<SelectUser callBack={e=>handleSubmit(record,e)} />:null}
+          { record.state===0 ?<a onClick={e=>onEditItem(record)}>编辑</a>:null}
+          { record.state===0 ?<SelectUser callBack={e=>handleSubmit(record,e)} />:null}
           { record.state===0?
             <a style={{marginLeft:'8px'}} onClick={e=>handleDel(record.id)}>删除</a>
             :null

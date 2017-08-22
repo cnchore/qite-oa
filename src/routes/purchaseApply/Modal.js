@@ -4,7 +4,7 @@ import { Form, Input,Radio,InputNumber,Modal,Row,Col,Button,Icon,Affix,message,S
 //import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
-import uploadImageCallBack from '../../services/uploadImageCallBack'
+//import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
 import {changeMoneyToChinese} from '../../utils'
@@ -274,20 +274,20 @@ const modal = ({
               {item.createTime || item.createTimeStr || '系统自动生成'}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             申购类型：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('type', {
-                initialValue:item.type?String(item.type):'固定资产',
+                initialValue:item.type?String(item.type):undefined,
                 rules: [
                   {
                     required: true,message:'不能为空',
                    
                   },
                 ],
-              })(<Select >{dicOption}</Select>)}
+              })(<Select placeholder="请选择" >{dicOption}</Select>)}
               
             </FormItem>
           </Col>

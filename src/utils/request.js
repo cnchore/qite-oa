@@ -5,11 +5,7 @@ import jsonp from 'jsonp'
 import lodash from 'lodash'
 import pathToRegexp from 'path-to-regexp'
 import { message } from 'antd'
-
-// console.log('utils request location:',window && window.location);
-var _baseUrl=window.location.protocol+'//'+baseURL.split('://')[1];
-axios.defaults.baseURL = _baseUrl || baseURL;
-
+axios.defaults.baseURL = baseURL();
 const fetch = (options) => {
   let {
     method = 'get',

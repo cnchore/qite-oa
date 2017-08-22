@@ -84,6 +84,7 @@ const modal = ({
       if(item.id){
         data.id=item.id;
         data.code=item.code;
+        data.state=item.state;
       }
     })
     return data;
@@ -162,7 +163,7 @@ const modal = ({
               {taskData && taskData.taskId?(
                 <div style={{backgroundColor:'#fff'}}>
                   <Button style={{ marginRight: 12 }} type="primary" loading={auditLoading} 
-                  onClick={handleAudit} size="large">确定修改并提交</Button>
+                  onClick={handleAudit} size="large">{item.state===-2?'确定销假':'确定修改并提交'}</Button>
                   <Button  type="ghost" onClick={onGoback} size="large">返回待办</Button>
                 </div>
                 ):(
@@ -270,23 +271,25 @@ const modal = ({
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<RangePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
+              })(<RangePicker showTime format={dateTimeFormat} disabled={taskData && taskData.taskId} style={{width:'100%'}}/>)}
             </FormItem>
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             共：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('leaveHours', {
-                initialValue:item.leaveHours,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                  },
-                ],
-              })(<InputNumber step={1} />)}
-            </FormItem>
+            
+              <FormItem >
+                {getFieldDecorator('leaveHours', {
+                  initialValue:item.leaveHours,
+                  rules: [
+                    {
+                      required: true,message:'不能为空',
+                    },
+                  ],
+                })(<InputNumber disabled={taskData && taskData.taskId} step={1} />)}
+              </FormItem>
+           
             <FormItem>小时</FormItem>
           </Col>
         </Row>

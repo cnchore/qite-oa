@@ -95,12 +95,25 @@ export default {
     },
 
     *'change' ({ payload }, { call, put }) {
-      const data = yield call(change, { id: payload.id })
-      if (data.success) {
-        message.success(`${payload.title}成功`);
+      let {fields,id,title}=payload;
+      let newData=null,
+          state=title==='发布'?1:2;
+      fields={...fields,state}
+      if(!id){
+        newData=yield call(create,fields);
+      }else{
+        // console.log('fields:',fields)
+        if(fields && fields.id){
+          newData=yield call(update,fields);
+        }else{
+          newData=yield call(change,{id});
+        }
+      }
+      if (newData.success) {
+        message.success(`${title}成功`);
         yield put({ type: 'query' })
       } else {
-        throw data
+        throw newData
       }
     },
 

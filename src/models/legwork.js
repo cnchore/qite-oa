@@ -126,12 +126,16 @@ export default {
           nextTaskUserId:nextUser.userId
         })
       }
-      if (data.success) {
+      if (data && data.success) {
         message.success('提交成功');
         yield put({ type: 'hideModal' })
         yield put({ type: 'query' })
       } else {
-        throw data
+        if(!data && newData){
+          throw newData;
+        }else{
+          throw data
+        }
       }
     },
     *audit ({ payload }, { call, put }) {
