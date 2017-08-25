@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "antd-admin",
+  "name": "qite-oa",
   "version": "1.0.0",
   "description": "Using react,antd,and mock for CRUD",
   "author": "WeiYang Qiu <cnchore@163.com>",

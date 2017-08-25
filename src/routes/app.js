@@ -48,6 +48,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
     siderFold,
     location,
     isNavbar,
+    darkTheme,
     menuPopoverVisible,
     navOpenKeys,
     switchMenuPopover () {
@@ -65,6 +66,9 @@ const App = ({ children, location, dispatch, app, loading }) => {
     changeOpenKeys (openKeys) {
       dispatch({ type: 'app/handleNavOpenKeys', payload: { navOpenKeys: openKeys } })
     },
+    changeTheme () {
+      dispatch({ type: 'app/switchTheme' })
+    },
   }
 
   const siderProps = {
@@ -73,9 +77,6 @@ const App = ({ children, location, dispatch, app, loading }) => {
     darkTheme,
     location,
     navOpenKeys,
-    changeTheme () {
-      dispatch({ type: 'app/switchTheme' })
-    },
     changeOpenKeys (openKeys) {
       localStorage.setItem(`${prefix}navOpenKeys`, JSON.stringify(openKeys))
       dispatch({ type: 'app/handleNavOpenKeys', payload: { navOpenKeys: openKeys } })

@@ -47,10 +47,11 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
     },
   }
   const getAction=(item)=>{
-    let codeStr=item.remark,
+    let codeStr=item.remark && item.remark || null,
         id=codeStr&&codeStr.split('#')[1]||-1,
-        codeType=codeStr.substr(0,2),
-        content=item.content?item.content.replace('您有一条',''):'';
+        codeType=codeStr&&codeStr.substr(0,2) || null,
+        _code=codeStr && codeStr.split('#')[0] || '',
+        content=item.content?item.content.replace('您有一条','').replace('[','[ '+_code+' '):'';
     if(codeType&&id!==-1){
       switch(codeType){
         case 'MC'://考勤异常

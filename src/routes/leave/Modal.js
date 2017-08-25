@@ -219,7 +219,7 @@ const modal = ({
               {item.createTime || item.createTimeStr || '系统自动生成'}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             任务代理人：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>

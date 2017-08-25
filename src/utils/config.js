@@ -14,7 +14,7 @@ let websocketUrl='ws://test.aylsonclub.com/qite/websocket/socketServer.do';
 module.exports = {
   name: '淇特办公系统',
   prefix: 'qiteOa',
-  footerText: 'Aihama © 2017',
+  footerText: '佛山市艾臣家居科技有限公司 © 2017',
   logo: 'logo.png',
   iconFontCSS: 'iconfont.css',
   iconFontJS: 'iconfont.js',

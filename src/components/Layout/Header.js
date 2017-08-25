@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Menu, Icon, Popover } from 'antd'
+import { Menu, Icon, Popover,Switch } from 'antd'
 import styles from './Header.less'
 import Menus from './Menu'
 
 const SubMenu = Menu.SubMenu
 
-const Header = ({ user, logout,toEditPwd, switchSider, siderFold, isNavbar, menuPopoverVisible, location, switchMenuPopover, navOpenKeys, changeOpenKeys, menu }) => {
+const Header = ({ user, logout,toEditPwd, switchSider,changeTheme,darkTheme, siderFold, isNavbar, menuPopoverVisible, location, switchMenuPopover, navOpenKeys, changeOpenKeys, menu }) => {
   let handleClickMenu = e => e.key === 'logout'?logout():e.key==='editPwd'?toEditPwd():null
   // console.log('user:',user)
   const menusProps = {
@@ -33,6 +33,13 @@ const Header = ({ user, logout,toEditPwd, switchSider, siderFold, isNavbar, menu
           </div>
       }
       <div className={styles.rightWarpper}>
+        {
+          !siderFold ? 
+          <div className={styles.switchtheme}>
+            <Switch onChange={changeTheme} defaultChecked={darkTheme} checkedChildren="黑主题" unCheckedChildren="亮主题" />
+          </div> 
+          : ''
+        }
         {
           false?
           <div className={styles.button}>
