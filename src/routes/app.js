@@ -16,8 +16,14 @@ let lastHref
 
 const App = ({ children, location, dispatch, app, loading }) => {
   const { user,editPwdModal,menuList, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys } = app
+  const isDashboard=()=>{
+    if(location.pathname==='/' || location.pathname==='/dashboard'){
+      return true;
+    }
+    return false
+  }
   const href = window.location.href
-  //console.log(`user:`,user)
+  // console.log(`user:`,location)
   if (lastHref !== href) {
     NProgress.start()
     if (!loading.global) {
@@ -49,6 +55,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
     location,
     isNavbar,
     darkTheme,
+    isDashboard:isDashboard(),
     menuPopoverVisible,
     navOpenKeys,
     switchMenuPopover () {
@@ -82,18 +89,21 @@ const App = ({ children, location, dispatch, app, loading }) => {
       dispatch({ type: 'app/handleNavOpenKeys', payload: { navOpenKeys: openKeys } })
     },
   }
-
+  
   const breadProps = {
     menu:menuList,
+    darkTheme:!darkTheme && isDashboard()
   }
-
+  const footerProps={
+    darkTheme:!darkTheme && isDashboard()
+  }
   if (config.openPages && config.openPages.indexOf(location.pathname) > -1) {
     return <div>{children}</div>
   }
 
   const  { iconFontJS, iconFontCSS, logo, name } = config
- 
- 
+  
+  
   return (
     <div>
       <Helmet>
@@ -106,8 +116,8 @@ const App = ({ children, location, dispatch, app, loading }) => {
         {!isNavbar ? <aside className={classnames(styles.sider, { [styles.light]: !darkTheme })}>
           <Sider {...siderProps} />
         </aside> : ''}
-        <div className={styles.main} id="layout-main">
-          <Header {...headerProps} />
+        <div className={classnames(styles.main,{[styles.light]:!darkTheme && isDashboard()})} id="layout-main">
+          <Header {...headerProps} className={!darkTheme && isDashboard()?styles['header-light']:''}/>
           <Bread {...breadProps} location={location} />
           <div className={styles.container}>
             <div className={styles.content}>
@@ -118,7 +128,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
             </div>
           </div>
 
-          <Footer />
+          <Footer {...footerProps}/>
         </div>
       </div>
       {editPwdModal && <EditPwdModal {...editPwdProps} />}

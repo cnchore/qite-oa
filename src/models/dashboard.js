@@ -18,6 +18,7 @@ export default {
   subscriptions: {
     setup ({ dispatch,history }) {
       history.listen(location => {
+        // console.log('dashboard',localStorage.getItem(`${prefix}darkTheme`));
         // console.log('dashboard',location)
         if(location.pathname==='/dashboard' || location.pathname==='/'){
           const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));

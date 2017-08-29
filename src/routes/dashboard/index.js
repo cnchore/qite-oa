@@ -4,29 +4,32 @@ import { connect } from 'dva'
 import { Row, Col, Card,Icon,Tabs } from 'antd'
 import { NumberCard, UserInfo,WaitList,WaitSignList } from './components'
 import styles from './index.less'
-import { color } from '../../utils'
+import { color,getTheme,classnames,getMsgType,getMsgAction } from '../../utils'
 import { Link } from 'dva/router'
 const TabPane=Tabs.TabPane;
 function Dashboard ({ dashboard,loading,location,dispatch }) {
-  const { userInfo,waitData,messageData,noticeData,waitSignData,knowledgeData } = dashboard
-  // const numberCards = numbers.map((item, key) => <Col key={key} lg={6} md={12}>
-  //   <NumberCard {...item} />
-  // </Col>)
+  const { userInfo,waitData,messageData,noticeData,waitSignData,knowledgeData} = dashboard
+  // console.log('dashboard:',connect)
+  const darkTheme=getTheme();
   const waitNum={
-    icon: 'team',
-    color: color.blue,
+    icon: 'iconfont icon-daibanjian',
+    color:color.blue,
+    bgcolor: 'light1',
     title: '待办件',
     number: waitData && waitData.total || 0,
     linkto:'/waiting',
     desc:'指定本人处理的业务',
+   
   }
   const waitSignNum={
-    icon: 'message',
-    color: color.purple,
+    icon: 'iconfont icon-daiqianshou',
+    color:color.purple,
+    bgcolor:'light2',
     title: '待签收件',
     number: waitSignData && waitSignData.total || 0,
     linkto:'/waitSign',
     desc:'未选择指定处理人，需手动签收本人应处理的业务',
+   
   }
   const waitProps={
     dataSource:waitData && waitData.list || [],
@@ -38,6 +41,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
     dataSource:waitSignData && waitSignData.list || [],
     pagination:false,
     location,
+    darkTheme,
     loading:loading.effects['dashboard/getTaskWaitSignPage'],
     onEditItem (item) {
       dispatch({
@@ -46,58 +50,12 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
       })
     },
   }
-  const getAction=(item)=>{
-    let codeStr=item.remark && item.remark || null,
-        id=codeStr&&codeStr.split('#')[1]||-1,
-        codeType=codeStr&&codeStr.substr(0,2) || null,
-        _code=codeStr && codeStr.split('#')[0] || '',
-        content=item.content?item.content.replace('您有一条','').replace('[','[ '+_code+' '):'';
-    if(codeType&&id!==-1){
-      switch(codeType){
-        case 'MC'://考勤异常
-          return <Link to={`/missClock/${id}`}>{content}</Link>
-        case 'SC'://调薪
-          return <Link to={`/salaryChange/${id}`}>{content}</Link>
-        case 'LE'://请假
-          return <Link to={`/leave/${id}`}>{content}</Link>
-        case 'OT'://加班
-          return <Link to={`/overTime/${id}`}>{content}</Link>
-        case 'TL'://出差
-          return <Link to={`/travel/${id}`}>{content}</Link>
-        case 'DN'://离职
-          return <Link to={`/dimission/${id}`}>{content}</Link>
-        case 'RR'://转正
-          return <Link to={`/regular/${id}`}>{content}</Link>
-        case 'TR'://出差报销
-          return <Link to={`/travelReimburse/${id}`}>{content}{content.indexOf('已经通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
-        case 'CT'://合同
-          return <Link to={`/contract/${id}`}>{content}{content.indexOf('已经通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
-        case 'UC'://用车
-          return <Link to={`/useCar/${id}`}>{content}</Link>
-        case 'PA'://申购
-          return <Link to={`/purchaseApply/${id}`}>{content}</Link>
-        case 'PE'://采购
-          return <Link to={`/purchase/${id}`}>{content}{content.indexOf('已经通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
-        case 'PT'://付款
-          return <Link to={`/payment/${id}`}>{content}{content.indexOf('已经通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
-        case 'RT'://招聘
-          return <Link to={`/recruit/${id}`}>{content}</Link>
-        case 'RE'://费用报销
-          return <Link to={`/reimburse/${id}`}>{content}{content.indexOf('已经通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
-        case 'BD'://预算
-          return <Link to={`/budget/${id}`}>{content}{content.indexOf('已经通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
-        case 'NE'://通知
-          return <Link to={`/notice/${id}`}>{content}</Link>
-        case 'LW'://外勤
-          return <Link to={`/legwork/${id}`}>{content}</Link>
-      }
-    }
-    return content;
-  }
+  
+  
   const messageList=messageData && messageData.list && messageData.list[0] && messageData.list.map((item,index)=><p key={index} 
     className={styles.msgp}>
-      <span className={styles.msgtitle}>{index+1}.{getAction(item)}</span>
-      <span className={styles.msgtime}>--{item.createTime}</span>
+      <span className={styles.msgtitle}>{index+1}.{getMsgAction(item)}</span>
+      <span className={styles.msgtime}>——{item.createTime}</span>
     </p>) || <span className={styles.msgtime}>暂无消息</span>;
   const noticeList =noticeData && noticeData.list && noticeData.list[0] && noticeData.list.map((item,index)=><p key={index}
     className={styles.msgp}
@@ -105,7 +63,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
       <Link to={ `/notice/${item.id}?noComment=true`} >
         <span className={styles.msgtitle}>{index+1}.{item.title}</span>
       </Link>
-      <span className={styles.msgtime}>--{item.postingTime}</span>
+      <span className={styles.msgtime}>——{item.postingTime}</span>
     </p>) || <span className={styles.msgtime}>暂无通知公告</span>;
   const knowledgeList =knowledgeData && knowledgeData.list && knowledgeData.list[0] && knowledgeData.list.map((item,index)=><p key={index}
     className={styles.msgp}
@@ -113,14 +71,14 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
       <Link to={ `/knowledge/${item.id}?noComment=true`} >
         <span className={styles.msgtitle}>{index+1}.{item.title}</span>
       </Link>
-      <span className={styles.msgtime}>--{item.publishTime}</span>
+      <span className={styles.msgtime}>——{item.publishTime}</span>
     </p>) || <span className={styles.msgtime}>暂无通知公告</span>;
   
   return (
     
     <Row gutter={24} >
       <Col lg={8} md={12} >
-        <UserInfo {...userInfo}/>
+        <UserInfo {...userInfo} />
       </Col> 
       <Col lg={8} md={12}>
         <NumberCard {...waitNum}/>
@@ -129,8 +87,8 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
         <NumberCard {...waitSignNum}/>
       </Col>
       <Col lg={16} md={24}>
-        <Card bordered={false} className={styles.waitcard}
-        title={<span><Icon type="dot-chart" /> 我的待签收</span>} extra={<Link to='/waitSign'>更多</Link>}
+        <Card bordered={false} className={classnames(styles.waitsign,{[styles.light]:!darkTheme})}
+        title={<span><i className="iconfont icon-wodedaiqianshou" /> 我的待签收</span>} extra={<Link to='/waitSign'>更多</Link>}
         bodyStyle={{height:364,}}
         >
           <WaitSignList {...waitSignProps} />
@@ -138,8 +96,8 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
       </Col>      
      
       <Col lg={8} md={24}>
-        <Card bordered={false} className={styles.msgcard} 
-        title={<span><Icon type="message" /> 消息</span>} 
+        <Card bordered={false} className={classnames(styles.msgcard,{[styles.light]:!darkTheme})}
+        title={<span><i className="iconfont icon-xiaoxi" /> 消息</span>} 
         bodyStyle={{
           height: 364,overflowY:'auto',
         }}>
@@ -147,16 +105,16 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
         </Card>
       </Col>
        <Col lg={16} md={24}>
-        <Card bordered={false} className={styles.waitcard}
-        title={<span><Icon type="dot-chart" /> 我的待办业务</span>} extra={<Link to='/waiting'>更多</Link>}
+        <Card bordered={false} className={classnames(styles.waitcard,{[styles.light]:!darkTheme})}
+        title={<span><i className="iconfont icon-wodedaibanyewu"/> 我的待办业务</span>} extra={<Link to='/waiting'>更多</Link>}
         bodyStyle={{height:364,}}
         >
           <WaitList {...waitProps} />
         </Card>
       </Col>
       <Col lg={8} md={24}>
-        <Tabs defaultActiveKey="1" className={styles.tabpane}>
-          <TabPane tab={<span><Icon type="notification" />通知公告</span>} key="1">
+        <Tabs defaultActiveKey="1" className={classnames(styles.tabpane,{[styles.light]:!darkTheme})} >
+          <TabPane tab={<span><i className="iconfont icon-tongzhigonggao"/>通知公告</span>} key="1">
             <Card bordered={false} className={styles.noticecard} 
             bodyStyle={{
               height: 326,overflowY:'auto',
@@ -169,7 +127,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
               }
             </Card>
           </TabPane>
-          <TabPane tab={<span><Icon type="book" />知识库</span>} key="2">
+          <TabPane tab={<span><i className="iconfont icon-zhishiku1"/>知识库</span>} key="2">
             <Card bordered={false} className={styles.noticecard} 
             bodyStyle={{
               height: 326,overflowY:'auto',

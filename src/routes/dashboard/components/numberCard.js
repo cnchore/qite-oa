@@ -4,28 +4,30 @@ import { Icon, Card,Tooltip } from 'antd'
 import CountUp from 'react-countup'
 import styles from './numberCard.less'
 import { Link } from 'dva/router'
+import { classnames,getTheme } from '../../../utils'
 
-function NumberCard ({ icon, color, title, number,linkto,desc, countUp }) {
+function NumberCard ({ icon, bgcolor,color, title, number,linkto,desc, countUp }) {
+  let _color=getTheme()?color:'#fff';
   return (
-    <Card className={styles.numberCard} bordered={false} bodyStyle={{ padding: 0 }}>
+    <Card className={classnames(styles.numberCard,{[styles.light1]:!getTheme() && bgcolor==='light1'},{[styles.light2]:!getTheme() && bgcolor==='light2'})} bordered={false} bodyStyle={{ padding: 0 }}>
       {
         desc?
         <Tooltip placement="topLeft" title={desc}>
-          <Icon className={styles.iconWarp} style={{ color }} type={icon} />
+          <i className={classnames(icon,styles.iconWarp)} style={{ color:_color }} />
         </Tooltip>
-        : <Icon className={styles.iconWarp} style={{ color }} type={icon} />
+        : <i className={classnames(icon,styles.iconWarp)} style={{ color:_color }} />
       }
       
       <div className={styles.content}>
+        
+        <p className={styles.number}>
         {
           desc?
           <Tooltip placement="topRight" title={desc}>
-            <p className={styles.title}>{title || 'No Title'}</p>
+            <span className={styles.title}>{title || 'No Title'}</span>
           </Tooltip>
-          :<p className={styles.title}>{title || 'No Title'}</p>
+          :<span className={styles.title}>{title || 'No Title'}</span>
         }
-        
-        <p className={styles.number}>
           <Link to={ linkto || '#'}>
             <CountUp
               start={0}

@@ -4,10 +4,101 @@
     margin-bottom: 24px;
   }
 }
-.waitcard{
+.waitcard,.waitsign{
+  &.light{
+    :global {
+      .ant-card-head{
+        background-color: transparent;
+        border-bottom-color: #96b3c7;
+        .ant-card-head-title{
+          color:rgba(255, 255, 255, 0.85);
+          i{
+            margin-right: 12px;
+          }
+        }
+      }
+      .ant-card-extra{
+        a{
+          color:rgba(255, 255, 255, 0.85);
+        }
+      }
+      .ant-table{
+        color: rgba(255, 255, 255, 0.75);
+        a{
+          color:#23ebcd;
+        }
+      }
+      .ant-card-body{
+        padding: 20px;
+      }
+      .ant-table .ant-table-tbody > tr > td, 
+      .ant-table .ant-table-thead > tr > th{
+        height: 50px;
+      }
+      .ant-table-bordered .ant-table-thead > tr > th, 
+      .ant-table-bordered .ant-table-tbody > tr > td{
+        border-right: 1px solid #96b3c7;
+      }
+      .ant-table-bordered .ant-table-thead > tr > th {
+          border-bottom: 1px solid #96b3c7;
+      }
+      .ant-table-thead > tr > th {
+        background: transparent;
+        color: rgba(255, 255, 255, 0.75);
+      }
+      .ant-table-bordered.ant-table-empty .ant-table-placeholder{
+        border-left: 1px solid #96b3c7;
+        border-right: 1px solid #96b3c7;
+      }
+      .ant-table-placeholder {
+        background: transparent;
+        border-bottom: 1px solid #96b3c7;
+        color: rgba(255, 255, 255, 0.75);
+      }
+      .ant-table-tbody > tr > td{
+        border-bottom: 1px solid #96b3c7;
+      }
+      .ant-table-thead > tr.ant-table-row-hover > td, 
+      .ant-table-tbody > tr.ant-table-row-hover > td, 
+      .ant-table-thead > tr:hover > td, 
+      .ant-table-tbody > tr:hover > td{
+        background: rgba(0, 0, 0, 0.1);
+        color:#fff;
+      }
+      .ant-table-small,
+      .ant-table-bordered .ant-table-header > table, 
+      .ant-table-bordered .ant-table-body > table, 
+      .ant-table-bordered .ant-table-fixed-left table, 
+      .ant-table-bordered .ant-table-fixed-right table{
+        border-color: #96b3c7;
+      }
+    } 
+  }
   padding: '24px 36px 24px 0';
   &:hover{
     overflow: hidden;
+  }
+}
+.waitsign{
+  &.light{
+    background-color: #488cbb;
+    :global{
+      .ant-table-fixed-left table, 
+      .ant-table-fixed-right table{
+        background: #488cbb;
+      }
+    }
+  }
+}
+.waitcard{
+  &.light{
+    background-color: #0ba2ad;
+    :global{
+      .ant-table-fixed-left table, 
+      .ant-table-fixed-right table{
+        background: #0ba2ad;
+      }
+    }
   }
 }
 .msgp{
@@ -25,6 +116,33 @@
     box-shadow: 4px 4px 40px rgba(143,201,251,.6);
     overflow:hidden;
   }
+  &.light{
+    background: #a9ccfa;
+    :global {
+      .ant-card-head{
+        background-color: transparent;
+        border-bottom-color: #96b3c7;
+        .ant-card-head-title{
+          color:#044f83;
+          i{
+            margin-right: 12px;
+          }
+        }
+      }
+      .ant-card-body{
+        padding: 20px;
+      }
+      a{
+        color:#044f83;
+        font-size: 14px;
+      }
+    }
+    
+    .msgtime{
+      color:#488cbb;
+      font-size: 14px;
+    }
+  }
 }
 
 .noticecard {
@@ -41,8 +159,83 @@
   div[role="tab"]{
     padding-top: 12px;
     padding-bottom: 13px;
+    span{
+      display: flex;
+      align-items: center;
+      line-height: 35px;
+    }
+  }
+
+  &.light{
+    background-color: #c5bafc;
+    div[role="tablist"]{
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+    :global{
+      .ant-tabs-nav .ant-tabs-tab{
+        color:#044f83;
+      }
+      .ant-card{
+
+        background: transparent;
+      }
+      .ant-card-body{
+        padding: 20px;
+      }
+      a{
+        color:#044f83;
+        font-size: 14px;
+      }
+      .ant-tabs-nav .ant-tabs-tab-active{
+        color:#fff;
+      }
+      .ant-tabs-ink-bar{
+        background-color: #fff;
+        &:after{
+          content: '';
+          position: absolute;
+          top: -5px;
+          left: 50%;
+          margin-left: -5px;
+          width: 0;
+          height: 0;
+          border-top: 10px solid #fff;
+          border-right: 10px solid transparent;
+          transform: rotate(45deg);
+        }
+      }
+    }
+    .msgtime{
+      color:#488cbb;
+      font-size: 14px;
+    }
   }
 }
 .floatRight{
   float: right;
+}
+.tabpane,
+.msgcard,
+.waitsign,
+.waitcard{
+  :global{
+
+    .ant-card-head{
+      height: 60px;
+      line-height: 60px;
+      .ant-card-head-title{
+        span{
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+    .ant-card-extra{
+      top: 20px;
+    }
+    .iconfont{
+      font-size: 32px;
+      margin-right: 12px;
+    }
+  }
 }

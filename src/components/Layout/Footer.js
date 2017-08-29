@@ -1,8 +1,8 @@
 import React from 'react'
 import styles from './Footer.less'
-import { config } from '../../utils'
+import { config,classnames } from '../../utils'
 
-const Footer = () => <div className={styles.footer}>
+const Footer = ({darkTheme}) => <div className={classnames(styles.footer,{[styles.light]:darkTheme})}>
   {config.footerText}
 </div>
 

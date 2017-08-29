@@ -1,5 +1,9 @@
 @import "../../themes/vars.less";
-
+@light-color:#999;
+@light-hover-color:#d9d9d9;
+@light-menu-bg:-webkit-linear-gradient(#243a5f, #285967);
+@light-submenu-background-color: rgba(36, 59, 95, .7);
+@light-menu-item-active-bg:-webkit-linear-gradient(right, rgb(86,177,60), rgb(60,177,127));
 .layout {
   position: relative;
   height: 100vh;
@@ -24,7 +28,7 @@
     color: #999;
 
     &.light {
-      background: rgb(20, 42, 70);
+      background: #152a45;
       .logo{
         height: auto;
         line-height: normal;
@@ -158,7 +162,6 @@
         .ant-menu-root {
           width: 100%;
           overflow: visible;
-
           & > .ant-menu-item {
             padding: 0;
             text-align: center;
@@ -187,6 +190,38 @@
           
         }
       }
+      &.light{
+        :global{
+          .ant-menu-root {
+            // background: #152a45;
+            color:@light-hover-color;
+          }
+          .ant-menu-vertical{
+            background-color: #152a45;
+            color:@light-hover-color;
+          }
+          .ant-menu-item-selected,
+          .ant-menu-submenu-active .ant-menu-submenu-title,
+          .ant-menu-item.ant-menu-item-active {
+            // background-color: @dark-half;
+            background: @light-menu-item-active-bg;
+            color: @light-hover-color;
+            
+            & > a{
+            color: @light-hover-color;
+          
+            }
+          }
+          .ant-menu-item > a{
+            color: @light-hover-color;
+          }
+          .ant-menu-submenu-vertical.ant-menu-submenu-open{
+            .ant-menu-item > a{
+              color: @light-hover-color;
+            }
+          }
+        }
+      }
     }
 
     .main {
@@ -200,7 +235,12 @@
     overflow-y: scroll;
     height: 100vh;
     transition: @transition-ease-out;
-
+    &.light{
+      background-image: url('../../../assets/light-bg.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
     :global {
       .content-inner {
         background: #fff;
@@ -222,6 +262,7 @@
       min-height: e("calc(100vh - 184px)");
       position: relative;
     }
+    
   }
 }
 
@@ -279,70 +320,75 @@
 }
 
 // light主题
-
 :global .ant-menu-light {
-  color: #999;
-  background-color: transparent;
+  color: @light-color;
+  // background-color: transparent;
  
-  .ant-menu-submenu-title:hover,
-  .ant-menu-submenu:hover {
-    color: @primary-color;
-  }
-
-  .ant-menu-sub {
-    color: #999;
-    background-color: transparent;
-  }
-
-  .ant-menu-submenu-selected {
-    color: @primary-color;
-
-    &:not(.ant-menu-submenu-open) {
-      background-color: @dark-half;
-    }
-  }
-
-  .ant-menu-item,
-  .ant-menu-submenu-title {
-    & > a {
-      color: #999;
-    }
-
-    &:hover > a {
-      color: @primary-color;
-    }
-  }
 
   &.ant-menu-inline {
-    background: -webkit-linear-gradient(rgb(36,58,96), rgb(40,90,103));
-    background: -o-linear-gradient(rgb(36,58,96), rgb(40,90,103));
-    background: linear-gradient(rgb(36,58,96), rgb(40,90,103));
+    background: @light-menu-bg;
+    .ant-menu-submenu-title:hover,
+    .ant-menu-submenu:hover {
+      color: @light-hover-color;
+    }
+
+    .ant-menu-sub {
+      color: @light-color;
+      background-color: @light-submenu-background-color;
+    }
+
+    .ant-menu-submenu-selected {
+      // color: @primary-color;
+
+      &:not(.ant-menu-submenu-open) {
+        background-color: transparent;
+      }
+    }
+
+    .ant-menu-item,
+    .ant-menu-submenu-title {
+      & > a {
+        color: @light-color;
+      }
+
+      &:hover > a {
+        // color: @primary-color;
+      }
+    }
     
-    .ant-menu-item-selected {
+    .ant-menu-item-selected,
+    .ant-menu-submenu-active .ant-menu-submenu-title,
+    .ant-menu-item.ant-menu-item-active {
       // background-color: @dark-half;
-      background: -webkit-linear-gradient(right, rgb(86,177,60), rgb(60,177,127));
-      background: -o-linear-gradient(right, rgb(86,177,60), rgb(60,177,127));
-      background: linear-gradient(to left, rgb(86,177,60), rgb(60,177,127));
+      background: @light-menu-item-active-bg;
+      color: @light-hover-color;
+      
       & > a{
-      color: #d9d9d9;
+      color: @light-hover-color;
     
+      }
+    }
+    .ant-menu-item-selected {
+      color: @light-hover-color;
+      // background-color: @dark-half;
+
+      & > a {
+        color: @light-hover-color;
+      }
+
+      &:hover {
+        // background-color: @dark-half;
       }
     }
   }
 
-  .ant-menu-item-selected {
-    color: @primary-color;
-    background-color: @dark-half;
-
-    & > a {
-      color: @primary-color;
-    }
-
-    &:hover {
-      background-color: @dark-half;
-    }
+  .ant-menu-inline .ant-menu-item:after, 
+  .ant-menu-vertical .ant-menu-item:after{
+    border-right-color: rgb(60,177,127);
   }
 }
+
+
 .spin {
   :global .ant-spin-container {
     height: 100vh;

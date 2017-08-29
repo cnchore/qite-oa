@@ -1,20 +1,32 @@
 @import "../../../themes/vars.less";
-
+:global{
+  .ant-card{
+    &.userInfo{
+      margin-bottom: 12px;
+    }
+  }
+}
 .userInfo {
-  padding: 32px;
-  margin-bottom: 24px;
+  padding: 20px 30px;
+  margin-bottom: 12px;
   cursor: pointer;
-
+  &.light{
+    color: #fff;
+    background: -webkit-linear-gradient(left,#51af48,#14e88e);
+    .title{
+      color: #ebebeb;
+    }
+  }
   .photo {
     width: 54px;
     height: 54px;
     border-radius: 50%;
-    background: #369;
+    background: fade(#369, 50%);
     float: left;
-    box-shadow: 0 0 3rem #369;
-    animation: nucleus 2s infinite linear;
-    -webkit-animation: nucleus 2s infinite linear;
-    -moz-animation: nucleus 2s infinite linear;
+    // box-shadow: 0 0 3rem #369;
+    // animation: nucleus 2s infinite linear;
+    // -webkit-animation: nucleus 2s infinite linear;
+    // -moz-animation: nucleus 2s infinite linear;
   }
   @keyframes nucleus{
     0% {box-shadow: 0 0 0 transparent;}
@@ -36,19 +48,19 @@
     padding-left: 78px;
 
     .title {
-      line-height: 54px;
-      // font-size: 18px;
+      // line-height: 54px;
+      font-size: 14px;
       // color: fade(#000, 25%);
       // margin-bottom: 8px;
-      height: 54px;
+      // height: 54px;
       .text-overflow();
     }
 
     .realName {
-      padding-left: 8px;
-      line-height: 16px;
-      font-size: 16px;
-      height: 16px;
+      // padding-left: 8px;
+      // line-height: 16px;
+      font-size: 20px;
+      // height: 16px;
       .text-overflow();
     }
   }

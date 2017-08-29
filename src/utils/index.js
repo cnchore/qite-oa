@@ -4,7 +4,7 @@ import request from './request'
 import classnames from 'classnames'
 import { color } from './theme'
 import lodash from 'lodash'
-
+import { Link } from 'dva/router'
 // 连字符转驼峰
 String.prototype.hyphenToHump = function () {
   return this.replace(/-(\w)/g, (...args) => {
@@ -283,6 +283,82 @@ const setPrintData=(data,employeeList,dicList={})=>{
   }
   window.sessionStorage.setItem('printData', JSON.stringify(printData));
 }
+const getTheme=()=>{
+   return window.localStorage.getItem(`${config.prefix}darkTheme`) === 'true'?true:false;
+}
+const getMsgType=(t)=>{
+    switch(t){
+      case 1:
+        return '待办';
+      case 2:
+        return '待签收';
+      case 3:
+        return '警告';
+      case 4:
+        return '超时';
+      case 5:
+        return '超时公告';
+      case 6:
+        return '退回修改';
+      case 7:
+        return '待完善资料';
+      case 8:
+        return '审核通过';
+      case 9:
+        return '审核不通过';
+      default:
+        return '新消息';
+    }
+  }
+const getMsgAction=(item)=>{
+    let codeStr=item.code && item.code || null,
+        id=codeStr&&codeStr.split('#')[1]||-1,
+        codeType=codeStr&&codeStr.substr(0,2) || null,
+        _code=codeStr && codeStr.split('#')[0] || '',
+        t=getMsgType(item.msgType),
+        content=`[ ${_code} ${item.flowName && item.flowName}] ${t}`
+    if(codeType&&id!==-1){
+      switch(codeType){
+        case 'MC'://考勤异常
+          return <Link to={`/missClock/${id}`}>{content}</Link>
+        case 'SC'://调薪
+          return <Link to={`/salaryChange/${id}`}>{content}</Link>
+        case 'LE'://请假
+          return <Link to={`/leave/${id}`}>{content.replace('待完善资料','待销假')}</Link>
+        case 'OT'://加班
+          return <Link to={`/overTime/${id}`}>{content}</Link>
+        case 'TL'://出差
+          return <Link to={`/travel/${id}`}>{content}</Link>
+        case 'DN'://离职
+          return <Link to={`/dimission/${id}`}>{content}</Link>
+        case 'RR'://转正
+          return <Link to={`/regular/${id}`}>{content}</Link>
+        case 'TR'://出差报销
+          return <Link to={`/travelReimburse/${id}`}>{content}{content.indexOf('审核通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
+        case 'CT'://合同
+          return <Link to={`/contract/${id}`}>{content}{content.indexOf('审核通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
+        case 'UC'://用车
+          return <Link to={`/useCar/${id}`}>{content}</Link>
+        case 'PA'://申购
+          return <Link to={`/purchaseApply/${id}`}>{content}</Link>
+        case 'PE'://采购
+          return <Link to={`/purchase/${id}`}>{content}{content.indexOf('审核通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
+        case 'PT'://付款
+          return <Link to={`/payment/${id}`}>{content}{content.indexOf('审核通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
+        case 'RT'://招聘
+          return <Link to={`/recruit/${id}`}>{content}</Link>
+        case 'RE'://费用报销
+          return <Link to={`/reimburse/${id}`}>{content}{content.indexOf('审核通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
+        case 'BD'://预算
+          return <Link to={`/budget/${id}`}>{content}{content.indexOf('审核通过')>0?'，请打印表单，并黏贴附件交财务部。':''}</Link>
+        case 'NE'://通知
+          return <Link to={`/notice/${id}`}>{content}</Link>
+        case 'LW'://外勤
+          return <Link to={`/legwork/${id}`}>{content}</Link>
+      }
+    }
+    return content;
+  }
 module.exports = {
   config,
   treeMenuToArrayMenu,
@@ -299,4 +375,7 @@ module.exports = {
   changeMoneyToChinese,
   findIsEditable,
   setPrintData,
+  getTheme,
+  getMsgType,
+  getMsgAction,
 }

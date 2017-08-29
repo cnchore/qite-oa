@@ -12,13 +12,16 @@ export default {
   subscriptions: {
     setup ({ dispatch, history }) {
       history.listen(location => {
-        if(window.bannerInt){
-          window.bannerInt=window.clearInterval(window.bannerInt);
+        if(location.pathname==='/login'){
+          if(window.bannerInt){
+            window.bannerInt=window.clearInterval(window.bannerInt);
+          }else{
+            window.bannerInt=window.setInterval(function(){
+              // console.log('login:',Date.now());
+              dispatch({type:'selBanner',payload:-1})
+            },5000);
+          }
         }
-        window.bannerInt=window.setInterval(function(){
-          // console.log('login:',Date.now());
-          dispatch({type:'selBanner',payload:-1})
-        },5000);
 
       })
     },

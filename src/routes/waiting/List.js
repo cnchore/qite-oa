@@ -125,7 +125,7 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
       fixed:'right',
       width: 250,
       render: (text, record) => (<div>
-        <Link to={`/waiting/${record.taskId}?procDefId=${record.procDefId}&procInstId=${record.procInstId}`} style={{marginRight:'8px'}}>查看</Link>
+        <Link to={`/waiting/${record.taskId}?busiCode=${record.busiCode}&busiId=${record.busiId}`} style={{marginRight:'8px'}}>查看</Link>
         {getAction(record)}
       </div>)
     },

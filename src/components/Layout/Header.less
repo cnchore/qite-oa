@@ -1,6 +1,14 @@
 @import "../../themes/vars.less";
 
 .header {
+  &.light{
+    background: transparent;
+    // justify-content: flex-end;
+    :global .ant-menu-horizontal{
+      background: transparent;
+      color: #fff;
+    }
+  }
   :global .ant-menu-horizontal {
     & > .ant-menu-submenu {
       float: right;
@@ -15,12 +23,13 @@
   height: 47px;
   background-color: #fff;
   z-index: 100;
+
   .rightWarpper {
     display: flex;
     padding-right: 16px;
   }
   .switchtheme{
-    line-height: 47px;
+    line-height: 43px;
     margin-right: 8px;
   }
   .button, {
@@ -35,6 +44,30 @@
     &:hover {
       color: @primary-color;
       background-color: fade(@primary-color, 15%);
+    }
+    &.light{
+      &:hover{
+        background-color: transparent;
+      }
+      :global{
+
+        .iconfont{
+          color:#51af48;
+          font-size:32px;
+          transition: all 0.3s ease-out;
+        }
+        .icon-menu-fold{
+          position: fixed;
+          left: 206px;
+          top: 10px;
+        }
+        .icon-menu-unfold{
+          position: fixed;
+          left: 30px;
+          top: 5px;
+          font-size: 24px;
+        }
+      }
     }
   }
 }

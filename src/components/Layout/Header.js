@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { Menu, Icon, Popover,Switch } from 'antd'
 import styles from './Header.less'
 import Menus from './Menu'
-
+import { classnames } from '../../utils'
 const SubMenu = Menu.SubMenu
 
-const Header = ({ user, logout,toEditPwd, switchSider,changeTheme,darkTheme, siderFold, isNavbar, menuPopoverVisible, location, switchMenuPopover, navOpenKeys, changeOpenKeys, menu }) => {
+const Header = ({ user, logout,toEditPwd, switchSider,changeTheme,darkTheme,isDashboard, siderFold, isNavbar, menuPopoverVisible, location, switchMenuPopover, navOpenKeys, changeOpenKeys, menu }) => {
   let handleClickMenu = e => e.key === 'logout'?logout():e.key==='editPwd'?toEditPwd():null
   // console.log('user:',user)
   const menusProps = {
@@ -20,7 +20,7 @@ const Header = ({ user, logout,toEditPwd, switchSider,changeTheme,darkTheme, sid
     changeOpenKeys,
   }
   return (
-    <div className={styles.header}>
+    <div className={classnames(styles.header,{[styles.light]:!darkTheme && isDashboard })}>
       {isNavbar
         ? <Popover placement="bottomLeft" onVisibleChange={switchMenuPopover} visible={menuPopoverVisible} 
           overlayClassName={styles.popovermenu} trigger="click" content={<Menus {...menusProps} />}>
@@ -28,15 +28,20 @@ const Header = ({ user, logout,toEditPwd, switchSider,changeTheme,darkTheme, sid
               <Icon type="bars" />
             </div>
           </Popover>
-        : <div className={styles.button} onClick={switchSider}>
+        : <div className={classnames(styles.button,{[styles.light]:!darkTheme && isDashboard })} onClick={switchSider}>
+          {
+            !darkTheme && isDashboard?
+            <i className={classnames('iconfont',siderFold?'icon-menu-unfold':'icon-menu-fold')}/>
+            :
             <Icon type={siderFold ? 'menu-unfold' : 'menu-fold'} />
+          }
           </div>
       }
       <div className={styles.rightWarpper}>
         {
           !siderFold ? 
           <div className={styles.switchtheme}>
-            <Switch onChange={changeTheme} defaultChecked={darkTheme} checkedChildren="黑主题" unCheckedChildren="亮主题" />
+            <Switch onChange={changeTheme} defaultChecked={darkTheme} checkedChildren="简约主题" unCheckedChildren="时尚主题" />
           </div> 
           : ''
         }

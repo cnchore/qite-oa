@@ -1,7 +1,7 @@
 import pathToRegexp from 'path-to-regexp'
 import { queryEmployee } from '../../services/missClock'
 import { treeToArray } from '../../utils'
-import { getTaskInfo,getDiagram,getDic,getOrg,getTaskListByBusinessKey } from '../../services/workFlow'
+import { getTaskInfo,getDiagramByBusiness,getDic,getOrg,getTaskListByBusinessKey } from '../../services/workFlow'
 
 export default {
   namespace: 'completeDetail',
@@ -26,7 +26,7 @@ export default {
     *query ({payload,}, { call, put }) {
       const data = yield call(getTaskInfo, payload)
       let { success, message, status, ...other } = data
-      const flowImgSrc=yield call(getDiagram,payload)
+      const flowImgSrc=yield call(getDiagramByBusiness,payload)
       if (success) {
         other.data.flowImgSrc=flowImgSrc;
         let dicType=null;  

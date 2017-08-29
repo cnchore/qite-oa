@@ -14,7 +14,7 @@ export default {
     menuPopoverVisible: false,
     editPwdModal:false,
     siderFold: localStorage.getItem(`${prefix}siderFold`) === 'true',
-    darkTheme: localStorage.getItem(`${prefix}darkTheme`) === 'true' || true,
+    darkTheme: localStorage.getItem(`${prefix}darkTheme`) === 'true' || false,
     isNavbar: document.body.clientWidth < 769,
     navOpenKeys: JSON.parse(localStorage.getItem(`${prefix}navOpenKeys`)) || [],
   },
@@ -61,6 +61,7 @@ export default {
           
             websocket.onmessage=function(evt){
               console.log('websocket message:',evt);
+              // evt.data;
             }
             
             window.close=function(){
@@ -132,10 +133,13 @@ export default {
     },
     switchTheme (state) {
       localStorage.setItem(`${prefix}darkTheme`, !state.darkTheme)
-      return {
-        ...state,
-        darkTheme: !state.darkTheme,
-      }
+      setTimeout(function(){
+        window.location.reload();
+      },500)
+      // return {
+      //   ...state,
+      //   darkTheme: !state.darkTheme,
+      // }
     },
 
     switchMenuPopver (state) {

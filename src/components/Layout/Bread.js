@@ -4,21 +4,22 @@ import { Breadcrumb, Icon } from 'antd'
 import { Link } from 'dva/router'
 import styles from './Bread.less'
 import pathToRegexp from 'path-to-regexp'
-import { queryArray } from '../../utils'
-
-const Bread = ({ menu }) => {
+import { queryArray,classnames } from '../../utils'
+const Bread = ({ menu,darkTheme }) => {
   // 匹配当前路由
   let pathArray = []
-  let current,_pathname=location.hash?location.hash.split('?')[0].substr(1):location.pathname;
-  if(location.hash && location.hash.indexOf('#/report?')>-1){
-    _pathname=location.hash.split('&__t=')[0].substr(1);
-  }else if(location.hash && location.hash.indexOf('#/notice?isMyNotice=true')>-1){
+  let current,
+  _hash=location.hash,
+  _pathname=_hash?_hash.split('?')[0].substr(1):location.pathname;
+  if(_hash && _hash.indexOf('#/report?')>-1){
+    _pathname=_hash.split('&__t=')[0].substr(1);
+  }else if(_hash && _hash.indexOf('#/notice?isMyNotice=true')>-1){
     _pathname='/notice?isMyNotice=true';
-  }else if(location.hash && location.hash.indexOf('#/notice')>-1 && location.hash.indexOf('?noComment=true')>-1){
+  }else if(_hash && _hash.indexOf('#/notice')>-1 && _hash.indexOf('?noComment=true')>-1){
     _pathname='/notice?isMyNotice=true';
-  }else if(location.hash && location.hash.indexOf('#/knowledge?isMyKnowledge=true')>-1){
+  }else if(_hash && _hash.indexOf('#/knowledge?isMyKnowledge=true')>-1){
     _pathname='/knowledge?isMyKnowledge=true';
-  }else if(location.hash && location.hash.indexOf('#/knowledge')>-1 && location.hash.indexOf('?noComment=true')>-1){
+  }else if(_hash && _hash.indexOf('#/knowledge')>-1 && _hash.indexOf('?noComment=true')>-1){
     _pathname='/knowledge?isMyKnowledge=true';
   }
   for (let index in menu) {
@@ -63,7 +64,7 @@ const Bread = ({ menu }) => {
   })
 
   return (
-    <div className={styles.bread}>
+    <div className={classnames(styles.bread,{[styles.light]:darkTheme})}>
       <Breadcrumb>
         {breads}
       </Breadcrumb>
