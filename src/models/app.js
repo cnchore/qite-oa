@@ -1,7 +1,7 @@
 import { query, logout,getLoginUserMenu,editPwd } from '../services/app'
 import { routerRedux } from 'dva/router'
 import { parse } from 'qs'
-import { config,treeMenuToArrayMenu } from '../utils'
+import { config,treeMenuToArrayMenu,getMsgAction,showNotice } from '../utils'
 import { message } from 'antd'
 // import io from 'socket.io-client'
 const { prefix,websocketUrl } = config
@@ -42,11 +42,7 @@ export default {
             menuList:treeMenuToArrayMenu(menuData.data)
           },
         })
-        // console.info('do socket')
-        //创建socket
-        // let _url='ws://www.aylsonclub.com/qite/websocket/socketServer.do';
-        // let _url='ws://test.aylsonclub.com/qite/websocket/socketServer.do';
-        // let _url='ws://192.168.0.108:8080/qite/websocket/socketServer.do';
+        // showNotice('新消息','您有一条新消息');
         let websocket=null;
         try{
           if('WebSocket' in window){
@@ -61,7 +57,14 @@ export default {
           
             websocket.onmessage=function(evt){
               console.log('websocket message:',evt);
-              // evt.data;
+              try{
+                let msgData=evt.data?JSON.parse(evt.data):null;
+                if(msgData){
+                  showNotice('新消息',getMsgAction({...msgData,expirationTime:msgData.expirationTimeStr}));
+                }
+              }catch(er){
+                console.error('websocket message error:',er);
+              }
             }
             
             window.close=function(){

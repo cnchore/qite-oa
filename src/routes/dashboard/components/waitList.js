@@ -2,65 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Table} from 'antd'
 import { Link } from 'dva/router'
-
+import {getWaitAction} from '../../../utils'
 const WaitList = ({ location, ...tableProps }) => {
-  const getAction=(record)=>{
-    // let query={
-    //   taskId:record.taskId,
-    //   busiId:record.busiId,
-    //   from:location.pathname
-    // }
-    let _url=`taskId=${record.taskId}&busiId=${record.busiId}&from=${location.pathname}&t=${Math.random()}`,
-        text=record.state===-2?'返回完善资料':'退回修改';
-    switch(record.state){
-      case 1:
-        return <Link to={`/waiting?homeTaskId=${record.taskId}&from=${location.pathname}&t=${Math.random()}`}>办理</Link>;
-      case -1:
-      case -2:
-        switch(record.busiCode.substr(0,2)){
-          case 'MC':
-            return <Link to={`/missClock?${_url}`}>{text}</Link>;
-          case 'SC':
-            return <Link to={`/salaryChange?${_url}`}>{text}</Link>;
-          case 'LE':
-            return <Link to={`/leave?${_url}`}>{record.state===-2?'销假':'退回修改'}</Link>;
-          case 'OT':
-            return <Link to={`/overtime?${_url}`}>{text}</Link>;
-          case 'TL':    
-            return <Link to={`/travel?${_url}`}>{text}</Link>;
-          case 'TR':
-            return <Link to={`/travelReimburse?${_url}`}>{text}</Link>;
-          case 'CT':  
-            return <Link to={`/contract?${_url}`}>{text}</Link>;
-          case 'UC':
-            return <Link to={`/useCar?${_url}`}>{text}</Link>;
-          case 'PA':
-            return <Link to={`/purchaseApply?${_url}`}>{text}</Link>;
-          case 'PE':
-            return <Link to={`/purchase?${_url}`}>{text}</Link>;
-          case 'PT':
-            return <Link to={`/payment?${_url}`}>{text}</Link>;
-          case 'RT':
-            return <Link to={`/recruit?${_url}`}>{text}</Link>;
-          case 'DN':
-            return <Link to={`/dimission?${_url}`}>{text}</Link>;
-          case 'RR':
-            return <Link to={`/regular?${_url}`}>{text}</Link>;
-          case 'RE':
-            return <Link to={`/reimburse?${_url}`}>{text}</Link>;
-          case 'BD':
-            return <Link to={`/budget?${_url}`}>{text}</Link>;
-          case 'NE':
-            return <Link to={`/notice?${_url}`}>{text}</Link>;
-          case 'LW':
-            return <Link to={`/legwork?${_url}`}>{text}</Link>;
-          default :
-            return null;
-        }
-      default :
-        return null
-    }
-  }
+  
   const columns = [
     {
       title: '申请人',
@@ -103,7 +47,7 @@ const WaitList = ({ location, ...tableProps }) => {
       key: 'operation',
       fixed:'right',
       width: 120,
-      render: (text, record) => getAction(record),
+      render: (text, record) => getWaitAction(record),
     },
   ]
 

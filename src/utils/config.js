@@ -8,7 +8,7 @@ let apiPrefix='/qite/sys',apiPrefixDev='/api/v1',apiPrefixPro='/qite/busi';
 //http://192.168.0.119:8080
 
 // let websocketUrl='ws://www.aylsonclub.com/qite/websocket/socketServer.do';
-let websocketUrl='ws://test.aylsonclub.com/qite/websocket/socketServer.do';
+let _websocketUrl='/qite/websocket/socketServer.do';
 // let websocketUrl='ws://192.168.0.119:8080/qite/websocket/socketServer.do';
 
 module.exports = {
@@ -27,12 +27,11 @@ module.exports = {
   apiPrefix: apiPrefixDev,
   bucket:process.env.NODE_ENV==='production'?'aihama-qite':'dc-test',
   websocketUrl:function(){
-    var _url=websocketUrl? new window.URL(websocketUrl) : null;
-    if(_url && _url.pathname){
-      _url.hostname=window.location.hostname;
-      _url.port=window.location.port;
-      return _url.href;
-    } 
+    var _url=new window.URL(window.location.origin);
+    if(_url && _websocketUrl){
+      _url.protocol=_url.protocol==="https:"?"wss:":"ws:";
+      return _url.origin+_websocketUrl;
+    }
     return '';
   },
   api: {
