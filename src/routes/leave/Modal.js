@@ -249,11 +249,11 @@ const modal = ({
               
             </FormItem>
             {item.type==='7'?
-            <FormItem >
-              {getFieldDecorator('typeRemark', {
-                initialValue:item.typeRemark,
-              })(<Input />)}
-            </FormItem>
+              <FormItem >
+                {getFieldDecorator('typeRemark', {
+                  initialValue:item.typeRemark,
+                })(<Input />)}
+              </FormItem>
             :null}
           </Col>
          

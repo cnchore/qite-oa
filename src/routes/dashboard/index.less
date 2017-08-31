@@ -103,8 +103,12 @@
 }
 .msgp{
   margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   span:first-child{
     color:lighten(#000, 35%);
+    width: ~'calc(100% - 90px)';
   }
 }
 .msgtitle{
@@ -113,6 +117,8 @@
 .msgtime{
   color:fade(#000, 25%);
   font-size: smaller;
+  width: 90px;
+  text-align: right;
 }
 .msgcard {
   &:hover {

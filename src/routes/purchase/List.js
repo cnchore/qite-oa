@@ -80,6 +80,11 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
       key: 'state',
       render:(text)=>getRecordState(text),
     }, {
+      title: '是否全部入库',
+      dataIndex: 'isAllIn',
+      key: 'isAllIn',
+      render:(text)=>text?'是':'否',
+    }, {
       title: '操作',
       key: 'operation',
       fixed:'right',

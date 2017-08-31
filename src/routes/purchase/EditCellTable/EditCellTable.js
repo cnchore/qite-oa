@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 //import ReactDOM from 'react-dom'
-//import styles from './EditCellTable.less'
+import styles from './EditCellTable.less'
 import { Table, Popconfirm,Col,Icon,Row } from 'antd'
 //import moment from 'moment';
 import InputCell from '../../../components/InputCell'
@@ -9,11 +9,12 @@ import InputNumberCell from '../../../components/InputNumberCell'
 import InputCurrencyCell from '../../../components/InputCurrencyCell'
 import DateTimeCell from '../../../components/DateTimeCell'
 import SelectCell from '../../../components/SelectCell'
-import EmployeeCell from '../../../components/EmployeeCell'
+import RadioCell from '../../../components/RadioCell'
+// import EmployeeCell from '../../../components/EmployeeCell'
 import {changeMoneyToChinese,config,findIsEditable} from '../../../utils'
-import SelectPurchaseApply from '../SelectPurchaseApply'
+// import SelectPurchaseApply from '../SelectPurchaseApply'
 const { prefix } =config;
-const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
+// const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
 class EditCellTable extends React.Component {
   constructor(props) {
     super(props);
@@ -21,16 +22,6 @@ class EditCellTable extends React.Component {
       title:'序号',
       dataIndex:'index',width:50,
       render:(text,record,index)=>index+1,
-    },{
-      title: '申购部门',
-      dataIndex: 'applyDept',
-      width: 100,
-    },{
-      title: '申购人',
-      dataIndex: 'applyName',
-      width: 120,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'applyName', text,'employee'),
-    
     },{
       title: '物料名称',
       dataIndex: 'materialName',
@@ -58,7 +49,7 @@ class EditCellTable extends React.Component {
       width: 120,
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'amount', text,'currency'),
     }, {
-      title: '金额',
+      title: '预估金额',
       dataIndex: 'totalAmount',
       width: 120,
       render: (text, record, index) =>{
@@ -73,9 +64,31 @@ class EditCellTable extends React.Component {
     }, {
       title: '原因和用途',
       dataIndex: 'remark',
-      
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'remark', text,'input'),
-    
+    }, {
+      title: '供应商名称',
+      dataIndex: 'supplierName',width:200,
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'supplierName', text,'input'),
+    }, {
+      title: '采购金额',
+      dataIndex: 'purchaseAmount',
+      width: 120,
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'purchaseAmount', text,'currency'),
+    }, {
+      title: '预估到货时间',
+      dataIndex: 'estiArrivalTime',
+      width: 200,
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'estiArrivalTime', text,'datetime'),
+    }, {
+      title: '到货/入库时间',
+      dataIndex: 'storageTime',
+      width: 200,
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'storageTime', text,'datetime'),
+    }, {
+      title: '是否已入库',
+      dataIndex: 'isIn',
+      width: 150,
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'isIn', text,'radio'),
     }, {
       title: '操作',
       dataIndex: 'operation',
@@ -109,15 +122,15 @@ class EditCellTable extends React.Component {
       count:0,
       data:this.props.dataSource || [],
       actualExpense:0,
-      modalVisable:false,
-      applyList:[],
-      actionInfo:userInfo && userInfo.data && userInfo.data.employeeVo || {}
+      // modalVisable:false,
+      // applyList:[],
+      // actionInfo:userInfo && userInfo.data && userInfo.data.employeeVo || {}
     };
   }
   
   renderColumns(data, index, key, text,colType) {
     const { editable, status } = data[index][key];
-    let isCanEdit=data[index].applyId;
+    let isCanEdit=false;//data[index].applyId;
     //console.log('isCanEdit:',isCanEdit)
     const { dicList } =this.props;
     if (typeof editable === 'undefined' || (isCanEdit && key!=='amount' && key!=='num')) {
@@ -131,11 +144,11 @@ class EditCellTable extends React.Component {
           onChange={value => this.handleChange(key, index, value)}
           status={status}
         />);
-      case 'employee':
-        return (<EmployeeCell
+      case 'radio':
+        return (<RadioCell
           editable={editable}
           value={text}
-          onChange={(value,selectedRow) => this.handleChange(key, index, value,selectedRow)}
+          onChange={value => this.handleChange(key, index, value)}
           status={status}
         />);
       case 'number':
@@ -170,18 +183,10 @@ class EditCellTable extends React.Component {
     }
   }
   add=(keys=[])=>{
-    let { count, data,actionInfo} =this.state;
-    const {applyList} =this.props;
+    let { count, data} =this.state;
+    // const {applyList} =this.props;
     const newRow={
         key: count+Math.random(),
-        applyDept: {
-          editable: true,
-          value: actionInfo.postList && actionInfo.postList[0] && actionInfo.postList[0].orgName || '',
-        },
-        applyName: {
-          editable: true,
-          value: actionInfo.realName || '',
-        },
         materialName: {
           editable: true,
           value: '',
@@ -210,32 +215,52 @@ class EditCellTable extends React.Component {
           editable:true,
           value: '',
         },
+        supplierName: {
+          editable:true,
+          value: '',
+        },
+        purchaseAmount: {
+          editable:true,
+          value: '',
+        },
+        estiArrivalTime: {
+          editable:true,
+          value: '',
+        },
+        storageTime: {
+          editable:true,
+          value: '',
+        },
+        isIn: {
+          editable:true,
+          value: '',
+        },
       }
     if(keys[0]){
-      let selectedRows=applyList.filter(item=>(keys.findIndex(k=>String(k)===String(item.id)))>-1)
-      const dataSource = selectedRows.map((item) => {
-        let obj = {};
-        Object.keys(item).forEach((key) => {
-          if(key === 'key' || key=== 'id' || key=== 'applyId'){
-            obj[key]=item[key];
-          }else if(key==='useTime'){
-            obj['useTimeStr']={};
-            obj['useTimeStr'].editable=false;
-            obj['useTimeStr'].value=item[key];
-            //console.log('useTimeStr:',item[key])
-          }else if(key!=='useTimeStr'){
-            obj[key]={};
-            obj[key].editable=key==='amount' || key==='num'?true:false;
-            obj[key].value=item[key];
-          }
-        });
-        return obj;
-      });
+      // let selectedRows=applyList.filter(item=>(keys.findIndex(k=>String(k)===String(item.id)))>-1)
+      // const dataSource = selectedRows.map((item) => {
+      //   let obj = {};
+      //   Object.keys(item).forEach((key) => {
+      //     if(key === 'key' || key=== 'id' || key=== 'applyId'){
+      //       obj[key]=item[key];
+      //     }else if(key==='useTime'){
+      //       obj['useTimeStr']={};
+      //       obj['useTimeStr'].editable=false;
+      //       obj['useTimeStr'].value=item[key];
+      //       //console.log('useTimeStr:',item[key])
+      //     }else if(key!=='useTimeStr'){
+      //       obj[key]={};
+      //       obj[key].editable=key==='amount' || key==='num'?true:false;
+      //       obj[key].value=item[key];
+      //     }
+      //   });
+      //   return obj;
+      // });
       //console.log(dataSource)
-      this.setState({
-        data:[...data,...dataSource],
-        count:count+keys.length,
-      })
+      // this.setState({
+      //   data:[...data,...dataSource],
+      //   count:count+keys.length,
+      // })
     }else{
       this.setState({
         data:[...data,newRow],
@@ -245,17 +270,17 @@ class EditCellTable extends React.Component {
     this.props.setIsEditable && this.props.setIsEditable(true);
 
   }
-  selectList=()=>{
-    const { applyList } =this.props;
-    const {data}=this.state;
-    let list=applyList.filter(item=>data.findIndex(d=>String(item.id)===String(d.id))===-1);
-    this.setState({modalVisable:true,applyList:list});
-  }
-  handleChange(key, index, value,selectedRow=null) {
+  // selectList=()=>{
+  //   const { applyList } =this.props;
+  //   const {data}=this.state;
+  //   let list=applyList.filter(item=>data.findIndex(d=>String(item.id)===String(d.id))===-1);
+  //   this.setState({modalVisable:true,applyList:list});
+  // }
+  handleChange(key, index, value) {
     const { data } = this.state;
-    if(selectedRow && selectedRow[0]){
-      data[index]['applyDept'].value=selectedRow.orgName;
-    }
+    // if(selectedRow && selectedRow[0]){
+    //   data[index]['applyDept'].value=selectedRow.orgName;
+    // }
     data[index][key].value = value;
     this.setState({ data });
   }
@@ -316,7 +341,7 @@ class EditCellTable extends React.Component {
     this.props.setIsEditable && this.props.setIsEditable(findIsEditable(this.state.data));
   }
   render() {
-    const { data,modalVisable,applyList, actualExpense} = this.state;
+    const { data,actualExpense} = this.state;
     const dataSource = data.map((item) => {
       const obj = {};
       Object.keys(item).forEach((key) => {
@@ -325,25 +350,24 @@ class EditCellTable extends React.Component {
       return obj;
     });
     const columns = this.columns;
-    const onCancel =()=> {
-        this.setState({modalVisable:false});
-    }
-    const handleOk=(_data)=>{
-      this.add(_data)
-      this.setState({modalVisable:false});
-    }
-    const modalProps={
-      visible:modalVisable,
-      onOk:handleOk,
-      onCancel,
-    }
+    // const onCancel =()=> {
+    //     this.setState({modalVisable:false});
+    // }
+    // const handleOk=(_data)=>{
+    //   this.add(_data)
+    //   this.setState({modalVisable:false});
+    // }
+    // const modalProps={
+    //   visible:modalVisable,
+    //   onOk:handleOk,
+    //   onCancel,
+    // }
     return  (
       <Row gutter={24} className={this.props.className}>
 
         <Col span={24} className='qite-list-title' style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
             <div><Icon type="credit-card" />物品明细</div>
             <div>
-            <a onClick={e=>this.selectList(e)} style={{marginRight:'8px'}}>选择申购物品</a>
             <a onClick={e=>this.add(e)}>添加物品明细</a>
             </div>
         </Col>
@@ -352,18 +376,17 @@ class EditCellTable extends React.Component {
               dataSource={dataSource} 
               columns={columns} 
               pagination={false}
-              scroll={{ x: 1500 }}
+              scroll={{ x: 2300 }}
               rowKey={record=>record.key} 
               footer={()=>(
-                <div>
+                <div className={styles.footer}>
                 采购总数量：{this.getTotalNum()}
-                &nbsp;&nbsp;&nbsp;&nbsp;采购总金额：{`¥ ${this.getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
-                &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(this.getTotalAmount())}
+                <span>采购总金额：{`¥ ${this.getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</span>
+                <span>大写：{changeMoneyToChinese(this.getTotalAmount())}</span>
                 </div>
                 )}
               />
         </Col>
-        {modalVisable?<SelectPurchaseApply dataSource={applyList} modalProps={modalProps} />:null}
       </Row>
       )
 
@@ -375,7 +398,7 @@ class EditCellTable extends React.Component {
 EditCellTable.propTypes = {
   dataSource: PropTypes.array,
   dicList:PropTypes.array,
-  applyList:PropTypes.array,
+  // applyList:PropTypes.array,
 }
 
 export default EditCellTable

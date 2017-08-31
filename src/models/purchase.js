@@ -19,7 +19,7 @@ export default {
     dicList:[],
     detailList:[],
     employeeList:[],
-    applyList:[],
+    // applyList:[],
     taskData:{},
     isEditable:false,
     pagination: {
@@ -48,9 +48,13 @@ export default {
               payload: query,
             })
           }
+          // dispatch({
+          //   type:'getApplyList',
+          //   payload:{isChoosePurchase:true}//流程通了后，需改为true
+          // })
           dispatch({
-            type:'getApplyList',
-            payload:{isChoosePurchase:true}//流程通了后，需改为true
+            type: 'getDic',
+            payload: {dicGroup:'buyType_group'},
           })
         }
       })

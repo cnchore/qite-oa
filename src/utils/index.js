@@ -313,7 +313,12 @@ const getMsgType=(t)=>{
     return '审核通过';
     case 9:
     return '审核不通过';
-
+    case 13:
+    return '采购询价完成';
+    case 14:
+    return '确定采购通知入库';
+    case 15:
+    return '入库通知申请人领料';
     default:
     return '新消息';
   }
@@ -363,6 +368,15 @@ const getHMS=(text)=>{
     }else if(_msgType===12){
       // 超时公告
       return `超时公告：${content.replace(t,'')} 签收，超时 ${_times} 未处理`
+    }else if(_msgType===13){
+      // 采购询价完成
+      return `${content.replace(t,'')} 已更新 到货日期，请查看`
+    } else if(_msgType===14){
+      // 确定采购通知入库
+      return `${content.replace(t,'')} 已确定采购，如到货，请更新入库信息`
+    }else if(_msgType===15){
+      // 入库通知申请人领料
+      return `${content.replace(t,'')} 已有货品入库，请至仓库领取`
     }else if(_msgType===6){
       // 退回
       return <Link to={`/waiting`}>{content}</Link>

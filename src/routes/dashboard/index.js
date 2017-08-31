@@ -55,7 +55,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
   const messageList=messageData && messageData.list && messageData.list[0] && messageData.list.map((item,index)=><p key={index} 
     className={styles.msgp}>
       <span className={styles.msgtitle}>{index+1}.{getMsgAction(item)}</span>
-      <span className={styles.msgtime}>——{item.createTime}</span>
+      <span className={styles.msgtime}>{item.createTime && item.createTime.substr(5).substr(0,11)}</span>
     </p>) || <span className={styles.msgtime}>暂无消息</span>;
   const noticeList =noticeData && noticeData.list && noticeData.list[0] && noticeData.list.map((item,index)=><p key={index}
     className={styles.msgp}
@@ -63,7 +63,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
       <Link to={ `/notice/${item.id}?noComment=true`} >
         <span className={styles.msgtitle}>{index+1}.{item.title}</span>
       </Link>
-      <span className={styles.msgtime}>——{item.postingTime}</span>
+      <span className={styles.msgtime}>{item.postingTime}</span>
     </p>) || <span className={styles.msgtime}>暂无通知公告</span>;
   const knowledgeList =knowledgeData && knowledgeData.list && knowledgeData.list[0] && knowledgeData.list.map((item,index)=><p key={index}
     className={styles.msgp}
@@ -71,7 +71,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
       <Link to={ `/knowledge/${item.id}?noComment=true`} >
         <span className={styles.msgtitle}>{index+1}.{item.title}</span>
       </Link>
-      <span className={styles.msgtime}>——{item.publishTime}</span>
+      <span className={styles.msgtime}>{item.publishTime}</span>
     </p>) || <span className={styles.msgtime}>暂无通知公告</span>;
   
   return (

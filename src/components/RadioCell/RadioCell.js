@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 //import ReactDOM from 'react-dom'
-//import styles from './InputCurrencyCell.less'
-import { InputNumber } from 'antd'
+//import styles from './RadioCell.less'
+import { Radio } from 'antd';
+const RadioGroup = Radio.Group;
 
-class InputCurrencyCell extends React.Component {
+class RadioCell extends React.Component {
   state = {
     value: this.props.value,
     editable: this.props.editable || false,
@@ -29,7 +30,8 @@ class InputCurrencyCell extends React.Component {
     return nextProps.editable !== this.state.editable ||
            nextState.value !== this.state.value;
   }
-  handleChange(value) {
+  handleChange(e) {
+    const value = e.target.value;
     this.setState({ value });
   }
   render() {
@@ -38,17 +40,13 @@ class InputCurrencyCell extends React.Component {
       <div>
         {
           editable ?
-            <div>
-              <InputNumber step={1} min={0}
-                defaultValue={value}
-                formatter={temp => `¥ ${temp?temp.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-                parser={temp => temp?temp.toString().replace(/¥\s?|(,*)/g, ''):0}
-                onChange={e=>this.handleChange(e)}
-              />
-            </div>
+            <RadioGroup onChange={e => this.handleChange(e)} value={Boolean(value)}>
+              <Radio value={true}>是</Radio>
+              <Radio value={false}>否</Radio>
+            </RadioGroup>
             :
             <div className="editable-row-text">
-              { `¥ ${value?value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}` || '¥ 0.00'}
+              {value && Boolean(value)?'是':'否'}
             </div>
         }
       </div>
@@ -57,10 +55,10 @@ class InputCurrencyCell extends React.Component {
 }
 
 
-InputCurrencyCell.propTypes = {
-  //value: PropTypes.string,
+RadioCell.propTypes = {
+  value: PropTypes.string,
   editable: PropTypes.bool,
   
 }
 
-export default InputCurrencyCell
+export default RadioCell

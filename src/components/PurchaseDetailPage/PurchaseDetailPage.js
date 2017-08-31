@@ -28,14 +28,6 @@ class PurchaseDetailPage extends React.Component {
       dataIndex:'index',
       render:(text,record,index)=>index+1,
     },{
-      title: '申购部门',
-      dataIndex: 'applyDept',
-      key:'applyDept',
-    },{
-      title: '申购人',
-      dataIndex: 'applyName',
-      key:'applyName',
-    },{
       title: '物料名称',
       dataIndex: 'materialName',
       key:'materialName',
@@ -60,28 +52,45 @@ class PurchaseDetailPage extends React.Component {
       title: '单价',
       dataIndex: 'amount',
       key:'amount',
+      render:(text)=>`¥ ${text?text.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
     }, {
-      title: '金额',
+      title: '预估金额',
       dataIndex: 'totalAmount',
       render:(text,record,index)=>{
         let t=parseFloat(record.purchaseNum ? record.purchaseNum : record.num)*parseFloat(record.amount!==undefined&&record.amount!==null&&record.amount!==''?record.amount:0);
         return `¥ ${t?t.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
       },
     }, {
-      title: '使用时间',      dataIndex: 'useTime',
+      title: '使用时间', dataIndex: 'useTime',
       key:'useTime',
     }, {
       title: '原因和用途',
       dataIndex: 'remark',
       key:'remark',
-      
+    }, {
+      title: '供应商名称',
+      dataIndex: 'supplierName',key:'supplierName',
+    }, {
+      title: '采购金额',
+      dataIndex: 'purchaseAmount',key:'purchaseAmount',
+      render:(text)=>`¥ ${text?text.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
+    }, {
+      title: '预估到货时间',
+      dataIndex: 'estiArrivalTime',key:'estiArrivalTime',
+    }, {
+      title: '到货/入库时间',
+      dataIndex: 'storageTime',key:'storageTime',
+    }, {
+      title: '是否已入库',
+      dataIndex: 'isIn',
+      render: (text) => text?'是':'否',
     }]
     const getTable=()=>{
       return (<Table bordered 
             dataSource={data.purchaseDetailList || []} 
             columns={columns} 
             pagination={false}
-            scroll={{ x: 1200 }}
+            scroll={{ x: 1700 }}
             rowKey={record => record.id}
             footer={()=>(
               <div>
@@ -128,6 +137,25 @@ class PurchaseDetailPage extends React.Component {
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             {data.createTime || data.createTimeStr}
           </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          紧急程度：</Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          {data.urgency && data.urgency===1?'紧急':'一般'}</Col>
+
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          采购类型：</Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          {data.bigTypeName?data.bigTypeName:'无'}
+          {data.typeName?data.typeName:''}
+          </Col>
+
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          同月内重购：</Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          {data.isMonthRepeat?'是':'否'}
+          {data.monthRepeatReason && ' 重复采购原因： '+data.monthRepeatReason}
+          </Col>
+
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
           采购说明：</Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>

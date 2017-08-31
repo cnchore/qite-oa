@@ -7,6 +7,12 @@ const WaitList = ({ location, ...tableProps }) => {
   
   const columns = [
     {
+      title: '紧急程度',
+      dataIndex: 'urgency',
+      key: 'urgency',
+      render:(text)=><span style={{ color: text?'#f00':'' }} >{text?'紧急':'一般'}</span>
+    },
+    {
       title: '申请人',
       dataIndex: 'applyName',
       key: 'applyName',

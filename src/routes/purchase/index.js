@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Purchase = ({ location, dispatch, purchase, loading }) => {
-  const { list,fileList,dicList,detailList,applyList,employeeList, pagination, taskData,
+  const { list,fileList,dicList,detailList,employeeList, pagination, taskData,
     currentItem, modalVisible, modalType,isEditable } = purchase
   const { pageSize } = pagination
 
@@ -16,7 +16,7 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
     visible: modalVisible,
     fileList,
     employeeList,
-    applyList,
+    // applyList,
     detailList,
     dicList,
     taskData,
