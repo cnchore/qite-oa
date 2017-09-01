@@ -464,6 +464,22 @@ const Routers = function ({ history, app }) {
             }, 'waitSign-detail')
           },
         }, {
+          path: '/storage',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/storage'))
+              cb(null, require('./routes/storage/'))
+            }, 'storage')
+          },
+        }, {
+          path: 'storage/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/storage/detail'))
+              cb(null, require('./routes/storage/detail/'))
+            }, 'storage-detail')
+          },
+        }, {
           path: '/login',
           getComponent (nextState, cb) {
             require.ensure([], require => {

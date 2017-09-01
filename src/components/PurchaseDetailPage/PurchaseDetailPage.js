@@ -8,22 +8,18 @@ import {changeMoneyToChinese} from '../../utils'
 
 class PurchaseDetailPage extends React.Component {
   render () {
-    const { data,employeeList,dicList } = this.props
-    let defaultFileList=[];
+    const { data,employeeList,dicList,storeInDetail } = this.props
+    let defaultFileList=[],storeFileList=[];
     if(data.attachList&& data.attachList[0]){
-      defaultFileList=data.attachList.map((temp)=>{
+      defaultFileList=data.attachList.filter(l=>l.sourceType===10).map((temp)=>{
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      })
+      storeFileList=data.attachList.filter(l=>l.sourceType===20).map((temp)=>{
         return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
       })
     }
-    const getHours=(a,b)=>{
-      if(!a||!b){
-        return 0;
-      }
-      let timeA=new Date(a);
-      let timeB=new Date(b);
-      return ((timeB-timeA)/(3600*1000)).toFixed(2)
-    }
-    const columns =[{
+    
+    let columns =[{
       title:'序号',
       dataIndex:'index',
       render:(text,record,index)=>index+1,
@@ -63,6 +59,7 @@ class PurchaseDetailPage extends React.Component {
     }, {
       title: '使用时间', dataIndex: 'useTime',
       key:'useTime',
+      render:(text)=>text && text.length>10?text.substr(0,10):text
     }, {
       title: '原因和用途',
       dataIndex: 'remark',
@@ -85,12 +82,21 @@ class PurchaseDetailPage extends React.Component {
       dataIndex: 'isIn',
       render: (text) => text?'是':'否',
     }]
+    if(storeInDetail){
+      columns.push({
+        title:'操作',
+        key: 'operation',
+        fixed:'right',
+        width: 100,
+        render:(text,record)=>!record.isIn?<a onClick={e=>storeInDetail(record.id)}>入库</a>:null
+      })
+    }
     const getTable=()=>{
       return (<Table bordered 
             dataSource={data.purchaseDetailList || []} 
             columns={columns} 
             pagination={false}
-            scroll={{ x: 1700 }}
+            scroll={{ x: 1800 }}
             rowKey={record => record.id}
             footer={()=>(
               <div>
@@ -146,14 +152,14 @@ class PurchaseDetailPage extends React.Component {
           采购类型：</Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
           {data.bigTypeName?data.bigTypeName:'无'}
-          {data.typeName?data.typeName:''}
+          {data.typeName?'，'+data.typeName:''}
           </Col>
 
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
           同月内重购：</Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
           {data.isMonthRepeat?'是':'否'}
-          {data.monthRepeatReason && ' 重复采购原因： '+data.monthRepeatReason}
+          {data.monthRepeatReason && '，重复采购原因： '+data.monthRepeatReason}
           </Col>
 
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
@@ -168,13 +174,24 @@ class PurchaseDetailPage extends React.Component {
             {getTable()}
           </Col>
         </Row>
-        {defaultFileList && defaultFileList[0]?
+        { defaultFileList && defaultFileList[0]?
           <Row gutter={24} className={styles['q-detail']}>
             <Col span={24} className='qite-list-title'>
               <Icon type="paper-clip" />附件信息
             </Col>
             <Col span={24} style={{paddingLeft:'12px',paddingRight:'12px'}}>
               <FileList fileList={defaultFileList} showRemoveIcon={false}/>
+            </Col>
+          </Row>
+          :null
+        }
+        { storeFileList && storeFileList[0]?
+          <Row gutter={24} className={styles['q-detail']}>
+            <Col span={24} className='qite-list-title'>
+              <Icon type="paper-clip" />入库附件
+            </Col>
+            <Col span={24} style={{paddingLeft:'12px',paddingRight:'12px'}}>
+              <FileList fileList={storeFileList} showRemoveIcon={false}/>
             </Col>
           </Row>
           :null

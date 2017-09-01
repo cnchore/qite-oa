@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Purchase = ({ location, dispatch, purchase, loading }) => {
-  const { list,fileList,dicList,detailList,employeeList, pagination, taskData,
+  const { list,fileList,dicList,detailList,employeeList, pagination, taskData,isNeedSel,reasonStr,
     currentItem, modalVisible, modalType,isEditable } = purchase
   const { pageSize } = pagination
 
@@ -16,7 +16,7 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
     visible: modalVisible,
     fileList,
     employeeList,
-    // applyList,
+    isNeedSel,reasonStr,
     detailList,
     dicList,
     taskData,
@@ -24,7 +24,7 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
     maskClosable: false,
     submitLoading:loading.effects['purchase/submit'],
     confirmLoading: loading.effects[`purchase/${modalType}`],
-    auditLoading:loading.effects['missClock/audit'],
+    auditLoading:loading.effects['purchase/audit'],
     title: `${modalType === 'create' ? '新增－采购申请' : modalType==='update'?'编辑－采购申请':'退回修改－采购申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
@@ -67,6 +67,12 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
       dispatch({
         type: 'purchase/audit',
         payload: {formItem,taskItem},
+      })
+    },
+    setNeedSel(isNeedSel,reasonStr){
+      dispatch({
+        type:'purchase/setNeedSel',
+        payload:{isNeedSel,reasonStr}
       })
     },
     onGoback(){

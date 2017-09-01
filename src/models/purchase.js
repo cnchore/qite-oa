@@ -22,6 +22,8 @@ export default {
     // applyList:[],
     taskData:{},
     isEditable:false,
+    reasonStr:'',
+    isNeedSel:false,
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -87,14 +89,6 @@ export default {
           },
         })
         
-      }else {
-        // if (location.pathname !== '/login') {
-        //   let from = location.pathname
-        //   if (location.pathname === '/dashboard') {
-        //     from = '/dashboard'
-        //   }
-        //   window.location = `${location.origin}/login?from=${from}`
-        // }
       }
     },
     *getDic ({ payload }, { call, put }) {
@@ -167,16 +161,16 @@ export default {
         }
       }
     },
-    *audit ({ payload }, { call, put }) {
+    *audit ({ payload }, { call,select, put }) {
       const {formItem,taskItem}=payload
       let newData=null,data=null;
-
+      const _state = yield select(({ purchase }) => purchase.currentItem.state)
       if(formItem && formItem.id){
         newData=yield call(save,formItem);
         if(newData && newData.success){
           data=yield call(audit,taskItem)
           if(data.success) {
-            message.success('[退回修改]成功');
+            message.success(_state===1?'[办理]成功':'[退回修改]成功');
             //yield put({ type: 'hideModal' })
 
             let queryList=parse(location.hash.substr(location.hash.indexOf('?')+1)); 
@@ -193,9 +187,9 @@ export default {
     },
     *toBackEdit({payload},{call,put}){
       const mcData=yield call(queryById,{id:payload.busiId})
-      const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
-
-      if(mcData.success&& userInfo.data){
+      // const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
+      const employeeRes=yield call(queryEmployee,{userId:mcData.data.userId})
+      if(mcData.success && employeeRes.success){
         let taskData=yield call(getTaskInfo,{taskId:payload.taskId})
         if(taskData.success){
           taskData.data.taskId=payload.taskId;
@@ -205,8 +199,9 @@ export default {
               currentItem:mcData.data,
               fileList:[],
               taskData:taskData.data,
-              employeeList:userInfo.data.employeeVo,
+              employeeList:employeeRes.data.rowsObject[0],
               modalType:'toBackEdit',
+              reasonStr:'',
             }
           })
         }else{
@@ -300,6 +295,9 @@ export default {
     },
     setIsEditable(state,action){
       return {...state,isEditable:action.payload}
+    },
+    setNeedSel(state,action){
+      return {...state,...action.payload}
     },
   },
 

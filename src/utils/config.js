@@ -198,6 +198,7 @@ module.exports = {
       getApplyList:`${apiPrefixPro}/purchaseDetail/getList`,
       save:`${apiPrefixPro}/purchase/save`,
       deleteById:`${apiPrefixPro}/purchase/deleteById`,
+      storeInDetail:`${apiPrefixPro}/purchase/storeInDetail`,
     },
     //付款申请
     payment:{

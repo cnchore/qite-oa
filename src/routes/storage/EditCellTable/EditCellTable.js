@@ -130,25 +130,10 @@ class EditCellTable extends React.Component {
   
   renderColumns(data, index, key, text,colType) {
     const { editable, status } = data[index][key];
-    const { dicList,taskDo } =this.props;
-    //taskDo=true:任务办理中，供应商等信息可编辑，申请信息不可编辑
-    let isCanEdit;
-    if(!taskDo){
-      if(key==='supplierName' || key==='purchaseAmount' || key==='estiArrivalTime' || key==='storageTime')
-      {
-        isCanEdit=true;
-      }else{
-        isCanEdit=false;
-      }
-    }else if(taskDo){
-      if(key!=='supplierName' && key!=='purchaseAmount' && key!=='estiArrivalTime' && key!=='storageTime')
-      {
-        isCanEdit=false;
-      }else{
-        isCanEdit=true;
-      }
-    }
-    if (typeof editable === 'undefined' || !isCanEdit || key==='isIn') {
+    let isCanEdit=false;//data[index].applyId;
+    //console.log('isCanEdit:',isCanEdit)
+    const { dicList } =this.props;
+    if (typeof editable === 'undefined' || (isCanEdit && key!=='amount' && key!=='num')) {
       return text;
     }
     switch(colType){
@@ -357,7 +342,6 @@ class EditCellTable extends React.Component {
   }
   render() {
     const { data,actualExpense} = this.state;
-    const {taskDo} =this.props;
     const dataSource = data.map((item) => {
       const obj = {};
       Object.keys(item).forEach((key) => {
@@ -383,11 +367,9 @@ class EditCellTable extends React.Component {
 
         <Col span={24} className='qite-list-title' style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
             <div><Icon type="credit-card" />物品明细</div>
-            { !taskDo?
-              <div>
-                <a onClick={e=>this.add(e)}>添加物品明细</a>
-              </div>
-            :null}
+            <div>
+            <a onClick={e=>this.add(e)}>添加物品明细</a>
+            </div>
         </Col>
         <Col span={24}>
             <Table bordered 

@@ -56,6 +56,9 @@ const modal = ({
   onGoback,
   setIsEditable,
   isEditable,
+  setNeedSel,
+  reasonStr,
+  isNeedSel,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -65,7 +68,7 @@ const modal = ({
   ...modalProps
 }) => {
   const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
-
+  const isDisable=item.state===1 || item.state===-1?true:false;//是否可以编辑：办理或者退回修改，都不可编辑
   const getFields = () => {
     let data=null;
     validateFieldsAndScroll((err,values) => {
@@ -135,6 +138,12 @@ const modal = ({
       }
       if(data.type){
         data.typeName=dicList.filter(f=>f.dicType==='buyType_item'+data.bigType && f.dicValue===data.type)[0].dicName;
+      }
+      if(isDisable){
+        data.bigType=item.bigType;
+        data.bigTypeName=item.bigTypeName;
+        data.type=item.type;
+        data.typeName=item.typeName;
       }
       //data.totalAmount=data.totalAmount.toFixed(2);
       if(item.id){
@@ -237,16 +246,19 @@ const modal = ({
       })
     }
   }
-  const handleAudit=()=>{
+  
+  const handleAudit=(data)=>{
     let taskItem={},formItem=getFields();
     if(formItem){
       taskItem.taskId=taskData.taskId;
       taskItem.busiId=taskData.busiId;
       taskItem.busiCode=taskData.busiCode;
       taskItem.action=formItem.action;
+      if(formItem.approvalOpinion) taskItem.approvalOpinion=formItem.approvalOpinion;
+      if(data && data.userId) taskItem.auditUserId=data.userId;
       // console.log('formItem')
       confirm({
-        title:'你确定提交修改么？',
+        title:item.state===1?'你确定办理么？':'你确定提交修改么？',
         onOk(){
             onAudit(formItem,taskItem)
         },
@@ -263,19 +275,38 @@ const modal = ({
     let _type='buyType_item'+value;
     item.typeOption=dicList.filter(f=>f.dicType===_type).map(dic=><Option key={dic.dicValue}>{dic.dicName}{dic.remark?` (${dic.remark})`:''}</Option>)
   }
+  const handleActChange=(e)=>{
+      var _reasonStr='';
+      if(e.target.value==='1' || e.target.value==='2'){
+        _reasonStr='同意';
+      }
+      if(e.target.value==='3' || e.target.value==='4'){
+        _reasonStr='不同意，退回修改';
+      }
+      // 1 同意；3 返回上一步
+      if(e.target.value==='1' || e.target.value==='3'){
+        setNeedSel(true,_reasonStr);
+      }else{
+        setNeedSel(false,_reasonStr);
+      }
+  }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} style={{display:'flex',justifyContent:'space-between',marginBottom:'24px',paddingBottom:'12px',borderBottom:'1px solid #d9d9d9'}}>
             <div className='qite-title'>
-            <Icon type={item.id?'edit':'plus'} />{title}</div>
+            <Icon type={item.id?'edit':'plus'} />{taskData && taskData.taskVo && taskData.taskVo.nodeName?taskData.taskVo.nodeName:title}</div>
            
-            <Affix target={()=>document.getElementById('layout-main')}>
+            <Affix target={()=>document.getElementById('layout-main')} style={{minWidth:'300px',textAlign:'right'}}>
                 {taskData && taskData.taskId?(
                   <div style={{backgroundColor:'#fff'}}>
-                    <Button style={{ marginRight: 12 }} type="primary" loading={auditLoading} 
-                    onClick={handleAudit} size="large">确定修改并提交</Button>
-                    <Button  type="ghost" onClick={onGoback} size="large">返回待办</Button>
+                    { isNeedSel?
+                      <SelectUser type="button" callBack={handleAudit}  loading={auditLoading}/>
+                    :
+                      <Button style={{ marginRight: 12 }} type="primary" loading={auditLoading} 
+                      onClick={handleAudit} size="large">{item.state===-1?'确定修改并提交':'办理'}</Button>
+                    }
+                    <Button  type="ghost" onClick={onGoback} size="large" style={{ marginLeft: 12 }}>返回待办</Button>
                   </div>
                   ):(
                   <div style={{backgroundColor:'#fff'}}>
@@ -344,8 +375,8 @@ const modal = ({
                 ],
 
               })(<RadioGroup>
-                  <Radio value={0}>一般</Radio>
-                  <Radio value={1}>紧急</Radio>
+                  <Radio value={0} disabled={isDisable}>一般</Radio>
+                  <Radio value={1} disabled={isDisable}>紧急</Radio>
                 </RadioGroup>)}
             </FormItem>
           </Col>
@@ -355,30 +386,38 @@ const modal = ({
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             采购类型：
           </Col>
-          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px',justifyContent:'space-between' }} className={styles['q-detail-flex-conent']}>
-            <FormItem style={{width:'50%'}}>
-              {getFieldDecorator('bigType', {
-                initialValue: item.bigType?String(item.bigType):undefined,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-                onChange:handleBigTypeChange
-              })(<Select placeholder="请选择">{bigOption}</Select>)}
-            </FormItem>
-            <FormItem style={{width:'45%'}}>
-              {getFieldDecorator('type', {
-                initialValue: item.type?String(item.type):undefined,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-              })(<Select placeholder="请选择">{item.typeOption}</Select>)}
-            </FormItem>
+          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px',justifyContent:isDisable?'flex-start':'space-between' }} className={styles['q-detail-flex-conent']}>
+            {
+              !isDisable?
+              <FormItem style={{width:'50%'}}>
+                {getFieldDecorator('bigType', {
+                  initialValue: item.bigType?String(item.bigType):undefined,
+                  rules: [
+                    {
+                      required: true,message:'不能为空',
+                     
+                    },
+                  ],
+                  onChange:handleBigTypeChange
+                })(<Select placeholder="请选择" disabled={isDisable}>{bigOption}</Select>)}
+              </FormItem>
+              : <span>{ item.bigTypeName?item.bigTypeName:'未知类型'}</span>
+            }
+            {
+              !isDisable?
+              <FormItem style={{width:'45%'}}>
+                {getFieldDecorator('type', {
+                  initialValue: item.type?String(item.type):undefined,
+                  rules: [
+                    {
+                      required: true,message:'不能为空',
+                     
+                    },
+                  ],
+                })(<Select placeholder="请选择" disabled={isDisable}>{item.typeOption}</Select>)}
+              </FormItem>
+              : <span>{item.typeName?'，'+item.typeName:''}</span>
+            }
           </Col>
         </Row>
 
@@ -398,8 +437,8 @@ const modal = ({
                 ],
                 onChange:handleIsMonthRepeatChange,
               })(<RadioGroup>
-                  <Radio value={true}>是</Radio>
-                  <Radio value={false}>否</Radio>
+                  <Radio value={true} disabled={item.state===1}>是</Radio>
+                  <Radio value={false} disabled={item.state===1}>否</Radio>
                 </RadioGroup>)}
             </FormItem>
             {item.isMonthRepeat?
@@ -417,7 +456,7 @@ const modal = ({
                      
                     },
                   ],
-                })(<Input type="text" />)}
+                })(<Input type="text" disabled={item.state===1}/>)}
               </FormItem>
             :null}
           </Col>
@@ -437,11 +476,11 @@ const modal = ({
                    
                   },
                 ],
-              })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
+              })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} disabled={item.state===1}/>)}
             </FormItem>
           </Col>
         </Row>
-         <EditCellTable dicList={dicList} 
+         <EditCellTable dicList={dicList} taskDo={item.state===1?true:false}
           dataSource={defaultDetailList} 
           callbackParent={getDetailList}
           setIsEditable={setIsEditable}
@@ -459,7 +498,7 @@ const modal = ({
           
         </Row>
         {
-          taskData&&taskData.commentList?
+          taskData&&taskData.commentList &&taskData.commentList[0]?
             <CommentTable data={taskData.commentList} />
           :null
         }
@@ -476,11 +515,29 @@ const modal = ({
                 {getFieldDecorator('action', {
                   initialValue:null,
                   rules: [{required: true,message:'不能为空',},],
+                  onChange:handleActChange
                 })(<RadioGroup>{actionRadio}</RadioGroup>)}
               </FormItem>
             </Col>
           </Row>
         :null}
+        {
+          taskData && taskData.taskId && item.state===1?
+          <Row gutter={24} className={styles['q-detail']}>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+              审批意见：
+            </Col>
+            <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+              <FormItem >
+                {getFieldDecorator('approvalOpinion', {
+                  initialValue:reasonStr,
+                  rules: [{required: true,message:'不能为空',},],
+                })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
+              </FormItem>
+            </Col>
+          </Row>
+          :null
+        }
       </Form>
   )
 }

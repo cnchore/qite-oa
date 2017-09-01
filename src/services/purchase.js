@@ -54,6 +54,13 @@ export async function submit (params) {
     data: params,
   })
 }
+export async function storeInDetail (params) {
+  return request({
+    url: purchase.storeInDetail,
+    method: 'post',
+    data: params,
+  })
+}
 export async function queryEmployee (params) {
   return request({
     url: employee.query,

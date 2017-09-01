@@ -426,16 +426,19 @@ const getHMS=(text)=>{
     return '新消息';
   };
 
-  const getWaitAction=(record)=>{
-    let _path="/dashboard",
-    _url=`taskId=${record.taskId}&busiId=${record.busiId}&from=${_path}&t=${Math.random()}`,
-    text=record.state===-2?'返回完善资料':'退回修改';
+  const getWaitAction=(record,fromPath="/dashboard")=>{
+    let _url=`taskId=${record.taskId}&busiId=${record.busiId}&from=${fromPath}&t=${Math.random()}`,
+        text=record.state===-2?'返回完善资料':'退回修改',
+        _code=record.busiCode.substr(0,2);
     switch(record.state){
       case 1:
-      return <Link to={`/waiting?homeTaskId=${record.taskId}&from=${_path}&t=${Math.random()}`}>办理</Link>;
+      if(_code==='PE'){
+        return <Link to={`/purchase?${_url}`}>办理</Link>;
+      }
+      return <Link to={`/waiting?homeTaskId=${record.taskId}&from=${fromPath}&t=${Math.random()}`}>办理</Link>;
       case -1:
       case -2:
-      switch(record.busiCode.substr(0,2)){
+      switch(_code){
         case 'MC':
         return <Link to={`/missClock?${_url}`}>{text}</Link>;
         case 'SC':
