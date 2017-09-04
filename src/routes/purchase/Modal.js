@@ -250,6 +250,10 @@ const modal = ({
   const handleAudit=(data)=>{
     let taskItem={},formItem=getFields();
     if(formItem){
+      // if(formItem.state===1){
+      //   message.error('请上传附件')
+      //   return;
+      // }
       taskItem.taskId=taskData.taskId;
       taskItem.busiId=taskData.busiId;
       taskItem.busiCode=taskData.busiCode;

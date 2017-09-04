@@ -9,7 +9,7 @@ import { classnames,getTheme } from '../../../utils'
 function UserInfo ({ photo, orgName, realName }) {
 
   return (
-    <Card className={classnames(styles.userInfo,{[styles.light]:!getTheme()})} bordered={false} bodyStyle={{ padding: 0, }}>
+    <Card className={classnames(styles.userInfo,{[styles.light]:getTheme()})} bordered={false} bodyStyle={{ padding: 0, }}>
       <img className={styles.photo} src={photo || profle} alt={realName} />
       <div className={styles.content}>
         <p className={styles.realName}>{realName}</p>

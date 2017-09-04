@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './TravelReimburseForm.less'
 // import cs from 'classnames';
-import {changeMoneyToChinese,config} from '../../utils'
+import {changeMoneyToChinese,config,getAuditerName} from '../../utils'
 class TravelReimburseForm extends React.Component {
   render () {
-    const { data,employeeList,dicList } = this.props
+    const { data,employeeList,dicList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],
       totalVehicleCost=0,
@@ -105,8 +105,8 @@ class TravelReimburseForm extends React.Component {
           </tbody>
         </table>
         <div className={styles['footer']}>
-          <span>主管：</span>
-          <span>审核：</span>
+          <span>主管：{getAuditerName(commentList,'直属副总/总监审批')}</span>
+          <span>审核：{getAuditerName(commentList,'总经理审批')}</span>
           <span>报销人：{employeeList && employeeList.realName && employeeList.realName}</span>
         </div>
       </div>

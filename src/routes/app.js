@@ -23,7 +23,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
     return false
   }
   const href = window.location.href
-  // console.log(`user:`,location)
+  // console.log(`user darkTheme:`,darkTheme)
   if (lastHref !== href) {
     NProgress.start()
     if (!loading.global) {
@@ -92,10 +92,10 @@ const App = ({ children, location, dispatch, app, loading }) => {
   
   const breadProps = {
     menu:menuList,
-    darkTheme:!darkTheme && isDashboard()
+    darkTheme:darkTheme && isDashboard()
   }
   const footerProps={
-    darkTheme:!darkTheme && isDashboard()
+    darkTheme:darkTheme && isDashboard()
   }
   if (config.openPages && config.openPages.indexOf(location.pathname) > -1) {
     return <div>{children}</div>
@@ -113,11 +113,11 @@ const App = ({ children, location, dispatch, app, loading }) => {
       
       </Helmet>
       <div className={classnames(styles.layout, { [styles.fold]: isNavbar ? false : siderFold }, { [styles.withnavbar]: isNavbar })}>
-        {!isNavbar ? <aside className={classnames(styles.sider, { [styles.light]: !darkTheme })}>
+        {!isNavbar ? <aside className={classnames(styles.sider, { [styles.light]: darkTheme })}>
           <Sider {...siderProps} />
         </aside> : ''}
-        <div className={classnames(styles.main,{[styles.light]:!darkTheme && isDashboard()})} id="layout-main">
-          <Header {...headerProps} className={!darkTheme && isDashboard()?styles['header-light']:''}/>
+        <div className={classnames(styles.main,{[styles.light]:darkTheme && isDashboard()})} id="layout-main">
+          <Header {...headerProps} className={darkTheme && isDashboard()?styles['header-light']:''}/>
           <Bread {...breadProps} location={location} />
           <div className={styles.container}>
             <div className={styles.content}>

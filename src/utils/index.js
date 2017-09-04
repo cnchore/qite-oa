@@ -276,16 +276,18 @@ const findIsEditable=(data)=>{
   })
   return _isEditable;
 } 
-const setPrintData=(data,employeeList,dicList={})=>{
+const setPrintData=(data,employeeList,dicList={},commentList={})=>{
   let printData={
     busiData:data,
     employeeList:employeeList,
     dicList:dicList,
+    commentList:commentList
   }
   window.sessionStorage.setItem('printData', JSON.stringify(printData));
 }
 const getTheme=()=>{
- return window.localStorage.getItem(`${config.prefix}darkTheme`) === 'true'?true:false;
+  let dt=window.localStorage.getItem(`${config.prefix}darkTheme`);
+ return dt?dt=== 'true':true;
 }
 const getMsgType=(t)=>{
   switch(t){
@@ -551,8 +553,21 @@ const getHMS=(text)=>{
       antdNotice(title,msg);
     }
     
-    
   };
+  const getAuditerName=(commentList,nodeName)=>{
+    if(!(commentList instanceof Array))
+      return ''
+    let cList=commentList.filter(c=>c.nodeName===nodeName);
+        cList=cList?cList[0]:null;
+        return cList?cList.auditerName:'';
+  }
+  const getAuditerTime=(commentList,nodeName)=>{
+    if(!commentList || (commentList && !commentList[0]))
+      return ''
+    let cList=commentList.filter(c=>c.nodeName===nodeName);
+        cList=cList?cList[0]:null;
+        return cList?cList.finishTime:'';
+  }
   module.exports = {
     config,
     treeMenuToArrayMenu,
@@ -574,4 +589,6 @@ const getHMS=(text)=>{
     getMsgAction,
     getWaitAction,
     showNotice,
+    getAuditerName,
+    getAuditerTime,
   }

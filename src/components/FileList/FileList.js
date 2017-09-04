@@ -95,9 +95,6 @@ class FileList extends React.Component {
                 <img className={styles.fileImg} src={thumbUrl} alt={file.name} onClick={e=>this.handlePreview(file)} />
                 :null
               }
-              <Modal visible={previewVisible} footer={null} width={800} onCancel={this.handleCancel}>
-                <img alt={previewName} style={{ width: '100%' }} src={previewImage} />
-              </Modal>
             </Col>
             <Col key={index+2+Math.random()} span={file.createTime?10:16}>
               {file.name}
@@ -126,7 +123,9 @@ class FileList extends React.Component {
       <Row gutter={0} className={styles.fileRow}>
         
         {_fileList[0]?_fileList:<Col span={24}>暂无内容</Col>}
-        
+        <Modal visible={previewVisible} footer={null} width={800} onCancel={this.handleCancel}>
+          <img alt={previewName} style={{ width: '100%' }} src={previewImage} />
+        </Modal>
       </Row>
       
     )

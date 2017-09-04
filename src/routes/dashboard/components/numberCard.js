@@ -7,9 +7,9 @@ import { Link } from 'dva/router'
 import { classnames,getTheme } from '../../../utils'
 
 function NumberCard ({ icon, bgcolor,color, title, number,linkto,desc, countUp }) {
-  let _color=getTheme()?color:'#fff';
+  let _color=!getTheme()?color:'#fff';
   return (
-    <Card className={classnames(styles.numberCard,{[styles.light1]:!getTheme() && bgcolor==='light1'},{[styles.light2]:!getTheme() && bgcolor==='light2'})} bordered={false} bodyStyle={{ padding: 0 }}>
+    <Card className={classnames(styles.numberCard,{[styles.light1]:getTheme() && bgcolor==='light1'},{[styles.light2]:getTheme() && bgcolor==='light2'})} bordered={false} bodyStyle={{ padding: 0 }}>
       {
         desc?
         <Tooltip placement="topLeft" title={desc}>

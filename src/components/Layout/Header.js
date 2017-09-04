@@ -11,8 +11,8 @@ const Header = ({ user, logout,toEditPwd, switchSider,changeTheme,darkTheme,isDa
   // console.log('user:',user)
   const menusProps = {
     menu,
-    siderFold: false,
-    darkTheme: false,
+    siderFold,
+    darkTheme,
     isNavbar,
     handleClickNavMenu: switchMenuPopover,
     location,
@@ -20,7 +20,7 @@ const Header = ({ user, logout,toEditPwd, switchSider,changeTheme,darkTheme,isDa
     changeOpenKeys,
   }
   return (
-    <div className={classnames(styles.header,{[styles.light]:!darkTheme && isDashboard })}>
+    <div className={classnames(styles.header,{[styles.light]:darkTheme && isDashboard })}>
       {isNavbar
         ? <Popover placement="bottomLeft" onVisibleChange={switchMenuPopover} visible={menuPopoverVisible} 
           overlayClassName={styles.popovermenu} trigger="click" content={<Menus {...menusProps} />}>
@@ -28,9 +28,9 @@ const Header = ({ user, logout,toEditPwd, switchSider,changeTheme,darkTheme,isDa
               <Icon type="bars" />
             </div>
           </Popover>
-        : <div className={classnames(styles.button,{[styles.light]:!darkTheme && isDashboard })} onClick={switchSider}>
+        : <div className={classnames(styles.button,{[styles.light]:darkTheme && isDashboard })} onClick={switchSider}>
           {
-            !darkTheme && isDashboard?
+            darkTheme && isDashboard?
             <i className={classnames('iconfont',siderFold?'icon-menu-unfold':'icon-menu-fold')}/>
             :
             <Icon type={siderFold ? 'menu-unfold' : 'menu-fold'} />
@@ -41,7 +41,7 @@ const Header = ({ user, logout,toEditPwd, switchSider,changeTheme,darkTheme,isDa
         {
           !siderFold ? 
           <div className={styles.switchtheme}>
-            <Switch onChange={changeTheme} defaultChecked={darkTheme} checkedChildren="简约主题" unCheckedChildren="时尚主题" />
+            <Switch onChange={changeTheme} defaultChecked={darkTheme} checkedChildren="时尚主题" unCheckedChildren="简约主题" />
           </div> 
           : ''
         }

@@ -14,7 +14,7 @@ export default {
     menuPopoverVisible: false,
     editPwdModal:false,
     siderFold: localStorage.getItem(`${prefix}siderFold`) === 'true',
-    darkTheme: localStorage.getItem(`${prefix}darkTheme`) === 'true' || false,
+    darkTheme: localStorage.getItem(`${prefix}darkTheme`)?(localStorage.getItem(`${prefix}darkTheme`)=== 'true'):true,
     isNavbar: document.body.clientWidth < 769,
     navOpenKeys: JSON.parse(localStorage.getItem(`${prefix}navOpenKeys`)) || [],
   },

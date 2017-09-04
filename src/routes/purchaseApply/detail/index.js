@@ -12,7 +12,7 @@ import {setPrintData} from '../../../utils'
 import TaskNodeList from '../../../components/TaskNodeList'
 const Detail = ({ purchaseApplyDetail }) => {
   const { data,employeeList,commentList,taskNode } = purchaseApplyDetail
-  setPrintData(data,employeeList)
+  setPrintData(data,employeeList,null,commentList)
   
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>

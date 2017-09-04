@@ -9,8 +9,8 @@ import { Link } from 'dva/router'
 const TabPane=Tabs.TabPane;
 function Dashboard ({ dashboard,loading,location,dispatch }) {
   const { userInfo,waitData,messageData,noticeData,waitSignData,knowledgeData} = dashboard
-  // console.log('dashboard:',connect)
   const darkTheme=getTheme();
+  // console.log('dashboard:',darkTheme)
   const waitNum={
     icon: 'iconfont icon-daibanjian',
     color:color.blue,
@@ -87,7 +87,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
         <NumberCard {...waitSignNum}/>
       </Col>
       <Col lg={16} md={24}>
-        <Card bordered={false} className={classnames(styles.waitsign,{[styles.light]:!darkTheme})}
+        <Card bordered={false} className={classnames(styles.waitsign,{[styles.light]:darkTheme})}
         title={<span><i className="iconfont icon-wodedaiqianshou" /> 我的待签收</span>} extra={<Link to='/waitSign'>更多</Link>}
         bodyStyle={{height:364,}}
         >
@@ -96,7 +96,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
       </Col>      
      
       <Col lg={8} md={24}>
-        <Card bordered={false} className={classnames(styles.msgcard,{[styles.light]:!darkTheme})}
+        <Card bordered={false} className={classnames(styles.msgcard,{[styles.light]:darkTheme})}
         title={<span><i className="iconfont icon-xiaoxi" /> 消息</span>} 
         bodyStyle={{
           height: 364,overflowY:'auto',
@@ -105,7 +105,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
         </Card>
       </Col>
        <Col lg={16} md={24}>
-        <Card bordered={false} className={classnames(styles.waitcard,{[styles.light]:!darkTheme})}
+        <Card bordered={false} className={classnames(styles.waitcard,{[styles.light]:darkTheme})}
         title={<span><i className="iconfont icon-wodedaibanyewu"/> 我的待办业务</span>} extra={<Link to='/waiting'>更多</Link>}
         bodyStyle={{height:364,}}
         >
@@ -113,7 +113,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
         </Card>
       </Col>
       <Col lg={8} md={24}>
-        <Tabs defaultActiveKey="1" className={classnames(styles.tabpane,{[styles.light]:!darkTheme})} >
+        <Tabs defaultActiveKey="1" className={classnames(styles.tabpane,{[styles.light]:darkTheme})} >
           <TabPane tab={<span><i className="iconfont icon-tongzhigonggao"/>通知公告</span>} key="1">
             <Card bordered={false} className={styles.noticecard} 
             bodyStyle={{

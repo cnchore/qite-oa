@@ -42,7 +42,7 @@ const Detail = ({ completeDetail }) => {
       case 'PE':
       case 'PA':
         printData=true;
-        setPrintData(data.busiData,data.userVo.employeeVo,dicList)
+        setPrintData(data.busiData,data.userVo.employeeVo,dicList,data.commentList)
         break;
       default:
         break;

@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './ReimburseForm.less'
 // import cs from 'classnames';
-import {changeMoneyToChinese,config} from '../../utils'
+import {changeMoneyToChinese,config,getAuditerName} from '../../utils'
 class ReimburseForm extends React.Component {
   render () {
-    const { data,employeeList } = this.props
+    const { data,employeeList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let remark=[],totalAmount=0,defaultRows=[];
     const getCreateDate=()=>{
@@ -72,10 +72,10 @@ class ReimburseForm extends React.Component {
           </tbody>
         </table>
         <div className={styles['footer']}>
-          <span>审批：</span>
-          <span>复核(会计)：</span>
-          <span>出纳：</span>
-          <span>部门负责：</span>
+          <span>审批：{getAuditerName(commentList,'总经理审批')}</span>
+          <span>会计主管：{getAuditerName(commentList,'财务总监复核')}</span>
+          <span>复核：{getAuditerName(commentList,'财务复核')}</span>
+          <span>部门负责：{getAuditerName(commentList,'直属副总/总监审批')}</span>
           <span>经办人：{employeeList && employeeList.realName && employeeList.realName}</span>
         </div>
       </div>

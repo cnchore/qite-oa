@@ -18,25 +18,25 @@ class Print extends React.Component {
 		if(printData && printData.busiData && printData.busiData.code){
 			switch(printData.busiData.code.substr(0,2)){
 				case 'TR':
-					printForm=<TravelReimburseForm data={printData.busiData} employeeList={printData.employeeList} dicList={printData.dicList}/>
+					printForm=<TravelReimburseForm data={printData.busiData} employeeList={printData.employeeList} dicList={printData.dicList} commentList={printData.commentList}/>
 					isA4=true;
 					break;
 				case 'PT':
-					printForm=<PaymentForm data={printData.busiData} employeeList={printData.employeeList}></PaymentForm>
+					printForm=<PaymentForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></PaymentForm>
 					break;
 				case 'RE':
-					printForm=<ReimburseForm  data={printData.busiData} employeeList={printData.employeeList}></ReimburseForm>
+					printForm=<ReimburseForm  data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></ReimburseForm>
 					break;
 				case 'BD':
-					printForm=<BudgetForm  data={printData.busiData} employeeList={printData.employeeList}></BudgetForm>
+					printForm=<BudgetForm  data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></BudgetForm>
 					isA4=true;
 					break;
 				case 'PE':
-					printForm=<PurchaseForm data={printData.busiData} employeeList={printData.employeeList}></PurchaseForm>
+					printForm=<PurchaseForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></PurchaseForm>
 					isA4=true;
 					break;
 				case 'PA':
-					printForm=<PurchaseApplyForm data={printData.busiData} employeeList={printData.employeeList}></PurchaseApplyForm>
+					printForm=<PurchaseApplyForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></PurchaseApplyForm>
 					break;
 			}
 		}else{

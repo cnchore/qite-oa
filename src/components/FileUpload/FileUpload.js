@@ -147,9 +147,6 @@ class FileUpload extends React.Component {
                 <img className={styles.fileImg} src={thumbUrl} alt={file.name} onClick={e=>this.handlePreview(file)}/>
                 :<Icon type="loading" />  
               }
-               <Modal visible={previewVisible} footer={null} width={800} onCancel={this.handleCancel}>
-                <img alt={previewName} style={{ width: '100%' }} src={previewImage} />
-              </Modal>
             </Col>
             <Col span={file.createTime?8:16}>
               {file.name}
@@ -198,6 +195,9 @@ class FileUpload extends React.Component {
           {_fileList}
           </Row>
         </Col>
+        <Modal visible={previewVisible} footer={null} width={800} onCancel={this.handleCancel}>
+          <img alt={previewName} style={{ width: '100%' }} src={previewImage} />
+        </Modal>
       </Row>
     )
   }
