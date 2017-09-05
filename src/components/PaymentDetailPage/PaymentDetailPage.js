@@ -93,13 +93,7 @@ class PaymentDetailPage extends React.Component {
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
           { data.contacter || '无'}
           </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            付款说明：
-          </Col>
-          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            
-            {data.remark?data.remark:'无'}
-          </Col>
+          
          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             采购申请单：
           </Col>
@@ -110,11 +104,18 @@ class PaymentDetailPage extends React.Component {
            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请金额：
           </Col>
-          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
            
             {`¥ ${data.payAmount?String(data.payAmount.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '0.00'}
             <span className='q-pd-8'>大写：</span>
             {changeMoneyToChinese(data.payAmount)}
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            付款说明：
+          </Col>
+          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            
+            {data.remark?data.remark:'无'}
           </Col>
         </Row>
         {defaultFileList && defaultFileList[0]?

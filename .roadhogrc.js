@@ -13,30 +13,30 @@ export default {
   //   "react": "react"
   // },
   "proxy": {
-    '/qite/sys':{
+    '/qite':{
       // target: "http://192.168.0.119:8080",
       target: "http://test.aylsonclub.com",
       // target: "http://www.aylsonclub.com",
       changeOrigin: true,
       secure: false,
-      pathRewrite: {'^/qite/sys' : '/qite/sys'},
+      pathRewrite: {'^/qite' : '/qite'},
     },
-    '/qite/busi':{
-      target: "http://test.aylsonclub.com",
-      // target: "http://192.168.0.119:8080",
-      // target: "http://www.aylsonclub.com",
-      changeOrigin: true,
-      secure: false,
-      pathRewrite: {'^/qite/busi' : '/qite/busi'},
-    },
-    '/qite/websocket':{
-      // target: "ws://www.aylsonclub.com",
-      target: "ws://test.aylsonclub.com",
-      // target: "ws://192.168.0.119:8080",
-      changeOrigin: true,
-      secure: false,
-      pathRewrite: {'^/qite/websocket' : '/qite/websocket'},
-    },
+    // '/qite/busi':{
+    //   target: "http://test.aylsonclub.com",
+    //   // target: "http://192.168.0.119:8080",
+    //   // target: "http://www.aylsonclub.com",
+    //   changeOrigin: true,
+    //   secure: false,
+    //   pathRewrite: {'^/qite/busi' : '/qite/busi'},
+    // },
+    // '/qite/websocket':{
+    //   // target: "ws://www.aylsonclub.com",
+    //   target: "ws://test.aylsonclub.com",
+    //   // target: "ws://192.168.0.119:8080",
+    //   changeOrigin: true,
+    //   secure: false,
+    //   pathRewrite: {'^/qite/websocket' : '/qite/websocket'},
+    // },
   },
   
   "env": {

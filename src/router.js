@@ -384,6 +384,22 @@ const Routers = function ({ history, app }) {
             }, 'budget-detail')
           },
         }, {
+          path: '/dinnerBook',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/dinnerBook'))
+              cb(null, require('./routes/dinnerBook/'))
+            }, 'dinnerBook')
+          },
+        }, {
+          path: 'dinnerBook/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/dinnerBook/detail'))
+              cb(null, require('./routes/dinnerBook/detail/'))
+            }, 'dinnerBook-detail')
+          },
+        }, {
           path: '/notice',
           getComponent (nextState, cb) {
             require.ensure([], require => {

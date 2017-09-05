@@ -63,15 +63,15 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
   const columns = [
     {
       title: '申请单号',
-      dataIndex: 'code',
+      dataIndex: 'code',width:150,
       key: 'code',
     }, {
       title: '申请时间',
-      dataIndex: 'createTime',width:170,
+      dataIndex: 'createTime',width:160,
       key: 'createTime',
     }, {
       title: '收款方',
-      dataIndex: 'payee',
+      dataIndex: 'payee',width:200,
       key: 'payee',
       
     }, {

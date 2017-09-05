@@ -60,18 +60,22 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
   const noticeList =noticeData && noticeData.list && noticeData.list[0] && noticeData.list.map((item,index)=><p key={index}
     className={styles.msgp}
     >
-      <Link to={ `/notice/${item.id}?noComment=true`} >
-        <span className={styles.msgtitle}>{index+1}.{item.title}</span>
-      </Link>
-      <span className={styles.msgtime}>{item.postingTime}</span>
+      <span className={styles.msgtitle}>
+        <Link to={ `/notice/${item.id}?noComment=true`} >
+          {index+1}.{item.title}
+        </Link>
+      </span>
+      <span className={styles.msgtime}>{item.postingTime && item.postingTime.substr(5).substr(0,11)}</span>
     </p>) || <span className={styles.msgtime}>暂无通知公告</span>;
   const knowledgeList =knowledgeData && knowledgeData.list && knowledgeData.list[0] && knowledgeData.list.map((item,index)=><p key={index}
     className={styles.msgp}
     >
-      <Link to={ `/knowledge/${item.id}?noComment=true`} >
-        <span className={styles.msgtitle}>{index+1}.{item.title}</span>
-      </Link>
-      <span className={styles.msgtime}>{item.publishTime}</span>
+      <span className={styles.msgtitle}>
+        <Link to={ `/knowledge/${item.id}?noComment=true`} >
+          {index+1}.{item.title}
+        </Link>
+      </span>
+      <span className={styles.msgtime}>{item.publishTime && item.publishTime.substr(5).substr(0,11)}</span>
     </p>) || <span className={styles.msgtime}>暂无通知公告</span>;
   
   return (

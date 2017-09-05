@@ -1,11 +1,5 @@
-let apiPrefix='/qite/sys',apiPrefixDev='/api/v1',apiPrefixPro='/qite/busi';
+let apiPrefix='/qite/sys',apiPrefixDev='/api/v1',apiPrefixPro='/qite/busi',apiPreLogi='/qite/logi';
 // let baseURL=process.env.NODE_ENV === 'production'?'http://www.aylsonclub.com':'http://192.168.0.142:8000';
-// let baseURL=process.env.NODE_ENV === 'production'?'http://test.aylsonclub.com':'http://192.168.0.114:8000';
-// let baseURL=process.env.NODE_ENV === 'production'?'http://192.168.0.119:8080':'http://192.168.0.142:8000';
-//http://test.aylsonclub.com/qite/sys
-//http://192.168.1.104:8000
-//http://192.168.0.142:9000
-//http://192.168.0.119:8080
 
 // let websocketUrl='ws://www.aylsonclub.com/qite/websocket/socketServer.do';
 let _websocketUrl='/qite/websocket/socketServer.do';
@@ -255,6 +249,15 @@ module.exports = {
       getList:`${apiPrefixPro}/budget/getList`,
       save:`${apiPrefixPro}/budget/save`,
       deleteById:`${apiPrefixPro}/budget/deleteById`,
+    },
+    //报餐申请
+    dinnerBook:{
+      query:`${apiPreLogi}/dinnerBook/getPage`,
+      queryById:`${apiPreLogi}/dinnerBook/getById`,
+      getList:`${apiPreLogi}/dinnerBook/getList`,
+      save:`${apiPreLogi}/dinnerBook/save`,
+      getDinnerInfo:`${apiPreLogi}/dinnerBook/getDinnerInfo`,
+      change:`${apiPreLogi}/dinnerBook/change`,
     },
     //通知发放申请
     notice:{
