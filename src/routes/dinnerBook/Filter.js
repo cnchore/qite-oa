@@ -121,6 +121,7 @@ const Filter = ({
           })(
             <Select style={{ width: '100%' }} placeholder='请选择'
               onChange={handleChange.bind(null,'state')}
+              allowClear
             >
               <Option key={0}>未提交</Option>
               <Option key={1}>已提交</Option>

@@ -67,7 +67,7 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
       width: 250,
       render: (text, record) => {
         return record.state!==undefined?(<span>
-          <Link to={`/budget/${record.id}`} style={{marginRight:'8px'}}>查看</Link>
+          <Link to={`/dinnerBook/${record.id}`} style={{marginRight:'8px'}}>查看</Link>
           { record.state!==2?<a onClick={e=>onEditItem(record)}>编辑</a>:null}
          
           { record.state!==2?

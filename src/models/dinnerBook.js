@@ -1,9 +1,7 @@
-import { query,queryById,save,change,getDinnerInfo,queryEmployee,getDic,getOrg } from '../services/dinnerBook'
+import { query,queryById,save,change,getDinnerInfo,queryEmployee,getDic,getOrg,isCanAdd } from '../services/dinnerBook'
 import { config,arrayToTree,treeToArray } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
-// import { query,getOrg } from '../services/employee'
-
 const { prefix } = config
 
 export default {
@@ -106,6 +104,18 @@ export default {
         })
       }
     },
+    *isCanAdd ({ payload }, { call, put }) {
+
+      const data = yield call(isCanAdd, {})
+      if (data.success) {
+        yield put({ type: 'showModal',payload:payload })
+        // yield put({ type: 'query' })
+      } else {
+        message.error(data.message);
+        // throw data
+      }
+    },
+    
     *create ({ payload }, { call, put }) {
 
       const data = yield call(save, payload)
@@ -117,7 +127,6 @@ export default {
         throw data
       }
     },
-
     *editItem ({ payload }, { call, put }) {
       const id=payload.currentItem.id;
       const data = yield call(queryById, {id})
@@ -157,7 +166,7 @@ export default {
         data=yield call(change, {id:payload.id})
       }else if(payload && payload.data){
         const dinnerData=yield call(save,payload.data);
-        if(dinnerData && dinnerData.success){
+        if(dinnerData && dinnerData.success && dinnerData.data.state!==1){
           data=yield call(change,{id:dinnerData.data.id});
         }else{
           data=dinnerData;
@@ -197,13 +206,14 @@ export default {
       let selectedRowKeys=[],tableSource=[];
       if(action.payload && action.payload.length>0){
         // selectedRowKeys=action.payload.map(item=>item.dinnerId)
-        action.payload.map(el=>{
+        action.payload.map((el,index)=>{
           let _item=el;
           _item.breakfast=el.breakfast===null?true:el.breakfast;
           _item.lunch=el.lunch===null?true:el.lunch;
           _item.supper=el.supper===null?true:el.supper;
+          _item.dinnerId=el.dinnerId===null?(-1 * index):el.dinnerId;
           tableSource.push(_item);
-          selectedRowKeys.push(el.dinnerId)
+          selectedRowKeys.push(el.dinnerId===null?(-1 * index):el.dinnerId)
         })
       }
       return {...state,employeeList:tableSource,selectedRowKeys}
@@ -224,10 +234,25 @@ export default {
       return { ...state, modalVisible: false }
     },
     setRowKeys(state,action){
-      return {...state,selectedRowKeys:action.payload}
+      let _employeeList=[],selectedRowKeys=action.payload;
+      
+      state.employeeList.map(item=>{
+        if(selectedRowKeys.indexOf(item.dinnerId)>-1){
+          _employeeList.push(item)
+        }
+      })
+      
+      return {...state,selectedRowKeys,employeeList:_employeeList}
     },
     setEmployeeList(state,action){
       return {...state,employeeList:action.payload}
+    },
+    setEmployeeAndRowKey(state,action){
+      let selectedRowKeys=state.selectedRowKeys;
+      if(action.payload.rowKey!==null){
+        selectedRowKeys.push(action.payload.rowKey);
+      }
+      return {...state,employeeList:action.payload.data,selectedRowKeys}
     },
   },
 

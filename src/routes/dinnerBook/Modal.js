@@ -6,6 +6,7 @@ import config from '../../utils/config'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
 import SelectEmployee from '../../components/SelectEmployee'
+import AddDinner from '../../components/AddDinner'
 
 const confirm = Modal.confirm
 //const { RangePicker } = DatePicker
@@ -44,16 +45,26 @@ const modal = ({
   tableLoading,
   getDinnerInfo,
   setEmployeeList,
+  setEmployeeAndRowKey,
   form: {
   },
   ...modalProps
 }) => {
   const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
   const getFields=()=>{
-    let fields={}
+    let fields={},index=0;
+    //
     if(employeeList && employeeList.length>0 && rowSelection && rowSelection.selectedRowKeys){
-      employeeList.map((_data,index)=>{
-        if(rowSelection.selectedRowKeys.indexOf(_data.dinnerId)>-1){
+      let _result=[];
+      //去重
+      employeeList.map(item=>{
+        if(!(_result.filter(f=>f.dinnerId===item.dinnerId).length>0)){
+          _result.push(item);
+        }
+      })
+      _result.map((_data)=>{
+        //&& 
+        if(_data.editable && rowSelection.selectedRowKeys.indexOf(_data.dinnerId)>-1){
           if(_data.id)fields[`detailList[${index}].id`]=_data.id;
           fields[`detailList[${index}].dinnerId`]=_data.dinnerId;
           fields[`detailList[${index}].dinnerName`]=_data.dinnerName;
@@ -62,13 +73,17 @@ const modal = ({
           fields[`detailList[${index}].breakfast`]=_data.breakfast;
           fields[`detailList[${index}].lunch`]=_data.lunch;
           fields[`detailList[${index}].supper`]=_data.supper;
+          index++;
         }
       })
     }
+    // console.log('data:',fields)
     return fields;
   }
   const handleOk = () => {
-      onOk(getFields());
+    // getFields();
+    // return;
+    onOk(getFields());
     
   }
   const handleSubmit=()=>{
@@ -93,7 +108,6 @@ const modal = ({
     dataSource: employeeList,
     loading: tableLoading,
     pagination:false,
-    rowSelection,
   }
   const columns=[{
     title:'部门',
@@ -123,18 +137,44 @@ const modal = ({
     title:'报餐人',
     key:'createrName',
     dataIndex:'createrName',
+  },{
+    title:'人员类型',
+    render:(text,record)=>record.dinnerId<0?'外部人员':'内部',
   }]
   const selEmCallback=(data)=>{
     let fields={}
     if(data && data.length>0){
-      data.map((_data,index)=>{
-        fields[`detailList[${index}].dinnerId`]=_data.dinnerId;
-        fields[`detailList[${index}].dinnerName`]=_data.dinnerName;
-        fields[`detailList[${index}].deptId`]=_data.deptId;
-        fields[`detailList[${index}].deptName`]=_data.deptName;
+      //合并,然后去重
+      let _result=employeeList.length?employeeList:data;
+      data.map((item)=>{
+        if(_result.filter(f=>f.dinnerId===item.dinnerId).length===0){
+          _result.push(item);
+        }
       })
-      getDinnerInfo(fields);
+      setEmployeeList(_result);
+      // _result.map((_data,index)=>{
+      //   if(_data.id)fields[`detailList[${index}].id`]=_data.id;
+      //   fields[`detailList[${index}].dinnerId`]=_data.dinnerId;
+      //   fields[`detailList[${index}].dinnerName`]=_data.dinnerName;
+      //   fields[`detailList[${index}].deptId`]=_data.deptId;
+      //   fields[`detailList[${index}].deptName`]=_data.deptName;
+      // })
+      // getDinnerInfo(fields);
+
     }
+  }
+  const handleOutsideDinner=(data)=>{
+    // console.log('data:',data)
+    let _list=employeeList,dinnerId=-1 * _list.length;
+    _list.push({
+      ...data,
+      dinnerId,
+      editable:true,
+      breakfast:true,
+      lunch:true,
+      supper:true,
+    })
+    setEmployeeAndRowKey(dinnerId,_list);
   }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -146,7 +186,7 @@ const modal = ({
             <Affix target={()=>document.getElementById('layout-main')}>
                <div style={{backgroundColor:'#fff'}}>
                 <SelectEmployee callBack={selEmCallback}></SelectEmployee>
-                <Button style={{ marginRight: 12 }} type="primary"  size="large">添加外部人员</Button>
+                <AddDinner style={{ marginRight: 12 }} callBack={handleOutsideDinner}/>
                 <Button style={{ marginRight: 12 }} type="primary" loading={submitLoading} onClick={handleSubmit} size="large">提交</Button>
                 <Button style={{ marginRight: 12 }} type="primary" loading={confirmLoading} onClick={handleOk} size="large">保存</Button>
                 <Button  type="ghost" onClick={onCancel} size="large">取消</Button>

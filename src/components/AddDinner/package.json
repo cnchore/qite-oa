@@ -1,0 +1,6 @@
+{
+  "name": "AddDinner",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./AddDinner.js"
+}

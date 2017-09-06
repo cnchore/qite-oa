@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import styles from './SelectEmployee.less'
 import { Row,Col,Tree,Table,Modal,Button,message } from 'antd'
 import {getOrg,queryList} from '../../services/employee'
+import {getDinnerInfo} from '../../services/dinnerBook'
 import {config,treeToArray } from '../../utils'
 const {prefix} =config;
 const TreeNode = Tree.TreeNode;
@@ -71,13 +72,8 @@ class SelectEmployee extends React.Component {
         //console.log('selectedRows:',selectedRows[0]);
         let { selectedRow} =this.state;
         selectedRows.map(item=>{
-          if(selectedRow.filter(k=>k.dinnerId===item.userId).length<1){
-            selectedRow.push({
-              dinnerId:item.userId,
-              dinnerName:item.realName,
-              deptId:item.postList[0].orgId,
-              deptName:getOrgName(item.postList[0].orgId)
-            })
+          if(selectedRow.filter(k=>k.dinnerId===item.dinnerId).length<1){
+            selectedRow.push(item)
           }
         })
         this.setState({selectedRow})
@@ -99,8 +95,30 @@ class SelectEmployee extends React.Component {
     //console.log(orgTree);
     const treeNodes = loop(orgTree);
     const onSelect = (selectedKeys, info) => {
+      //找员工
       queryList({orgId:selectedKeys[0],includeChildOrgId:true}).then(res=>{
-        this.setState({employeeList:res.data})
+        if(res && res.data){
+          let fields=[];
+          res.data.map((_data,index)=>{
+            // if(_data.id)fields[`detailList[${index}].id`]=_data.id;
+            fields[`detailList[${index}].dinnerId`]=_data.userId;
+            fields[`detailList[${index}].dinnerName`]=_data.realName;
+            fields[`detailList[${index}].deptId`]=_data.postList[0].orgId;
+            fields[`detailList[${index}].deptName`]=getOrgName(_data.postList[0].orgId);
+          })
+          getDinnerInfo(fields).then(result=>{
+            if(result && result.data){
+              this.setState({employeeList:result.data.detailList})
+            }
+            if(result && !result.success){
+              message.error(result.message);
+            }
+          });
+
+        }
+        if(res && !res.success){
+          message.error(res.message);
+        }
       })
     }
 

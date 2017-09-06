@@ -60,8 +60,13 @@ const DinnerBook = ({ location, dispatch, dinnerBook, loading }) => {
         type: 'dinnerBook/setEmployeeList',
         payload: data,
       })
+    },
+    setEmployeeAndRowKey(rowKey,data){
+      dispatch({
+        type: 'dinnerBook/setEmployeeAndRowKey',
+        payload: {rowKey,data},
+      })
     }
-
   }
 
   const listProps = {
@@ -115,7 +120,7 @@ const DinnerBook = ({ location, dispatch, dinnerBook, loading }) => {
     
     onAdd () {
       dispatch({
-        type: 'dinnerBook/showModal',
+        type: 'dinnerBook/isCanAdd',
         payload: {
           modalType: 'create',
           employeeList:[],

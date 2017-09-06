@@ -8,7 +8,7 @@ let _websocketUrl='/qite/websocket/socketServer.do';
 module.exports = {
   name: '淇特办公系统',
   prefix: 'qiteOa',
-  footerText: '佛山市艾臣家居科技有限公司 © 2017',
+  footerText: '佛山市淇特科技有限公司 © 2017',
   logo: 'logo.png',
   iconFontCSS: 'iconfont.css',
   iconFontJS: 'iconfont.js',
@@ -258,6 +258,7 @@ module.exports = {
       save:`${apiPreLogi}/dinnerBook/save`,
       getDinnerInfo:`${apiPreLogi}/dinnerBook/getDinnerInfo`,
       change:`${apiPreLogi}/dinnerBook/change`,
+      isCanAdd:`${apiPreLogi}/dinnerBook/isCanAdd`,
     },
     //通知发放申请
     notice:{

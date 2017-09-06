@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Form, Input,Radio, InputNumber,Modal,Row,Col,Button,Icon,Affix,message,Select } from 'antd'
 //import moment from 'moment';
 import config from '../../utils/config'
-import { FileUpload,SelectUser } from '../../components'
+import { FileUpload,SelectUser,FileList } from '../../components'
 import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
@@ -48,8 +48,10 @@ const modal = ({
   submitLoading,
   onSubmit,
   employeeList,
-  defaultFileList=[],//附件控件prop
-  defaultDetailList=[],//行编辑表格控件datasource
+  defaultFileList=[],
+  defaultDetailList=[],
+  applyFileList=[],
+  purInquiryFileList=[],
   onAudit,
   taskData={},
   auditLoading,
@@ -69,6 +71,9 @@ const modal = ({
 }) => {
   const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
   const isDisable=item.state===1 || item.state===-1?true:false;//是否可以编辑：办理或者退回修改，都不可编辑
+  const taskDefinitionKey=taskData.taskVo && taskData.taskVo.taskDefinitionKey || null;
+  const _use=taskDefinitionKey?taskDefinitionKey.split('_')[0]:'';
+  
   const getFields = () => {
     let data=null;
     validateFieldsAndScroll((err,values) => {
@@ -80,19 +85,39 @@ const modal = ({
         return null;
       }
       data = {...values}
+      let _fileList=[];
       if(fileList && fileList.length>0){
-        fileList.map((f,index)=>{
-          if(f.id) data[`attachList[${index}].id`]=f.id;
-          data[`attachList[${index}].attachUrl`]=f.url;
-          data[`attachList[${index}].attachName`]=f.name;
-        })
+        //上传控件内文件
+        if(taskDefinitionKey && _use){
+          let _tempList=[];
+          fileList.map((item)=>{
+            _tempList.push({
+              ...item,
+              use:_use,
+              useDesc:_use==='purInquiry'?'用于采购询价':''
+            })
+          })
+          _fileList=_tempList.concat(applyFileList);
+        }else{
+          _fileList=fileList.concat(purInquiryFileList);
+        }
       }else if(defaultFileList[0]){
-        defaultFileList.map((f,index)=>{
-          if(f.id) data[`attachList[${index}].id`]=f.id;
-          data[`attachList[${index}].attachUrl`]=f.url;
-          data[`attachList[${index}].attachName`]=f.name;
-        })
+        //未上传前文件
+        if(taskDefinitionKey && _use){
+          _fileList=defaultFileList.concat(applyFileList);
+        }else{
+          _fileList=defaultFileList.concat(purInquiryFileList);
+        }
       }
+      _fileList.map((f,index)=>{
+        if(f.id) data[`attachList[${index}].id`]=f.id;
+        data[`attachList[${index}].attachUrl`]=f.url;
+        data[`attachList[${index}].attachName`]=f.name;
+        if(f.use){
+          data[`attachList[${index}].use`]=f.use;
+          data[`attachList[${index}].useDesc`]=f.useDesc;
+        }
+      })
       //data.totalAmount=0;
       if(detailList && detailList.length>0){
         detailList.map((f,index)=>{
@@ -164,10 +189,24 @@ const modal = ({
       onOk(fields)
     }
   }
-  if(item.attachList&& item.attachList[0]){
-    defaultFileList=item.attachList.map((temp)=>{
-      return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
-    })
+  if(item.attachList && item.attachList[0]){
+    if(taskDefinitionKey && _use){
+      //采购询价附件
+      defaultFileList=item.attachList.filter(f=>f.sourceType===10 && f.use===_use).map((temp)=>{
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      })
+      applyFileList=item.attachList.filter(f=>f.sourceType===10 && f.use===null).map((temp)=>{
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      })
+    }else{
+      //采购申请附件
+      defaultFileList=item.attachList.filter(f=>f.sourceType===10 && f.use===null).map((temp)=>{
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      })
+      purInquiryFileList=item.attachList.filter(f=>f.sourceType===10 && f.use===_use).map((temp)=>{
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      })
+    }
   }else{
     defaultFileList=[];
   }
@@ -250,10 +289,10 @@ const modal = ({
   const handleAudit=(data)=>{
     let taskItem={},formItem=getFields();
     if(formItem){
-      // if(formItem.state===1){
-      //   message.error('请上传附件')
-      //   return;
-      // }
+      if(taskDefinitionKey && _use==='purInquiry' && fileList && fileList.length<1){
+        message.error('请上传询价附件')
+        return;
+      }
       taskItem.taskId=taskData.taskId;
       taskItem.busiId=taskData.busiId;
       taskItem.busiCode=taskData.busiCode;
@@ -484,23 +523,52 @@ const modal = ({
             </FormItem>
           </Col>
         </Row>
-         <EditCellTable dicList={dicList} taskDo={item.state===1?true:false}
+         <EditCellTable dicList={dicList} taskDo={item.state===1 && _use==='purInquiry'?true:false}
           dataSource={defaultDetailList} 
           callbackParent={getDetailList}
           setIsEditable={setIsEditable}
           className={styles['q-detail']}/> 
-        <Row gutter={24} className={styles['q-detail']}>
+        {
+          !taskDefinitionKey || applyFileList[0]?
+          <Row gutter={24} className={styles['q-detail']}>
 
-          <Col span={24} className='qite-list-title'>
-            <Icon type="paper-clip" />申请附件
-          </Col>
-          <Col span={24}>
-            <FormItem >
-              <FileUpload defaultFileList={defaultFileList} callbackParent={getFileList} />      
-            </FormItem>    
-          </Col>
-          
-        </Row>
+            <Col span={24} className='qite-list-title'>
+              <Icon type="paper-clip" />申请附件
+            </Col>
+            <Col span={24}>
+            {
+              taskDefinitionKey && _use?
+                <FileList fileList={applyFileList} showRemoveIcon={false}/>
+              :
+              <FormItem >
+                <FileUpload defaultFileList={defaultFileList} callbackParent={getFileList} />      
+              </FormItem> 
+            }
+            </Col>
+          </Row>
+          :null
+        }
+        {
+          (taskDefinitionKey && _use) || purInquiryFileList[0] ?
+            <Row gutter={24} className={styles['q-detail']}>
+
+              <Col span={24} className='qite-list-title'>
+                <Icon type="paper-clip" />{_use==='purInquiry'?'询价附件':'审批附件'}
+              </Col>
+              <Col span={24}>
+                {
+                  taskDefinitionKey && _use ?
+                    <FormItem >
+                      <FileUpload defaultFileList={defaultFileList} callbackParent={getFileList} />      
+                    </FormItem> 
+                  :
+                    <FileList fileList={purInquiryFileList} showRemoveIcon={false}/>  
+                }
+              </Col>
+              
+            </Row>
+          :null
+        }
         {
           taskData&&taskData.commentList &&taskData.commentList[0]?
             <CommentTable data={taskData.commentList} />

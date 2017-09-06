@@ -46,6 +46,14 @@ export async function change (params) {
     data: params,
   })
 }
+export async function isCanAdd (params) {
+  return request({
+    url: dinnerBook.isCanAdd,
+    method: 'get',
+    data: params,
+  })
+}
+
 export async function queryEmployee (params) {
   return request({
     url: employee.getList,
