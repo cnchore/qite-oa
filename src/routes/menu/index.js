@@ -16,6 +16,7 @@ const MenuManage = ({ location, dispatch, menuManage, loading }) => {
     item: modalType === 'create' ? {parentId:currentItem.id || 0} :currentItem,
     visible: modalVisible,
     maskClosable: false,
+    width:650,
     confirmLoading: loading.effects['menuManage/update'],
     title: `${modalType === 'create' ? '新增菜单' : '编辑菜单'}`,
     wrapClassName: 'vertical-center-modal',

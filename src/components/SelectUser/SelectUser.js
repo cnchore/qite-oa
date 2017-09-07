@@ -73,9 +73,12 @@ class SelectUser extends React.Component {
         selectedRow.realName=selectedRows[0].realName;
         this.setState({selectedRow})
       },
-      getCheckboxProps: record => ({
-        disabled: record.mobilePhone === this.state.mobilePhone, 
-      }),
+      getCheckboxProps: (record) =>{
+        const { type } =this.props;
+        return {
+          disabled: type && type==='selectPayRoller'?false:record.mobilePhone === this.state.mobilePhone, 
+        }
+      } ,
       type:'radio',
     };
     const tableProps = {
@@ -128,8 +131,8 @@ class SelectUser extends React.Component {
         <Button size="large" type="primary" onClick={e=>this.handleCallBackNull()}>提交</Button>
         <Button size="large" type="primary" style={{marginLeft:'8px'}} onClick={e=>this.showModal()}>指定审批人</Button>
       </span>
-      :type && type==='selectAgent'?
-      <Button style={{marginLeft:'8px'}} onClick={e=>this.showModal()}>选择代理人</Button>
+      :type && (type==='selectAgent' || type==='selectPayRoller')?
+      <Button style={{marginLeft:'8px'}} onClick={e=>this.showModal()}>{type==='selectAgent'?'选择代理人':'选择调薪人'}</Button>
       :
       <span>
         <a onClick={e=>this.handleCallBackNull()}>提交</a>
@@ -138,7 +141,7 @@ class SelectUser extends React.Component {
       }
       <Modal
         width={600}
-        title={type && type!=='selectAgent'?"选择审批人":'选择任务代理人'}
+        title={type && type!=='selectAgent' && type!=='selectPayRoller'?"选择审批人":type==='selectAgent'?'选择任务代理人':'选择调薪人'}
         visible={this.state.modalVisible}
         onOk={this.handleOk}
         onCancel={this.handleCancel}

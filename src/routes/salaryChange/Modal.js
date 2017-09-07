@@ -49,6 +49,8 @@ const modal = ({
   taskData={},
   auditLoading,
   onGoback,
+  agentObject={},
+  setAgent,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -80,7 +82,9 @@ const modal = ({
         })
       }
       
-      
+      data.payrollerName= agentObject.payrollerName && agentObject.payrollerName || item.payrollerName;
+      data.payrollerId= agentObject.payrollerId && agentObject.payrollerId || item.payrollerId;
+
       //console.log('-----',data)
       if(item.id){
         data.id=item.id
@@ -130,7 +134,14 @@ const modal = ({
       })
     }
   }
- 
+ const handleAgent=(data)=>{
+    // console.log('data:',data)
+    if(data && data.userId){
+      setAgent({payrollerId:data.userId,payrollerName:data.realName})
+      // item.agentUserName=data.realName;
+      // item.agentUserId=data.userId;
+    }
+  }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
   
   return (
@@ -218,6 +229,18 @@ const modal = ({
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {item.createTime || item.createTimeStr || '系统自动生成'}
+            </FormItem>
+          </Col>
+       
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            调薪人：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem >
+                {agentObject.payrollerName && agentObject.payrollerName || item.payrollerName}
+            </FormItem>
+            <FormItem >
+              <SelectUser type="selectPayRoller" callBack={handleAgent} ></SelectUser>
             </FormItem>
           </Col>
         </Row>

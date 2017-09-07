@@ -8,18 +8,18 @@ const {prefix} =config;
 class AddDinner extends React.Component {
   state = {
     modalVisible:false,
-    deptId:'',
-    deptName:'',
+    deptId:-1,
+    deptName:'外宾',
     dinnerName:'',
   }
   componentWillMount(){
-    const userInfo=JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
-    if(userInfo && userInfo.data && userInfo.data.employeeVo){
-      this.setState({
-        deptId:userInfo.data.employeeVo.postList[0].orgId,
-        deptName:userInfo.data.employeeVo.postList[0].orgName,
-      });
-    }
+    // const userInfo=JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
+    // if(userInfo && userInfo.data && userInfo.data.employeeVo){
+    //   this.setState({
+    //     deptId:userInfo.data.employeeVo.postList[0].orgId,
+    //     deptName:userInfo.data.employeeVo.postList[0].orgName,
+    //   });
+    // }
    
   }
   showModal = () => {

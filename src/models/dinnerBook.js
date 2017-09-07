@@ -162,7 +162,7 @@ export default {
     },
     *change ({ payload }, { call, put }) {
       let data = null;
-      if(payload && payload.id){
+      if(payload && payload.id && payload.data===null){
         data=yield call(change, {id:payload.id})
       }else if(payload && payload.data){
         const dinnerData=yield call(save,payload.data);
@@ -245,7 +245,21 @@ export default {
       return {...state,selectedRowKeys,employeeList:_employeeList}
     },
     setEmployeeList(state,action){
-      return {...state,employeeList:action.payload}
+      let selectedRowKeys=[],tableSource=[];
+      if(action.payload && action.payload.length>0){
+        // selectedRowKeys=action.payload.map(item=>item.dinnerId)
+        action.payload.map((el,index)=>{
+          let _item=el;
+          _item.breakfast=el.breakfast===null?true:el.breakfast;
+          _item.lunch=el.lunch===null?true:el.lunch;
+          _item.supper=el.supper===null?true:el.supper;
+          _item.dinnerId=el.dinnerId===null?(-1 * index):el.dinnerId;
+          tableSource.push(_item);
+          selectedRowKeys.push(el.dinnerId===null?(-1 * index):el.dinnerId)
+        })
+      }
+      return {...state,employeeList:tableSource,selectedRowKeys}
+      // return {...state,employeeList:action.payload}
     },
     setEmployeeAndRowKey(state,action){
       let selectedRowKeys=state.selectedRowKeys;

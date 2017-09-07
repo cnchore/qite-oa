@@ -99,7 +99,7 @@ const Filter = ({
           })(
             <DatePicker style={{ width: '100%' }} size="large" 
              format={dateTimeFormat} 
-            onChange={handleChange.bind(null, 'createTime')} />
+            onChange={handleChange.bind(null, 'updateTime')} />
           )}
         </FilterItem>
       </Col>
@@ -110,7 +110,7 @@ const Filter = ({
           })(
             <DatePicker style={{ width: '100%' }} size="large" 
              format={dateTimeFormat} 
-            onChange={handleChange.bind(null, 'createTime')} />
+            onChange={handleChange.bind(null, 'bookTime')} />
           )}
         </FilterItem>
       </Col>

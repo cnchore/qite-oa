@@ -5,7 +5,7 @@ import { connect } from 'dva'
 import List from './List'
 import Filter from './Filter'
 import Modal from './Modal'
-
+import regularPng from '../../../assets/Regular.png'
 const Regular = ({ location, dispatch, regular, loading }) => {
   const { list,fileList,dicList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = regular
   const { pageSize } = pagination
@@ -132,13 +132,15 @@ const Regular = ({ location, dispatch, regular, loading }) => {
 
   return (
     <div className="content-inner">
-      {!modalVisible &&<Filter {...filterProps} />}
-      {!modalVisible &&<List {...listProps} />}
-      {modalVisible && <Modal {...modalProps} />}
+      <img className="q-flow-img" src={regularPng} alt="离职流程图"/>
     </div>
   )
 }
-
+/*
+{!modalVisible &&<Filter {...filterProps} />}
+{!modalVisible &&<List {...listProps} />}
+{modalVisible && <Modal {...modalProps} />}
+*/
 Regular.propTypes = {
   regular: PropTypes.object,
   location: PropTypes.object,

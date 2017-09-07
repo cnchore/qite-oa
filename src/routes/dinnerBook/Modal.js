@@ -66,7 +66,7 @@ const modal = ({
         //&& 
         if(_data.editable && rowSelection.selectedRowKeys.indexOf(_data.dinnerId)>-1){
           if(_data.id)fields[`detailList[${index}].id`]=_data.id;
-          fields[`detailList[${index}].dinnerId`]=_data.dinnerId;
+          if(_data.dinnerId>-1)fields[`detailList[${index}].dinnerId`]=_data.dinnerId;
           fields[`detailList[${index}].dinnerName`]=_data.dinnerName;
           fields[`detailList[${index}].deptId`]=_data.deptId;
           fields[`detailList[${index}].deptName`]=_data.deptName;
@@ -76,6 +76,12 @@ const modal = ({
           index++;
         }
       })
+      if(item.id){
+        fields.id=item.id;
+      }
+      if(item.state!==null && item.state!==undefined){
+        fields.state=item.state;
+      }
     }
     // console.log('data:',fields)
     return fields;
@@ -152,15 +158,6 @@ const modal = ({
         }
       })
       setEmployeeList(_result);
-      // _result.map((_data,index)=>{
-      //   if(_data.id)fields[`detailList[${index}].id`]=_data.id;
-      //   fields[`detailList[${index}].dinnerId`]=_data.dinnerId;
-      //   fields[`detailList[${index}].dinnerName`]=_data.dinnerName;
-      //   fields[`detailList[${index}].deptId`]=_data.deptId;
-      //   fields[`detailList[${index}].deptName`]=_data.deptName;
-      // })
-      // getDinnerInfo(fields);
-
     }
   }
   const handleOutsideDinner=(data)=>{

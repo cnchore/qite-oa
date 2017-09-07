@@ -89,7 +89,7 @@ const modal = ({
       if(photoUrl){
         data.photo=photoUrl;
       }else{
-        data.photo=null;
+        data.photo=item.photo;
       }
       if(item.id){
         data.id=item.id

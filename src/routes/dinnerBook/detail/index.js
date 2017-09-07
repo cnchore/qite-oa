@@ -107,7 +107,7 @@ const Detail = ({ dinnerBookDetail }) => {
           scroll={{ x: 1024 }}
           columns={columns}
           simple
-          rowKey={record => record.dinnerId}
+          rowKey={record => record.id}
         />
       
     </div>)

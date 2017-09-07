@@ -57,6 +57,7 @@ class FileList extends React.Component {
         return TXT;
       case '.rar':
         return RAR;
+      case '.png':
       case '.jpg':
       case '.jpg':
       case '.gif':

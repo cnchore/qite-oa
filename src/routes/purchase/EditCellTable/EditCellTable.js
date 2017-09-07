@@ -136,9 +136,9 @@ class EditCellTable extends React.Component {
     if(!taskDo){
       if(key==='supplierName' || key==='purchaseAmount' || key==='estiArrivalTime' || key==='storageTime')
       {
-        isCanEdit=true;
-      }else{
         isCanEdit=false;
+      }else{
+        isCanEdit=true;
       }
     }else if(taskDo){
       if(key!=='supplierName' && key!=='purchaseAmount' && key!=='estiArrivalTime' && key!=='storageTime')
@@ -148,6 +148,7 @@ class EditCellTable extends React.Component {
         isCanEdit=true;
       }
     }
+    // console.log(key+' isCanEdit:',isCanEdit)
     if (typeof editable === 'undefined' || !isCanEdit || key==='isIn') {
       return text;
     }
@@ -199,7 +200,8 @@ class EditCellTable extends React.Component {
   }
   add=(keys=[])=>{
     let { count, data} =this.state;
-    // const {applyList} =this.props;
+    const {taskDo} =this.props;
+    // console.log('taskDo:',taskDo)
     const newRow={
         key: count+Math.random(),
         materialName: {
@@ -231,23 +233,23 @@ class EditCellTable extends React.Component {
           value: '',
         },
         supplierName: {
-          editable:true,
+          editable:false,
           value: '',
         },
         purchaseAmount: {
-          editable:true,
+          editable:false,
           value: '',
         },
         estiArrivalTime: {
-          editable:true,
+          editable:false,
           value: '',
         },
         storageTime: {
-          editable:true,
+          editable:false,
           value: '',
         },
         isIn: {
-          editable:true,
+          editable:false,
           value: '',
         },
       }
@@ -365,7 +367,8 @@ class EditCellTable extends React.Component {
       });
       return obj;
     });
-    const columns = this.columns;
+    const columns = taskDo?this.columns:this.columns.filter(f=>f.dataIndex!=='supplierName' && f.dataIndex!=='purchaseAmount' 
+      && f.dataIndex!=='estiArrivalTime' && f.dataIndex!=='storageTime' && f.dataIndex!=='isIn');
     // const onCancel =()=> {
     //     this.setState({modalVisable:false});
     // }
@@ -394,7 +397,7 @@ class EditCellTable extends React.Component {
               dataSource={dataSource} 
               columns={columns} 
               pagination={false}
-              scroll={{ x: 2300 }}
+              scroll={{ x: taskDo?2300:1400 }}
               rowKey={record=>record.key} 
               footer={()=>(
                 <div className={styles.footer}>

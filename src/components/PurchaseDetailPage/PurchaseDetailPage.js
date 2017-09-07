@@ -162,7 +162,7 @@ class PurchaseDetailPage extends React.Component {
           同月内重购：</Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
           {data.isMonthRepeat?'是':'否'}
-          {data.monthRepeatReason && '，重复采购原因： '+data.monthRepeatReason}
+          {data.isMonthRepeat && data.monthRepeatReason && '，重复采购原因： '+data.monthRepeatReason}
           </Col>
 
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>

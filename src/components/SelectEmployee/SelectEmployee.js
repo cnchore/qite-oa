@@ -58,27 +58,33 @@ class SelectEmployee extends React.Component {
     const columns = [
       {
         title: '部门',
-        key: 'orgId',
-        render: (text, record) =>(record.postList&&record.postList[0]?getOrgName(record.postList[0].orgId):''),
-        
+        key: 'deptName',
+        dataIndex: 'deptName',
       }, {
         title: '姓名',
-        dataIndex: 'realName',
-        key: 'realName',
+        dataIndex: 'dinnerName',
+        key: 'dinnerName',
+      
+      }, {
+        title: '报餐人',
+        dataIndex: 'createrName',
+        key: 'createrName',
       },
     ]
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        //console.log('selectedRows:',selectedRows[0]);
-        let { selectedRow} =this.state;
-        selectedRows.map(item=>{
-          if(selectedRow.filter(k=>k.dinnerId===item.dinnerId).length<1){
-            selectedRow.push(item)
-          }
-        })
-        this.setState({selectedRow})
+        // let { selectedRow} =this.state;
+        // selectedRows.map(item=>{
+        //   if(selectedRow.filter(k=>k.dinnerId===item.dinnerId).length<1){
+        //     selectedRow.push(item)
+        //   }
+        // })
+        // console.log('selectedRows:',selectedRows,selectedRow);
+        this.setState({selectedRow:selectedRows})
       },
-      
+      getCheckboxProps: record => ({
+        disabled: record.editable!==null?!record.editable:false, 
+      }),
     };
     const tableProps = {
       dataSource: employeeList,
@@ -106,38 +112,42 @@ class SelectEmployee extends React.Component {
             fields[`detailList[${index}].deptId`]=_data.postList[0].orgId;
             fields[`detailList[${index}].deptName`]=getOrgName(_data.postList[0].orgId);
           })
-          getDinnerInfo(fields).then(result=>{
-            if(result && result.data){
-              this.setState({employeeList:result.data.detailList})
-            }
-            if(result && !result.success){
-              message.error(result.message);
-            }
-          });
-
+          return fields;
         }
         if(res && !res.success){
-          message.error(res.message);
+           throw res.message;
         }
+      }).then(fields=>{
+        // console.log('fields:',fields)
+        getDinnerInfo({...fields}).then((result)=>{
+          if(result && result.data){
+            this.setState({employeeList:result.data.detailList})
+          }
+          if(result && !result.success){
+             throw result.message;
+          }
+        });
+      }).catch(error=>{
+        message.error(error)
       })
     }
 
     
     const content=(
-      <Row gutter={24} style={{width:'580px'}}>
-        <Col className={styles.tree} span={12}>
+      <Row gutter={24} >
+        <Col className={styles.tree} span={10}>
            <h4>组织机构</h4>
           <Tree onSelect={onSelect} showLine defaultExpandAll>
             {treeNodes}
           </Tree>
         </Col>
-        <Col span={12}>
+        <Col span={14}>
           <Table
             {...tableProps}
             bordered
             columns={columns}
             simple
-            rowKey={record => record.id}
+            rowKey={record => record.dinnerId}
           />
         </Col>
       </Row>
@@ -146,7 +156,7 @@ class SelectEmployee extends React.Component {
       <span style={{marginRight:'12px'}}>
         <Button type="primary"  size="large" onClick={e=>this.showModal()}>添加内部人员</Button>
         <Modal
-          width={600}
+          width={800}
           title='添加内部人员'
           visible={this.state.modalVisible}
           onOk={this.handleOk}

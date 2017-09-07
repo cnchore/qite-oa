@@ -70,9 +70,11 @@ const modal = ({
   ...modalProps
 }) => {
   const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
-  const isDisable=item.state===1 || item.state===-1?true:false;//是否可以编辑：办理或者退回修改，都不可编辑
+  const isDisable=item.state===1?true:false;//是否可以编辑：办理时不可编辑
   const taskDefinitionKey=taskData.taskVo && taskData.taskVo.taskDefinitionKey || null;
   const _use=taskDefinitionKey?taskDefinitionKey.split('_')[0]:'';
+  //状态：新增，编辑，退回修改，审批（询价，确定采购）
+  //新增：item.state===undefined;
   
   const getFields = () => {
     let data=null;
@@ -80,7 +82,7 @@ const modal = ({
       if (err) {
         return null;
       }
-      if(isEditable){
+      if(item.state!==1 && isEditable){
         message.warning('请先保存物品明细');
         return null;
       }
@@ -101,7 +103,7 @@ const modal = ({
         }else{
           _fileList=fileList.concat(purInquiryFileList);
         }
-      }else if(defaultFileList[0]){
+      }else if(defaultFileList[0] || applyFileList[0] || purInquiryFileList[0]){
         //未上传前文件
         if(taskDefinitionKey && _use){
           _fileList=defaultFileList.concat(applyFileList);
@@ -157,11 +159,15 @@ const modal = ({
           
         })
       }
-      item.typeOption=null;
+
       if(data.bigType){
         data.bigTypeName=dicList.filter(f=>f.dicType==='buyType_Big' && f.dicValue===data.bigType)[0].dicName;
       }
-      if(data.type){
+      if(!(item.typeOption && item.typeOption[0]) && item.type){
+        data.type=item.type;
+        data.typeName=item.typeName;
+        item.typeOption=null;
+      }else{
         data.typeName=dicList.filter(f=>f.dicType==='buyType_item'+data.bigType && f.dicValue===data.type)[0].dicName;
       }
       if(isDisable){
@@ -186,13 +192,14 @@ const modal = ({
         message.error('请上传附件')
         return;
       }
+      // console.log('fields:',fields)
       onOk(fields)
     }
   }
   if(item.attachList && item.attachList[0]){
-    if(taskDefinitionKey && _use){
+    if(taskDefinitionKey && _use && item.state===1){
       //采购询价附件
-      defaultFileList=item.attachList.filter(f=>f.sourceType===10 && f.use===_use).map((temp)=>{
+      defaultFileList=item.attachList.filter(f=>f.sourceType===10 && f.use!==null).map((temp)=>{
         return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
       })
       applyFileList=item.attachList.filter(f=>f.sourceType===10 && f.use===null).map((temp)=>{
@@ -203,7 +210,7 @@ const modal = ({
       defaultFileList=item.attachList.filter(f=>f.sourceType===10 && f.use===null).map((temp)=>{
         return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
       })
-      purInquiryFileList=item.attachList.filter(f=>f.sourceType===10 && f.use===_use).map((temp)=>{
+      purInquiryFileList=item.attachList.filter(f=>f.sourceType===10 && f.use!==null).map((temp)=>{
         return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
       })
     }
@@ -285,12 +292,32 @@ const modal = ({
       })
     }
   }
-  
+  const purDetailIsNotNull=()=>{
+    if(detailList && detailList[0]){
+      if(detailList.filter(f=>f.supplierName.value!=='' && f.purchaseAmount.value!==''
+                        && f.estiArrivalTime.value!=='' && f.supplierName.value!==null && f.purchaseAmount.value!==null
+                        && f.estiArrivalTime.value!==null).length>0){
+        return true;
+      }
+    }else if(defaultDetailList && defaultDetailList[0]){
+      if(defaultDetailList.filter(f=>f.supplierName.value!=='' && f.purchaseAmount.value!==''
+                        && f.estiArrivalTime.value!=='' && f.supplierName.value!==null && f.purchaseAmount.value!==null
+                        && f.estiArrivalTime.value!==null).length>0){
+        return true;
+      }
+    }
+    //为空
+    return false;
+  }
   const handleAudit=(data)=>{
     let taskItem={},formItem=getFields();
     if(formItem){
       if(taskDefinitionKey && _use==='purInquiry' && fileList && fileList.length<1){
         message.error('请上传询价附件')
+        return;
+      }
+      if(taskDefinitionKey && (_use==='purInquiry' || _use==='purConfirm') && !purDetailIsNotNull()){
+        message.error('供应商,到货日期,采购金额,不能为空')
         return;
       }
       taskItem.taskId=taskData.taskId;
@@ -317,7 +344,9 @@ const modal = ({
   const handleBigTypeChange=(value)=>{
     let _type='buyType_item'+value;
     item.typeOption=dicList.filter(f=>f.dicType===_type).map(dic=><Option key={dic.dicValue}>{dic.dicName}{dic.remark?` (${dic.remark})`:''}</Option>)
+    setFieldsValue({'type':undefined});
   }
+
   const handleActChange=(e)=>{
       var _reasonStr='';
       if(e.target.value==='1' || e.target.value==='2'){
@@ -340,7 +369,7 @@ const modal = ({
             <div className='qite-title'>
             <Icon type={item.id?'edit':'plus'} />{taskData && taskData.taskVo && taskData.taskVo.nodeName?taskData.taskVo.nodeName:title}</div>
            
-            <Affix target={()=>document.getElementById('layout-main')} style={{minWidth:'300px',textAlign:'right'}}>
+            <Affix target={()=>document.getElementById('layout-main')} style={{minWidth:'310px',textAlign:'right'}}>
                 {taskData && taskData.taskId?(
                   <div style={{backgroundColor:'#fff'}}>
                     { isNeedSel?
@@ -444,13 +473,13 @@ const modal = ({
                   onChange:handleBigTypeChange
                 })(<Select placeholder="请选择" disabled={isDisable}>{bigOption}</Select>)}
               </FormItem>
-              : <span>{ item.bigTypeName?item.bigTypeName:'未知类型'}</span>
+              : <FormItem>{ item.bigTypeName?item.bigTypeName:'未知类型'}</FormItem>
             }
             {
               !isDisable?
               <FormItem style={{width:'45%'}}>
                 {getFieldDecorator('type', {
-                  initialValue: item.type?String(item.type):undefined,
+                  initialValue: item.typeName?String(item.typeName):undefined,
                   rules: [
                     {
                       required: true,message:'不能为空',
@@ -459,7 +488,7 @@ const modal = ({
                   ],
                 })(<Select placeholder="请选择" disabled={isDisable}>{item.typeOption}</Select>)}
               </FormItem>
-              : <span>{item.typeName?'，'+item.typeName:''}</span>
+              : <FormItem>{item.typeName?'，'+item.typeName:''}</FormItem>
             }
           </Col>
         </Row>
@@ -523,13 +552,13 @@ const modal = ({
             </FormItem>
           </Col>
         </Row>
-         <EditCellTable dicList={dicList} taskDo={item.state===1 && _use==='purInquiry'?true:false}
+         <EditCellTable dicList={dicList} taskDo={item.state===1 && (_use==='purInquiry' || _use==='purConfirm')?true:false}
           dataSource={defaultDetailList} 
           callbackParent={getDetailList}
           setIsEditable={setIsEditable}
           className={styles['q-detail']}/> 
         {
-          !taskDefinitionKey || applyFileList[0]?
+          !taskDefinitionKey || applyFileList[0] || (taskDefinitionKey && item.state===-1)?
           <Row gutter={24} className={styles['q-detail']}>
 
             <Col span={24} className='qite-list-title'>
@@ -537,7 +566,7 @@ const modal = ({
             </Col>
             <Col span={24}>
             {
-              taskDefinitionKey && _use?
+              taskDefinitionKey && _use && item.state===1?
                 <FileList fileList={applyFileList} showRemoveIcon={false}/>
               :
               <FormItem >
@@ -557,7 +586,7 @@ const modal = ({
               </Col>
               <Col span={24}>
                 {
-                  taskDefinitionKey && _use ?
+                  taskDefinitionKey && _use && item.state===1?
                     <FormItem >
                       <FileUpload defaultFileList={defaultFileList} callbackParent={getFileList} />      
                     </FormItem> 

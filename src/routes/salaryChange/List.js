@@ -72,6 +72,11 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
       dataIndex: 'createTime',width:170,
       key: 'createTime',
     }, {
+      title: '调薪人',
+      dataIndex: 'payrollerName',width:120,
+      key: 'payrollerName',
+    }, {
+      
       title: '原部门',
       dataIndex: 'originalDept',width:120,
       key: 'originalDept',
@@ -118,7 +123,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
         {...tableProps}
         className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 1300 }}
+        scroll={{ x: 1350 }}
         columns={columns}
         simple
         rowKey={record => record.id}

@@ -12,7 +12,7 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
   const { pageSize } = pagination
 
   const modalProps = {
-    item: modalType === 'create' ? {} : currentItem,
+    item: currentItem,
     visible: modalVisible,
     fileList,
     employeeList,
@@ -147,6 +147,7 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
           fileList:[],
           detailList:[],
           taskData:{},
+          currentItem:{isMonthRepeat:'',typeOption:[]},
         },
       })
     },

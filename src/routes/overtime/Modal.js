@@ -255,7 +255,7 @@ const modal = ({
           <Col xs={18} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem >
               {getFieldDecorator('type', {
-                initialValue:item.type===undefined?'1':String(item.type),
+                initialValue:item.type===undefined?'申请加班':String(item.type),
                 rules: [
                   {
                     required: true,message:'不能为空',

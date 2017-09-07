@@ -7,7 +7,8 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const SalaryChange = ({ location, dispatch, salaryChange, loading }) => {
-  const { list,fileList,dicList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = salaryChange
+  const { list,fileList,dicList,employeeList,taskData, agentObject,
+    pagination, currentItem, modalVisible, modalType } = salaryChange
   const { pageSize } = pagination
 
   const modalProps = {
@@ -16,6 +17,7 @@ const SalaryChange = ({ location, dispatch, salaryChange, loading }) => {
     fileList,
     employeeList,
     dicList,
+    agentObject,
     taskData,
     maskClosable: false,
     submitLoading:loading.effects['salaryChange/submit'],
@@ -34,7 +36,12 @@ const SalaryChange = ({ location, dispatch, salaryChange, loading }) => {
         type: 'salaryChange/hideModal',
       })
     },
-    
+    setAgent(agentObject){
+      dispatch({
+        type:'salaryChange/setAgent',
+        payload:agentObject
+      })
+    },
     getFileList(fileList){
       dispatch({
         type:'salaryChange/setFileList',
@@ -124,6 +131,7 @@ const SalaryChange = ({ location, dispatch, salaryChange, loading }) => {
           modalType: 'create',
           fileList:[],
           taskData:{},
+          agentObject:{},
         },
       })
     },

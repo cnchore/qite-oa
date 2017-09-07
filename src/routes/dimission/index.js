@@ -5,6 +5,7 @@ import { connect } from 'dva'
 import List from './List'
 import Filter from './Filter'
 import Modal from './Modal'
+import dimissionPng from '../../../assets/Dimission.png'
 
 const Dimission = ({ location, dispatch, dimission, loading }) => {
   const { list,fileList,dicList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = dimission
@@ -132,13 +133,15 @@ const Dimission = ({ location, dispatch, dimission, loading }) => {
 
   return (
     <div className="content-inner">
-      {!modalVisible &&<Filter {...filterProps} />}
-      {!modalVisible &&<List {...listProps} />}
-      {modalVisible && <Modal {...modalProps} />}
+      <img className="q-flow-img" src={dimissionPng} alt="离职流程图"/>
     </div>
   )
 }
-
+/*
+{!modalVisible &&<Filter {...filterProps} />}
+      {!modalVisible &&<List {...listProps} />}
+      {modalVisible && <Modal {...modalProps} />}
+*/
 Dimission.propTypes = {
   dimission: PropTypes.object,
   location: PropTypes.object,

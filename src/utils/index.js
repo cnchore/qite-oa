@@ -321,6 +321,10 @@ const getMsgType=(t)=>{
     return '确定采购通知入库';
     case 15:
     return '入库通知申请人领料';
+    case 16:
+    return '申请通过通知相关人';
+    case 17:
+    return '报餐通知';
     default:
     return '新消息';
   }
@@ -385,6 +389,12 @@ const getHMS=(text)=>{
     }else if(_msgType===7){
       // 待完善资料
       return <Link to={`/waiting`}>{content}</Link>
+    }else if(_msgType===16){
+      // 申请通过通知相关人
+      return `${content.replace(t,'')} 已审批通过，请到报表管理核实`
+    }else if(_msgType===17){
+      // 申请通过通知相关人
+      return `可以报餐啦，不要忘记哦，亲`
     }else if(codeType&&id!==-1){
       switch(codeType){
         case 'MC'://考勤异常

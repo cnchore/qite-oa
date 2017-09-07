@@ -7,10 +7,10 @@ const Option = Select.Option;
 
 const formItemLayout = {
   labelCol: {
-    span: 6,
+    span: 4,
   },
   wrapperCol: {
-    span: 14,
+    span: 18,
   },
 }
 
@@ -90,7 +90,7 @@ const modal = ({
           {getFieldDecorator('src', {
             initialValue: item.src,
             
-          })(<Input />)}
+          })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 6 }} />)}
         </FormItem>
         <FormItem label="备注说明" hasFeedback {...formItemLayout}>
           {getFieldDecorator('remark', {
