@@ -100,6 +100,9 @@ const modal = ({
             })
           })
           _fileList=_tempList.concat(applyFileList);
+          if(item.state===-1){//退回修改
+            _fileList=_tempList.concat(purInquiryFileList);
+          }
         }else{
           _fileList=fileList.concat(purInquiryFileList);
         }
@@ -107,9 +110,13 @@ const modal = ({
         //未上传前文件
         if(taskDefinitionKey && _use){
           _fileList=defaultFileList.concat(applyFileList);
+          if(item.state===-1){//退回修改
+            _fileList=defaultFileList.concat(purInquiryFileList);
+          }
         }else{
           _fileList=defaultFileList.concat(purInquiryFileList);
         }
+
       }
       _fileList.map((f,index)=>{
         if(f.id) data[`attachList[${index}].id`]=f.id;
@@ -144,6 +151,7 @@ const modal = ({
         defaultDetailList.map((f,index)=>{
           if(f.id) data[`purchaseDetailList[${index}].id`]=f.id;
           if(f.applyId)data[`purchaseDetailList[${index}].applyId`]=f.applyId;
+          data[`purchaseDetailList[${index}].materialName`]=f.materialName.value;
           data[`purchaseDetailList[${index}].spec`]=f.spec.value;
           data[`purchaseDetailList[${index}].purchaseNum`]=f.num.value;
           data[`purchaseDetailList[${index}].unit`]=f.unit.value;
@@ -552,11 +560,13 @@ const modal = ({
             </FormItem>
           </Col>
         </Row>
-         <EditCellTable dicList={dicList} taskDo={item.state===1 && (_use==='purInquiry' || _use==='purConfirm')?true:false}
-          dataSource={defaultDetailList} 
+
+         <EditCellTable dicList={dicList} taskDo={item.state===1 && _use?true:false}
+          dataSource={defaultDetailList} useDesc={_use} isCanAdd={item.state===-1?true:false}
           callbackParent={getDetailList}
           setIsEditable={setIsEditable}
           className={styles['q-detail']}/> 
+         
         {
           !taskDefinitionKey || applyFileList[0] || (taskDefinitionKey && item.state===-1)?
           <Row gutter={24} className={styles['q-detail']}>
@@ -582,13 +592,17 @@ const modal = ({
             <Row gutter={24} className={styles['q-detail']}>
 
               <Col span={24} className='qite-list-title'>
-                <Icon type="paper-clip" />{_use==='purInquiry'?'询价附件':'审批附件'}
+                <Icon type="paper-clip" />询价／确定采购附件
               </Col>
               <Col span={24}>
                 {
-                  taskDefinitionKey && _use && item.state===1?
+                  taskDefinitionKey && item.state===1?
                     <FormItem >
-                      <FileUpload defaultFileList={defaultFileList} callbackParent={getFileList} />      
+                    { _use==='purInquiry' || _use==='purConfirm'?
+                        <FileUpload defaultFileList={defaultFileList} callbackParent={getFileList} />
+                      :   
+                      <FileList fileList={defaultFileList} showRemoveIcon={false}/>  
+                    }
                     </FormItem> 
                   :
                     <FileList fileList={purInquiryFileList} showRemoveIcon={false}/>  

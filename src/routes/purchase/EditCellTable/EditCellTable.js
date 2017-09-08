@@ -84,11 +84,7 @@ class EditCellTable extends React.Component {
       dataIndex: 'storageTime',
       width: 200,
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'storageTime', text,'datetime'),
-    }, {
-      title: '是否已入库',
-      dataIndex: 'isIn',
-      width: 150,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'isIn', text,'radio'),
+    
     }, {
       title: '操作',
       dataIndex: 'operation',
@@ -122,30 +118,41 @@ class EditCellTable extends React.Component {
       count:0,
       data:this.props.dataSource || [],
       actualExpense:0,
-      // modalVisable:false,
-      // applyList:[],
-      // actionInfo:userInfo && userInfo.data && userInfo.data.employeeVo || {}
     };
   }
-  
+  static defaultProps = {
+      dataSource:[]
+  }
+  componentWillReceiveProps(nextProps){
+    // console.log('nextProps:',nextProps)
+  }
   renderColumns(data, index, key, text,colType) {
     const { editable, status } = data[index][key];
-    const { dicList,taskDo } =this.props;
+    const { dicList,taskDo,useDesc,isCanAdd } =this.props;
     //taskDo=true:任务办理中，供应商等信息可编辑，申请信息不可编辑
     let isCanEdit;
     if(!taskDo){
       if(key==='supplierName' || key==='purchaseAmount' || key==='estiArrivalTime' || key==='storageTime')
       {
-        isCanEdit=false;
+        isCanEdit=false;//不可编辑
       }else{
         isCanEdit=true;
       }
-    }else if(taskDo){
+    }else if(taskDo && (useDesc==='purInquiry' || useDesc==='purConfirm')){
       if(key!=='supplierName' && key!=='purchaseAmount' && key!=='estiArrivalTime' && key!=='storageTime')
       {
         isCanEdit=false;
       }else{
         isCanEdit=true;
+      }
+    }
+    //可添加明细
+    if(isCanAdd){
+      if(key!=='supplierName' && key!=='purchaseAmount' && key!=='estiArrivalTime' && key!=='storageTime')
+      {
+        isCanEdit=true;
+      }else{
+        isCanEdit=false;
       }
     }
     // console.log(key+' isCanEdit:',isCanEdit)
@@ -254,30 +261,6 @@ class EditCellTable extends React.Component {
         },
       }
     if(keys[0]){
-      // let selectedRows=applyList.filter(item=>(keys.findIndex(k=>String(k)===String(item.id)))>-1)
-      // const dataSource = selectedRows.map((item) => {
-      //   let obj = {};
-      //   Object.keys(item).forEach((key) => {
-      //     if(key === 'key' || key=== 'id' || key=== 'applyId'){
-      //       obj[key]=item[key];
-      //     }else if(key==='useTime'){
-      //       obj['useTimeStr']={};
-      //       obj['useTimeStr'].editable=false;
-      //       obj['useTimeStr'].value=item[key];
-      //       //console.log('useTimeStr:',item[key])
-      //     }else if(key!=='useTimeStr'){
-      //       obj[key]={};
-      //       obj[key].editable=key==='amount' || key==='num'?true:false;
-      //       obj[key].value=item[key];
-      //     }
-      //   });
-      //   return obj;
-      // });
-      //console.log(dataSource)
-      // this.setState({
-      //   data:[...data,...dataSource],
-      //   count:count+keys.length,
-      // })
     }else{
       this.setState({
         data:[...data,newRow],
@@ -287,12 +270,7 @@ class EditCellTable extends React.Component {
     this.props.setIsEditable && this.props.setIsEditable(true);
 
   }
-  // selectList=()=>{
-  //   const { applyList } =this.props;
-  //   const {data}=this.state;
-  //   let list=applyList.filter(item=>data.findIndex(d=>String(item.id)===String(d.id))===-1);
-  //   this.setState({modalVisable:true,applyList:list});
-  // }
+  
   handleChange(key, index, value) {
     const { data } = this.state;
     // if(selectedRow && selectedRow[0]){
@@ -359,7 +337,7 @@ class EditCellTable extends React.Component {
   }
   render() {
     const { data,actualExpense} = this.state;
-    const {taskDo} =this.props;
+    const {taskDo,isCanAdd,useDesc} =this.props;
     const dataSource = data.map((item) => {
       const obj = {};
       Object.keys(item).forEach((key) => {
@@ -367,8 +345,22 @@ class EditCellTable extends React.Component {
       });
       return obj;
     });
-    const columns = taskDo?this.columns:this.columns.filter(f=>f.dataIndex!=='supplierName' && f.dataIndex!=='purchaseAmount' 
+    let columns =[],scrollX=2300;
+
+    if(!taskDo || isCanAdd){
+      columns=this.columns.filter(f=>f.dataIndex!=='supplierName' && f.dataIndex!=='purchaseAmount' 
       && f.dataIndex!=='estiArrivalTime' && f.dataIndex!=='storageTime' && f.dataIndex!=='isIn');
+      scrollX=1400;
+    }else if(taskDo && useDesc!=='purInquiry' && useDesc!=='purConfirm'){
+      columns=this.columns.filter(f=>f.dataIndex!=='operation');
+      scrollX=2000;
+    }else if(useDesc==='purConfirm'){
+      columns=this.columns.filter(f=>f.dataIndex!=='storageTime');
+      scrollX=2100;
+    }else{
+      columns=this.columns;
+    }
+
     // const onCancel =()=> {
     //     this.setState({modalVisable:false});
     // }
@@ -381,12 +373,13 @@ class EditCellTable extends React.Component {
     //   onOk:handleOk,
     //   onCancel,
     // }
+    //_use==='purInquiry' || _use==='purConfirm'
     return  (
       <Row gutter={24} className={this.props.className}>
 
         <Col span={24} className='qite-list-title' style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
             <div><Icon type="credit-card" />物品明细</div>
-            { !taskDo?
+            { !taskDo || isCanAdd?
               <div>
                 <a onClick={e=>this.add(e)}>添加物品明细</a>
               </div>
@@ -397,7 +390,7 @@ class EditCellTable extends React.Component {
               dataSource={dataSource} 
               columns={columns} 
               pagination={false}
-              scroll={{ x: taskDo?2300:1400 }}
+              scroll={{ x: scrollX }}
               rowKey={record=>record.key} 
               footer={()=>(
                 <div className={styles.footer}>

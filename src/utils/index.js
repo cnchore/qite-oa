@@ -442,10 +442,15 @@ const getHMS=(text)=>{
     let _url=`taskId=${record.taskId}&busiId=${record.busiId}&from=${fromPath}&t=${Math.random()}`,
         text=record.state===-2?'返回完善资料':'退回修改',
         _code=record.busiCode.substr(0,2);
+    const handerA=()=>{
+      window.location.replace(`${window.location.origin}${window.location.pathname}#/purchase?${_url}`);
+      window.location.reload();
+    }
     switch(record.state){
       case 1:
       if(_code==='PE'){
-        return <Link to={`/purchase?${_url}`}>办理</Link>;
+        return <a  onClick={handerA} target="_self">办理</a>;
+        // return <Link to={`/purchase?${_url}`}>办理</Link>;
       }
       return <Link to={`/waiting?homeTaskId=${record.taskId}&from=${fromPath}&t=${Math.random()}`}>办理</Link>;
       case -1:
@@ -470,7 +475,9 @@ const getHMS=(text)=>{
         case 'PA':
         return <Link to={`/purchaseApply?${_url}`}>{text}</Link>;
         case 'PE':
-        return <Link to={`/purchase?${_url}`}>{text}</Link>;
+        // return <Link to={`/purchase?${_url}`}>{text}</Link>;
+        return <a  onClick={handerA} target="_self">{text}</a>;
+
         case 'PT':
         return <Link to={`/payment?${_url}`}>{text}</Link>;
         case 'RT':

@@ -52,26 +52,27 @@ const modal = ({
   
   const handleOk = (id) => {
     let data={};
-    if(fileList && fileList.length>0){
-        fileList.filter(l=>l.sourceType===20).map((f,index)=>{
+    if(fileList && fileList[0]){
+        fileList.filter(item=>!item.id).map((f,index)=>{
           if(f.id) data[`attachList[${index}].id`]=f.id;
           data[`attachList[${index}].attachUrl`]=f.url;
           data[`attachList[${index}].attachName`]=f.name;
+          data[`attachList[${index}].sourceType`]=20;
         })
       }else if(defaultFileList[0]){
-        defaultFileList.filter(l=>l.sourceType===20).map((f,index)=>{
+        defaultFileList.filter(item=>!item.id).map((f,index)=>{
           if(f.id) data[`attachList[${index}].id`]=f.id;
           data[`attachList[${index}].attachUrl`]=f.url;
           data[`attachList[${index}].attachName`]=f.name;
+          data[`attachList[${index}].sourceType`]=20;
         })
       }
     if(data){
       data.detailId=id;
-      if(!data['attachList[0].attachUrl']){
+      if(!fileList[0] && !defaultFileList[0]){
         message.error('请上传附件')
         return;
       }
-      // console.log(data)
       // return;
       storeInDetail(data)
     }
@@ -93,7 +94,7 @@ const modal = ({
            
             <Affix target={()=>document.getElementById('layout-main')}>
               <div style={{backgroundColor:'#fff'}}>
-                <Button  type="ghost" onClick={onCancel} size="large">取消</Button>
+                <Button  type="ghost" onClick={onCancel} size="large">返回</Button>
               </div>
             </Affix>
           </Col>

@@ -26,6 +26,9 @@ class FileUpload extends React.Component {
     showRemoveIcon: true,
     showPreviewIcon: true,
   };
+  componentWillReceiveProps(nextProps){
+    // console.info('FileUpload nextProps:',nextProps)
+  }
   state = {
     fileList:this.props.defaultFileList || [],
     previewImage:null,

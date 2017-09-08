@@ -103,13 +103,13 @@ export default {
       }
     },
     *update ({ payload }, { select, call, put }) {
-      // const id = yield select(({ storage }) => storage.currentItem.id)
+      const currentItem = yield select(({ storage }) => storage.currentItem)
       // const newItem = { ...payload, id }
       const data = yield call(storeInDetail, payload)
       if (data.success) {
         message.success('入库成功');
         // yield put({ type: 'hideModal' })
-        // yield put({ type: 'query' })
+        yield put({ type: 'editItem',payload:{currentItem} })
       } else {
         throw data
       }

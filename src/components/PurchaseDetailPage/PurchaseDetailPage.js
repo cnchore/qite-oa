@@ -200,7 +200,7 @@ class PurchaseDetailPage extends React.Component {
           :null
         }
         
-        { storeFileList && storeFileList[0]?
+        { !storeInDetail && storeFileList && storeFileList[0]?
           <Row gutter={24} className={styles['q-detail']}>
             <Col span={24} className='qite-list-title'>
               <Icon type="paper-clip" />入库附件

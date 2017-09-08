@@ -29,7 +29,7 @@ const Login = ({
   }
   let lg={
     userName:'',
-    pwd:'000000'
+    pwd:''
   }
   const emitEmpty = () => {
     setFieldsValue({'userName':''});

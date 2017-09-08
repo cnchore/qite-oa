@@ -30,7 +30,9 @@ class FileList extends React.Component {
     previewImage:null,
     previewName:''
   }
-  
+  componentWillReceiveProps(nextProps){
+    // console.log('fileList nextProps:',nextProps)
+  }
   getThumbUrl=(file)=>{
     if(file.type==='image/jpeg'){
       return file.url+'?imageView2/1/w/320/h/200/format/webp/interlace/0/q/50';
@@ -48,7 +50,7 @@ class FileList extends React.Component {
       case '.pptx':
         return PPTX;
       case '.xls':
-        return XlS;
+        return XLS;
       case '.xlsx':
         return XLSX;
       case '.zip':

@@ -39,7 +39,10 @@ const List = ({ onEditItem,location, ...tableProps }) => {
       title: '申请时间',
       dataIndex: 'createTime',width:170,
       key: 'createTime',
-    
+    },{
+      title:'申请人',
+      dataIndex:'applyName',
+      key:'applyName',
     }, {
       title: '状态',
       dataIndex: 'state',
@@ -72,7 +75,7 @@ const List = ({ onEditItem,location, ...tableProps }) => {
         {...tableProps}
         // className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 767 }}
+        scroll={{ x: 867 }}
         columns={columns}
         simple
         rowKey={record => record.id}
