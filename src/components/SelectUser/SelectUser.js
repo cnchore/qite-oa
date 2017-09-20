@@ -125,23 +125,37 @@ class SelectUser extends React.Component {
         </Col>
       </Row>
     )
+    //按钮；标题
+    let _span,_title;
+    //type && type!=='selectAgent' && type!=='selectPayRoller'?"选择审批人":type==='selectAgent'?'选择任务代理人':'选择调薪人'
+    if(type){
+      //turn
+      if(type==='button'){
+      _span=<span>
+              <Button size="large" type="primary" onClick={e=>this.handleCallBackNull()}>提交</Button>
+              <Button size="large" type="primary" style={{marginLeft:'8px'}} onClick={e=>this.showModal()}>指定审批人</Button>
+            </span>
+      _title='选择审批人';
+      }else if(type==='selectAgent' || type==='selectPayRoller'){
+        _span=<Button style={{marginLeft:'8px'}} onClick={e=>this.showModal()}>{type==='selectAgent'?'选择代理人':'选择调薪人'}</Button>
+        _title=type==='selectAgent'?'选择任务代理人':'选择调薪人';
+      }else if(type==='turn'){
+        _span=<Button type="primary" size="large" onClick={e=>this.showModal()}>转办</Button>
+        _title='选择转办人';
+      }
+    }else{
+      _span=<span>
+              <a onClick={e=>this.handleCallBackNull()}>提交</a>
+              <a style={{marginLeft:'8px'}} onClick={e=>this.showModal()}>指定审批人</a>
+            </span>
+      _title="选择审批人";
+    }
     return (
       <span style={{marginLeft:'8px'}}>
-      { type && type==='button'?<span>
-        <Button size="large" type="primary" onClick={e=>this.handleCallBackNull()}>提交</Button>
-        <Button size="large" type="primary" style={{marginLeft:'8px'}} onClick={e=>this.showModal()}>指定审批人</Button>
-      </span>
-      :type && (type==='selectAgent' || type==='selectPayRoller')?
-      <Button style={{marginLeft:'8px'}} onClick={e=>this.showModal()}>{type==='selectAgent'?'选择代理人':'选择调薪人'}</Button>
-      :
-      <span>
-        <a onClick={e=>this.handleCallBackNull()}>提交</a>
-        <a style={{marginLeft:'8px'}} onClick={e=>this.showModal()}>指定审批人</a>
-      </span>
-      }
+      { _span }
       <Modal
         width={600}
-        title={type && type!=='selectAgent' && type!=='selectPayRoller'?"选择审批人":type==='selectAgent'?'选择任务代理人':'选择调薪人'}
+        title={_title}
         visible={this.state.modalVisible}
         onOk={this.handleOk}
         onCancel={this.handleCancel}

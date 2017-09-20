@@ -286,6 +286,7 @@ module.exports = {
       getTaskWaitSignPage:`${apiPrefixPro}/workflow/getTaskWaitSignPage`,
       signTask:`${apiPrefixPro}/workflow/signTask`,
       getTaskListByBusinessKey:`${apiPrefixPro}/workflow/getTaskListByBusinessKey`,
+      turnToDoTask:`${apiPrefixPro}/workflow/turnToDoTask`,
     },
   },
 }

@@ -8,7 +8,7 @@ import Modal from './Modal'
 
 const Purchase = ({ location, dispatch, purchase, loading }) => {
   const { list,fileList,dicList,detailList,employeeList, pagination, taskData,isNeedSel,reasonStr,
-    currentItem, modalVisible, modalType,isEditable } = purchase
+    currentItem, modalVisible, modalType,isEditable,isTurn } = purchase
   const { pageSize } = pagination
 
   const modalProps = {
@@ -21,6 +21,7 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
     dicList,
     taskData,
     isEditable,
+    isTurn,
     maskClosable: false,
     submitLoading:loading.effects['purchase/submit'],
     confirmLoading: loading.effects[`purchase/${modalType}`],
@@ -69,10 +70,16 @@ const Purchase = ({ location, dispatch, purchase, loading }) => {
         payload: {formItem,taskItem},
       })
     },
-    setNeedSel(isNeedSel,reasonStr){
+    setNeedSel(isNeedSel,reasonStr,isTurn){
       dispatch({
         type:'purchase/setNeedSel',
-        payload:{isNeedSel,reasonStr}
+        payload:{isNeedSel,reasonStr,isTurn}
+      })
+    },
+    turnToDoTask(data){
+      dispatch({
+        type: 'purchase/turnToDoTask',
+        payload: data,
       })
     },
     onGoback(){

@@ -103,8 +103,10 @@ class PurchaseDetailPage extends React.Component {
             rowKey={record => record.id}
             footer={()=>(
               <div>
-              采购总金额：{`¥ ${data.totalAmount?data.totalAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+              预估总金额：{`¥ ${data.totalAmount?data.totalAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
               &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(data.totalAmount)}
+              &nbsp;&nbsp;&nbsp;&nbsp;采购总金额：{`¥ ${data.purTotalAmount?data.purTotalAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+              &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(data.purTotalAmount)}
               </div>
               )}
             />

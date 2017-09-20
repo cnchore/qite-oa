@@ -155,7 +155,7 @@ const modal = ({
 
           </Col>
           <Col span={24} className='qite-list-title'>
-            <Icon type="credit-card" />合同申请信息
+            <Icon type="credit-card" />招聘申请信息
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             姓名：

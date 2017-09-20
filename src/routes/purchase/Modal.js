@@ -61,6 +61,8 @@ const modal = ({
   setNeedSel,
   reasonStr,
   isNeedSel,
+  turnToDoTask,
+  isTurn,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -92,10 +94,10 @@ const modal = ({
         //上传控件内文件
         if(taskDefinitionKey && _use){
           let _tempList=[];
-          fileList.map((item)=>{
+          fileList.map((_item)=>{
             _tempList.push({
-              ...item,
-              use:_use,
+              ..._item,
+              use:item.state===-1?null:_use,
               useDesc:_use==='purInquiry'?'用于采购询价':''
             })
           })
@@ -179,10 +181,10 @@ const modal = ({
         data.typeName=dicList.filter(f=>f.dicType==='buyType_item'+data.bigType && f.dicValue===data.type)[0].dicName;
       }
       if(isDisable){
-        data.bigType=item.bigType;
-        data.bigTypeName=item.bigTypeName;
-        data.type=item.type;
-        data.typeName=item.typeName;
+        data.bigType=item.bigType || 1;
+        data.bigTypeName=item.bigTypeName || '错误数据';
+        data.type=item.type || 1;
+        data.typeName=item.typeName || '错误数据';
       }
       //data.totalAmount=data.totalAmount.toFixed(2);
       if(item.id){
@@ -192,14 +194,60 @@ const modal = ({
     })
     return data;
   }
+  const requiredData=()=>{
+    if(detailList && !detailList[0] && defaultDetailList && !defaultDetailList[0]){
+        message.error('采购明细不能为空');
+        return false;
+      }
+      if(detailList && detailList[0]){
+        let _list=[];
+        _list=_list.concat(detailList.filter(f=>f.amount.value==='' || parseInt(f.amount.value)<=0));
+        if(_list.length>0){
+          message.error('采购明细［单价］必须大于0');
+          return false;
+        }
+        _list=_list.concat(detailList.filter(f=>f.num.value==='' || parseInt(f.num.value)<=0));
+        if(_list.length>0){
+          message.error('采购明细［数量］必须大于0');
+          return false;
+        }
+        _list=_list.concat(detailList.filter(f=>f.materialName.value===''));
+        if(_list.length>0){
+          message.error('采购明细［材料名称］不能为空');
+          return false;
+        }
+      }else if(defaultDetailList && defaultDetailList[0]){
+        let _list=[];
+        _list=_list.concat(defaultDetailList.filter(f=>f.amount.value==='' || parseInt(f.amount.value)<=0))
+        if(_list.length>0){
+          message.error('采购明细［单价］必须大于0');
+          return false;
+        }
+        _list=_list.concat(defaultDetailList.filter(f=>f.num.value==='' || parseInt(f.num.value)<=0))
+        if(_list.length>0){
+          message.error('采购明细［数量］必须大于0');
+          return false;
+        }
+        _list=_list.concat(defaultDetailList.filter(f=>f.materialName.value===''))
+        if(_list.length>0){
+          message.error('采购明细［材料名称］不能为空');
+          return false;
+        }
+      }
+      return true;
+  }
   const handleOk = () => {
     let fields=getFields();
     if(fields){
       // console.log(fields,detailList)
       if(!fields['attachList[0].attachUrl']){
-        message.error('请上传附件')
+        message.error('请上传附件');
         return;
       }
+      if(!requiredData()){
+        return;
+      }
+     
       // console.log('fields:',fields)
       onOk(fields)
     }
@@ -265,7 +313,7 @@ const modal = ({
         },
         purchaseAmount: {
           editable:false,
-          value: temp.purchaseAmount?temp.purchaseAmount:'',
+          value: temp.purchaseAmount?temp.purchaseAmount:0,
         },
         estiArrivalTime: {
           editable:false,
@@ -290,6 +338,9 @@ const modal = ({
     if(fields){
       if(!fields['attachList[0].attachUrl']){
         message.error('请上传附件')
+        return;
+      }
+      if(!requiredData()){
         return;
       }
       confirm({
@@ -320,11 +371,12 @@ const modal = ({
   const handleAudit=(data)=>{
     let taskItem={},formItem=getFields();
     if(formItem){
-      if(taskDefinitionKey && _use==='purInquiry' && fileList && fileList.length<1){
+      // console.log('formItem',formItem.action)
+      if(formItem.action!=='3' && formItem.action!=='4' && !isTurn && taskDefinitionKey && _use==='purInquiry' && fileList && fileList.length<1){
         message.error('请上传询价附件')
         return;
       }
-      if(taskDefinitionKey && (_use==='purInquiry' || _use==='purConfirm') && !purDetailIsNotNull()){
+      if(formItem.action!=='3' && formItem.action!=='4' && !isTurn && taskDefinitionKey && (_use==='purInquiry' || _use==='purConfirm') && !purDetailIsNotNull()){
         message.error('供应商,到货日期,采购金额,不能为空')
         return;
       }
@@ -334,13 +386,22 @@ const modal = ({
       taskItem.action=formItem.action;
       if(formItem.approvalOpinion) taskItem.approvalOpinion=formItem.approvalOpinion;
       if(data && data.userId) taskItem.auditUserId=data.userId;
-      // console.log('formItem')
-      confirm({
-        title:item.state===1?'你确定办理么？':'你确定提交修改么？',
+      if(isTurn){
+       //转办 
+       confirm({
+        title:'你确定转办么？',
         onOk(){
-            onAudit(formItem,taskItem)
-        },
-      })
+          turnToDoTask({taskId:taskData.taskId,assigneId:data.userId});
+        }
+       })
+      }else{
+        confirm({
+          title:item.state===1?'你确定办理么？':'你确定提交修改么？',
+          onOk(){
+              onAudit(formItem,taskItem)
+          },
+        })
+      }
     }
   }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
@@ -356,18 +417,22 @@ const modal = ({
   }
 
   const handleActChange=(e)=>{
-      var _reasonStr='';
+      var _reasonStr='',_isTurn=false;
       if(e.target.value==='1' || e.target.value==='2'){
         _reasonStr='同意';
       }
       if(e.target.value==='3' || e.target.value==='4'){
         _reasonStr='不同意，退回修改';
       }
-      // 1 同意；3 返回上一步
-      if(e.target.value==='1' || e.target.value==='3'){
-        setNeedSel(true,_reasonStr);
+      if(e.target.value==='8'){
+        _reasonStr="同意转办";
+        _isTurn=true;
+      }
+      // 1 同意；3 返回上一步; 8 转办
+      if(e.target.value==='1' || e.target.value==='3' || e.target.value==='8'){
+        setNeedSel(true,_reasonStr,_isTurn);
       }else{
-        setNeedSel(false,_reasonStr);
+        setNeedSel(false,_reasonStr,_isTurn);
       }
   }
   return (
@@ -381,7 +446,7 @@ const modal = ({
                 {taskData && taskData.taskId?(
                   <div style={{backgroundColor:'#fff'}}>
                     { isNeedSel?
-                      <SelectUser type="button" callBack={handleAudit}  loading={auditLoading}/>
+                      <SelectUser type={isTurn?'turn':'button'} callBack={handleAudit}  loading={auditLoading}/>
                     :
                       <Button style={{ marginRight: 12 }} type="primary" loading={auditLoading} 
                       onClick={handleAudit} size="large">{item.state===-1?'确定修改并提交':'办理'}</Button>

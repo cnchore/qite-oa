@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,Table,Tree,Checkbox } from 'antd'
-//import moment from 'moment';
+import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,Table,Tree,Checkbox,DatePicker } from 'antd'
+import moment from 'moment';
 import config from '../../utils/config'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
@@ -14,22 +14,6 @@ const RadioGroup = Radio.Group;
 const FormItem = Form.Item
 //const Option =Select.Option;
 const TreeNode = Tree.TreeNode;
-
-const formItemLayout = {
-  labelCol: { span: 8 },
-  wrapperCol: {
-    span: 12,
-  },
-}
-
-const twoFormItemLayout = {
-  labelCol: { 
-    xs: { span: 12 },
-    md: { span: 4 }, 
-    xl: { span: 3},
-  },
-  
-}
 
 const modal = ({
   item = {},
@@ -47,12 +31,23 @@ const modal = ({
   setEmployeeList,
   setEmployeeAndRowKey,
   form: {
+    getFieldDecorator,
+    validateFieldsAndScroll,
   },
   ...modalProps
 }) => {
-  const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
+  const dateTimeFormat='YYYY-MM-DD'
   const getFields=()=>{
     let fields={},index=0;
+    let _data=null;
+    validateFieldsAndScroll((err,values) => {
+      if (err) {
+        return null;
+      }
+      _data={...values}
+      fields.bookTimeStr=_data.bookTimeStr?_data.bookTimeStr.format(dateTimeFormat):null;
+
+    })
     //
     if(employeeList && employeeList.length>0 && rowSelection && rowSelection.selectedRowKeys){
       let _result=[];
@@ -82,18 +77,30 @@ const modal = ({
       if(item.state!==null && item.state!==undefined){
         fields.state=item.state;
       }
+      if(item.bookTime){
+        fields.bookTimeStr=item.bookTime;
+      }
     }
     // console.log('data:',fields)
     return fields;
   }
   const handleOk = () => {
-    // getFields();
+    let _data=getFields();
+    if(!_data){
+      message.error('预约报餐时间不能为空');
+      return;
+    }
     // return;
-    onOk(getFields());
+    onOk(_data);
     
   }
   const handleSubmit=()=>{
-    onSubmit((item && item.id || null),getFields());
+    let _data=getFields();
+    if(!_data){
+      message.error('预约报餐时间不能为空');
+      return;
+    }
+    onSubmit((item && item.id || null),_data);
   }
   const handleCheck=(e,index,t)=>{
     // console.log('handleCheck:',e.target.checked,index,t)
@@ -173,6 +180,10 @@ const modal = ({
     })
     setEmployeeAndRowKey(dinnerId,_list);
   }
+  const disabledDate=(current)=>{
+    // Can not select days before today and today
+    return current && current.valueOf() < Date.now();
+  }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -191,7 +202,38 @@ const modal = ({
             </Affix>
 
           </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            预约报餐时间：
+          </Col>
+          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            {
+              item.id?
+               <FormItem  style={{width:'100%'}} >
+                {item.bookTime}
+               </FormItem>
+              :
+              <FormItem  style={{width:'100%'}} >
+                {getFieldDecorator('bookTimeStr', {
+                  initialValue:undefined,
+                  // initialValue:item.bookTime!==undefined && item.bookTime!==null?moment(item.bookTime,dateTimeFormat):null,
+                  rules: [
+                    {
+                      required: true,message:'不能为空',
+                    },
+                  ],
+                })(<DatePicker  style={{width:'228px'}} 
+                  format={dateTimeFormat}
+                  disabledDate={disabledDate}
+                  showToday={false}
+                  />)}
+                
+              </FormItem>
+            }
+          
+          </Col>
+          
           <Col span={24}>
+            
             <Table
               {...tableProps}
               bordered

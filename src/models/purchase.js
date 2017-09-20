@@ -2,7 +2,7 @@ import { query,queryById,save,deleteById,submit,queryEmployee,getDic,getApplyLis
 import { config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
-import { startProcess,getTaskInfo,audit } from '../services/workFlow'
+import { startProcess,getTaskInfo,audit,turnToDoTask } from '../services/workFlow'
 
 const { prefix } = config
 
@@ -24,6 +24,7 @@ export default {
     isEditable:false,
     reasonStr:'',
     isNeedSel:false,
+    isTurn:false,
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -227,6 +228,18 @@ export default {
             taskData:{},
           } 
         })
+      } else {
+        throw data
+      }
+    },
+    
+    *turnToDoTask ({ payload }, { call, put }) {
+      const data = yield call(turnToDoTask, payload)
+      if (data.success) {
+        message.success('转办成功');
+        let queryList=parse(location.hash.substr(location.hash.indexOf('?')+1)); 
+        window.location = `${location.origin}${location.pathname}#${queryList.from}?t=${Math.random()}`;
+            
       } else {
         throw data
       }

@@ -79,11 +79,6 @@ class EditCellTable extends React.Component {
       dataIndex: 'estiArrivalTime',
       width: 200,
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'estiArrivalTime', text,'datetime'),
-    }, {
-      title: '到货/入库时间',
-      dataIndex: 'storageTime',
-      width: 200,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'storageTime', text,'datetime'),
     
     }, {
       title: '操作',
@@ -229,7 +224,7 @@ class EditCellTable extends React.Component {
         },
         amount: {
           editable:true,
-          value: '',
+          value: 0,
         },
         useTimeStr: {
           editable:true,
@@ -245,7 +240,7 @@ class EditCellTable extends React.Component {
         },
         purchaseAmount: {
           editable:false,
-          value: '',
+          value: 0,
         },
         estiArrivalTime: {
           editable:false,
@@ -309,6 +304,16 @@ class EditCellTable extends React.Component {
     }
     return c.toFixed(2);
   }
+  getTotalPurchaseAmount(){
+    const { data } =this.state;
+    let c=0.00;
+    if(data && data[0]){
+      data.map(t=>{
+        c+=parseFloat(t.purchaseAmount.value);
+      })
+    }
+    return c.toFixed(2);
+  }
   del(_index){
     let data =this.state.data;
     data.splice(_index,1);
@@ -345,16 +350,16 @@ class EditCellTable extends React.Component {
       });
       return obj;
     });
-    let columns =[],scrollX=2300;
+    let columns =[],scrollX=2100;
 
     if(!taskDo || isCanAdd){
       columns=this.columns.filter(f=>f.dataIndex!=='supplierName' && f.dataIndex!=='purchaseAmount' 
       && f.dataIndex!=='estiArrivalTime' && f.dataIndex!=='storageTime' && f.dataIndex!=='isIn');
       scrollX=1400;
     }else if(taskDo && useDesc!=='purInquiry' && useDesc!=='purConfirm'){
-      columns=this.columns.filter(f=>f.dataIndex!=='operation');
+      columns=this.columns.filter(f=>f.dataIndex!=='operation' && f.dataIndex!=='storageTime');
       scrollX=2000;
-    }else if(useDesc==='purConfirm'){
+    }else if(useDesc==='purConfirm' || useDesc==='purInquiry'){
       columns=this.columns.filter(f=>f.dataIndex!=='storageTime');
       scrollX=2100;
     }else{
@@ -395,8 +400,10 @@ class EditCellTable extends React.Component {
               footer={()=>(
                 <div className={styles.footer}>
                 采购总数量：{this.getTotalNum()}
-                <span>采购总金额：{`¥ ${this.getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</span>
+                <span>预估总金额：{`¥ ${this.getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</span>
                 <span>大写：{changeMoneyToChinese(this.getTotalAmount())}</span>
+                <span>采购总金额：{`¥ ${this.getTotalPurchaseAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</span>
+                <span>大写：{changeMoneyToChinese(this.getTotalPurchaseAmount())}</span>
                 </div>
                 )}
               />
