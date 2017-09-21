@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table, Modal,Button,Tag } from 'antd'
+import { Table, Modal,Button,Tag,Tooltip } from 'antd'
 import styles from './List.less'
 import classnames from 'classnames'
 import { Link } from 'dva/router'
@@ -94,9 +94,11 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
       key: 'createTime',
     }, {
       title: '接收部门',width:120,
-      dataIndex: 'orgId',
-      key: 'orgId',
-      render:(text,record)=>getDicType(text),
+      dataIndex: 'orgNames',
+      key: 'orgNames',
+      render:(text)=>text&&text.length>8?<Tooltip title={text}>
+                      {text && `${text.substr(0,5)}...`}
+                    </Tooltip>:<span>{text}</span>
     }, {
       title: '文件编号',width:170,
       dataIndex: 'fileNum',

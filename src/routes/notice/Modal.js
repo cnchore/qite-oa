@@ -11,6 +11,7 @@ import styles from './Modal.less'
 // import { convertToRaw } from 'draft-js'
 // import draftToHtml from 'draftjs-to-html'
 import CommentTable from '../../components/CommentTable'
+import SelectOrg from '../../components/SelectOrg'
 
 const confirm = Modal.confirm
 //const { RangePicker } = DatePicker
@@ -52,6 +53,8 @@ const modal = ({
   taskData={},
   auditLoading,
   onGoback,
+  agentObject={},
+  setAgent,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -87,6 +90,14 @@ const modal = ({
       // draftToHtml(convertToRaw(editorState.getCurrentContent()));
       
       //console.log('-----',data)
+      data.orgNames= agentObject.orgNames && agentObject.orgNames.join() || item.orgNames;
+      data.orgIds= agentObject.orgIds && agentObject.orgIds.join() || item.orgIds;
+      if(data.orgNames){
+        data.orgNames+=','
+      }
+      if(data.orgIds){
+        data.orgIds+=','
+      }
       if(item.id){
         data.id=item.id;
         data.code=item.code;
@@ -149,7 +160,8 @@ const modal = ({
     let timeB=new Date(b);
     return ((timeB-timeA)/(3600*1000)).toFixed(2)
   }
-  const dicOption=dicList.map(dic=><Option key={dic.id}>{dic.orgName}</Option>)
+  // const dicOption=dicList.map(dic=><Option key={dic.id}>{dic.orgName}</Option>)
+
   // const onEditorStateChange = (editorContent) => {
   //   setEditorState(editorContent);
   // }
@@ -162,6 +174,16 @@ const modal = ({
     callback(ht){
       editorCallback && editorCallback(ht);
     }
+  }
+  const handleOrg=(data)=>{
+    // console.log('orgIds',data.checkedKeys,'orgNames',data.checkedKeyNames);
+    setAgent({orgIds:data.checkedKeys,orgNames:data.checkedKeyNames})
+  }
+  let checkedKeys=[];
+  if(agentObject.orgIds){
+    checkedKeys=agentObject.orgIds;
+  }else if(item.orgIds){
+    checkedKeys=item.orgIds.split(',').filter(f=>f!=="");
   }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -273,19 +295,12 @@ const modal = ({
             接收部门：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem style={{width:'100%'}}>
-              {getFieldDecorator('orgId', {
-                initialValue:item.orgId===undefined?null:String(item.orgId),
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-              })(<Select >{dicOption}</Select>)}
-              
+            <FormItem className={styles['q-ellipsis']}>
+                {agentObject.orgNames && agentObject.orgNames.join() || item.orgNames}
             </FormItem>
-            
+            <FormItem >
+              <SelectOrg type="button" callBack={handleOrg} checkedKeys={checkedKeys}></SelectOrg>
+            </FormItem>
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             通知标题：

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './NoticeDetailPage.less'
-import { Icon,Row,Col } from 'antd'
+import { Icon,Row,Col,Tooltip } from 'antd'
 import classNames from 'classnames';
 import FileList from '../FileList'
 class NoticeDetailPage extends React.Component {
@@ -58,7 +58,13 @@ class NoticeDetailPage extends React.Component {
           接收部门：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-          {getDicType(data.orgId)||'无'}
+            {
+              data.orgNames&&data.orgNames.length>15?
+              <Tooltip title={data.orgNames}>
+                {data.orgNames && `${data.orgNames.substr(0,12)}...`}
+              </Tooltip>
+              :<span>{data.orgNames}</span>
+            }
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             通知标题：

@@ -46,6 +46,12 @@ body {
     .ant-table-thead > tr > th {
       height: 51px;
       padding:10px 8px;
+      &.q-text-overflow{
+        max-width: 120px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
     }
     
     &.ant-table-small {
@@ -359,6 +365,12 @@ body {
   //页面流程图
   .q-flow-img{
     width: 100%;
+  }
+  span.q-text-overflow{
+    max-width: 120px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
 

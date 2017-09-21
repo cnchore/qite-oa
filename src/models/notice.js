@@ -26,6 +26,7 @@ export default {
     editorContent:'',
     employeeList:[],
     taskData:{},
+    agentObject:{},
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -281,7 +282,9 @@ export default {
     setFileList(state,action){
       return {...state,fileList:action.payload}
     },
-
+    setAgent(state,action){
+      return {...state,agentObject:action.payload}
+    },
   },
 
 }

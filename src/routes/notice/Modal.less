@@ -33,5 +33,15 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    .q-ellipsis{
+      :global{
+        .ant-form-item-control{
+          width: 200px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+    }
   }
 }

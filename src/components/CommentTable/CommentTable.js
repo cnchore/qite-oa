@@ -27,7 +27,9 @@ class CommentTable extends React.Component {
         title: '审批意见',width:250,
         dataIndex: 'approvalOpinion',
         key: 'approvalOpinion',
-        render:(text)=><Tooltip title={text}><span className={styles['text-overflow']} >{text}</span></Tooltip>
+        render:(text)=>text && text.length>15?
+          <Tooltip title={text}><span className={styles['text-overflow']} >{`${text.substr(0,12)}...`}</span></Tooltip>
+          :<span>{text && text}</span>
       }, {
         title: '接收时间',
         dataIndex: 'receiveTime',
@@ -63,7 +65,7 @@ class CommentTable extends React.Component {
               scroll={{ x: 967 }}
               columns={columns}
               simple
-              rowKey={record => record.taskId}
+              rowKey={(record,index) => index}
             />
           </Col>
           

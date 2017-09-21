@@ -68,7 +68,7 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
       render: (text, record) => {
         return record.state!==undefined?(<span>
           <Link to={`/dinnerBook/${record.id}`} style={{marginRight:'8px'}}>查看</Link>
-          { record.state!==2?<a onClick={e=>onEditItem(record)}>编辑</a>:null}
+          { record.state!==2 && record.bookTime && new Date(record.bookTime)>Date.now()?<a onClick={e=>onEditItem(record)}>编辑</a>:null}
          
           { record.state!==2 && record.bookTime && new Date(record.bookTime)>Date.now()?
             <a style={{marginLeft:'8px'}} onClick={e=>handleSubmit(record)}>{record.state===0?'提交':'取消'}</a>

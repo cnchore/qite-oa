@@ -9,12 +9,15 @@ import {changeMoneyToChinese} from '../../utils'
 class PurchaseDetailPage extends React.Component {
   render () {
     const { data,employeeList,dicList,storeInDetail } = this.props
-    let defaultFileList=[],storeFileList=[],purInquiryFileList=[];
+    let defaultFileList=[],storeFileList=[],purInquiryFileList=[],purConfirmFileList=[];
     if(data.attachList&& data.attachList[0]){
       defaultFileList=data.attachList.filter(l=>l.sourceType===10 && l.use===null).map((temp)=>{
         return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
       })
       purInquiryFileList=data.attachList.filter(l=>l.sourceType===10 && l.use==='purInquiry').map((temp)=>{
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      })
+      purConfirmFileList=data.attachList.filter(l=>l.sourceType===10 && l.use==='purConfirm').map((temp)=>{
         return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
       })
       storeFileList=data.attachList.filter(l=>l.sourceType===20).map((temp)=>{
@@ -197,6 +200,17 @@ class PurchaseDetailPage extends React.Component {
             </Col>
             <Col span={24} style={{paddingLeft:'12px',paddingRight:'12px'}}>
               <FileList fileList={purInquiryFileList} showRemoveIcon={false}/>
+            </Col>
+          </Row>
+          :null
+        }
+        { purConfirmFileList && purConfirmFileList[0]?
+          <Row gutter={24} className={styles['q-detail']}>
+            <Col span={24} className='qite-list-title'>
+              <Icon type="paper-clip" />确定采购附件
+            </Col>
+            <Col span={24} style={{paddingLeft:'12px',paddingRight:'12px'}}>
+              <FileList fileList={purConfirmFileList} showRemoveIcon={false}/>
             </Col>
           </Row>
           :null

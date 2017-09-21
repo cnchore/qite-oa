@@ -391,7 +391,7 @@ const modal = ({
        confirm({
         title:'你确定转办么？',
         onOk(){
-          turnToDoTask({taskId:taskData.taskId,assigneId:data.userId});
+          turnToDoTask({taskId:taskData.taskId,assigneId:data.userId,approvalOpinion:formItem.approvalOpinion});
         }
        })
       }else{

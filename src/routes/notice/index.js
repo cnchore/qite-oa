@@ -8,7 +8,7 @@ import Modal from './Modal'
 
 const Notice = ({ location, dispatch, notice, loading }) => {
   const { list,fileList,dicList,employeeList,editorContent,taskData,
-   pagination, currentItem, modalVisible, modalType } = notice
+   pagination, currentItem, modalVisible, modalType,agentObject} = notice
   const { pageSize } = pagination
 
   const modalProps = {
@@ -19,6 +19,7 @@ const Notice = ({ location, dispatch, notice, loading }) => {
     editorContent,
     dicList,
     taskData,
+    agentObject,
     maskClosable: false,
     submitLoading:loading.effects['notice/submit'],
     confirmLoading: loading.effects[`notice/${modalType}`],
@@ -60,6 +61,12 @@ const Notice = ({ location, dispatch, notice, loading }) => {
       dispatch(routerRedux.push({
         pathname:query.from,
       }))
+    },
+    setAgent(agentObject){
+      dispatch({
+        type:'notice/setAgent',
+        payload:agentObject
+      })
     },
     editorCallback(ed){
       dispatch({
