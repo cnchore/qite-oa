@@ -54,7 +54,7 @@ class PaymentDetailPage extends React.Component {
           </Col>
           
          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            采购合同编号：
+            合同编号：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
           { data.purchaseContract || '无'}

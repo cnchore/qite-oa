@@ -8,12 +8,15 @@ import { Icon} from 'antd'
 import cs from 'classnames'
 import {setPrintData} from '../../../utils'
 import TaskNodeList from '../../../components/TaskNodeList'
+import Iconfont from '../../../components/Iconfont'
+import audited from '../../../svg/audited.svg'
 const Detail = ({ paymentDetail }) => {
   const { data,employeeList,commentList,taskNode } = paymentDetail
   setPrintData(data,employeeList,null,commentList)
  
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>
+      <Iconfont className="q-icon-audited" colorful type={audited} />
       <div className="q-goback">
         {
           data?

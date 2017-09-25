@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './PurchaseDetailPage.less'
-import { Icon,Row,Col,Table } from 'antd'
+import { Icon,Row,Col,Table,Tooltip } from 'antd'
 import classNames from 'classnames';
 import FileList from '../FileList'
 import {changeMoneyToChinese} from '../../utils'
@@ -33,7 +33,9 @@ class PurchaseDetailPage extends React.Component {
       title: '物料名称',
       dataIndex: 'materialName',
       key:'materialName',
-      
+      render:(text)=>text && text.length>12?
+                    <Tooltip title={text}>{`${text.substr(0,9)}...`}</Tooltip>
+                    :<span>{text && text}</span>
     }, {
       title: '规格',
       dataIndex: 'spec',
@@ -70,9 +72,15 @@ class PurchaseDetailPage extends React.Component {
       title: '原因和用途',
       dataIndex: 'remark',
       key:'remark',
+      render:(text)=>text && text.length>20?
+                    <Tooltip title={text}>{`${text.substr(0,17)}...`}</Tooltip>
+                    :<span>{text && text}</span>
     }, {
       title: '供应商名称',
       dataIndex: 'supplierName',key:'supplierName',
+      render:(text)=>text && text.length>15?
+                    <Tooltip title={text}>{`${text.substr(0,12)}...`}</Tooltip>
+                    :<span>{text && text}</span>
     }, {
       title: '采购金额',
       dataIndex: 'purchaseAmount',key:'purchaseAmount',
@@ -80,9 +88,11 @@ class PurchaseDetailPage extends React.Component {
     }, {
       title: '预估到货时间',
       dataIndex: 'estiArrivalTime',key:'estiArrivalTime',
+      render:(text)=>text && text.length>10?text.substr(0,10):text
     }, {
       title: '到货/入库时间',
       dataIndex: 'storageTime',key:'storageTime',
+      render:(text)=>text && text.length>10?text.substr(0,10):text
     }, {
       title: '是否已入库',
       dataIndex: 'isIn',
@@ -102,7 +112,7 @@ class PurchaseDetailPage extends React.Component {
             dataSource={data.purchaseDetailList || []} 
             columns={columns} 
             pagination={false}
-            scroll={{ x: 1800 }}
+            scroll={{ x: 1600 }}
             rowKey={record => record.id}
             footer={()=>(
               <div>

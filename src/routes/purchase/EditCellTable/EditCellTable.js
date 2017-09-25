@@ -25,14 +25,14 @@ class EditCellTable extends React.Component {
     },{
       title: '物料名称',
       dataIndex: 'materialName',
-      width: 200,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'materialName', text,'input'),
+      width: 120,
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'materialName', text,'input',12),
     
     }, {
       title: '规格',
       dataIndex: 'spec',
       width: 120,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'spec', text,'input'),
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'spec', text,'input',12),
     }, {
       title: '数量',
       dataIndex: 'num',
@@ -42,7 +42,7 @@ class EditCellTable extends React.Component {
       title: '单位',
       dataIndex: 'unit',
       width: 80,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'unit', text,'input'),
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'unit', text,'input',8),
     }, {
       title: '单价',
       dataIndex: 'amount',
@@ -59,16 +59,16 @@ class EditCellTable extends React.Component {
     }, {
       title: '使用时间',
       dataIndex: 'useTimeStr',
-      width: 200,
+      width: 120,
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'useTimeStr', text,'datetime'),
     }, {
       title: '原因和用途',
       dataIndex: 'remark',
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'remark', text,'input'),
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'remark', text,'input',20),
     }, {
       title: '供应商名称',
-      dataIndex: 'supplierName',width:200,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'supplierName', text,'input'),
+      dataIndex: 'supplierName',width:120,
+      render: (text, record, index) => this.renderColumns(this.state.data, index, 'supplierName', text,'input',15),
     }, {
       title: '采购金额',
       dataIndex: 'purchaseAmount',
@@ -77,7 +77,7 @@ class EditCellTable extends React.Component {
     }, {
       title: '预估到货时间',
       dataIndex: 'estiArrivalTime',
-      width: 200,
+      width: 120,
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'estiArrivalTime', text,'datetime'),
     
     }, {
@@ -121,7 +121,7 @@ class EditCellTable extends React.Component {
   componentWillReceiveProps(nextProps){
     // console.log('nextProps:',nextProps)
   }
-  renderColumns(data, index, key, text,colType) {
+  renderColumns(data, index, key, text,colType,length) {
     const { editable, status } = data[index][key];
     const { dicList,taskDo,useDesc,isCanAdd } =this.props;
     //taskDo=true:任务办理中，供应商等信息可编辑，申请信息不可编辑
@@ -159,6 +159,7 @@ class EditCellTable extends React.Component {
         return (<InputCell
           editable={editable}
           value={text}
+          length={length}
           onChange={value => this.handleChange(key, index, value)}
           status={status}
         />);
@@ -186,7 +187,8 @@ class EditCellTable extends React.Component {
       case 'datetime':
         return (<DateTimeCell
           editable={editable}
-          value={text}
+          value={text} 
+          dateFormat="YYYY-MM-DD" showTime={false}
           onChange={value => this.handleChange(key, index, value)}
           status={status}
         />);
@@ -395,7 +397,7 @@ class EditCellTable extends React.Component {
               dataSource={dataSource} 
               columns={columns} 
               pagination={false}
-              scroll={{ x: scrollX }}
+              scroll={{ x: (scrollX - 160 - 250) }}
               rowKey={record=>record.key} 
               footer={()=>(
                 <div className={styles.footer}>

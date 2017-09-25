@@ -7,11 +7,14 @@ import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
 import cs from 'classnames'
 import TaskNodeList from '../../../components/TaskNodeList'
+import Iconfont from '../../../components/Iconfont'
+import audited from '../../../svg/audited.svg'
 
 const Detail = ({ dimissionDetail }) => {
   const { data,employeeList,commentList,taskNode } = dimissionDetail
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>
+      <Iconfont className="q-icon-audited" colorful type={audited} />
       <a href="javascript:window.history.back();" className="q-goback">
         <Icon type="close-circle-o" />
       </a>

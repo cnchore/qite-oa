@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table} from 'antd'
+import { Table,Tooltip} from 'antd'
 import { Link } from 'dva/router'
 import {getWaitAction} from '../../../utils'
 const WaitList = ({ location, ...tableProps }) => {
@@ -25,13 +25,12 @@ const WaitList = ({ location, ...tableProps }) => {
       dataIndex: 'flowName',
       key: 'flowName',
     }, {
-      title: '申请时间',
-      dataIndex: 'applyTime',width:170,
-      key: 'applyTime',
-    }, {
-      title: '接收时间',
-      dataIndex: 'receiveTime',width:170,
-      key: 'receiveTime',
+      title: '原因',
+      dataIndex: 'reason',width:120,
+      key: 'reason',
+      render:(text)=>text && text.length>15?
+                    <Tooltip title={text}>{`${text.substr(0,12)}...`}</Tooltip>
+                    :<span>{text && text}</span>
     }, {
       title: '当前阶段',
       dataIndex: 'nodeName',
@@ -64,7 +63,7 @@ const WaitList = ({ location, ...tableProps }) => {
         {...tableProps}
         // className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 1180 }}
+        scroll={{ x: 1000 }}
         columns={columns}
         simple
         size='small'

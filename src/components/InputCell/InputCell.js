@@ -2,12 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 //import ReactDOM from 'react-dom'
 //import styles from './InputCell.less'
-import { Input } from 'antd'
+import { Input,Tooltip } from 'antd'
 
 class InputCell extends React.Component {
   state = {
     value: this.props.value,
     editable: this.props.editable || false,
+    length:this.props.length,
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.editable !== this.state.editable) {
@@ -34,7 +35,8 @@ class InputCell extends React.Component {
     this.setState({ value });
   }
   render() {
-    const { value, editable } = this.state;
+    const { value, editable,length } = this.state;
+    let _length=length?length:value&&value.toString().length;
     return (
       <div>
         {
@@ -47,7 +49,11 @@ class InputCell extends React.Component {
             </div>
             :
             <div className="editable-row-text">
-              {value?value.toString():''}
+              {
+                value && value.toString().length>_length?
+                <Tooltip title={value.toString()}>{`${value.toString().substr(0,(_length-3))}...`}</Tooltip>
+                :<span>{value && value}</span>
+                }
             </div>
         }
       </div>

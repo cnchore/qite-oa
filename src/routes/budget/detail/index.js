@@ -8,11 +8,14 @@ import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
 import TaskNodeList from '../../../components/TaskNodeList'
 import {setPrintData} from '../../../utils'
+import Iconfont from '../../../components/Iconfont'
+import audited from '../../../svg/audited.svg'
 const Detail = ({ budgetDetail }) => {
   const { data,employeeList,commentList,taskNode } = budgetDetail
   setPrintData(data,employeeList,null,commentList)
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>
+      <Iconfont className="q-icon-audited" colorful type={audited} />
       <div className="q-goback">
         {
           data?

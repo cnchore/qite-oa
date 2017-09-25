@@ -9,7 +9,7 @@ class DateTimeCell extends React.Component {
   state = {
     value: this.props.value,
     editable: this.props.editable || false,
-    showTime: this.props.showTime || true,
+    showTime: this.props.showTime!==undefined?this.props.showTime:true,
     dateFormat:this.props.dateFormat || 'YYYY-MM-DD HH:mm:ss'
   }
  
@@ -56,7 +56,7 @@ class DateTimeCell extends React.Component {
             </div>
             :
             <div className="editable-row-text">
-              {value?value.toString():''}
+              {value?showTime?value.toString():value.toString().substr(0,10):''}
             </div>
         }
       </div>

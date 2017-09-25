@@ -24,6 +24,8 @@ import BudgetDetailPage from '../../../components/BudgetDetailPage'
 import NoticeDetailPage from '../../../components/NoticeDetailPage'
 import LegworkDetailPage from '../../../components/LegworkDetailPage'
 import cs from 'classnames'
+import Iconfont from '../../../components/Iconfont'
+import audited from '../../../svg/audited.svg'
 
 const Detail = ({ waitSignDetail }) => {
   const { data,employeeList,dicList } = waitSignDetail
@@ -90,6 +92,7 @@ const Detail = ({ waitSignDetail }) => {
 
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.busiData && data.busiData.state}":true}`)})}>
+      <Iconfont className="q-icon-audited" colorful type={audited} />
       <a href="javascript:window.history.back();" className="q-goback">
         <Icon type="close-circle-o" />
       </a>

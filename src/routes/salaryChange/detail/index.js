@@ -7,12 +7,15 @@ import SalaryChangeDetailPage from '../../../components/SalaryChangeDetailPage'
 import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
 import cs from 'classnames'
+import Iconfont from '../../../components/Iconfont'
+import audited from '../../../svg/audited.svg'
 import TaskNodeList from '../../../components/TaskNodeList'
 const Detail = ({ salaryChangeDetail }) => {
   const { data,employeeList,commentList,taskNode } = salaryChangeDetail
 
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>
+      <Iconfont className="q-icon-audited" colorful type={audited} />
       <a href="javascript:window.history.back();" className="q-goback">
         <Icon type="close-circle-o" />
       </a>

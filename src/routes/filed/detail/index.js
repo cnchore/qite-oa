@@ -25,6 +25,8 @@ import BudgetDetailPage from '../../../components/BudgetDetailPage'
 import NoticeDetailPage from '../../../components/NoticeDetailPage'
 import LegworkDetailPage from '../../../components/LegworkDetailPage'
 import {setPrintData} from '../../../utils'
+import Iconfont from '../../../components/Iconfont'
+import audited from '../../../svg/audited.svg'
 const Detail = ({ filedDetail }) => {
   const { data,employeeList,dicList } = filedDetail
   let detailpage=null,
@@ -105,7 +107,8 @@ const Detail = ({ filedDetail }) => {
   //console.log(data,employeeList)
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.busiData && data.busiData.state}":true}`)})}>
-        <div className="q-goback">
+        <Iconfont className="q-icon-audited" colorful type={audited} />
+      <div className="q-goback">
           {
             printData?
             <a href={`${location.origin}${location.pathname}#/print`} target="_black" className="q-print-link">

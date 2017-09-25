@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table, Modal,Button,Tag } from 'antd'
+import { Table, Modal,Button,Tag,Tooltip } from 'antd'
 import styles from './List.less'
 import classnames from 'classnames'
 import { Link } from 'dva/router'
@@ -63,21 +63,26 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
   const columns = [
     {
       title: '申请单号',
-      dataIndex: 'code',width:150,
+      dataIndex: 'code',
       key: 'code',
     }, {
       title: '申请时间',
-      dataIndex: 'createTime',width:160,
+      dataIndex: 'createTime',width:170,
       key: 'createTime',
     }, {
       title: '收款方',
       dataIndex: 'payee',width:200,
       key: 'payee',
-      
+      render:(text)=>text && text.length>15?
+                    <Tooltip title={text}>{`${text.substr(0,12)}...`}</Tooltip>
+                    :<span>{text && text}</span>
     }, {
-      title: '付款说明',
+      title: '付款说明',width:120,
       dataIndex: 'remark',
       key: 'remark',
+      render:(text)=>text && text.length>15?
+                    <Tooltip title={text}>{`${text.substr(0,12)}...`}</Tooltip>
+                    :<span>{text && text}</span>
     }, {
       title: '状态',width:120,
       dataIndex: 'state',
@@ -109,7 +114,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
         {...tableProps}
         className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 1200 }}
+        scroll={{ x: 1150 }}
         columns={columns}
         simple
         rowKey={record => record.id}

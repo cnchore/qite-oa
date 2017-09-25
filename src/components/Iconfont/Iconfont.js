@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './iconfont.less'
 
-const Iconfont = ({ type, colorful }) => {
+const Iconfont = ({ type, colorful,className }) => {
   if (colorful) {
-    return (<span
+    return (<span className={className?className:''}
       dangerouslySetInnerHTML={{
         __html: `<svg class="colorful-icon" aria-hidden="true"><use xlink:href="#${type.startsWith('#') ? type.replace(/#/, '') : type}"></use></svg>`,
       }}

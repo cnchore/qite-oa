@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table, Modal} from 'antd'
+import { Table, Modal,Tooltip} from 'antd'
 // import { Link } from 'dva/router'
 const confirm = Modal.confirm
 const WaitSignList = ({ onEditItem,location, ...tableProps }) => {
@@ -31,14 +31,13 @@ const WaitSignList = ({ onEditItem,location, ...tableProps }) => {
       title: '流程名称',
       dataIndex: 'flowName',
       key: 'flowName',
-    }, {
-      title: '创建时间',
-      dataIndex: 'applyTime',width:170,
-      key: 'applyTime',
-    }, {
-      title: '接收时间',
-      dataIndex: 'receiveTime',width:170,
-      key: 'receiveTime',
+    },{
+      title: '原因',
+      dataIndex: 'reason',width:120,
+      key: 'reason',
+      render:(text)=>text && text.length>15?
+                    <Tooltip title={text}>{`${text.substr(0,12)}...`}</Tooltip>
+                    :<span>{text && text}</span>
     }, {
       title: '当前阶段',
       dataIndex: 'nodeName',
@@ -57,7 +56,7 @@ const WaitSignList = ({ onEditItem,location, ...tableProps }) => {
       <Table
         {...tableProps}
         bordered
-        scroll={{ x: 1050 }}
+        scroll={{ x: 880 }}
         columns={columns}
         simple
         rowKey={record => record.taskId}

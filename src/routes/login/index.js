@@ -29,7 +29,7 @@ const Login = ({
   }
   let lg={
     userName:'',
-    pwd:''
+    pwd:process.env.NODE_ENV==='production'?'':'000000'
   }
   const emitEmpty = () => {
     setFieldsValue({'userName':''});

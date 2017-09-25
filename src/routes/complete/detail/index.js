@@ -26,6 +26,8 @@ import LegworkDetailPage from '../../../components/LegworkDetailPage'
 import cs from 'classnames'
 import {setPrintData} from '../../../utils'
 import TaskNodeList from '../../../components/TaskNodeList'
+import Iconfont from '../../../components/Iconfont'
+import audited from '../../../svg/audited.svg'
 
 const Detail = ({ completeDetail }) => {
   const { data,employeeList,dicList,taskNode } = completeDetail
@@ -107,6 +109,7 @@ const Detail = ({ completeDetail }) => {
   //console.log(data,employeeList)
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.busiData && data.busiData.state}":true}`)})}>
+      <Iconfont className="q-icon-audited" colorful type={audited} />
       <div className="q-goback">
         {
           printData?
