@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './FileList.less'
-import { Icon,Progress,Row,Col,Modal } from 'antd'
+import { Icon,Progress,Row,Col } from 'antd'
 import classNames from 'classnames';
 import DOC from '../../../assets/doc.png'
 import DOCX from '../../../assets/docx.png'
@@ -14,7 +14,7 @@ import PPT from '../../../assets/ppt.png'
 import PPTx from '../../../assets/pptx.png'
 import RAR from '../../../assets/rar.png'
 import OTHER from '../../../assets/other.png'
-
+import ImgViewer from '../ImgViewer'
 class FileList extends React.Component {
   static defaultProps = {
     progressAttr: {
@@ -33,8 +33,11 @@ class FileList extends React.Component {
   componentWillReceiveProps(nextProps){
     // console.log('fileList nextProps:',nextProps)
   }
-  getThumbUrl=(file)=>{
+  getThumbUrl=(file,t=false)=>{
     if(file.type==='image/jpeg'){
+      if(t){
+        return file.url;
+      }
       return file.url+'?imageView2/1/w/320/h/200/format/webp/interlace/0/q/50';
     }
     let l=file.name.lastIndexOf('.');
@@ -63,6 +66,9 @@ class FileList extends React.Component {
       case '.jpg':
       case '.jpg':
       case '.gif':
+        if(t){
+          return file.url;
+        }
         return file.url+'?imageView2/1/w/320/h/200/format/webp/interlace/0/q/50';
       default :
         return OTHER;
@@ -74,7 +80,7 @@ class FileList extends React.Component {
   }
   handlePreview=(file)=>{
     this.setState({
-      previewImage:this.getThumbUrl(file),
+      previewImage:this.getThumbUrl(file,true),
       previewName:file.name,
       previewVisible:true,
     });
@@ -82,6 +88,7 @@ class FileList extends React.Component {
   render () {
     const {previewVisible,previewImage,previewName }= this.state; 
     const { fileList,showRemoveIcon,onRemove } = this.props;
+    const _imgs=[{src:previewImage,name:previewName}]
     const handleRemove=(file)=>{
       if(onRemove){
         onRemove(file);
@@ -120,15 +127,17 @@ class FileList extends React.Component {
         </Col>
       );
     });
-        // </Row>
+
     return (
      
       <Row gutter={0} className={styles.fileRow}>
         
         {_fileList[0]?_fileList:<Col span={24}>暂无内容</Col>}
-        <Modal visible={previewVisible} footer={null} width={800} onCancel={this.handleCancel}>
-          <img alt={previewName} style={{ width: '100%' }} src={previewImage} />
-        </Modal>
+        
+        <ImgViewer 
+          visible={previewVisible}
+          onCancel={this.handleCancel}
+          imgs={_imgs} />
       </Row>
       
     )

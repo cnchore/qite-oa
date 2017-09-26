@@ -1,0 +1,130 @@
+@bgc:rgba(73, 73, 73, .5);
+.btn-bgc{
+	background-color: #fff;
+}
+.img-viewer{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 100;
+	background-color: rgba(0, 0, 0, 0.5);
+	padding: 50px;
+	overflow: hidden;
+	display: none;
+	// transition: all 1s;
+	&.show{
+		display: block;
+	}
+	.header{
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 50px;
+		line-height: 50px;
+		width: 100%;
+		text-align: left;
+		font-size: 20px;
+		font-weight: bold;
+		padding-left: 10px;
+		background-color: @bgc;
+		color: #fff;
+		.close{
+			float: right;
+			font-size: 30px;
+			color: #ddd;
+			cursor: pointer;
+			margin-top: 10px;
+			margin-right: 10px;
+			&:hover{
+				color:#fff;
+			}
+		}
+	}
+	.main-img{
+		background-color: transparent;
+		height: 100%;
+		width: 100%;
+		overflow: auto;
+		position: relative;
+		img{
+			transition: all .5s;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 50%;
+			transform: translate(-50%,-50%);
+		}
+	}
+	.left{
+		position: absolute;
+		left: 0;
+		width: 50px;
+		height: ~'calc(100% - 100px)';
+		background-color: @bgc;
+		top: 50px;
+		display: flex;
+		align-items: center;
+		.pre-btn{
+			font-size: 38px;
+			color:#ddd;
+			cursor: pointer;
+			display: block;
+			margin-top: -25px;
+			&:hover{
+				color: #fff;
+			}
+		}
+	}
+	.right{
+		position: absolute;
+		right: 0;
+		width: 50px;
+		top: 50px;
+		background-color: @bgc;
+		height: ~'calc(100% - 100px)';
+		display: flex;
+		align-items: center;
+		.next-btn{
+			
+			font-size: 38px;
+			color: #ddd;
+			cursor: pointer;
+			display: block;
+			margin-top: -25px;
+			&:hover{
+				color: #fff;
+			}
+		}
+	}
+	.tools{
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		text-align: center;
+		background-color: @bgc;
+		padding-top: 6px;
+		padding-bottom: 6px;
+		i{
+			display: inline-block;
+			margin: 0 10px;
+			width: 38px;
+			cursor: pointer;
+			font-size: 38px;
+			color: #ddd;
+			&:hover{
+				color: #fff;
+			}
+			&.disable{
+				color: #999;
+				cursor: not-allowed;
+				&:hover{
+					color: #999;
+				}
+			}
+		}
+		
+	}
+}
