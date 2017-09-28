@@ -21,26 +21,50 @@ class ImgViewer extends React.Component{
 		action:false,
 		startX:0,
 		startY:0,
+		endX:0,
+		endY:0,
+		scale:{x:1,y:1},
+		status:0,
 	};
 	componentWillReceiveProps(nextProps){
 		// console.log('componentWillReceiveProps',nextProps)
+		//nextProps.imgs[0].src;
+	};
+	loadImage(src){
 		let self=this;
-		let _src=nextProps.imgs[0].src;
 		let _img=new Image();
-		_img.src=_src;
+		_img.src=src;
 		_img.onload=function(){
 			self.setState({
+				index:0,
+				imgStyles:{},
+				ratio:.5,
+				deg:0,
+				margin:{marginTop:0,marginLeft:0},
+				action:false,
+				startX:0,
+				startY:0,
+				endX:0,
+				endY:0,
+				scale:{x:1,y:1},
 				imgWidth:_img.width,
 				imgNaturalWidth:_img.naturalWidth,
 				imgHeight:_img.height,
-				imgNaturalHeight:_img.naturalHeight
+				imgNaturalHeight:_img.naturalHeight,
+				status:2,
 			})
-			self.zoomTo(.1);
+			self.zoomTo(0,true);
 			// console.log('willMount',self.state,_img.naturalHeight,_img.height);
+		}
+		_img.error=function(){
+			self.setState({
+				status:3
+			})
 		}
 	};
 	componentWillMount(){
-		// console.log('willMount',this.refs.viewer)
+		// 加载中..
+		this.setState({status:1});
 	};
 	componentWillUpdate(nextProps,nextState){
 		// console.log('WillUpdate',this.props,nextProps,nextState)
@@ -51,50 +75,63 @@ class ImgViewer extends React.Component{
 	handerCancel(){
 		this.props.onCancel && this.props.onCancel();
 	};
-	zoomTo(ratio){
+	zoomTo(ratio,init=false){
 		ratio = Number(ratio);
     if (ratio < 0) {
       ratio = 1 / (1 - ratio);
     } else {
       ratio = 1 + ratio;
     }
-		let {imgStyles,imgWidth,imgNaturalWidth,imgNaturalHeight} = this.state;
+		let {imgStyles,imgWidth,imgHeight,imgNaturalWidth,imgNaturalHeight,margin,deg,scale} = this.state;
 		let _ratio=(imgWidth * ratio) / imgNaturalWidth;
 		_ratio=_ratio<.3?.3:_ratio;
 		_ratio=_ratio>4?4:_ratio;
 		_ratio = Math.max(0, _ratio);
-		// console.log('ratio',_ratio)
-
+    // console.log('ratio:',ratio,_ratio,imgWidth,imgNaturalWidth)
+    if(init){
+    	_ratio=1;
+    }
 		if(typeof _ratio==='number' && !isNaN(_ratio) && _ratio>=.3 && _ratio<=4){
 			const newWidth = imgNaturalWidth * _ratio;
 	    const newHeight = imgNaturalHeight * _ratio;
-	    const margin=this.offset(newWidth,newHeight);
-
+	    const _margin=this.offset(margin,imgWidth,imgHeight,newWidth,newHeight,init);
+	    const marginLeft=_margin.marginLeft;
+	    const marginTop=_margin.marginTop;
 			let _imgStyles={
 				...imgStyles,
 				width:`${newWidth}px`,
 				height:`${newHeight}px`,
-				marginTop:`${margin.marginTop}px`,
-				marginLeft:`${margin.marginLeft}px`,
+				marginTop:`${marginTop}px`,
+				marginLeft:`${marginLeft}px`,
+				transform:`rotate(${deg}deg) scale(${scale.x},${scale.y})`,
 			}
 			this.setState({
 				imgStyles:_imgStyles,
 				ratio:_ratio,
 				imgWidth:newWidth,
 				imgHeight:newHeight,
-				margin,
+				margin:{
+					marginLeft,
+					marginTop,
+				},
 			})
 		}
     
 	};
-	offset(width,height){
+	offset(margin,oldWidth,oldHeight,newWidth,newHeight,init){
 		// const {imgStyles} = this.state;
-		const clientWidth=document.body.clientWidth-100;
-		const clientHeight=document.body.clientHeight-100;
+		const clientWidth=document.body.clientWidth;
+		const clientHeight=document.body.clientHeight;
 		let marginTop,marginLeft;
-
-		marginLeft=clientWidth/2 - width/2;
-		marginTop=clientHeight/2 - height/2;
+		if(init){
+			marginLeft=clientWidth/2 - newWidth/2;
+			marginTop=clientHeight/2 - newHeight/2;
+		}else{
+			const x=newWidth-oldWidth;
+			const y=newHeight-oldHeight;
+			marginLeft=margin.marginLeft-x/2;
+			marginTop=margin.marginTop-y/2;
+		}
 		// console.log(height,clientHeight,marginTop)
 		return {marginTop,marginLeft}
 	};
@@ -104,19 +141,39 @@ class ImgViewer extends React.Component{
 	handerNarrow(){
 		this.zoomTo(-.1);
 	};
-	handerRotate(){
+	handerRotate(d){
 		let {deg,imgStyles} = this.state;
-		deg+=90;
+		deg+=d;
 		this.setState({
 			imgStyles:{
 				...imgStyles,
 				transform:`rotate(${deg}deg)`,
-			},deg
+			},
+			deg
 		})
 	};
+	handerScale(t){
+		const { scale,deg,imgStyles} =this.state;
+		let x=scale.x,
+				y=scale.y;
+		if(t==='horizontal'){
+			//左右翻转
+			x=x===1?-1:1;
+		}else{
+			//上下翻转
+			y=y===1?-1:1;
+		}
+		this.setState({
+			imgStyles:{
+				...imgStyles,
+				transform:`rotate(${deg}deg) scale(${x},${y})`,
+			},
+			scale:{x,y}
+		})		
+	};
 	contextmenu(e){
-		e.stopPropagation();
-		e.preventDefault();
+		// e.stopPropagation();
+		// e.preventDefault();
 		this.setState({action:false});
 	};
 	pointerdown(e){
@@ -136,18 +193,24 @@ class ImgViewer extends React.Component{
 		const {imgStyles,margin,action,startX,startY}=this.state;
 		e.preventDefault();
 		if(action){
-			let endX=pointer.pageX;
-			let endY=pointer.pageY;
+			const endX=pointer.pageX;
+			const endY=pointer.pageY;
 			const x=endX-startX;
 			const y=endY-startY;
-			// console.log('move',$.getEvent(e).pageX,$.getEvent(e).pageY)
-			// console.log('move',x,y,startX,startY,endX,endY);
+			const marginLeft=margin.marginLeft+x;
+			const marginTop=margin.marginTop+y;
+			// console.log('1-margin:',marginLeft,marginTop)
+			// console.log('2-start:',startX,startY);
+			// console.log('3-end:',endX,endY);
+			// console.log('4-move:',x,y);
 			this.setState({
 				imgStyles:{
 					...imgStyles,
-					marginTop:`${margin.marginTop+y}px`,
-					marginLeft:`${margin.marginLeft+x}px`,
-				}
+					marginTop:`${marginTop}px`,
+					marginLeft:`${marginLeft}px`,
+				},
+				endX,
+				endY,
 			})
 		}else{
 			// console.log(this.endX,this.endY)
@@ -155,53 +218,81 @@ class ImgViewer extends React.Component{
 
 	};
 	pointerup(e){
-		console.log('up')
+		// console.log('up')
 		e.stopPropagation();
-		this.setState({action:false})
 		e.preventDefault();
-		// this.action=false;
-		// console.log('up',$.getEvent(e).pageX,$.getEvent(e).pageY)
+		const {action,margin,startX,startY,endX,endY} =this.state;
+		if(action){
+			this.setState({
+				action:false,
+				margin:{
+					marginLeft:margin.marginLeft+(endX-startX),
+					marginTop:margin.marginTop+(endY-startY)
+				}
+			})
+		}
+		
 	};
 	dragstart(e){
 		if (e.target.tagName.toLowerCase() === 'img') {
       e.preventDefault();
     }
 	};
+
 	render(){
-		const {index,imgStyles,ratio,action} = this.state;
+		const {index,imgStyles,ratio,action,status} = this.state;
 		const {imgs,visible} =this.props;
 		// console.log('visible',visible)
 		let _title=imgs[index].name,
 				_src=imgs[index].src;
+		if(status!==2 && status!==3){
+			this.loadImage(_src);
+		}
 		return(
 			<div className={cs(styles['img-viewer']:true,visible?styles['show']:'')} ref="viewer">
-				<div className={styles['header']}>
-					图片查看：{_title}
-					<Icon type="close-circle-o" className={styles['close']} onClick={e=>this.handerCancel()}/>
+				{
+					status===2?
+						<div className={styles['main-img']}>
+							<img  src={_src} alt={_title} style={imgStyles} className={action?'no':styles['viewer-transition']}
+								onDragStart={e=>this.dragstart(e)}
+								onMouseDown={e=>this.pointerdown(e)}
+								onTouchStart={e=>this.pointerdown(e)}
+								onMouseMove={e=>this.pointermove(e)}
+								onTouchMove={e=>this.pointermove(e)}
+								onMouseOut={e=>this.pointerup(e)}
+								onMouseUp={e=>this.pointerup(e)}
+								onTouchEnd={e=>this.pointerup(e)}
+								onTouchCancel={e=>this.pointerup(e)}
+								onContextMenu={e=>this.contextmenu(e)}
+							/>
+						</div>
+					:
+						<div className={styles['loading']}>
+							{
+								status!==3?
+									<p>
+										<Icon type="loading" />
+										图片加载中...
+									</p>
+								:
+									<p>加载图片失败</p>
+							}
+						</div>
+				}
+				<div className={styles['close']} onClick={e=>this.handerCancel()}>
+					<Icon type="close" />
 				</div>
-				<div className={styles['main-img']}>
-					<img  src={_src} alt={_title} style={imgStyles} className={action?'no':'viewer-transition'}
-						onDragStart={e=>this.dragstart(e)}
-						onMouseDown={e=>this.pointerdown(e)}
-						onTouchStart={e=>this.pointerdown(e)}
-						onMouseMove={e=>this.pointermove(e)}
-						onTouchMove={e=>this.pointermove(e)}
-						onMouseUp={e=>this.pointerup(e)}
-						onTouchEnd={e=>this.pointerup(e)}
-						onTouchCancel={e=>this.pointerup(e)}
-						onContextMenu={e=>this.contextmenu(e)}
-					/>
-				</div>
-				<div className={styles['left']}>
-					<Icon type="left" className={styles['pre-btn']} />
-				</div>
-				<div className={styles['right']}>
-					<Icon type="right" className={styles['next-btn']} />
+				<div className={styles['tooltips']}>
+					{_title && _title}
 				</div>
 				<div className={styles['tools']}>
-					<Icon type="plus-circle-o" className={ratio===4?styles['disable']:''} onClick={e=>this.handerEnlarge()} />
-					<Icon type="minus-circle-o" className={ratio===.3?styles['disable']:''}  onClick={e=>this.handerNarrow()} />
-					<Icon type="reload" onClick={e=>this.handerRotate()} />
+					<Icon type="plus" className={ratio===4?styles['disable']:''} onClick={e=>this.handerEnlarge()} />
+					<Icon type="minus" className={ratio===.3?styles['disable']:''}  onClick={e=>this.handerNarrow()} />
+					<i className={cs('anticon',styles['real-size'])} onClick={e=>this.zoomTo(0,true)}></i>
+					<Icon type="reload" className={styles['reverse-rotate']} onClick={e=>this.handerRotate(-90)} />
+					<Icon type="reload" className={styles['cis-rotate']} onClick={e=>this.handerRotate(90)} />
+					<Icon type="arrows-alt" className={styles['reverse-flip']} onClick={e=>this.handerScale('horizontal')}/>
+					<Icon type="arrows-alt" className={styles['cis-flip']} onClick={e=>this.handerScale('vertical')}/>
 				</div>
 			</div>
 		)
