@@ -4,14 +4,14 @@ import { Form,Radio,Input,Modal,Row,Col,Button,Icon,Affix,message } from 'antd'
 //import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
-import uploadImageCallBack from '../../services/uploadImageCallBack'
+// import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
 //import {changeMoneyToChinese} from '../../utils'
 import EditCellTable from './EditCellTable'
 import templateUrl from '../../../assets/template/财务报销单据.xlsx'
 import CommentTable from '../../components/CommentTable'
-
+// import AttachList from './attachList'
 const confirm = Modal.confirm
 //const { RangePicker } = DatePicker
 const RadioGroup = Radio.Group;
@@ -125,14 +125,22 @@ const modal = ({
       onOk(fields)
     }
   }
-  if(item.attachList&& item.attachList[0]){
+  if(fileList[0]){
+    defaultFileList=fileList.map((temp)=>{
+      if(temp.createTime)
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      return {...temp}
+    })
+  }else if(item.attachList&& item.attachList[0]){
     defaultFileList=item.attachList.map((temp)=>{
       return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
     })
   }else{
     defaultFileList=[];
   }
-  if(item.detailList && item.detailList[0]){
+  if(detailList && detailList[0]){
+    defaultDetailList=detailList;
+  }else if(item.detailList && item.detailList[0]){
     defaultDetailList=item.detailList.map(temp=>{
       let newRow={
         key: temp.id,
@@ -279,6 +287,7 @@ const modal = ({
           </Col>
           
         </Row>
+       
         {
           taskData&&taskData.commentList?
             <CommentTable data={taskData.commentList} />

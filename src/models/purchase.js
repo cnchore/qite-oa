@@ -203,6 +203,7 @@ export default {
               employeeList:employeeRes.data.rowsObject[0],
               modalType:'toBackEdit',
               reasonStr:'',
+              detailList:[],
             }
           })
         }else{

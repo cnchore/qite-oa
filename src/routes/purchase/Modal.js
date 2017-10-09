@@ -4,7 +4,7 @@ import { Form, Input,Radio, InputNumber,Modal,Row,Col,Button,Icon,Affix,message,
 //import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser,FileList } from '../../components'
-import uploadImageCallBack from '../../services/uploadImageCallBack'
+// import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
 import {changeMoneyToChinese} from '../../utils'
@@ -130,45 +130,30 @@ const modal = ({
         }
       })
       //data.totalAmount=0;
+      let _defaultDetailList=[]
       if(detailList && detailList.length>0){
-        detailList.map((f,index)=>{
-          if(f.id) data[`purchaseDetailList[${index}].id`]=f.id;
-          if(f.applyId)data[`purchaseDetailList[${index}].applyId`]=f.applyId;
-          data[`purchaseDetailList[${index}].materialName`]=f.materialName.value;
-          data[`purchaseDetailList[${index}].spec`]=f.spec.value;
-          data[`purchaseDetailList[${index}].purchaseNum`]=f.num.value;
-          data[`purchaseDetailList[${index}].unit`]=f.unit.value;
-          data[`purchaseDetailList[${index}].amount`]=f.amount.value;
-          data[`purchaseDetailList[${index}].useTimeStr`]=f.useTimeStr.value;
-          data[`purchaseDetailList[${index}].remark`]=f.remark.value;
-          data[`purchaseDetailList[${index}].supplierName`]=f.supplierName.value; 
-          data[`purchaseDetailList[${index}].purchaseAmount`]=f.purchaseAmount.value; 
-          data[`purchaseDetailList[${index}].estiArrivalTimeStr`]=f.estiArrivalTime.value;
-          data[`purchaseDetailList[${index}].storageTimeStr`]=f.storageTime.value;
-          data[`purchaseDetailList[${index}].isIn`]=f.isIn.value; 
-          //data.totalAmount+=parseFloat(f.num.value)*parseFloat(f.amount.value===null||f.amount.value===''|| f.amount.value===undefined?0:f.amount.value);
-           
-        })
+        _defaultDetailList=detailList;
       }else if(defaultDetailList[0]){
-        defaultDetailList.map((f,index)=>{
-          if(f.id) data[`purchaseDetailList[${index}].id`]=f.id;
-          if(f.applyId)data[`purchaseDetailList[${index}].applyId`]=f.applyId;
-          data[`purchaseDetailList[${index}].materialName`]=f.materialName.value;
-          data[`purchaseDetailList[${index}].spec`]=f.spec.value;
-          data[`purchaseDetailList[${index}].purchaseNum`]=f.num.value;
-          data[`purchaseDetailList[${index}].unit`]=f.unit.value;
-          data[`purchaseDetailList[${index}].amount`]=f.amount.value;
-          data[`purchaseDetailList[${index}].useTimeStr`]=f.useTimeStr.value;
-          data[`purchaseDetailList[${index}].remark`]=f.remark.value;
-          data[`purchaseDetailList[${index}].supplierName`]=f.supplierName.value; 
-          data[`purchaseDetailList[${index}].purchaseAmount`]=f.purchaseAmount.value; 
-          data[`purchaseDetailList[${index}].estiArrivalTimeStr`]=f.estiArrivalTime.value;
-          data[`purchaseDetailList[${index}].storageTimeStr`]=f.storageTime.value;
-          data[`purchaseDetailList[${index}].isIn`]=f.isIn.value; 
-         // data.totalAmount+=parseFloat(f.num.value)*parseFloat(f.amount.value===null||f.amount.value===''|| f.amount.value===undefined?0:f.amount.value);
-          
-        })
+        _defaultDetailList=defaultDetailList;
       }
+      _defaultDetailList.map((f,index)=>{
+        if(f.id) data[`purchaseDetailList[${index}].id`]=f.id;
+        if(f.applyId)data[`purchaseDetailList[${index}].applyId`]=f.applyId;
+        data[`purchaseDetailList[${index}].materialName`]=f.materialName.value;
+        data[`purchaseDetailList[${index}].spec`]=f.spec.value;
+        data[`purchaseDetailList[${index}].purchaseNum`]=f.num.value;
+        data[`purchaseDetailList[${index}].unit`]=f.unit.value;
+        data[`purchaseDetailList[${index}].amount`]=f.amount.value;
+        data[`purchaseDetailList[${index}].useTimeStr`]=f.useTimeStr.value;
+        data[`purchaseDetailList[${index}].remark`]=f.remark.value;
+        data[`purchaseDetailList[${index}].supplierName`]=f.supplierName.value; 
+        data[`purchaseDetailList[${index}].purchaseAmount`]=f.purchaseAmount.value; 
+        data[`purchaseDetailList[${index}].estiArrivalTimeStr`]=f.estiArrivalTime.value;
+        data[`purchaseDetailList[${index}].storageTimeStr`]=f.storageTime.value;
+        data[`purchaseDetailList[${index}].isIn`]=f.isIn.value; 
+       // data.totalAmount+=parseFloat(f.num.value)*parseFloat(f.amount.value===null||f.amount.value===''|| f.amount.value===undefined?0:f.amount.value);
+        
+      })
 
       if(data.bigType){
         data.bigTypeName=dicList.filter(f=>f.dicType==='buyType_Big' && f.dicValue===data.bigType)[0].dicName;
@@ -273,7 +258,9 @@ const modal = ({
   }else{
     defaultFileList=[];
   }
-  if(item.purchaseDetailList && item.purchaseDetailList[0]){
+  if(detailList && detailList[0]){
+    defaultDetailList=detailList;
+  }else if(item.purchaseDetailList && item.purchaseDetailList[0]){
     defaultDetailList=item.purchaseDetailList.map(temp=>{
       let newRow={
         key: temp.id,

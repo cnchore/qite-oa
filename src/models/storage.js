@@ -96,6 +96,7 @@ export default {
             ...payload,
             currentItem:data.data,
             fileList:[],
+            detailList:[],
           } 
         })
       } else {

@@ -30,7 +30,7 @@ class FileUpload extends React.Component {
     // console.info('FileUpload nextProps:',nextProps)
   }
   state = {
-    fileList:this.props.defaultFileList || [],
+    // fileList:this.props.defaultFileList || [],
     previewImage:null,
     previewName:'',
     previewVisible:false,
@@ -50,22 +50,24 @@ class FileUpload extends React.Component {
   handleChange = (info) => {
     const status = info.file.status;
 
-    let defaultList=this.state.fileList.filter(item=>item.uid!==info.file.uid)
+    let defaultList=this.props.defaultFileList.filter(item=>item.uid!==info.file.uid)
 
     if(status==='uploading'){
-      this.setState({fileList:[...defaultList,info.file]})
-      //console.log('before:',..._list);
+      // this.setState({fileList:[...defaultList,info.file]})
+      // console.log('before:',info.file);
+      if(this.props.callbackParent)this.props.callbackParent([...defaultList,info.file]);
     }else if (status === 'done') {
       let f=info.file;
       f.url=info.file.response.data;
-      this.setState({fileList:[...defaultList,f]})
+      // console.log('done:',f)
+      // this.setState({fileList:[...defaultList,f]})
       //if(this.props.fileList)this.props.fileList=[...defaultList,f];
       if(this.props.callbackParent)this.props.callbackParent([...defaultList,f]);
       message.success(`${info.file.name} 上传成功.`);
       //this.setState({ imageUrl:info.file.response.data });
 
     } else if (status === 'error') {
-      this.setState({fileList:defaultList})
+      // this.setState({fileList:defaultList})
 
       message.error(`${info.file.name} 上传失败.`);
     }
@@ -115,7 +117,7 @@ class FileUpload extends React.Component {
   }
   beforeUpload=(file)=> {
 
-    this.setState({fileList:[...this.state.fileList,file]})
+    // this.setState({fileList:[...this.state.fileList,file]})
     
     const isLt2M = file.size / 1024 / 1024 < 20;
     if (!isLt2M) {
@@ -124,11 +126,8 @@ class FileUpload extends React.Component {
     return isLt2M;
   }
   handleRemove=(file)=>{
-    let l=this.state.fileList.filter(item=>item.uid!==file.uid);
+    let l=this.props.defaultFileList.filter(item=>item.uid!==file.uid);
     //console.log('before:',l)
-    this.setState({
-      fileList:l
-    });
     if(this.props.callbackParent)this.props.callbackParent(l);
 
     //if(this.props.fileList)this.props.fileList=l;
@@ -147,8 +146,9 @@ class FileUpload extends React.Component {
     const fileData={bucket:`${config.bucket}`,type:'qiteOa'};
     const {previewVisible,previewImage,previewName }= this.state; 
     const _imgs=[{src:previewImage,name:previewName}]
-    const { prefixCls,fileList,showPreviewIcon, showRemoveIcon } = this.props
-    const _fileList = this.state.fileList.map((file,index)=>{
+    const { prefixCls,fileList,showPreviewIcon, showRemoveIcon,defaultFileList } = this.props
+    // console.log('defaultFileList:',defaultFileList);
+    const _fileList = defaultFileList.map((file,index)=>{
       let thumbUrl=this.getThumbUrl(file);
       return (
          <Col md={24} xl={12} className={styles['file-col']} key={`file-${index}`}>

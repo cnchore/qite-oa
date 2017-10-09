@@ -4,7 +4,7 @@ import { Form, Input,Select,Radio, InputNumber,Modal,Row,Col,DatePicker,Button,I
 import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
-import uploadImageCallBack from '../../services/uploadImageCallBack'
+// import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
 import {changeMoneyToChinese} from '../../utils'
@@ -99,7 +99,13 @@ const modal = ({
       onOk(fields)
     }
   }
-  if(item.attachList&& item.attachList[0]){
+  if(fileList[0]){
+    defaultFileList=fileList.map((temp)=>{
+      if(temp.createTime)
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      return {...temp}
+    })
+  }else if(item.attachList&& item.attachList[0]){
     defaultFileList=item.attachList.map((temp)=>{
       return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
     })

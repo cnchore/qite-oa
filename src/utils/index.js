@@ -449,8 +449,8 @@ const getHMS=(text)=>{
     switch(record.state){
       case 1:
       if(_code==='PE'){
-        return <a  onClick={handerA} target="_self">办理</a>;
-        // return <Link to={`/purchase?${_url}`}>办理</Link>;
+        // return <a  onClick={handerA} target="_self">办理</a>;
+        return <Link to={`/purchase?${_url}`}>办理</Link>;
       }
       return <Link to={`/waiting?homeTaskId=${record.taskId}&from=${fromPath}&t=${Math.random()}`}>办理</Link>;
       case -1:
@@ -475,8 +475,8 @@ const getHMS=(text)=>{
         case 'PA':
         return <Link to={`/purchaseApply?${_url}`}>{text}</Link>;
         case 'PE':
-        // return <Link to={`/purchase?${_url}`}>{text}</Link>;
-        return <a  onClick={handerA} target="_self">{text}</a>;
+        return <Link to={`/purchase?${_url}`}>{text}</Link>;
+        // return <a  onClick={handerA} target="_self">{text}</a>;
 
         case 'PT':
         return <Link to={`/payment?${_url}`}>{text}</Link>;

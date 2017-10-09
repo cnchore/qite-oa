@@ -177,6 +177,7 @@ export default {
               taskData:taskData.data,
               employeeList:userInfo.data.employeeVo,
               modalType:'toBackEdit',
+              detailList:[],
             }
           })
         }else{

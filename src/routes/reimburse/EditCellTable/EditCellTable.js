@@ -22,24 +22,24 @@ class EditCellTable extends React.Component {
       title: '用途',
       dataIndex: 'uses',
       width: 200,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'uses', text,'input'),
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'uses', text,'input'),
    }, {
       title: '金额',
       dataIndex: 'amount',
       width: 120,
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'amount', text,'currency'),
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'amount', text,'currency'),
     }, {
       title: '备注',
       dataIndex: 'remark',
       
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'remark', text,'input'),
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'remark', text,'input'),
     
     }, {
       title: '操作',
       dataIndex: 'operation',
       fixed:'right',width:120,
       render: (text, record, index) => {
-        const { editable } = this.state.data[index].uses;
+        const { editable } = this.props.dataSource[index].uses;
         return (
           <div className="editable-row-operations">
             {
@@ -64,9 +64,7 @@ class EditCellTable extends React.Component {
       },
     }];
     this.state = {
-      count:0,
-      data:this.props.dataSource || [],
-      
+     
     };
   }
   
@@ -109,7 +107,8 @@ class EditCellTable extends React.Component {
     }
   }
   add=()=>{
-    const { count, data} =this.state;
+    let data = this.props.dataSource;
+    let count = data.length;
     const newRow={
         key: count+Math.random(),
         uses: {
@@ -125,29 +124,29 @@ class EditCellTable extends React.Component {
           value: '',
         },
       }
-    this.setState({
-      data:[...data,newRow],
-      count:count+1,
-    })
+    this.props.callbackParent&&this.props.callbackParent([...data,newRow]);
     this.props.setIsEditable && this.props.setIsEditable(true);
   }
   handleChange(key, index, value) {
-    const { data } = this.state;
+    let data = this.props.dataSource;
     data[index][key].value = value;
-    this.setState({ data });
+    delete data[index][key].status;
+    this.props.callbackParent&&this.props.callbackParent(data);
+    this.props.setIsEditable && this.props.setIsEditable(findIsEditable(data));
+    
   }
   edit(index) {
-    const { data } = this.state;
+    let data = this.props.dataSource;
     Object.keys(data[index]).forEach((item) => {
       if (data[index][item] && typeof data[index][item].editable !== 'undefined') {
         data[index][item].editable = true;
       }
     });
-    this.setState({ data });
+    this.props.callbackParent&&this.props.callbackParent(data);
     this.props.setIsEditable && this.props.setIsEditable(true);
   }
   getTotalAmount(){
-    const { data } =this.state;
+    let data = this.props.dataSource;
     let c=0;
     if(data && data[0]){
       data.map(t=>{
@@ -157,36 +156,23 @@ class EditCellTable extends React.Component {
     return c.toFixed(2);
   }
   del(_index){
-    const data =this.state.data[0]?this.state.data.filter((item,index)=>index!==_index):[];
-    
-    this.setState({data});
-    if(this.props.callbackParent)this.props.callbackParent(data);
-    //this.getActualExpense(data);
+    const data =this.props.dataSource[0]?this.props.dataSource.filter((item,index)=>index!==_index):[];
+    this.props.callbackParent&&this.props.callbackParent(data);
   }
   editDone(index, type) {
-    const { data } = this.state;
+    let data = this.props.dataSource;
     Object.keys(data[index]).forEach((item) => {
       if (data[index][item] && typeof data[index][item].editable !== 'undefined') {
         data[index][item].editable = false;
         data[index][item].status = type;
       }
     });
-    this.setState({ data }, () => {
-      Object.keys(data[index]).forEach((item) => {
-        if (data[index][item] && typeof data[index][item].editable !== 'undefined') {
-          delete data[index][item].status;
-        }
-      });
-    });
-    if(this.props.callbackParent){
-      this.props.callbackParent(data);
-      //this.getActualExpense(data);
-    }
-    this.props.setIsEditable && this.props.setIsEditable(findIsEditable(this.state.data));
+    
+    this.props.callbackParent&&this.props.callbackParent(data);
+    this.props.setIsEditable && this.props.setIsEditable(findIsEditable(data));
   }
   render() {
-    const { data} = this.state;
-    //console.log(data)
+    let data = this.props.dataSource;
     const dataSource = data.map((item) => {
       const obj = {};
       Object.keys(item).forEach((key) => {
@@ -194,8 +180,6 @@ class EditCellTable extends React.Component {
       });
       return obj;
     });
-    //this.getActualExpense();
-    //console.log(dataSource)
     const columns = this.columns;
     return  (
       <Row gutter={24} className={this.props.className}>

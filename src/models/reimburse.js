@@ -172,29 +172,30 @@ export default {
       
     },
     *toBackEdit({payload},{call,put}){
-      const mcData=yield call(queryById,{id:payload.busiId})
-      const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
+      // const mcData=yield call(queryById,{id:payload.busiId})
+      // const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
 
-      if(mcData.success&& userInfo.data){
+      // if(mcData.success&& userInfo.data){
         let taskData=yield call(getTaskInfo,{taskId:payload.taskId})
         if(taskData.success){
           taskData.data.taskId=payload.taskId;
           yield put({
             type:'showModal',
             payload:{
-              currentItem:mcData.data,
+              currentItem:taskData.data.busiData,
               fileList:[],
               taskData:taskData.data,
-              employeeList:userInfo.data.employeeVo,
+              employeeList:taskData.data.userVo.employeeVo,
               modalType:'toBackEdit',
+              detailList:[],
             }
           })
         }else{
           throw taskData
         }
-      }else{
-        throw mcData
-      }
+      // }else{
+      //   throw mcData
+      // }
     },
     *editItem ({ payload }, { call, put }) {
       const id=payload.currentItem.id;

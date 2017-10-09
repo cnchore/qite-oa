@@ -90,28 +90,21 @@ const modal = ({
           data[`attachList[${index}].attachName`]=f.name;
         })
       }
+      let _defaultDetailList=[];
       if(detailList && detailList.length>0){
-        detailList.map((f,index)=>{
-          if(f.id) data[`purchaseDetailList[${index}].id`]=f.id;
-          data[`purchaseDetailList[${index}].materialName`]=f.materialName.value;
-          data[`purchaseDetailList[${index}].spec`]=f.spec.value;
-          data[`purchaseDetailList[${index}].num`]=f.num.value;
-          data[`purchaseDetailList[${index}].unit`]=f.unit.value;
-          data[`purchaseDetailList[${index}].useTimeStr`]=f.useTimeStr.value;
-          data[`purchaseDetailList[${index}].remark`]=f.remark.value;
-           
-        })
+        _defaultDetailList=detailList;
       }else if(defaultDetailList[0]){
-        defaultDetailList.map((f,index)=>{
-          if(f.id) data[`purchaseDetailList[${index}].id`]=f.id;
-          data[`purchaseDetailList[${index}].materialName`]=f.materialName.value;
-          data[`purchaseDetailList[${index}].spec`]=f.spec.value;
-          data[`purchaseDetailList[${index}].num`]=f.num.value;
-          data[`purchaseDetailList[${index}].unit`]=f.unit.value;
-          data[`purchaseDetailList[${index}].useTimeStr`]=f.useTimeStr.value;
-          data[`purchaseDetailList[${index}].remark`]=f.remark.value;
-        })
+        _defaultDetailList=defaultDetailList;
       }
+      _defaultDetailList.map((f,index)=>{
+        if(f.id) data[`purchaseDetailList[${index}].id`]=f.id;
+        data[`purchaseDetailList[${index}].materialName`]=f.materialName.value;
+        data[`purchaseDetailList[${index}].spec`]=f.spec.value;
+        data[`purchaseDetailList[${index}].num`]=f.num.value;
+        data[`purchaseDetailList[${index}].unit`]=f.unit.value;
+        data[`purchaseDetailList[${index}].useTimeStr`]=f.useTimeStr.value;
+        data[`purchaseDetailList[${index}].remark`]=f.remark.value;
+      })
       
       if(item.id){
         data.id=item.id;
@@ -130,14 +123,22 @@ const modal = ({
       onOk(fields)
     }
   }
-  if(item.attachList&& item.attachList[0]){
+  if(fileList[0]){
+    defaultFileList=fileList.map((temp)=>{
+      if(temp.createTime)
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      return {...temp}
+    })
+  }else if(item.attachList&& item.attachList[0]){
     defaultFileList=item.attachList.map((temp)=>{
       return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
     })
   }else{
     defaultFileList=[];
   }
-  if(item.purchaseDetailList && item.purchaseDetailList[0]){
+  if(detailList && detailList[0]){
+    defaultDetailList=detailList;
+  }else if(item.purchaseDetailList && item.purchaseDetailList[0]){
     defaultDetailList=item.purchaseDetailList.map(temp=>{
       let newRow={
         key: temp.id,

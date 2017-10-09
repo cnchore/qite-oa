@@ -4,7 +4,7 @@ import { Form, Input,Radio,InputNumber,Modal,Row,Col,Select,Button,Icon,Affix,me
 //import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
-import uploadImageCallBack from '../../services/uploadImageCallBack'
+// import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
 import {changeMoneyToChinese} from '../../utils'
@@ -91,35 +91,25 @@ const modal = ({
         })
       }
       data.actualExpense=0;
+      let _defaultDetailList=[];
       if(detailList && detailList.length>0){
-        detailList.map((f,index)=>{
-          if(f.id) data[`detailList[${index}].id`]=f.id;
-          data[`detailList[${index}].departureTimeStr`]=f.departureTimeStr.value;
-          data[`detailList[${index}].departurePlace`]=f.departurePlace.value;
-          data[`detailList[${index}].arrivalTimeStr`]=f.arrivalTimeStr.value;
-          data[`detailList[${index}].arrivalPlace`]=f.arrivalPlace.value;
-          data[`detailList[${index}].vehicle`]=f.vehicle.value;
-          data[`detailList[${index}].vehicleCost`]=f.vehicleCost.value;
-          data[`detailList[${index}].livingCost`]=f.livingCost.value;
-          data[`detailList[${index}].otherCost`]=f.otherCost.value;
-          data.actualExpense+=parseFloat(f.vehicleCost.value)+parseFloat(f.livingCost.value)+parseFloat(f.otherCost.value)
-          
-        })
+        _defaultDetailList=detailList;
       }else if(defaultDetailList[0]){
-        defaultDetailList.map((f,index)=>{
-          if(f.id) data[`detailList[${index}].id`]=f.id;
-          data[`detailList[${index}].departureTimeStr`]=f.departureTimeStr.value;
-          data[`detailList[${index}].departurePlace`]=f.departurePlace.value;
-          data[`detailList[${index}].arrivalTimeStr`]=f.arrivalTimeStr.value;
-          data[`detailList[${index}].arrivalPlace`]=f.arrivalPlace.value;
-          data[`detailList[${index}].vehicle`]=f.vehicle.value;
-          data[`detailList[${index}].vehicleCost`]=f.vehicleCost.value;
-          data[`detailList[${index}].livingCost`]=f.livingCost.value;
-          data[`detailList[${index}].otherCost`]=f.otherCost.value;
-          data.actualExpense+=parseFloat(f.vehicleCost.value)+parseFloat(f.livingCost.value)+parseFloat(f.otherCost.value)
-          
-        })
+        _defaultDetailList=defaultDetailList;
       }
+      _defaultDetailList.map((f,index)=>{
+        if(f.id) data[`detailList[${index}].id`]=f.id;
+        data[`detailList[${index}].departureTimeStr`]=f.departureTimeStr.value;
+        data[`detailList[${index}].departurePlace`]=f.departurePlace.value;
+        data[`detailList[${index}].arrivalTimeStr`]=f.arrivalTimeStr.value;
+        data[`detailList[${index}].arrivalPlace`]=f.arrivalPlace.value;
+        data[`detailList[${index}].vehicle`]=f.vehicle.value;
+        data[`detailList[${index}].vehicleCost`]=f.vehicleCost.value;
+        data[`detailList[${index}].livingCost`]=f.livingCost.value;
+        data[`detailList[${index}].otherCost`]=f.otherCost.value;
+        data.actualExpense+=parseFloat(f.vehicleCost.value)+parseFloat(f.livingCost.value)+parseFloat(f.otherCost.value)
+        
+      })
       //console.log('--travelIds---',...data.travelIds);
       if(data.travelIds && data.travelIds[0]){
 
@@ -141,14 +131,22 @@ const modal = ({
       onOk(fields)
     }
   }
-  if(item.attachList&& item.attachList[0]){
+  if(fileList[0]){
+    defaultFileList=fileList.map((temp)=>{
+      if(temp.createTime)
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      return {...temp}
+    })
+  }else if(item.attachList&& item.attachList[0]){
     defaultFileList=item.attachList.map((temp)=>{
       return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
     })
   }else{
     defaultFileList=[];
   }
-  if(item.detailList && item.detailList[0]){
+ if(detailList && detailList[0]){
+  defaultDetailList=detailList;
+ }else if(item.detailList && item.detailList[0]){
     defaultDetailList=item.detailList.map(temp=>{
       let newRow={
         key: temp.id,

@@ -75,7 +75,7 @@ const Budget = ({ location, dispatch, budget, loading }) => {
       }))
     },
   }
-
+  // console.log('list:',list)
   const listProps = {
     dataSource:list,
     loading: loading.effects['budget/query'],

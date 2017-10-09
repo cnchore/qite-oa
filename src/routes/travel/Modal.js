@@ -100,7 +100,13 @@ const modal = ({
       onOk(fields)
     }
   }
-  if(item.attachList&& item.attachList[0]){
+  if(fileList[0]){
+    defaultFileList=fileList.map((temp)=>{
+      if(temp.createTime)
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      return {...temp}
+    })
+  }else if(item.attachList&& item.attachList[0]){
     defaultFileList=item.attachList.map((temp)=>{
       return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
     })
@@ -215,7 +221,7 @@ const modal = ({
 
           </Col>
           <Col span={24} className='qite-list-title'>
-            <Icon type="credit-card" />加班申请信息
+            <Icon type="credit-card" />出差申请信息
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             姓名：
