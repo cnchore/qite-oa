@@ -6,9 +6,9 @@ let _websocketUrl='/qite/websocket/socketServer.do';
 // let websocketUrl='ws://192.168.0.119:8080/qite/websocket/socketServer.do';
 
 module.exports = {
-  name: '淇特办公系统',
+  name: '伊蕾莎集团办公系统',
   prefix: 'qiteOa',
-  footerText: '佛山市淇特科技有限公司 © 2017',
+  footerText: '伊蕾莎集团 © 2017',
   logo: 'logo.png',
   iconFontCSS: 'iconfont.css',
   iconFontJS: 'iconfont.js',

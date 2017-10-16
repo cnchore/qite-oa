@@ -7,21 +7,13 @@ import Filter from './Filter'
 import { message,Affix } from 'antd' 
 import { getFamliy,getChildren,getAnotB } from '../../utils'
 
-
 const Auth = ({ location, dispatch, auth, loading }) => {
   const { list,roleList,roleKey,selectedRowKeys, pagination } = auth
   const { pageSize } = pagination
-
-  
   const rowSelection = {
       selectedRowKeys,
-      
       onSelect: (record, selected, selectedRows) => {
-
         let _selectedRows=selectedRows.map((item)=>item.id);
-        //console.log('selectedRowKeys:',_selectedRows)
-        
-     
         let _pList=getFamliy(list,record.id,'id','parentId');
         let _cList=getChildren(list,record.id,'id');
         if(selected){
@@ -39,20 +31,16 @@ const Auth = ({ location, dispatch, auth, loading }) => {
           }
         }
         _selectedRows=Array.from(new Set(_selectedRows))
-       
-        //console.log('List:',..._selectedRows);
         dispatch({
           type: 'auth/setSelectedRowKeys',
           payload:_selectedRows
         })
-        //console.log('onSelect:',record.key, selected, selectedRows);
       },
       onSelectAll: (selected, selectedRows, changeRows) => {
         dispatch({
           type: 'auth/setSelectedRowKeys',
           payload:selectedRows.map((item)=>item.id)
         })
-        //console.log('onSelectAll:',selected, selectedRows, changeRows);
       },
     
   };
@@ -93,9 +81,6 @@ const Auth = ({ location, dispatch, auth, loading }) => {
   }
 
   const filterProps = {
-    
-    
-   
     onSave () {
       if(roleKey===undefined || roleKey===null){
         message.error('请选择一个角色后再试')
