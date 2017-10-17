@@ -133,11 +133,14 @@ class FileList extends React.Component {
       <Row gutter={0} className={styles.fileRow}>
         
         {_fileList[0]?_fileList:<Col span={24}>暂无内容</Col>}
-        
-        <ImgViewer 
-          visible={previewVisible}
-          onCancel={this.handleCancel}
-          imgs={_imgs} />
+        {
+          previewVisible?
+          <ImgViewer 
+            visible={previewVisible}
+            onCancel={this.handleCancel}
+            imgs={_imgs} />
+          :null
+        }
       </Row>
       
     )

@@ -186,12 +186,12 @@ const modal = ({
       }
       if(detailList && detailList[0]){
         let _list=[];
-        _list=_list.concat(detailList.filter(f=>f.amount.value==='' || parseInt(f.amount.value)<=0));
+        _list=_list.concat(detailList.filter(f=>f.amount.value==='' || parseFloat(f.amount.value)<=0));
         if(_list.length>0){
           message.error('采购明细［单价］必须大于0');
           return false;
         }
-        _list=_list.concat(detailList.filter(f=>f.num.value==='' || parseInt(f.num.value)<=0));
+        _list=_list.concat(detailList.filter(f=>f.num.value==='' || parseFloat(f.num.value)<=0));
         if(_list.length>0){
           message.error('采购明细［数量］必须大于0');
           return false;
@@ -203,12 +203,12 @@ const modal = ({
         }
       }else if(defaultDetailList && defaultDetailList[0]){
         let _list=[];
-        _list=_list.concat(defaultDetailList.filter(f=>f.amount.value==='' || parseInt(f.amount.value)<=0))
+        _list=_list.concat(defaultDetailList.filter(f=>f.amount.value==='' || parseFloat(f.amount.value)<=0))
         if(_list.length>0){
           message.error('采购明细［单价］必须大于0');
           return false;
         }
-        _list=_list.concat(defaultDetailList.filter(f=>f.num.value==='' || parseInt(f.num.value)<=0))
+        _list=_list.concat(defaultDetailList.filter(f=>f.num.value==='' || parseFloat(f.num.value)<=0))
         if(_list.length>0){
           message.error('采购明细［数量］必须大于0');
           return false;

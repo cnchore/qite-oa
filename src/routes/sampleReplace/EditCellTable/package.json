@@ -1,0 +1,6 @@
+{
+  "name": "EditCellTable",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./EditCellTable.js"
+}

@@ -9,6 +9,13 @@ export async function query (params) {
     data: params,
   })
 }
+export async function queryEmployee (params) {
+  return request({
+    url: employee.query,
+    method: 'get',
+    data: params,
+  })
+}
 export async function getOrg (params) {
   return request({
     url: organizations.query,

@@ -206,11 +206,14 @@ class FileUpload extends React.Component {
           {_fileList}
           </Row>
         </Col>
-       
-         <ImgViewer 
-          visible={previewVisible}
-          onCancel={this.handleCancel}
-          imgs={_imgs} />
+        {
+          previewVisible?
+           <ImgViewer 
+            visible={previewVisible}
+            onCancel={this.handleCancel}
+            imgs={_imgs} />
+          :null
+        }
       </Row>
     )
   }

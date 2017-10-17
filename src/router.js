@@ -496,6 +496,275 @@ const Routers = function ({ history, app }) {
             }, 'storage-detail')
           },
         }, {
+          // 广告费用报销
+          path: '/adReimburse',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/adReimburse'))
+              cb(null, require('./routes/adReimburse/'))
+            }, 'adReimburse')
+          },
+        }, {
+          path: 'adReimburse/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/adReimburse/detail'))
+              cb(null, require('./routes/adReimburse/detail/'))
+            }, 'adReimburse-detail')
+          },
+        },{
+          // 广告投放申请
+          path: '/ad',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/ad'))
+              cb(null, require('./routes/ad/'))
+            }, 'ad')
+          },
+        }, {
+          path: 'ad/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/ad/detail'))
+              cb(null, require('./routes/ad/detail/'))
+            }, 'ad-detail')
+          },
+        },{
+          // 促销活动支持
+          path: '/salesPromotion',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/salesPromotion'))
+              cb(null, require('./routes/salesPromotion/'))
+            }, 'salesPromotion')
+          },
+        }, {
+          path: 'salesPromotion/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/salesPromotion/detail'))
+              cb(null, require('./routes/salesPromotion/detail/'))
+            }, 'salesPromotion-detail')
+          },
+        },{
+          // 促销费用报销
+
+          // 样板房折扣申请
+          path: '/sampleRoom',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/sampleRoom'))
+              cb(null, require('./routes/sampleRoom/'))
+            }, 'sampleRoom')
+          },
+        }, {
+          path: 'sampleRoom/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/sampleRoom/detail'))
+              cb(null, require('./routes/sampleRoom/detail/'))
+            }, 'sampleRoom-detail')
+          },
+        },{
+          // 物料制作申请
+          path: '/materialGift',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/materialGift'))
+              cb(null, require('./routes/materialGift/'))
+            }, 'materialGift')
+          },
+        }, {
+          path: 'materialGift/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/materialGift/detail'))
+              cb(null, require('./routes/materialGift/detail/'))
+            }, 'materialGift-detail')
+          },
+        },{
+          // 培训申请
+          path: '/train',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/train'))
+              cb(null, require('./routes/train/'))
+            }, 'train')
+          },
+        }, {
+          path: 'train/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/train/detail'))
+              cb(null, require('./routes/train/detail/'))
+            }, 'train-detail')
+          },
+        },{
+          // 名片制作申请
+          path: '/card',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/card'))
+              cb(null, require('./routes/card/'))
+            }, 'card')
+          },
+        }, {
+          path: 'card/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/card/detail'))
+              cb(null, require('./routes/card/detail/'))
+            }, 'card-detail')
+          },
+        },{
+          // 售后问题处理申请
+          path: '/sampleReplace',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/sampleReplace'))
+              cb(null, require('./routes/sampleReplace/'))
+            }, 'sampleReplace')
+          },
+        }, {
+          path: 'sampleReplace/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/sampleReplace/detail'))
+              cb(null, require('./routes/sampleReplace/detail/'))
+            }, 'sampleReplace-detail')
+          },
+        },{
+          // 周报表发放申请
+
+          // 物料支持自助申请
+          path: '/materialSupport',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/materialSupport'))
+              cb(null, require('./routes/materialSupport/'))
+            }, 'materialSupport')
+          },
+        }, {
+          path: 'materialSupport/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/materialSupport/detail'))
+              cb(null, require('./routes/materialSupport/detail/'))
+            }, 'materialSupport-detail')
+          },
+        },{
+          // 开业支持申请
+          path: '/open',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/open'))
+              cb(null, require('./routes/open/'))
+            }, 'open')
+          },
+        }, {
+          path: 'open/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/open/detail'))
+              cb(null, require('./routes/open/detail/'))
+            }, 'open-detail')
+          },
+        },{
+          // 店面升级申请
+          path: '/shopUpgrade',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/shopUpgrade'))
+              cb(null, require('./routes/shopUpgrade/'))
+            }, 'shopUpgrade')
+          },
+        }, {
+          path: 'shopUpgrade/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/shopUpgrade/detail'))
+              cb(null, require('./routes/shopUpgrade/detail/'))
+            }, 'shopUpgrade-detail')
+          },
+        },{
+          // 装修补贴费用申请
+          path: '/renoSubsidy',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/renoSubsidy'))
+              cb(null, require('./routes/renoSubsidy/'))
+            }, 'renoSubsidy')
+          },
+        }, {
+          path: 'renoSubsidy/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/renoSubsidy/detail'))
+              cb(null, require('./routes/renoSubsidy/detail/'))
+            }, 'renoSubsidy-detail')
+          },
+        },{
+          // 建店申请
+          path: '/shop',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/shop'))
+              cb(null, require('./routes/shop/'))
+            }, 'shop')
+          },
+        }, {
+          path: 'shop/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/shop/detail'))
+              cb(null, require('./routes/shop/detail/'))
+            }, 'shop-detail')
+          },
+        },{
+          // 付款申请
+          // ？
+          // 办公用品申购
+          // ？
+          // 请假申请
+          // ？
+          // 外勤出差申请
+          // ？
+          // 增配申请
+          // ？
+          // 用章申请
+          path: '/seal',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/seal'))
+              cb(null, require('./routes/seal/'))
+            }, 'seal')
+          },
+        }, {
+          path: 'seal/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/seal/detail'))
+              cb(null, require('./routes/seal/detail/'))
+            }, 'seal-detail')
+          },
+        },{
+          // 领料申请
+          path: '/pick',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/pick'))
+              cb(null, require('./routes/pick/'))
+            }, 'pick')
+          },
+        }, {
+          path: 'pick/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/pick/detail'))
+              cb(null, require('./routes/pick/detail/'))
+            }, 'pick-detail')
+          },
+        }, {
           path: '/login',
           getComponent (nextState, cb) {
             require.ensure([], require => {

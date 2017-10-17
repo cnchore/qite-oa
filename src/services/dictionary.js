@@ -9,6 +9,13 @@ export async function query (params) {
     data: params,
   })
 }
+export async function getDic (params) {
+  return request({
+    url: dictionary.query,
+    method: 'get',
+    data: params,
+  })
+}
 export async function queryById (params) {
   return request({
     url: dictionary.queryById,

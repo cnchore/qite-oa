@@ -268,6 +268,140 @@ module.exports = {
       save:`${apiPrefixPro}/notice/save`,
       deleteById:`${apiPrefixPro}/notice/deleteById`,
     },
+    // 广告费用报销
+    adReimburse:{
+      query:`${apiPrefixPro}/adReimburse/getPage`,
+      queryById:`${apiPrefixPro}/adReimburse/getById`,
+      getList:`${apiPrefixPro}/adReimburse/getList`,
+      save:`${apiPrefixPro}/adReimburse/save`,
+      deleteById:`${apiPrefixPro}/adReimburse/deleteById`,
+    },
+    // 广告投放申请
+    ad:{
+      query:`${apiPrefixPro}/ad/getPage`,
+      queryById:`${apiPrefixPro}/ad/getById`,
+      getList:`${apiPrefixPro}/ad/getList`,
+      save:`${apiPrefixPro}/ad/save`,
+      deleteById:`${apiPrefixPro}/ad/deleteById`,
+    },
+    // 促销活动支持
+    salesPromotion:{
+      query:`${apiPrefixPro}/salesPromotion/getPage`,
+      queryById:`${apiPrefixPro}/salesPromotion/getById`,
+      getList:`${apiPrefixPro}/salesPromotion/getList`,
+      save:`${apiPrefixPro}/salesPromotion/save`,
+      deleteById:`${apiPrefixPro}/salesPromotion/deleteById`,
+    },
+    // 促销费用报销
+
+    // 样板房折扣申请
+    sampleRoom:{
+      query:`${apiPrefixPro}/sampleRoom/getPage`,
+      queryById:`${apiPrefixPro}/sampleRoom/getById`,
+      getList:`${apiPrefixPro}/sampleRoom/getList`,
+      save:`${apiPrefixPro}/sampleRoom/save`,
+      deleteById:`${apiPrefixPro}/sampleRoom/deleteById`,
+    },
+    // 物料制作申请
+    materialGift:{
+      query:`${apiPrefixPro}/materialGift/getPage`,
+      queryById:`${apiPrefixPro}/materialGift/getById`,
+      getList:`${apiPrefixPro}/materialGift/getList`,
+      save:`${apiPrefixPro}/materialGift/save`,
+      deleteById:`${apiPrefixPro}/materialGift/deleteById`,
+    },
+    // 培训申请
+    train:{
+      query:`${apiPrefixPro}/train/getPage`,
+      queryById:`${apiPrefixPro}/train/getById`,
+      getList:`${apiPrefixPro}/train/getList`,
+      save:`${apiPrefixPro}/train/save`,
+      deleteById:`${apiPrefixPro}/train/deleteById`,
+    },
+    // 名片制作申请
+    card:{
+      query:`${apiPrefixPro}/card/getPage`,
+      queryById:`${apiPrefixPro}/card/getById`,
+      getList:`${apiPrefixPro}/card/getList`,
+      save:`${apiPrefixPro}/card/save`,
+      deleteById:`${apiPrefixPro}/card/deleteById`,
+    },
+    // 售后问题处理申请
+    sampleReplace:{
+      query:`${apiPrefixPro}/sampleReplace/getPage`,
+      queryById:`${apiPrefixPro}/sampleReplace/getById`,
+      getList:`${apiPrefixPro}/sampleReplace/getList`,
+      save:`${apiPrefixPro}/sampleReplace/save`,
+      deleteById:`${apiPrefixPro}/sampleReplace/deleteById`,
+    },
+    // 周报表发放申请
+
+    // 物料支持自助申请
+    materialSupport:{
+      query:`${apiPrefixPro}/materialSupport/getPage`,
+      queryById:`${apiPrefixPro}/materialSupport/getById`,
+      getList:`${apiPrefixPro}/materialSupport/getList`,
+      save:`${apiPrefixPro}/materialSupport/save`,
+      deleteById:`${apiPrefixPro}/materialSupport/deleteById`,
+    },
+    // 开业支持申请
+    open:{
+      query:`${apiPrefixPro}/open/getPage`,
+      queryById:`${apiPrefixPro}/open/getById`,
+      getList:`${apiPrefixPro}/open/getList`,
+      save:`${apiPrefixPro}/open/save`,
+      deleteById:`${apiPrefixPro}/open/deleteById`,
+    },
+    // 店面升级申请
+    shopUpgrade:{
+      query:`${apiPrefixPro}/shopUpgrade/getPage`,
+      queryById:`${apiPrefixPro}/shopUpgrade/getById`,
+      getList:`${apiPrefixPro}/shopUpgrade/getList`,
+      save:`${apiPrefixPro}/shopUpgrade/save`,
+      deleteById:`${apiPrefixPro}/shopUpgrade/deleteById`,
+    },
+    // 装修补贴费用申请
+    renoSubsidy:{
+      query:`${apiPrefixPro}/renoSubsidy/getPage`,
+      queryById:`${apiPrefixPro}/renoSubsidy/getById`,
+      getList:`${apiPrefixPro}/renoSubsidy/getList`,
+      save:`${apiPrefixPro}/renoSubsidy/save`,
+      deleteById:`${apiPrefixPro}/renoSubsidy/deleteById`,
+    },
+    // 建店申请
+    shop:{
+      query:`${apiPrefixPro}/shop/getPage`,
+      queryById:`${apiPrefixPro}/shop/getById`,
+      getList:`${apiPrefixPro}/shop/getList`,
+      save:`${apiPrefixPro}/shop/save`,
+      deleteById:`${apiPrefixPro}/shop/deleteById`,
+    },
+    // 付款申请
+    // ？
+    // 办公用品申购
+    // ？
+    // 请假申请
+    // ？
+    // 外勤出差申请
+    // ？
+    // 增配申请
+    // ？
+    // 用章申请
+    seal:{
+      query:`${apiPrefixPro}/seal/getPage`,
+      queryById:`${apiPrefixPro}/seal/getById`,
+      getList:`${apiPrefixPro}/seal/getList`,
+      save:`${apiPrefixPro}/seal/save`,
+      deleteById:`${apiPrefixPro}/seal/deleteById`,
+    },
+    // 领料申请
+    pick:{
+      query:`${apiPrefixPro}/pick/getPage`,
+      queryById:`${apiPrefixPro}/pick/getById`,
+      getList:`${apiPrefixPro}/pick/getList`,
+      save:`${apiPrefixPro}/pick/save`,
+      deleteById:`${apiPrefixPro}/pick/deleteById`,
+    },
     //流程处理
     workflow:{
       deploy:`${apiPrefixPro}/workflow/deploy`,
