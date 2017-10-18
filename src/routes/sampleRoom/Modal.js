@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message } from 'antd'
+import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,InputNumber } from 'antd'
 //import moment from 'moment';
 import config from '../../utils/config'
-import uploadImageCallBack from '../../services/uploadImageCallBack'
+// import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
 import {changeMoneyToChinese} from '../../utils'
@@ -72,7 +72,7 @@ const modal = ({
         return null;
       }
       if(isEditable){
-        message.warning('请先保存预算明细');
+        message.warning('请先保存明细');
         return null;
       }
       data = {...values}
@@ -97,12 +97,17 @@ const modal = ({
       }
       _defaultDetailList.map((f,index)=>{
         if(f.id) data[`detailList[${index}].id`]=f.id;
-        data[`detailList[${index}].orgName`]=f.orgName.value;
-        data[`detailList[${index}].supplier`]=f.supplier.value;
-        data[`detailList[${index}].content`]=f.content.value;
-        data[`detailList[${index}].amount`]=f.amount.value;
-        data[`detailList[${index}].remark`]=f.remark.value;
-        data[`detailList[${index}].payTimeStr`]=f.payTimeStr.value;
+        data[`detailList[${index}].productName`]=f.productName.value;       //产品系列名称（String）
+        data[`detailList[${index}].width`]=f.width.value;   //宽：mm（Integer）
+        data[`detailList[${index}].height`]=f.height.value;      //高：mm（Integer）
+        data[`detailList[${index}].num`]=f.num.value;     //数量：樘/个（Integer）
+        data[`detailList[${index}].areas`]=f.areas.value;     //面积：平方米（Float）
+        data[`detailList[${index}].singlePrice`]=f.singlePrice.value;     //单价：元/平方米（Float）
+        data[`detailList[${index}].thickness`]=f.thickness.value;     //型材皮厚：T（String）
+        data[`detailList[${index}].color`]=f.color.value;     //门窗颜色（String）
+        data[`detailList[${index}].parts`]=f.parts.value;     //配件厂家（String）
+        data[`detailList[${index}].glassInfo`]=f.glassInfo.value;     //玻璃规格及颜色（String）
+        data[`detailList[${index}].waistLine`]=f.waistLine.value;     //格条及腰线（String）
       })
       
       if(item.id){
@@ -139,31 +144,50 @@ const modal = ({
       let newRow={
         key: temp.id,
         id:temp.id,
-        orgName: {
-          editable: false,
-          value: temp.orgName?temp.orgName:'',
-        },
-        supplier: {
-          editable: false,
-          value: temp.supplier?temp.supplier:'',
-        },
-        content: {
+        productName:{
           editable:false,
-          value: temp.content?temp.content:'',
+          value:temp.productName,
         },
-        amount: {
+        width:{
           editable:false,
-          value: temp.amount!==null&&temp.amount!==undefined?temp.amount:0,
+          value:temp.width?temp.width:0,
         },
-        payTimeStr: {
+        height:{
           editable:false,
-          value: temp.payTime?temp.payTime:'',
+          value:temp.height?temp.height:0,
         },
-        remark: {
+        num:{
           editable:false,
-          value: temp.remark,
+          value:temp.num?temp.num:0,
         },
-        
+        areas:{
+          editable:false,
+          value:temp.areas?temp.areas:0,
+        },
+        singlePrice:{
+          editable:false,
+          value:temp.singlePrice?temp.singlePrice:0,
+        },
+        thickness:{
+          editable:false,
+          value:temp.thickness,
+        },
+        color:{
+          editable:false,
+          value:temp.color,
+        },
+        parts:{
+          editable:false,
+          value:temp.parts,
+        },
+        glassInfo:{
+          editable:false,
+          value:temp.glassInfo,
+        },
+        waistLine:{
+          editable:false,
+          value:temp.waistLine,
+        },
       }
       return newRow;
     })
@@ -223,46 +247,151 @@ const modal = ({
 
           </Col>
           <Col span={24} className='qite-list-title'>
-            <Icon type="credit-card" />预算申请信息
+            <Icon type="credit-card" />样板房折扣申请信息
           </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             姓名：
           </Col>
-          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {employeeList.realName || '无'}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             部门：
           </Col>
-          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem>
               {employeeList.postList[0].orgName || '无'}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             岗位：
           </Col>
-          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {employeeList.postList[0].postName || '无'}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请单号：
           </Col>
-          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {item.code || '系统自动生成'}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请时间：
           </Col>
-          <Col xs={18} md={8} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {item.createTime || item.createTimeStr || '系统自动生成'}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            专卖店：
+          </Col>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('shopName', {
+                initialValue: item.shopName,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input/>)}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            客户姓名：
+          </Col>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('clientName', {
+                initialValue: item.clientName,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input/>)}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            客户联系方式：
+          </Col>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('clientPhone', {
+                initialValue: item.clientPhone,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input/>)}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            小区地址：
+          </Col>
+          <Col xs={18} md={8} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('address', {
+                initialValue: item.address,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input/>)}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            申请折扣：
+          </Col>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('applyDiscount', {
+                initialValue: item.applyDiscount,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input/>)}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            申请原因描述：
+          </Col>
+          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('applyReason', {
+                initialValue: item.applyReason,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            备注：
+          </Col>
+          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('remark', {
+                initialValue: item.remark,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
             </FormItem>
           </Col>
         </Row>
