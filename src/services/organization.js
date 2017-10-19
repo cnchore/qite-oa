@@ -39,3 +39,11 @@ export async function update (params) {
     data: params,
   })
 }
+export async function change (params) {
+  return request({
+    url: organizations.change,
+    method: 'post',
+    data: params,
+  })
+}
+

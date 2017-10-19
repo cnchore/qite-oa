@@ -86,11 +86,11 @@ class PaymentForm extends React.Component {
         <tr>
           <td colSpan="6">
             <div>
-              <span>会计：{getAuditerName(commentList,'财务审核')}</span>
+              <span>会计：{getAuditerName(commentList,'财务复核')}</span>
               <span className={styles['span3']}>出纳：</span>
             </div>
             <div>
-              <span>日期：{getAuditerTime(commentList,'财务审核').substr(0,10).replace(/-/g,'/')}</span>
+              <span>日期：{getAuditerTime(commentList,'财务复核').substr(0,10).replace(/-/g,'/')}</span>
               <span className={styles['span3']}>日期：</span>
             </div>
           </td>

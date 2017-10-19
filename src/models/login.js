@@ -42,6 +42,7 @@ export default {
         } else {
           yield put(routerRedux.push('/dashboard'))
         }
+       
       } else {
         yield put({type:'loginSuccess',payload:{}})
         throw data

@@ -70,7 +70,7 @@ const editPwd=({
 							required:true,message:'不能为空',
 						},{
 							validator: checknewPassword,
-						}]
+						},{min:6,message:'密码不能少于6位'}]
 					})( <Input type="password" />)}
 				</FormItem>
 				<FormItem label="确认新密码" hasFeedback {...formItemLayout}>

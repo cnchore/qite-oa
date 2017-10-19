@@ -10,6 +10,7 @@ module.exports = {
   prefix: 'qiteOa',
   footerText: '伊蕾莎集团 © 2017',
   logo: 'logo.png',
+  logoThree:'3logo.png',
   iconFontCSS: 'iconfont.css',
   iconFontJS: 'iconfont.js',
   baseURL: function(){
@@ -50,6 +51,7 @@ module.exports = {
       add:`${apiPrefix}/org/add`,
       update:`${apiPrefix}/org/update`,
       delete:`${apiPrefix}/org/deleteById`,
+      change:`${apiPrefix}/org/change`,
     },
     //数据字典
     dictionary:{

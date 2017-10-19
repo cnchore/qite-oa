@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message } from 'antd'
-//import moment from 'moment';
+import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,DatePicker,InputNumber } from 'antd'
+import moment from 'moment';
 import config from '../../utils/config'
-import uploadImageCallBack from '../../services/uploadImageCallBack'
+// import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
 import {changeMoneyToChinese} from '../../utils'
@@ -97,14 +97,12 @@ const modal = ({
       }
       _defaultDetailList.map((f,index)=>{
         if(f.id) data[`detailList[${index}].id`]=f.id;
-        data[`detailList[${index}].orgName`]=f.orgName.value;
-        data[`detailList[${index}].supplier`]=f.supplier.value;
-        data[`detailList[${index}].content`]=f.content.value;
-        data[`detailList[${index}].amount`]=f.amount.value;
-        data[`detailList[${index}].remark`]=f.remark.value;
-        data[`detailList[${index}].payTimeStr`]=f.payTimeStr.value;
+        data[`detailList[${index}].materialName`]=f.materialName.value;
+        data[`detailList[${index}].materialSize`]=f.materialSize.value;
+        data[`detailList[${index}].num`]=f.num.value;
       })
-      
+      data.finishTimeStr=data.finishTimeStr?data.finishTimeStr.format(dateTimeFormat):null;
+
       if(item.id){
         data.id=item.id;
         data.code=item.code;
@@ -139,31 +137,18 @@ const modal = ({
       let newRow={
         key: temp.id,
         id:temp.id,
-        orgName: {
+        materialName: {
           editable: false,
-          value: temp.orgName?temp.orgName:'',
+          value: temp.materialName?temp.materialName:'',
         },
-        supplier: {
-          editable: false,
-          value: temp.supplier?temp.supplier:'',
-        },
-        content: {
+        materialSize: {
           editable:false,
-          value: temp.content?temp.content:'',
+          value: temp.materialSize?temp.materialSize:'',
         },
-        amount: {
+        num: {
           editable:false,
           value: temp.amount!==null&&temp.amount!==undefined?temp.amount:0,
         },
-        payTimeStr: {
-          editable:false,
-          value: temp.payTime?temp.payTime:'',
-        },
-        remark: {
-          editable:false,
-          value: temp.remark,
-        },
-        
       }
       return newRow;
     })
@@ -223,46 +208,184 @@ const modal = ({
 
           </Col>
           <Col span={24} className='qite-list-title'>
-            <Icon type="credit-card" />预算申请信息
+            <Icon type="credit-card" />常规物料及礼品制作申请信息
           </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             姓名：
           </Col>
-          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {employeeList.realName || '无'}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             部门：
           </Col>
-          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem>
               {employeeList.postList[0].orgName || '无'}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             岗位：
           </Col>
-          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {employeeList.postList[0].postName || '无'}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请单号：
           </Col>
-          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {item.code || '系统自动生成'}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请时间：
           </Col>
-          <Col xs={18} md={8} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {item.createTime || item.createTimeStr || '系统自动生成'}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            申请区域：
+          </Col>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('applyArea', {
+                initialValue: item.applyArea,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input />)}
+            </FormItem>
+          </Col>
+           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            物料类型：
+          </Col>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('materialType', {
+                initialValue: item.materialType,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input />)}
+            </FormItem>
+          </Col>
+           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            物料设计：
+          </Col>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('materialDesign', {
+                initialValue: item.materialDesign,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input />)}
+            </FormItem>
+          </Col>
+           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            物料制作：
+          </Col>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('materialMake', {
+                initialValue: item.materialMake,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input />)}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            物料费用：
+          </Col>
+           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem >
+              {getFieldDecorator('materialCost', {
+                initialValue:item.materialCost?item.materialCost:0,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
+            </FormItem>
+          </Col>
+           
+           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            申请完成时间：
+          </Col>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('finishTimeStr', {
+                initialValue:(item.finishTimeStr || item.finishTime)? moment(item.finishTimeStr || item.finishTime,dateTimeFormat):null,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                   
+                  },
+                ],
+              })(<DatePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            物料用途：
+          </Col>
+          <Col xs={18} md={8} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('materialUse', {
+                initialValue: item.materialUse,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input />)}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            发货方式：
+          </Col>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('delivery', {
+                initialValue: item.delivery,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input />)}
+            </FormItem>
+          </Col>
+           
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            物料要求关键点：
+          </Col>
+          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('remark', {
+                initialValue: item.remark,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
             </FormItem>
           </Col>
         </Row>
@@ -296,7 +419,7 @@ const modal = ({
             <Col span={24} className='qite-list-title'>
               <Icon type="edit" />流程办理
             </Col>
-            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
               操&nbsp;&nbsp;&nbsp;&nbsp;作：
             </Col>
             <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>

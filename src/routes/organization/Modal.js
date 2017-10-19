@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input,InputNumber, Modal } from 'antd'
-
+import { Form, Input,InputNumber, Modal,TreeSelect } from 'antd'
+const TreeNode = TreeSelect.TreeNode;
 const FormItem = Form.Item
 
 const formItemLayout = {
@@ -14,7 +14,7 @@ const formItemLayout = {
 }
 
 const modal = ({
-
+  orgTree,
   item = {},
   onOk,
   form: {
@@ -30,12 +30,14 @@ const modal = ({
         return
       }
       const data = {...getFieldsValue()}
-      if(item.parentId!==undefined){
-        data.parentId=item.parentId
-      } 
+      // if(item.parentId!==undefined){
+      //   data.parentId=item.parentId
+      // } 
       if(item.id){
         data.id=item.id
       }
+      // console.log(data)
+      // return;
       onOk(data)
     })
   }
@@ -45,7 +47,14 @@ const modal = ({
     ...modalProps,
     onOk: handleOk,
   }
-
+  const loop = data => data.map((t) => {
+      if (t.children && t.children[0]) {
+        return <TreeNode title={t.orgName} key={t.id} value={String(t.id)}>{loop(t.children)}</TreeNode>;
+      }
+      return <TreeNode title={t.orgName} key={t.id} value={String(t.id)}/>;
+    });
+  //console.log(orgTree);
+  const treeNodes = loop(orgTree);
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
@@ -54,6 +63,21 @@ const modal = ({
             initialValue: item.seq,
            
           })(<InputNumber step={1} />)}
+        </FormItem>
+        <FormItem label="上级机构" hasFeedback {...formItemLayout}>
+          {
+            getFieldDecorator('parentId',{
+              initialValue: item.parentId?String(item.parentId):undefined,
+              
+            })(<TreeSelect
+              style={{ width: '100%' }}
+              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+              placeholder="默认机构"
+              treeDefaultExpandAll
+            >
+            {treeNodes}
+            </TreeSelect>)
+          }
         </FormItem>
         <FormItem label="机构名称" hasFeedback {...formItemLayout}>
           {getFieldDecorator('orgName', {

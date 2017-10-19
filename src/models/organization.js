@@ -1,4 +1,4 @@
-import { query,queryById,create, remove, update } from '../services/organization'
+import { query,queryById,create, remove, update,change } from '../services/organization'
 import { parse } from 'qs'
 import { message } from 'antd'
 
@@ -78,7 +78,16 @@ export default {
         throw data
       }
     },
-    
+    *change ({ payload }, { call, put }) {
+
+      const data = yield call(change, payload)
+      if (data.success) {
+        message.success('状态修改成功');
+        yield put({ type: 'query' })
+      } else {
+        throw data
+      }
+    },
     *editItem ({ payload }, { call, put }) {
       const id=payload.id;
       const data = yield call(queryById, payload)

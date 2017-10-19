@@ -548,7 +548,22 @@ const Routers = function ({ history, app }) {
           },
         },{
           // 促销费用报销
-
+        //   path: '/promotionExpense',
+        //   getComponent (nextState, cb) {
+        //     require.ensure([], require => {
+        //       registerModel(app, require('./models/promotionExpense'))
+        //       cb(null, require('./routes/promotionExpense/'))
+        //     }, 'promotionExpense')
+        //   },
+        // }, {
+        //   path: 'promotionExpense/:id',
+        //   getComponent (nextState, cb) {
+        //     require.ensure([], require => {
+        //       registerModel(app, require('./models/promotionExpense/detail'))
+        //       cb(null, require('./routes/promotionExpense/detail/'))
+        //     }, 'promotionExpense-detail')
+        //   },
+        // },{
           // 样板房折扣申请
           path: '/sampleRoom',
           getComponent (nextState, cb) {

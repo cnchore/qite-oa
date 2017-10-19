@@ -43,52 +43,56 @@ const Login = ({
     dispatch({ type: 'login/selBanner', payload: id })
   }
   return (
-    <div className={banner===1?styles.container1:styles.container2}>
-      <div className={styles.form}>
-        <div className={styles.logo}>
-          <img alt={'logo'} src={config.logo} />
-          <span>{config.name}</span>
-        </div>
-        <form>
-          <FormItem >
-            {getFieldDecorator('userName', {
-              initialValue:lg.userName,
-              rules: [
-                {
-                  required: true,message:'不能为空',
-                },
-              ],
-            })(<Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} size="large" 
-            suffix={suffix} onPressEnter={handleOk} placeholder="用户名" />)}
-          </FormItem>
-          <FormItem >
-            {getFieldDecorator('pwd', {
-              initialValue:lg.pwd,
-              rules: [
-                {
-                  required: true,message:'不能为空',
-                },
-              ],
-            })(<Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} size="large" 
-            suffix={pwdSuffix} type="password" onPressEnter={handleOk} placeholder="密码" />)}
-          </FormItem>
-          <Row>
-            <Button type="primary" size="large" onClick={handleOk} loading={loginLoading}>
-              登&nbsp;&nbsp;&nbsp;&nbsp;录
-            </Button>
-            <p>
-              <span>忘记密码，请联系管理员</span>
-            </p>
-          </Row>
+    <div className={styles.main}>
+      <div className={banner===1?styles.container1:styles.container2}>
+        <div className={styles.form}>
+          <div className={styles.logo}>
+            <span>{config.name}</span>
+          </div>
+          <form>
+            <FormItem >
+              {getFieldDecorator('userName', {
+                initialValue:lg.userName,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} size="large" 
+              suffix={suffix} onPressEnter={handleOk} placeholder="用户名" />)}
+            </FormItem>
+            <FormItem >
+              {getFieldDecorator('pwd', {
+                initialValue:lg.pwd,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} size="large" 
+              suffix={pwdSuffix} type="password" onPressEnter={handleOk} placeholder="密码" />)}
+            </FormItem>
+            <Row>
+              <Button type="primary" size="large" onClick={handleOk} loading={loginLoading}>
+                登&nbsp;&nbsp;&nbsp;&nbsp;录
+              </Button>
+              <p>
+                <span>忘记密码，请联系管理员</span>
+              </p>
+            </Row>
 
-        </form>
-      </div>
-      <div className={styles.ctrl}>
-        <span className={banner===1?styles.active:''} onClick={e=>selBanner(1)}></span>
-        <span className={banner===2?styles.active:''} onClick={e=>selBanner(2)}></span>
+          </form>
+        </div>
+        <div className={styles.ctrl}>
+          <span className={banner===1?styles.active:''} onClick={e=>selBanner(1)}></span>
+          <span className={banner===2?styles.active:''} onClick={e=>selBanner(2)}></span>
+        </div>
       </div>
       <footer className={styles.footer}>
-        {config.footerText}
+        <div>
+          <img alt={'logo'} src={config.logoThree} />
+          <div>{config.footerText}</div>
+        </div>
       </footer>
     </div>
   )

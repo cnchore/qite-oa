@@ -19,6 +19,7 @@ const Organization = ({ location, dispatch, organization, loading }) => {
     confirmLoading: loading.effects['organization/update'],
     title: `${modalType === 'create' ? '新增组织机构' : '编辑组织机构'}`,
     wrapClassName: 'vertical-center-modal',
+    orgTree:list,
     onOk (data) {
       dispatch({
         type: `organization/${modalType}`,
@@ -39,6 +40,9 @@ const Organization = ({ location, dispatch, organization, loading }) => {
         payload:selectedRows[0]
       })
     },
+    getCheckboxProps: record => ({
+      disabled: record.isDisable === true, // Column configuration not to be checked
+    }),
     selectedRowKeys,
     type:'radio',
   };
@@ -62,10 +66,12 @@ const Organization = ({ location, dispatch, organization, loading }) => {
     },
     onRowClick(record,index,event){
       // console.log('onRowClick:',record,index,event)
-      dispatch({
-        type: 'organization/setState',
-        payload:record,
-      })
+      if(record && !record.isDisable){
+        dispatch({
+          type: 'organization/setState',
+          payload:record,
+        })
+      }
     },
   }
 
@@ -95,6 +101,26 @@ const Organization = ({ location, dispatch, organization, loading }) => {
         type: 'organization/delete',
         payload: currentItem.id,
       })
+    },
+    onChangeItem () {
+      if(!currentItem ||(currentItem && !currentItem.id)){
+        message.error('请选择一个机构后再试')
+        return;
+      }
+      dispatch({
+        type: 'organization/change',
+        payload: {id:currentItem.id,isDisable:!currentItem.isDisable},
+      })
+    },
+    onAddFirst(){
+      dispatch({
+        type: 'organization/showModal',
+        payload: {
+          modalType: 'create',
+          currentItem: {id:0},
+        },
+      })
+
     },
     onEditItem () {
       if(!currentItem ||(currentItem && !currentItem.id)){

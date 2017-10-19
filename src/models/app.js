@@ -77,7 +77,9 @@ export default {
         if (location.pathname === '/login') {
           yield put(routerRedux.push('/dashboard'))
         }
-
+         if(!data.data.isChangePwd || data.data.pwd==='670B14728AD9902AECBA32E22FA4F6BD'){
+          message.warning('请及时修改密码',10);
+        }
       } 
     },
 

@@ -4,7 +4,7 @@ import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
 import List from './List'
 import Filter from './Filter'
-// import Modal from './Modal'
+import Modal from './Modal'
 
 const MaterialGift = ({ location, dispatch, materialGift, loading }) => {
   const { list,fileList,dicList,detailList,employeeList, taskData,
@@ -150,10 +150,10 @@ const MaterialGift = ({ location, dispatch, materialGift, loading }) => {
     <div className="content-inner">
       {!modalVisible &&<Filter {...filterProps} />}
       {!modalVisible &&<List {...listProps} />}
+      {modalVisible && <Modal {...modalProps} />}
     </div>
   )
 }
-      // {modalVisible && <Modal {...modalProps} />}
 
 MaterialGift.propTypes = {
   materialGift: PropTypes.object,
