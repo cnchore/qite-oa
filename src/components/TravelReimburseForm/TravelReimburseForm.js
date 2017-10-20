@@ -11,6 +11,7 @@ class TravelReimburseForm extends React.Component {
       totalVehicleCost=0,
       totalLivingCost=0,
       totalOtherCost=0,
+      totalSubsidyAmount=0,
       c=parseFloat(data.actualExpense)-parseFloat(data.advanceExpense),
       surplus=c<0?c.toFixed(2):0.00,
       validReimburse=c>0?c.toFixed(2):0.00;
@@ -27,11 +28,13 @@ class TravelReimburseForm extends React.Component {
       let _date=data.createTime && new Date(data.createTime) || new Date();
       return `${_date.getFullYear()}年${_date.getMonth()+1}月${_date.getDate()}日`
     }
+    console.log(data.detailList)
     const getRows=data && data.detailList && data.detailList.map((item,index)=>{
-      let t=parseFloat(item.vehicleCost)+parseFloat(item.livingCost)+parseFloat(item.otherCost);
+      let t=parseFloat(item.vehicleCost)+parseFloat(item.livingCost)+parseFloat(item.otherCost)+parseFloat(item.subsidyAmount);
       if(item.vehicleCost)totalVehicleCost+=parseFloat(item.vehicleCost);
       if(item.livingCost)totalLivingCost+=parseFloat(item.livingCost);
       if(item.otherCost)totalOtherCost+=parseFloat(item.otherCost);
+      if(item.subsidyAmount)totalSubsidyAmount+=parseFloat(item.subsidyAmount);
       return (
         <tr key={item.id}>
           <td className={styles['tl']}>{item.departureTime && item.departureTime}</td>
@@ -41,6 +44,7 @@ class TravelReimburseForm extends React.Component {
           <td className={styles['tl']}>{item.vehicle && getDicType(item.vehicle)}</td>
           <td>¥ {item.vehicleCost && item.vehicleCost.toFixed(2)}</td>
           <td>¥ {item.livingCost && item.livingCost.toFixed(2)}</td>
+          <td>¥ {item.subsidyAmount && item.subsidyAmount.toFixed(2)}</td>
           <td>¥ {item.otherCost && item.otherCost.toFixed(2)}</td>
           <td>¥ {t && t.toFixed(2)}</td>
         </tr>
@@ -50,6 +54,7 @@ class TravelReimburseForm extends React.Component {
         for(var i=0;i<(8-data.detailList.length);i++){
           defaultRows.push(
             <tr key={8+i}>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -72,7 +77,7 @@ class TravelReimburseForm extends React.Component {
             <tr>
               <td colSpan="3" className={styles['tl']}>部门：{employeeList && employeeList.postList && employeeList.postList[0].orgName && employeeList.postList[0].orgName}</td>
               <td colSpan="3" className={styles['tl']}>出差人：{employeeList && employeeList.realName && employeeList.realName}</td>
-              <td colSpan="3" className={styles['tl']}>出差事由：{data && data.remark && data.remark}</td>
+              <td colSpan="4" className={styles['tl']}>出差事由：{data && data.remark && data.remark}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>出发时间</td>
@@ -82,6 +87,7 @@ class TravelReimburseForm extends React.Component {
               <td className={styles['tc']}>交通工具</td>
               <td className={styles['tc']}>交通费用</td>
               <td className={styles['tc']}>住宿费</td>
+              <td className={styles['tc']}>补贴费用</td>
               <td className={styles['tc']}>其他费用</td>
               <td className={styles['tc']}>小计金额</td>
             </tr>
@@ -92,16 +98,21 @@ class TravelReimburseForm extends React.Component {
               <td colSpan="5">合计</td>
               <td>¥ {totalVehicleCost && totalVehicleCost.toFixed(2)}</td>
               <td>¥ {totalLivingCost && totalLivingCost.toFixed(2)}</td>
+              <td>¥ {totalSubsidyAmount && totalSubsidyAmount.toFixed(2)}</td>
               <td>¥ {totalOtherCost && totalOtherCost.toFixed(2)}</td>
               <td>¥ {data && data.actualExpense && data.actualExpense.toFixed(2)}</td>
             </tr>
             <tr>
               <td colSpan="3"  className={styles['tl']}>报销总额(大写)：{changeMoneyToChinese(data.actualExpense)}</td>
-              <td colSpan="2" className={styles['tl']}>预支旅费：¥ {data && data.advanceExpense && data.advanceExpense.toFixed(2)}</td>
+              <td colSpan="3" className={styles['tl']}>预支旅费：¥ {data && data.advanceExpense && data.advanceExpense.toFixed(2)}</td>
               <td colSpan="2" className={styles['tl']}>补额不足：¥ {validReimburse}</td>
               <td colSpan="2" className={styles['tl']}>归还多余：¥ {surplus}</td>
             </tr>
-            
+            <tr>
+              <td colSpan="2"  className={styles['tl']}>账号名：{data.accountName&&data.accountName}</td>
+              <td colSpan="3" className={styles['tl']}>账号： {data.accountNumber&&data.accountNumber}</td>
+              <td colSpan="5" className={styles['tl']}>开户行：{data.bankName&&data.bankName}</td>
+            </tr>
           </tbody>
         </table>
         <div className={styles['footer']}>

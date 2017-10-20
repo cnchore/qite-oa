@@ -12,7 +12,7 @@ class PaymentForm extends React.Component {
     return (
       <table className={styles['table']}>
         <tr>
-          <td colSpan="6" className={styles['title']}>转账付款单</td>
+          <td colSpan="6" className={styles['title']}>{data.type?data.type.replace('申请','单'):'付款/预付款单'}</td>
         </tr>
         <tr>
           <td>申请日期</td>

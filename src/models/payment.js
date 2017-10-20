@@ -50,6 +50,10 @@ export default {
             type: 'getPurchaseList',
             payload: {isChoose:true},
           })
+          dispatch({
+            type: 'getDic',
+            payload: {dicType:'paymentType_item'},
+          })
         }
       })
     },
@@ -227,6 +231,15 @@ export default {
         throw data
       }
     },
+    *getDic ({ payload }, { call, put }) {
+      const data = yield call(getDic, payload)
+      if (data) {
+        yield put({
+          type: 'getDicSuccess',
+          payload: data.data,
+        })
+      }
+    },
     *deleteById ({ payload }, { call, put }) {
       const data = yield call(deleteById, {id:payload.id})
       if (data.success) {
@@ -253,6 +266,9 @@ export default {
         modalVisible:false,
         employeeList,
       }
+    },
+    getDicSuccess(state,action){
+      return {...state,dicList:action.payload}
     },
     getPurchaseListSuccess(state,action){
       return {...state,purchaseList:action.payload}

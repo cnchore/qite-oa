@@ -73,6 +73,10 @@ class TravelReimburseDetailPage extends React.Component {
         dataIndex: 'livingCost',
         render: (text) => `¥ ${text?String(text.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00',
       }, {
+        title: '补贴费用',
+        dataIndex: 'subsidyAmount',
+        render: (text) => `¥ ${text?String(text.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00',
+      }, {
         title: '其他费用',
         dataIndex: 'otherCost',
         render: (text) => `¥ ${text?String(text.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00',
@@ -81,7 +85,7 @@ class TravelReimburseDetailPage extends React.Component {
         dataIndex: 'total',
         
         render: (text, record, index) =>{
-          let t=parseFloat(record.vehicleCost)+parseFloat(record.livingCost)+parseFloat(record.otherCost);
+          let t=parseFloat(record.vehicleCost)+parseFloat(record.livingCost)+parseFloat(record.otherCost)+parseFloat(record.subsidyAmount);
           return `¥ ${t?t.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
         },
       
@@ -91,7 +95,7 @@ class TravelReimburseDetailPage extends React.Component {
             dataSource={data.detailList} 
             columns={columns} 
             pagination={false}
-            scroll={{ x: 1200 }} 
+            scroll={{ x: 1300 }} 
             rowKey={record=>record.id}
             />
         )
@@ -131,6 +135,24 @@ class TravelReimburseDetailPage extends React.Component {
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             {data.createTime || data.createTimeStr}
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            账号名：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.accountName?data.accountName:'无'}
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            账号：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.accountNumber?data.accountNumber:'无'}
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            开户行：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.bankName?data.bankName:'无'}
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             报销说明：

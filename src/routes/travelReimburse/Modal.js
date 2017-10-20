@@ -106,6 +106,7 @@ const modal = ({
         data[`detailList[${index}].vehicle`]=f.vehicle.value;
         data[`detailList[${index}].vehicleCost`]=f.vehicleCost.value;
         data[`detailList[${index}].livingCost`]=f.livingCost.value;
+        data[`detailList[${index}].subsidyAmount`]=f.subsidyAmount.value;
         data[`detailList[${index}].otherCost`]=f.otherCost.value;
         data.actualExpense+=parseFloat(f.vehicleCost.value)+parseFloat(f.livingCost.value)+parseFloat(f.otherCost.value)
         
@@ -179,6 +180,10 @@ const modal = ({
           editable:false,
           value: temp.livingCost,
         },
+        subsidyAmount: {
+          editable:false,
+          value: temp.subsidyAmount,
+        },
         otherCost: {
           editable:false,
           value: temp.otherCost,
@@ -244,11 +249,11 @@ const modal = ({
     let c=0;
     if(detailList && detailList[0]){
       detailList.map(t=>{
-        c+=parseFloat(t.vehicleCost.value)+parseFloat(t.livingCost.value)+parseFloat(t.otherCost.value)
+        c+=parseFloat(t.vehicleCost.value)+parseFloat(t.livingCost.value)+parseFloat(t.otherCost.value)+parseFloat(t.subsidyAmount.value)
       })
     }else if(defaultDetailList && defaultDetailList[0]){
       defaultDetailList.map(t=>{
-        c+=parseFloat(t.vehicleCost.value)+parseFloat(t.livingCost.value)+parseFloat(t.otherCost.value)
+        c+=parseFloat(t.vehicleCost.value)+parseFloat(t.livingCost.value)+parseFloat(t.otherCost.value)+parseFloat(t.subsidyAmount.value)
       })
     }
     item.actualExpense=c;
@@ -350,6 +355,51 @@ const modal = ({
         </Row>
         
         <Row gutter={24} className={styles['q-detail']}>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            账号名：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('accountName', {
+                initialValue: item.accountName,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input  />)}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            账号：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('accountNumber', {
+                initialValue: item.accountNumber,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input  />)}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            开户行：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('bankName', {
+                initialValue: item.bankName,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input  />)}
+            </FormItem>
+          </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             报销说明：
           </Col>

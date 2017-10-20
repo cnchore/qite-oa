@@ -27,7 +27,6 @@ class EditCellTable extends React.Component {
     }, {
       title: '出发地点',
       dataIndex: 'departurePlace',
-      width: 200,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'departurePlace', text,'input'),
     }, {
       title: '到达时间',
@@ -37,7 +36,6 @@ class EditCellTable extends React.Component {
     }, {
       title: '到达地点',
       dataIndex: 'arrivalPlace',
-      width: 200,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'arrivalPlace', text,'input'),
     }, {
       title: '交通工具',
@@ -55,6 +53,11 @@ class EditCellTable extends React.Component {
       width: 120,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'livingCost', text,'currency'),
     }, {
+      title: '补助费用',
+      dataIndex: 'subsidyAmount',
+      width: 120,
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'subsidyAmount', text,'currency'),
+    }, {
       title: '其他费用',
       dataIndex: 'otherCost',
       width: 120,
@@ -62,7 +65,7 @@ class EditCellTable extends React.Component {
     }, {
       title: '合计金额',
       dataIndex: 'total',
-      
+      width:120,
       render: (text, record, index) =>{
         let t=parseFloat(record.vehicleCost)+parseFloat(record.livingCost)+parseFloat(record.otherCost);
         return `¥ ${t?t.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
@@ -112,6 +115,7 @@ class EditCellTable extends React.Component {
         return (<InputCell
           editable={editable}
           value={text}
+          length={15}
           onChange={value => this.handleChange(key, index, value)}
           status={status}
         />);
@@ -168,6 +172,10 @@ class EditCellTable extends React.Component {
           editable:true,
           value: 0,
         },
+        subsidyAmount: {
+          editable:true,
+          value: 0,
+        },
         livingCost: {
           editable:true,
           value: 0,
@@ -202,7 +210,10 @@ class EditCellTable extends React.Component {
     let c=0;
     if(data && data[0]){
       data.map(t=>{
-        c+=parseFloat(t.vehicleCost.value)+parseFloat(t.livingCost.value)+parseFloat(t.otherCost.value)
+        c+=parseFloat(t.vehicleCost.value)
+          +parseFloat(t.livingCost.value)
+          +parseFloat(t.otherCost.value)
+          +parseFloat(t.subsidyAmount.value)
       })
     }
     return c.toFixed(2);
@@ -245,7 +256,7 @@ class EditCellTable extends React.Component {
               dataSource={dataSource} 
               columns={columns} 
               pagination={false}
-              scroll={{ x: 1800 }} 
+              scroll={{ x: 1920 }} 
               rowKey={record=>record.key}
               footer={()=>(
                 <div>

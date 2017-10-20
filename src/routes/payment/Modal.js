@@ -164,7 +164,13 @@ const modal = ({
     }
     
   }
+  const typeChange=(value)=>{
+    if(value==='付款申请'){
+      message.info('必须上传发票等附件哦，亲')
+    }
+  }
   const purchaseOption=purchaseList.map(pur=><Option key={pur.id}>{pur.code}</Option>)
+  const typeOption=dicList.map(d=><Option key={d.dicValue}>{d.dicName}</Option>)
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -227,10 +233,23 @@ const modal = ({
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请时间：
           </Col>
-          <Col xs={18} md={8} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {item.createTime || item.createTimeStr || '系统自动生成'}
             </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            申请类型：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}}>
+              {getFieldDecorator('type', {
+                initialValue:item.type?item.type:undefined,
+                onChange:typeChange,
+              })(<Select placeholder="请选择">{typeOption}</Select>)}
+              
+            </FormItem>
+            
           </Col>
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
@@ -244,7 +263,6 @@ const modal = ({
                 rules: [
                   {
                     required: true,message:'不能为空',
-                   
                   },
                 ],
               })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }}  style={{width:'100%'}}/>)}

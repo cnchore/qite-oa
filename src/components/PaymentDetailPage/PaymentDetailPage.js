@@ -20,7 +20,7 @@ class PaymentDetailPage extends React.Component {
       <div>
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} className='qite-list-title'>
-              <Icon type="credit-card" />付款信息
+              <Icon type="credit-card" />付款/预付款信息
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             姓名：
@@ -52,7 +52,12 @@ class PaymentDetailPage extends React.Component {
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             {data.createTime || data.createTimeStr}
           </Col>
-          
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            申请类型：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.type || '未知'}
+          </Col>
          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             合同编号：
           </Col>
@@ -97,14 +102,14 @@ class PaymentDetailPage extends React.Component {
          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             采购申请单：
           </Col>
-          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={20} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
            
             {data.purchaseCodes ||'无'}
           </Col>
            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请金额：
           </Col>
-          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={20} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
            
             {`¥ ${data.payAmount?String(data.payAmount.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '0.00'}
             <span className='q-pd-8'>大写：</span>
@@ -113,7 +118,7 @@ class PaymentDetailPage extends React.Component {
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             付款说明：
           </Col>
-          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={20} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             
             {data.remark?data.remark:'无'}
           </Col>
