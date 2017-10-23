@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table, Modal,Button,Tag } from 'antd'
+import { Table, Modal,Button,Tag,Tooltip } from 'antd'
 import styles from './List.less'
 import classnames from 'classnames'
 import { DropOption,SelectUser } from '../../components'
@@ -45,12 +45,13 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
     }
   }
   const getDicType=(value,remark=null)=>{
-    let n=dicList.filter(item=>String(item.dicValue)===String(value));
+    let n=dicList.filter(item=>String(item.id)===String(value));
     //console.log(orgList,...n,value);
     if(n && n[0]){
-      return remark&&n[0].dicName==='其他'?remark:n[0].dicName;
+      let d=`${n[0].carBrand && n[0].carBrand}，${n[0].carNum&&n[0].carNum}`;
+      return d.length>15?<Tooltip title={d}>{d.substr(0,15)}</Tooltip>:<span>{d}</span>;
     }
-    return '';
+    return <span>无</span>;
   }
   const getHours=(a,b)=>{
     if(!a||!b){
@@ -71,8 +72,8 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
       key: 'createTime',
     }, {
       title: '车辆类型',width:250,
-      dataIndex: 'carInfo',
-      key: 'carInfo',
+      dataIndex: 'carId',
+      key: 'carId',
       render:(text,record)=>getDicType(text),
     }, {
       title: '用车事由',

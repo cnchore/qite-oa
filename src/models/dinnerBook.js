@@ -15,6 +15,7 @@ export default {
     modalType: 'create',
     employeeList:[],
     selectedRowKeys:[],
+    bookTimeStr:null,
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -138,6 +139,7 @@ export default {
           payload:{
             ...payload,
             currentItem:data.data,
+            bookTimeStr:null,
           } 
         })
         yield put({
@@ -267,6 +269,9 @@ export default {
         selectedRowKeys.push(action.payload.rowKey);
       }
       return {...state,employeeList:action.payload.data,selectedRowKeys}
+    },
+    setBookTime(state,action){
+      return {...state,bookTimeStr:action.payload}
     },
   },
 

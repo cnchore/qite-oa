@@ -16,6 +16,7 @@ const FormItem = Form.Item
 const TreeNode = Tree.TreeNode;
 
 const modal = ({
+  list,
   item = {},
   onOk,
   title,
@@ -30,6 +31,8 @@ const modal = ({
   getDinnerInfo,
   setEmployeeList,
   setEmployeeAndRowKey,
+  setBookTime,
+  bookTimeStr,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -45,7 +48,8 @@ const modal = ({
         return null;
       }
       _data={...values}
-      fields.bookTimeStr=_data.bookTimeStr?_data.bookTimeStr.format(dateTimeFormat):null;
+      fields.bookTimeStr=bookTimeStr || item.bookTime;
+      //_data.bookTimeStr?_data.bookTimeStr.format(dateTimeFormat):null;
 
     })
     //
@@ -182,7 +186,19 @@ const modal = ({
   }
   const disabledDate=(current)=>{
     // Can not select days before today and today
-    return current && current.valueOf() < Date.now();
+    let existsBooktime=false;
+    if(list && list[0] && current){
+      existsBooktime=list.filter(f=>f.bookTime===String(current.format(dateTimeFormat))).length>0;
+      // console.log(current.format(dateTimeFormat),existsBooktime)
+    }
+    return current && current.valueOf() < Date.now() || existsBooktime;
+  }
+  const handleBookTimeChange=(val)=>{
+    // console.log('data:',val?val.format(dateTimeFormat):'0');
+    // bookTimeStr=val?val.format(dateTimeFormat):null;
+    if(val){
+      setBookTime(val.format(dateTimeFormat))
+    }
   }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -193,8 +209,16 @@ const modal = ({
            
             <Affix target={()=>document.getElementById('layout-main')}>
                <div style={{backgroundColor:'#fff'}}>
-                <SelectEmployee callBack={selEmCallback}></SelectEmployee>
-                <AddDinner style={{ marginRight: 12 }} callBack={handleOutsideDinner}/>
+                {
+                  bookTimeStr?
+                  <SelectEmployee callBack={selEmCallback} bookTimeStr={bookTimeStr}></SelectEmployee>
+                  :null
+                }
+                {
+                  bookTimeStr?
+                  <AddDinner style={{ marginRight: 12 }} callBack={handleOutsideDinner}/>
+                  :null
+                }
                 <Button style={{ marginRight: 12 }} type="primary" loading={submitLoading} onClick={handleSubmit} size="large">提交</Button>
                 <Button style={{ marginRight: 12 }} type="primary" loading={confirmLoading} onClick={handleOk} size="large">保存</Button>
                 <Button  type="ghost" onClick={onCancel} size="large">取消</Button>
@@ -221,6 +245,7 @@ const modal = ({
                       required: true,message:'不能为空',
                     },
                   ],
+                  onChange:handleBookTimeChange,
                 })(<DatePicker  style={{width:'228px'}} 
                   format={dateTimeFormat}
                   disabledDate={disabledDate}

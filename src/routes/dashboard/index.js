@@ -6,6 +6,7 @@ import { NumberCard, UserInfo,WaitList,WaitSignList } from './components'
 import styles from './index.less'
 import { color,getTheme,classnames,getMsgType,getMsgAction } from '../../utils'
 import { Link } from 'dva/router'
+
 const TabPane=Tabs.TabPane;
 function Dashboard ({ dashboard,loading,location,dispatch }) {
   const { userInfo,waitData,messageData,noticeData,waitSignData,knowledgeData} = dashboard
@@ -58,7 +59,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
       <span className={styles.msgtime}>{item.createTime && item.createTime.substr(5).substr(0,11)}</span>
     </p>) || <span className={styles.msgtime}>暂无消息</span>;
   const noticeList =noticeData && noticeData.list && noticeData.list[0] && noticeData.list.map((item,index)=><p key={index}
-    className={styles.msgp}
+    className={classnames(styles.msgp,item.isRead?styles.old:styles.new)}
     >
       <span className={styles.msgtitle}>
         <Link to={ `/notice/${item.id}?noComment=true`} >

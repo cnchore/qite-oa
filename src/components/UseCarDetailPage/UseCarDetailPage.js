@@ -23,10 +23,10 @@ class UseCarDetailPage extends React.Component {
       return ((timeB-timeA)/(3600*1000)).toFixed(2)
     }
     const getDicType=(value,remark=null)=>{
-      let n=dicList.filter(item=>String(item.dicValue)===String(value));
+      let n=dicList.filter(item=>String(item.id)===String(value));
       //console.log(orgList,...n,value);
       if(n && n[0]){
-        return remark&&n[0].dicName==='其他'?remark:n[0].dicName;
+        return `${n[0].carBrand && n[0].carBrand}，${n[0].carNum && n[0].carNum}`
       }
       return '';
     }
@@ -76,7 +76,7 @@ class UseCarDetailPage extends React.Component {
             车辆类型：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {getDicType(data.carInfo)||'无'}
+            {getDicType(data.carId)||'无'}
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             出车时间：
@@ -93,7 +93,24 @@ class UseCarDetailPage extends React.Component {
             {getHours(data.useTime,data.returnTime)}
             <span className='q-pd-8'>小时</span>
           </Col>
-        
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            预计目的地：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.estiLocation || '无'}
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
+              预计公里数：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.estiKilometer || '0'}公里
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            司机名称：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.driverName || '无'}
+          </Col>
         </Row>
          {
           data.mileageStart || data.oilCost?

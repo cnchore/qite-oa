@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const DinnerBook = ({ location, dispatch, dinnerBook, loading }) => {
-  const { list,employeeList,selectedRowKeys,
+  const { list,employeeList,selectedRowKeys,bookTimeStr,
     pagination, currentItem, modalVisible, modalType } = dinnerBook
   const { pageSize } = pagination
   const rowSelection = {
@@ -24,7 +24,8 @@ const DinnerBook = ({ location, dispatch, dinnerBook, loading }) => {
     item: modalType === 'create' ? {} : currentItem,
     visible: modalVisible,
     employeeList,
-    
+    list,
+    bookTimeStr,
     rowSelection,
     maskClosable: false,
     tableLoading:loading.effects['dinnerBook/queryEmployee'],
@@ -59,6 +60,12 @@ const DinnerBook = ({ location, dispatch, dinnerBook, loading }) => {
       dispatch({
         type: 'dinnerBook/setEmployeeList',
         payload: data,
+      })
+    },
+    setBookTime(val){
+      dispatch({
+        type:'dinnerBook/setBookTime',
+        payload:val,
       })
     },
     setEmployeeAndRowKey(rowKey,data){
@@ -120,10 +127,12 @@ const DinnerBook = ({ location, dispatch, dinnerBook, loading }) => {
     
     onAdd () {
       dispatch({
-        type: 'dinnerBook/isCanAdd',
+        type: 'dinnerBook/showModal',
+        // type: 'dinnerBook/isCanAdd',
         payload: {
           modalType: 'create',
           employeeList:[],
+          bookTimeStr:null,
         },
       })
     },

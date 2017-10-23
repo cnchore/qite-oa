@@ -69,7 +69,7 @@ class ReimburseForm extends React.Component {
               <td className={styles['tl']}>应付款</td>
             </tr>
             <tr>
-              <td colSpan="1"  className={styles['tl']}>账号名：{data.accountName&&data.accountName}</td>
+              <td colSpan="1"  className={styles['tl']}>帐户名：{data.accountName&&data.accountName}</td>
               <td colSpan="2" className={styles['tl']}>账号： {data.accountNumber&&data.accountNumber}</td>
               <td colSpan="2" className={styles['tl']}>开户行：{data.bankName&&data.bankName}</td>
             </tr>

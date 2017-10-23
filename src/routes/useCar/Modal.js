@@ -164,7 +164,7 @@ const modal = ({
     }
     return (parseFloat(data.oilCost)+parseFloat(data.roadToll)).toFixed(2);
   }
-  const dicOption=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
+  const dicOption=dicList.map(dic=><Option key={String(dic.id)} disabled={!dic.isAppliable}>{dic.carBrand && dic.carBrand}，{dic.carNum && dic.carNum}</Option>)
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -258,17 +258,16 @@ const modal = ({
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             车辆类型：
           </Col>
-          <Col xs={18} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
-              {getFieldDecorator('carInfo', {
-                initialValue:item.carInfo===undefined?'1':String(item.carInfo),
+              {getFieldDecorator('carId', {
+                initialValue:item.carId?String(item.carId):undefined,
                 rules: [
                   {
                     required: true,message:'不能为空',
-                   
                   },
                 ],
-              })(<Select >{dicOption}</Select>)}
+              })(<Select style={{width:'100%'}}>{dicOption}</Select>)}
               
             </FormItem>
             
@@ -308,7 +307,50 @@ const modal = ({
               })(<DatePicker showTime format={dateTimeFormat}  style={{width:'80%'}}/>)}
             </FormItem>
             <FormItem style={{width:'20%'}}> 共 {getHours()} 小时</FormItem>
-
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            预计目的地：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}} >
+              {getFieldDecorator('estiLocation', {
+                initialValue:item.estiLocation,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input />)}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
+              预计公里数：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'80%'}}>
+              {getFieldDecorator('estiKilometer', {
+                initialValue:item.estiKilometer!==undefined && item.estiKilometer!==null?Number(item.estiKilometer):0,
+                rules: [{required: true,message:'不能为空',},],
+              })(<InputNumber precision={2}
+                style={{width:'100%'}}/>
+               )}
+            </FormItem>
+            <FormItem style={{width:'20%'}}>公里</FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            司机名称：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}} >
+              {getFieldDecorator('driverName', {
+                initialValue:item.driverName,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input/>)}
+            </FormItem>
           </Col>
         </Row>
         {

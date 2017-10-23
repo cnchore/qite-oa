@@ -1,5 +1,6 @@
 import pathToRegexp from 'path-to-regexp'
 import { queryById,queryEmployee,getDic } from '../../services/useCar'
+import * as car from '../../services/car'
 import { config } from '../../utils'
 import { getDiagramByBusiness,getCommentListBybusiness,getTaskListByBusinessKey } from '../../services/workFlow'
 const { prefix } =config;
@@ -23,7 +24,7 @@ export default {
           dispatch({ type: 'query', payload: { id: match[1] } })
           dispatch({
             type: 'getDic',
-            payload: {dicType:'carType_item'},
+            // payload: {dicType:'carType_item'},
           })
         }
       })
@@ -70,10 +71,8 @@ export default {
       }
     },
     *getDic ({ payload }, { call, put }) {
-
-     // payload = parse(location.search.substr(1))
-      const data = yield call(getDic, payload)
-
+      // const data = yield call(getDic, payload)
+      const data = yield call(car.query, payload)
       if (data) {
         yield put({
           type: 'getDicSuccess',

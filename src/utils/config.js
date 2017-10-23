@@ -404,6 +404,13 @@ module.exports = {
       save:`${apiPrefixPro}/pick/save`,
       deleteById:`${apiPrefixPro}/pick/deleteById`,
     },
+    //公务车管理
+    car:{
+      getPage:`${apiPreLogi}/car/getPage`,
+      getList:`${apiPreLogi}/car/getList`,
+      getById:`${apiPreLogi}/car/getById`,
+      save:`${apiPreLogi}/car/save`,
+    },
     //流程处理
     workflow:{
       deploy:`${apiPrefixPro}/workflow/deploy`,

@@ -109,7 +109,7 @@ class TravelReimburseForm extends React.Component {
               <td colSpan="2" className={styles['tl']}>归还多余：¥ {surplus}</td>
             </tr>
             <tr>
-              <td colSpan="2"  className={styles['tl']}>账号名：{data.accountName&&data.accountName}</td>
+              <td colSpan="2"  className={styles['tl']}>帐户名：{data.accountName&&data.accountName}</td>
               <td colSpan="3" className={styles['tl']}>账号： {data.accountNumber&&data.accountNumber}</td>
               <td colSpan="5" className={styles['tl']}>开户行：{data.bankName&&data.bankName}</td>
             </tr>

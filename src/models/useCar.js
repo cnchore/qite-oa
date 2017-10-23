@@ -1,5 +1,6 @@
 import { query,queryById,save,deleteById,submit,queryEmployee,getDic } from '../services/useCar'
 import { startProcess,getTaskInfo,audit } from '../services/workFlow'
+import * as car from '../services/car'
 import { config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
@@ -47,7 +48,7 @@ export default {
           }
           dispatch({
             type: 'getDic',
-            payload: {dicType:'carType_item'},
+            // payload: {dicType:'carType_item'},
           })
         }
       })
@@ -92,7 +93,8 @@ export default {
     *getDic ({ payload }, { call, put }) {
 
      // payload = parse(location.search.substr(1))
-      const data = yield call(getDic, payload)
+      // const data = yield call(getDic, payload)
+      const data = yield call(car.query, payload)
 
       if (data) {
         yield put({

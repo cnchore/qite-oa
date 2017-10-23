@@ -119,7 +119,7 @@ class SelectEmployee extends React.Component {
         }
       }).then(fields=>{
         // console.log('fields:',fields)
-        getDinnerInfo({...fields}).then((result)=>{
+        getDinnerInfo({...fields,bookTimeStr:this.props.bookTimeStr}).then((result)=>{
           if(result && result.data){
             this.setState({employeeList:result.data.detailList})
           }
