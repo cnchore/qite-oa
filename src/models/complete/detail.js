@@ -2,6 +2,7 @@ import pathToRegexp from 'path-to-regexp'
 import { queryEmployee } from '../../services/missClock'
 import { treeToArray } from '../../utils'
 import { getTaskInfo,getDiagramByBusiness,getDic,getOrg,getTaskListByBusinessKey } from '../../services/workFlow'
+import * as car from '../../services/car'
 
 export default {
   namespace: 'completeDetail',
@@ -71,7 +72,12 @@ export default {
       }
     },
     *getDic ({ payload }, { call, put }) {
-      const data = yield call(getDic, payload)
+      let data;
+      if(payload && payload.dicType && payload.dicType==='carType_item'){
+        data=yield call(car.query, {})
+      }else{
+        data= yield call(getDic, payload)
+      }
       if (data) {
         yield put({
           type: 'getDicSuccess',
@@ -80,7 +86,8 @@ export default {
       }
     },
     *getOrg ({ payload }, { call, put }) {
-      const data = yield call(getOrg, payload)
+      let data= yield call(getOrg, payload)
+     
       if (data) {
         yield put({
           type: 'getDicSuccess',

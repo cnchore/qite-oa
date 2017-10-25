@@ -406,10 +406,18 @@ module.exports = {
     },
     //公务车管理
     car:{
-      getPage:`${apiPreLogi}/car/getPage`,
+      query:`${apiPreLogi}/car/getPage`,
       getList:`${apiPreLogi}/car/getList`,
       getById:`${apiPreLogi}/car/getById`,
       save:`${apiPreLogi}/car/save`,
+    },
+    //公务车详情
+    carDetail:{
+      query:`${apiPreLogi}/carDetail/getPage`,
+      getList:`${apiPreLogi}/carDetail/getList`,
+      getById:`${apiPreLogi}/carDetail/getById`,
+      save:`${apiPreLogi}/carDetail/save`,
+      deleteById:`${apiPreLogi}/carDetail/deleteById`,
     },
     //流程处理
     workflow:{

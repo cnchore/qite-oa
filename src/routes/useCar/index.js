@@ -21,7 +21,7 @@ const UseCar = ({ location, dispatch, useCar, loading }) => {
     submitLoading:loading.effects['useCar/submit'],
     confirmLoading: loading.effects[`useCar/${modalType}`],
     auditLoading:loading.effects['useCar/audit'],
-    title: `${modalType === 'create' ? '新增－用车申请' : modalType==='update'?'编辑－用车申请':'退回修改－用车申请'}`,
+    title: `${modalType === 'create' ? '新增－用车申请' : modalType==='update'?'编辑－用车申请':'还车登记－用车申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({

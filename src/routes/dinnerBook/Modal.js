@@ -210,12 +210,12 @@ const modal = ({
             <Affix target={()=>document.getElementById('layout-main')}>
                <div style={{backgroundColor:'#fff'}}>
                 {
-                  bookTimeStr?
+                  bookTimeStr || item.id?
                   <SelectEmployee callBack={selEmCallback} bookTimeStr={bookTimeStr}></SelectEmployee>
                   :null
                 }
                 {
-                  bookTimeStr?
+                  bookTimeStr || item.id?
                   <AddDinner style={{ marginRight: 12 }} callBack={handleOutsideDinner}/>
                   :null
                 }

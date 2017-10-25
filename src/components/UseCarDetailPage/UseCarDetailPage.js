@@ -34,7 +34,7 @@ class UseCarDetailPage extends React.Component {
       <div>
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} className='qite-list-title'>
-              <Icon type="credit-card" />出差信息
+              <Icon type="credit-card" />用车申请信息
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             姓名：

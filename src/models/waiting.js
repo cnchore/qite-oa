@@ -1,6 +1,6 @@
 import { queryById,queryEmployee } from '../services/missClock'
 import { getMyTaskToDoPage,getTaskInfo,audit,getDic,getOrg } from '../services/workFlow'
-
+import * as car from '../services/car'
 import { treeToArray,config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
@@ -102,7 +102,11 @@ export default {
               break;
           }
           if(dicType){
-           dicRes= yield call(getDic, {dicType});
+            if(dicType==='carType_item'){
+              dicRes=yield call(car.query, {})
+            }else{
+              dicRes= yield call(getDic, {dicType});
+            }
           }else if(response.data.busiCode.substr(0,2)==='NE'){
             let orgData=yield call(getOrg, {})
             if(orgData && orgData.success){

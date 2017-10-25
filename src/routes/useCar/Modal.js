@@ -115,7 +115,8 @@ const modal = ({
         onOk () {
           let fields=getFields();
           if(fields){
-            onSubmit(fields,data)
+              onSubmit(fields,data)
+           
           }
         },
       })
@@ -127,11 +128,22 @@ const modal = ({
       taskItem.busiId=taskData.busiId;
       taskItem.busiCode=taskData.busiCode;
       taskItem.action=formItem.action;
+      formItem.isupdated=true;
       // console.log('formItem')
       confirm({
         title:'你确定提交修改么？',
         onOk(){
-            onAudit(formItem,taskItem)
+            if(taskData && taskData.taskId){
+              let _formItem={...item,...formItem,useTimeStr:item.useTime,returnTimeStr:item.returnTime};
+              delete _formItem.useTime;
+              delete _formItem.returnTime;
+              delete _formItem.createTime;
+              delete _formItem.updateTime;
+              onAudit(_formItem,taskItem)
+            }else{
+              onAudit(formItem,taskItem)
+            }
+          
         },
       })
     }
@@ -139,9 +151,15 @@ const modal = ({
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
   
   const getHours=(t=null)=>{
-    const data = {...getFieldsValue()}
-    let a=data.useTimeStr?(data.useTimeStr?data.useTimeStr.format(dateTimeFormat):null):null;
-    let b=data.returnTimeStr?(data.returnTimeStr?data.returnTimeStr.format(dateTimeFormat):null):null;
+    let a,b;
+    if(taskData && taskData.taskId){
+      a=item.useTime;
+      b=item.returnTime;
+    }else{
+      const data = {...getFieldsValue()}
+      a=data.useTimeStr?(data.useTimeStr?data.useTimeStr.format(dateTimeFormat):null):null;
+      b=data.returnTimeStr?(data.returnTimeStr?data.returnTimeStr.format(dateTimeFormat):null):null;
+    }
     
     if(!a||!b){
       return 0;
@@ -165,6 +183,14 @@ const modal = ({
     return (parseFloat(data.oilCost)+parseFloat(data.roadToll)).toFixed(2);
   }
   const dicOption=dicList.map(dic=><Option key={String(dic.id)} disabled={!dic.isAppliable}>{dic.carBrand && dic.carBrand}，{dic.carNum && dic.carNum}</Option>)
+  if(taskData && taskData.taskId && item.carId){
+    let _info=dicList.filter(f=>String(f.id)===String(item.carId));
+    if(_info && _info[0]){
+      item.carInfo=`${_info[0].carBrand && _info[0].carBrand}，${_info[0].carNum && _info[0].carNum}`;
+    }else{
+      item.carInfo='无';
+    }
+  }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -176,7 +202,7 @@ const modal = ({
                 {taskData && taskData.taskId?(
                   <div style={{backgroundColor:'#fff'}}>
                     <Button style={{ marginRight: 12 }} type="primary" loading={auditLoading} 
-                    onClick={handleAudit} size="large">确定修改并提交</Button>
+                    onClick={handleAudit} size="large">还车并提交</Button>
                     <Button  type="ghost" onClick={onGoback} size="large">返回待办</Button>
                   </div>
                   ):(
@@ -238,19 +264,25 @@ const modal = ({
             用车事由：
           </Col>
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem style={{width:'100%'}} >
-              {getFieldDecorator('remark', {
-                initialValue:item.remark,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-              })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }}  style={{width:'100%'}}/>)}
-              
-            </FormItem>
-            
+            {
+              taskData && taskData.taskId?
+              <FormItem>
+                {item.remark || '无'}
+              </FormItem>
+              :
+              <FormItem style={{width:'100%'}} >
+                {getFieldDecorator('remark', {
+                  initialValue:item.remark,
+                  rules: [
+                    {
+                      required: true,message:'不能为空',
+                     
+                    },
+                  ],
+                })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }}  style={{width:'100%'}}/>)}
+                
+              </FormItem>
+            }
           </Col>
          
         </Row>
@@ -259,17 +291,24 @@ const modal = ({
             车辆类型：
           </Col>
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem style={{width:'100%'}}>
-              {getFieldDecorator('carId', {
-                initialValue:item.carId?String(item.carId):undefined,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                  },
-                ],
-              })(<Select style={{width:'100%'}}>{dicOption}</Select>)}
-              
-            </FormItem>
+            {
+              taskData && taskData.taskId?
+              <FormItem>
+                {item.carInfo}
+              </FormItem>
+              :
+              <FormItem style={{width:'100%'}}>
+                {getFieldDecorator('carId', {
+                  initialValue:item.carId?String(item.carId):undefined,
+                  rules: [
+                    {
+                      required: true,message:'不能为空',
+                    },
+                  ],
+                })(<Select style={{width:'100%'}}>{dicOption}</Select>)}
+                
+              </FormItem>
+            }
             
           </Col>
         </Row>
@@ -277,80 +316,115 @@ const modal = ({
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             出车时间：
           </Col>
-          <Col xs={18} md={6} xl={9} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem style={{width:'100%'}}>
-              {getFieldDecorator('useTimeStr', {
-                initialValue:item.useTime!==undefined&&item.useTime!==null?moment(item.useTime,dateTimeFormat):null,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-              })(<DatePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
-            </FormItem>
+          <Col xs={18} md={6} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            {
+              taskData && taskData.taskId?
+              <FormItem>
+                {item.useTime || '无'}
+              </FormItem>
+              :
+              <FormItem style={{width:'100%'}}>
+                {getFieldDecorator('useTimeStr', {
+                  initialValue:item.useTime!==undefined&&item.useTime!==null?moment(item.useTime,dateTimeFormat):null,
+                  rules: [
+                    {
+                      required: true,message:'不能为空',
+                     
+                    },
+                  ],
+                })(<DatePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
+              </FormItem>
+            }
             
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             预计返回时间：
           </Col>
-          <Col xs={18} md={10} xl={11} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem style={{width:'80%'}}>
-              {getFieldDecorator('returnTimeStr', {
-                initialValue:item.returnTime!==undefined&&item.returnTime!==null?moment(item.returnTime,dateTimeFormat):null,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-              })(<DatePicker showTime format={dateTimeFormat}  style={{width:'80%'}}/>)}
-            </FormItem>
-            <FormItem style={{width:'20%'}}> 共 {getHours()} 小时</FormItem>
+          <Col xs={18} md={10} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            {
+              taskData && taskData.taskId?
+              <FormItem>
+                {item.returnTime}
+              </FormItem>
+              :
+              <FormItem style={{width:'80%'}}>
+                {getFieldDecorator('returnTimeStr', {
+                  initialValue:item.returnTime!==undefined&&item.returnTime!==null?moment(item.returnTime,dateTimeFormat):null,
+                  rules: [
+                    {
+                      required: true,message:'不能为空',
+                     
+                    },
+                  ],
+                })(<DatePicker showTime format={dateTimeFormat}  style={{width:'80%'}}/>)}
+              </FormItem>
+            }
+            <FormItem style={{width:'20%'}}> ，共 {getHours()} 小时</FormItem>
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             预计目的地：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem style={{width:'100%'}} >
-              {getFieldDecorator('estiLocation', {
-                initialValue:item.estiLocation,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                  },
-                ],
-              })(<Input />)}
-            </FormItem>
+            {
+              taskData && taskData.taskId?
+              <FormItem>
+                {item.estiLocation}
+              </FormItem>
+              :
+              <FormItem style={{width:'100%'}} >
+                {getFieldDecorator('estiLocation', {
+                  initialValue:item.estiLocation,
+                  rules: [
+                    {
+                      required: true,message:'不能为空',
+                    },
+                  ],
+                })(<Input />)}
+              </FormItem>
+            }
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
               预计公里数：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem style={{width:'80%'}}>
-              {getFieldDecorator('estiKilometer', {
-                initialValue:item.estiKilometer!==undefined && item.estiKilometer!==null?Number(item.estiKilometer):0,
-                rules: [{required: true,message:'不能为空',},],
-              })(<InputNumber precision={2}
-                style={{width:'100%'}}/>
-               )}
-            </FormItem>
+            {
+              taskData && taskData.taskId?
+              <FormItem>
+                {item.estiKilometer}
+              </FormItem>
+              :
+              <FormItem style={{width:'80%'}}>
+                {getFieldDecorator('estiKilometer', {
+                  initialValue:item.estiKilometer!==undefined && item.estiKilometer!==null?Number(item.estiKilometer):0,
+                  rules: [{required: true,message:'不能为空',},],
+                })(<InputNumber precision={2}
+                  style={{width:'100%'}}/>
+                 )}
+              </FormItem>
+            }
             <FormItem style={{width:'20%'}}>公里</FormItem>
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             司机名称：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem style={{width:'100%'}} >
-              {getFieldDecorator('driverName', {
-                initialValue:item.driverName,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                  },
-                ],
-              })(<Input/>)}
-            </FormItem>
+            {
+              taskData && taskData.taskId?
+              <FormItem>
+                {item.driverName || '无'}
+              </FormItem>
+              :
+              <FormItem style={{width:'100%'}} >
+                {getFieldDecorator('driverName', {
+                  initialValue:item.driverName,
+                  rules: [
+                    {
+                      required: true,message:'不能为空',
+                    },
+                  ],
+                })(<Input/>)}
+              </FormItem>
+            }
           </Col>
         </Row>
         {
@@ -397,33 +471,31 @@ const modal = ({
               共行驶：
             </Col>
             <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-              <FormItem style={{width:'80%'}}>
-                {getMileage()}
+              <FormItem >
+                {getMileage()} 公里
               </FormItem>
-              <FormItem style={{width:'20%'}}>公里</FormItem>
+              
             </Col>
-            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
               邮费：
             </Col>
             <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
               <FormItem style={{width:'80%'}}>
                 {getFieldDecorator('oilCost', {
                   initialValue:item.oilCost!==undefined && item.oilCost!==null?Number(item.oilCost):0,
-                  rules: [{required: true,message:'不能为空',},],
                 })(<InputNumber 
                   style={{width:'100%'}}/>
                  )}
               </FormItem>
               <FormItem style={{width:'20%'}}>元</FormItem>
             </Col>
-            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
               过路费：
             </Col>
             <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
               <FormItem style={{width:'80%'}}>
                 {getFieldDecorator('roadToll', {
                   initialValue:item.roadToll!==undefined && item.roadToll!==null?Number(item.roadToll):0,
-                  rules: [{required: true,message:'不能为空',},],
                 })(<InputNumber 
                   style={{width:'100%'}}/>
                  )}

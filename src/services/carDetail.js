@@ -1,24 +1,24 @@
 import { request, config } from '../utils'
 const { api } = config
-const { car} = api
+const { carDetail} = api
 
-export async function query (params) {
+export async function getList (params) {
   return request({
-    url: car.getList,
+    url: carDetail.getList,
     method: 'get',
     data: params,
   })
 }
-export async function getPage (params) {
+export async function query (params) {
   return request({
-    url: car.query,
+    url: carDetail.query,
     method: 'get',
     data: params,
   })
 }
 export async function queryById (params) {
   return request({
-    url: car.getById,
+    url: carDetail.getById,
     method: 'get',
     data: params,
   })
@@ -26,7 +26,14 @@ export async function queryById (params) {
 
 export async function save (params) {
   return request({
-    url: car.save,
+    url: carDetail.save,
+    method: 'post',
+    data: params,
+  })
+}
+export async function deleteById (params) {
+  return request({
+    url: carDetail.deleteById,
     method: 'post',
     data: params,
   })

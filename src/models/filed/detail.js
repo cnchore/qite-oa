@@ -2,6 +2,7 @@ import pathToRegexp from 'path-to-regexp'
 import { queryEmployee } from '../../services/missClock'
 import { treeToArray } from '../../utils'
 import { getTaskInfo,getDiagramByBusiness,getDic,getOrg } from '../../services/workFlow'
+import * as car from '../../services/car'
 
 export default {
   namespace: 'filedDetail',
@@ -63,7 +64,12 @@ export default {
       }
     },
     *getDic ({ payload }, { call, put }) {
-      const data = yield call(getDic, payload)
+      let data;
+      if(payload && payload.dicType && payload.dicType==='carType_item'){
+        data=yield call(car.query, {})
+      }else{
+        data= yield call(getDic, payload)
+      }
       if (data) {
         yield put({
           type: 'getDicSuccess',

@@ -780,6 +780,23 @@ const Routers = function ({ history, app }) {
             }, 'pick-detail')
           },
         }, {
+          //公务车管理
+          path: '/car',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/car'))
+              cb(null, require('./routes/car/'))
+            }, 'car')
+          },
+        }, {
+          path: 'car/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/car/detail'))
+              cb(null, require('./routes/car/detail/'))
+            }, 'car-detail')
+          },
+        }, {
           path: '/login',
           getComponent (nextState, cb) {
             require.ensure([], require => {
