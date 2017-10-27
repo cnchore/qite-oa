@@ -81,7 +81,7 @@ class FileUpload extends React.Component {
       return file.url+'?imageView2/1/w/320/h/200/format/webp/interlace/0/q/50';
     }
     let l=file.name.lastIndexOf('.');
-    switch(file.name.substr(l)){
+    switch(file.name.substr(l).toLocaleLowerCase()){
       case '.doc':
         return DOC;
       case '.docx':

@@ -150,10 +150,10 @@ const SampleReplace = ({ location, dispatch, sampleReplace, loading }) => {
     <div className="content-inner">
       {!modalVisible &&<Filter {...filterProps} />}
       {!modalVisible &&<List {...listProps} />}
+      {modalVisible && <Modal {...modalProps} />}
     </div>
   )
 }
-      // {modalVisible && <Modal {...modalProps} />}
 
 SampleReplace.propTypes = {
   sampleReplace: PropTypes.object,

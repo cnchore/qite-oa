@@ -30,9 +30,9 @@ const modal = ({
         return
       }
       const data = {...getFieldsValue()}
-      // if(item.parentId!==undefined){
-      //   data.parentId=item.parentId
-      // } 
+      if(data.parentId===undefined){
+        data.parentId=0;
+      } 
       if(item.id){
         data.id=item.id
       }

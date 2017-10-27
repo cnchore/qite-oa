@@ -114,9 +114,9 @@ const modal = ({
         title: `你确定提交申请么?`,
         onOk () {
           let fields=getFields();
+          fields.isupdated=true;
           if(fields){
               onSubmit(fields,data)
-           
           }
         },
       })
@@ -128,10 +128,10 @@ const modal = ({
       taskItem.busiId=taskData.busiId;
       taskItem.busiCode=taskData.busiCode;
       taskItem.action=formItem.action;
-      formItem.isupdated=true;
+      // formItem.isupdated=true;
       // console.log('formItem')
       confirm({
-        title:'你确定提交修改么？',
+        title:'你确定提交还车记录么？',
         onOk(){
             if(taskData && taskData.taskId){
               let _formItem={...item,...formItem,useTimeStr:item.useTime,returnTimeStr:item.returnTime};

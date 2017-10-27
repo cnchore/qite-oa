@@ -6,6 +6,7 @@ import { Table, Popconfirm,Col,Icon,Row } from 'antd'
 //import moment from 'moment';
 import InputCell from '../../../components/InputCell'
 import InputCurrencyCell from '../../../components/InputCurrencyCell'
+import InputNumberCell from '../../../components/InputNumberCell'
 // import DateTimeCell from '../../../components/DateTimeCell'
 // import SelectCell from '../../../components/SelectCell'
 import {changeMoneyToChinese,findIsEditable} from '../../../utils'
@@ -25,22 +26,22 @@ class EditCellTable extends React.Component {
       dataIndex:'width',
       width:80,
       title:'宽(mm)',
-      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'width',text,'currency'),
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'width',text,'number'),
       },{
       dataIndex:'height',
       width:80,
       title:'高(mm)',
-      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'height',text,'currency'),
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'height',text,'number'),
       },{
       dataIndex:'num',
       width:90,
       title:'数量(樘/个)',
-      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'num',text,'currency'),
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'num',text,'number'),
       },{
       dataIndex:'areas',
       width:80,
       title:'面积(m²)',
-      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'areas',text,'currency'),
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'areas',text,'number'),
       },{
       dataIndex:'singlePrice',
       width:100,
@@ -134,7 +135,13 @@ class EditCellTable extends React.Component {
           onChange={value => this.handleChange(key, index, value)}
           status={status}
         />);
-      
+      case 'number':
+        return (<InputNumberCell
+          editable={editable}
+          value={text}
+          onChange={value => this.handleChange(key, index, value)}
+          status={status}
+        />);
     }
   }
   add=()=>{

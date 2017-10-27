@@ -11,7 +11,7 @@ import { message } from 'antd'
 
 
 const Employee = ({ location, dispatch, employee, loading }) => {
-  const { list,orgList,photoUrl,dicList,orgTree,positionList,positSelList,orgKey,expand,
+  const { list,orgList,photoUrl,dicList,orgTree,positionList,positSelList,orgKey,expand,brandTypeList,
     pagination, currentItem, modalVisible,positSelModalVisible, modalType,selectedPosition,roleList } = employee
   const { pageSize } = pagination
 
@@ -25,6 +25,7 @@ const Employee = ({ location, dispatch, employee, loading }) => {
     photoUrl,
     dicList,
     roleList,
+    brandTypeList,
     visible: modalVisible,
     maskClosable: false,
     confirmLoading: loading.effects[`employee/${modalType}`],

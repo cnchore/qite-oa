@@ -16,6 +16,7 @@ export default {
     positionList:[],
     roleList:[],
     dicList:[],
+    brandTypeList:[],
     photoUrl:null,
     orgKey:null,
     currentItem: {},
@@ -54,10 +55,14 @@ export default {
             type:'getRoles',
             payload:{},
           })
-          //empoyeeState_item
+          //brandType
           dispatch({
             type: 'getDic',
             payload: {dicType:'empoyeeState_item'},
+          })
+          dispatch({
+            type: 'getBrandType',
+            payload: {dicType:'brandType_item'},
           })
         }
       })
@@ -112,6 +117,18 @@ export default {
           type: 'getDicSuccess',
           payload: {
             dicList: data.data,
+          },
+        })
+      }
+    },
+    
+    *getBrandType({ payload }, { call, put }) {
+      const data = yield call(getDic, payload)
+      if (data) {
+        yield put({
+          type: 'getBrandTypeSuccess',
+          payload: {
+            brandTypeList: data.data,
           },
         })
       }
@@ -267,6 +284,10 @@ export default {
       return { ...state,
         dicList,
         }
+    },
+    getBrandTypeSuccess(state, action) {
+      const { brandTypeList } = action.payload
+      return { ...state,brandTypeList,}
     },
     getPositionSuccess (state, action) {
       const { positionList } = action.payload

@@ -9,6 +9,13 @@ export async function query (params) {
     data: params,
   })
 }
+export async function queryAll (params) {
+  return request({
+    url: organizations.queryAll,
+    method: 'get',
+    data: params,
+  })
+}
 export async function queryById (params) {
   return request({
     url: organizations.queryById,

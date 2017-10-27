@@ -41,7 +41,7 @@ const Organization = ({ location, dispatch, organization, loading }) => {
       })
     },
     getCheckboxProps: record => ({
-      disabled: record.isDisable === true, // Column configuration not to be checked
+      // disabled: record.isDisable === true, // Column configuration not to be checked
     }),
     selectedRowKeys,
     type:'radio',
@@ -66,12 +66,12 @@ const Organization = ({ location, dispatch, organization, loading }) => {
     },
     onRowClick(record,index,event){
       // console.log('onRowClick:',record,index,event)
-      if(record && !record.isDisable){
-        dispatch({
-          type: 'organization/setState',
-          payload:record,
-        })
-      }
+      // if(record && !record.isDisable){
+      // }
+      dispatch({
+        type: 'organization/setState',
+        payload:record,
+      })
     },
   }
 

@@ -1,4 +1,4 @@
-import { query,queryById,create, remove, update,change } from '../services/organization'
+import { query,queryAll,queryById,create, remove, update,change } from '../services/organization'
 import { parse } from 'qs'
 import { message } from 'antd'
 
@@ -41,7 +41,7 @@ export default {
       payload=parse(location.hash.split('#/setting/organization?')[1]); 
       // payload = parse(location.search.substr(1))
       payload={...payload,rows:payload.pageSize}
-      const data = yield call(query, payload)
+      const data = yield call(queryAll, payload)
       if (data) {
         yield put({
           type: 'querySuccess',

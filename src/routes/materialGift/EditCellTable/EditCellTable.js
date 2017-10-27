@@ -86,6 +86,7 @@ class EditCellTable extends React.Component {
         return (<InputCurrencyCell
           editable={editable}
           value={text}
+          prematter=''
           onChange={value => this.handleChange(key, index, value)}
           status={status}
         />);

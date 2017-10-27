@@ -188,7 +188,7 @@ const modal = ({
     // Can not select days before today and today
     let existsBooktime=false;
     if(list && list[0] && current){
-      existsBooktime=list.filter(f=>f.bookTime===String(current.format(dateTimeFormat))).length>0;
+      existsBooktime=list.filter(f=>f.bookTime===String(current.format(dateTimeFormat)) && String(f.state)!=='2').length>0;
       // console.log(current.format(dateTimeFormat),existsBooktime)
     }
     return current && current.valueOf() < Date.now() || existsBooktime;

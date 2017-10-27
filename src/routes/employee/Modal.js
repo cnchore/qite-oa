@@ -60,6 +60,7 @@ const modal = ({
   onCancel,
   photoUrl,
   dicList,
+  brandTypeList,
   setPhoto,
   roleList,
   form: {
@@ -111,12 +112,18 @@ const modal = ({
   }
   const getPositRows=()=>{
     if(positSelList[0]){
+      // if(item.positChangeList)
+      //   return item.positChangeList;
       let rows=positSelList.map((item)=>String(item.id)); 
       rows=Array.from(new Set(rows));//去重复
-
+      // console.log('postIds:',rows,positSelList)
       return rows
     }
     return []
+  }
+  const defaultPostValue=positSelList[0]?Array.from(new Set(positSelList.map(item=>String(item.id)))):[];
+  const handlePostChange=(value)=>{
+    // item.positChangeList=value;
   }
   const getRolesRows=()=>{
     if(item.roleList && item.roleList[0]){
@@ -154,6 +161,7 @@ const modal = ({
   }
   const roleOptions=roleList&&roleList[0]?roleList.map(role=><Option key={role.id}>{role.roleName}</Option>):null;
   const dicOptions=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
+  const brandTypeOptions=brandTypeList.map(bt=><Option key={String(bt.dicValue)}>{bt.dicName}</Option>)
   return (
     <Modal {...modalOpts}
       footer={[
@@ -199,11 +207,16 @@ const modal = ({
                   ],
                 })(<Input />)}
               </FormItem>
-              <FormItem label="工号" hasFeedback {...formItemLayout}>
-                {getFieldDecorator('empNum', {
-                  initialValue: item.empNum,
-                  
-                })(<Input />)}
+
+              <FormItem label="品牌类型" hasFeedback {...formItemLayout}>
+                {getFieldDecorator('brandType', {
+                  initialValue: item.brandType!==undefined?String(item.brandType):'0',
+                  rules: [
+                    {
+                      required: true,message:'不能为空',
+                    },
+                  ],
+                })(<Select style={{width:'100%'}}>{brandTypeOptions}</Select>)}
               </FormItem>
             </Col>
           <Col span={8}>
@@ -235,13 +248,13 @@ const modal = ({
                 <Row gutter={8}>
                   <Col span={21}>
                     {getFieldDecorator('postIds', {
-                      initialValue:getPositRows(),
+                      initialValue:defaultPostValue,
                       rules: [
                         {
                           required: true,message:'不能为空',
-                          
                         },
                       ],
+                      onChange:handlePostChange,
                     })(<Select mode="multiple">{postOptions}</Select>)}
                   </Col>
                   <Col span={3} style={{marginTop:'-2px'}}>
@@ -474,6 +487,18 @@ const modal = ({
             </FormItem>
           </Col>
            ):null}
+          {
+            expand || modalType!=='update'?
+            <Col span={8}>
+              <FormItem label="工号" hasFeedback {...formItemLayout}>
+                {getFieldDecorator('empNum', {
+                  initialValue: item.empNum,
+                  
+                })(<Input />)}
+              </FormItem>
+            </Col>
+            :null
+          }
           {expand?(
           <Col span={8}>
             <FormItem label="离职时间"  {...formItemLayout}>

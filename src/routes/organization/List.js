@@ -12,6 +12,11 @@ const List = ({ location, ...tableProps }) => {
       dataIndex: 'orgName',
       key: 'orgName',className:'q-left',
     }, {
+      title: '是否禁用',
+      dataIndex: 'isDisable',
+      key: 'isDisable',
+      render: (text)=>text?<span style={{color:'red'}}>是</span>:'否'
+    }, {
       title: '机构编码',
       dataIndex: 'orgCode',
       key: 'orgCode',
@@ -19,6 +24,7 @@ const List = ({ location, ...tableProps }) => {
       title: '机构类型',
       dataIndex: 'orgTypeName',
       key: 'orgTypeName',
+      
     },
   ]
 

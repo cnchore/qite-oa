@@ -6,8 +6,9 @@ import { Table, Popconfirm,Col,Icon,Row } from 'antd'
 //import moment from 'moment';
 import InputCell from '../../../components/InputCell'
 import InputCurrencyCell from '../../../components/InputCurrencyCell'
-import DateTimeCell from '../../../components/DateTimeCell'
-import SelectCell from '../../../components/SelectCell'
+import InputNumberCell from '../../../components/InputNumberCell'
+// import DateTimeCell from '../../../components/DateTimeCell'
+// import SelectCell from '../../../components/SelectCell'
 import {changeMoneyToChinese,findIsEditable} from '../../../utils'
 
 class EditCellTable extends React.Component {
@@ -17,45 +18,74 @@ class EditCellTable extends React.Component {
       title:'序号',
       dataIndex:'index',width:60,
       render:(text,record,index)=>index+1,
-    
-    },{
-      title: '部门',
-      dataIndex: 'orgName',
-      width: 120,
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'orgName', text,'input'),
-    
-    }, {
-      title: '供应商',
-      dataIndex: 'supplier',
-      width: 120,
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'supplier', text,'input'),
-    }, {
-      title: '内容',
-      dataIndex: 'content',
-      width: 120,
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'content', text,'input'),
-    }, {
-      title: '金额',
-      dataIndex: 'amount',
-      width: 120,
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'amount', text,'currency'),
-    }, {
-      title: '备注',
-      dataIndex: 'remark',
-      
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'remark', text,'input'),
-    }, {
-      title: '用付款时间',
-      dataIndex: 'payTimeStr',
-      width: 200,
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'payTimeStr', text,'datetime'),
-    
-    }, {
+      },{
+      dataIndex:'productName',
+      title:'产品系列名称',
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'productName',text,'input'),
+      },{
+      dataIndex:'width',
+      width:80,
+      title:'宽(mm)',
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'width',text,'number'),
+      },{
+      dataIndex:'height',
+      width:80,
+      title:'高(mm)',
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'height',text,'number'),
+      },{
+      dataIndex:'num',
+      width:90,
+      title:'数量(樘/个)',
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'num',text,'number'),
+      },{
+      dataIndex:'areas',
+      width:80,
+      title:'面积(m²)',
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'areas',text,'number'),
+      },{
+      dataIndex:'singlePrice',
+      width:100,
+      title:'单价(元/m²)',
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'singlePrice',text,'currency'),
+      },{
+        dataIndex:'amount',
+        width:100,
+        title:'金额(元)',
+        render:(text,record)=>{
+          let a=parseFloat(record.num)*parseFloat(record.areas)*parseFloat(record.singlePrice);
+          return a.toFixed(2);
+        },
+      },{
+      dataIndex:'thickness',
+      width:120,
+      title:'型材皮厚(T)',
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'thickness',text,'input'),
+      },{
+      dataIndex:'color',
+      width:120,
+      title:'门窗颜色',
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'color',text,'input'),
+      },{
+      dataIndex:'parts',
+      width:120,
+      title:'配件厂家',
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'parts',text,'input'),
+      },{
+      dataIndex:'glassInfo',
+      width:120,
+      title:'玻璃规格及颜色',
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'glassInfo',text,'input'),
+      },{
+      dataIndex:'waistLine',
+      width:120,
+      title:'格条及腰线',
+      render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'waistLine',text,'input'),
+      }, {
       title: '操作',
       dataIndex: 'operation',
       fixed:'right',width:120,
       render: (text, record, index) => {
-        const { editable } = this.props.dataSource[index].orgName;
+        const { editable } = this.props.dataSource[index].productName;
         return (
           <div className="editable-row-operations">
             {
@@ -94,6 +124,7 @@ class EditCellTable extends React.Component {
         return (<InputCell
           editable={editable}
           value={text}
+          length={15}
           onChange={value => this.handleChange(key, index, value)}
           status={status}
         />);
@@ -104,18 +135,10 @@ class EditCellTable extends React.Component {
           onChange={value => this.handleChange(key, index, value)}
           status={status}
         />);
-      case 'datetime':
-        return (<DateTimeCell
+      case 'number':
+        return (<InputNumberCell
           editable={editable}
           value={text}
-          onChange={value => this.handleChange(key, index, value)}
-          status={status}
-        />);
-      case 'select':
-        return (<SelectCell
-          editable={editable}
-          value={text}
-          selectOptions={dicList}
           onChange={value => this.handleChange(key, index, value)}
           status={status}
         />);
@@ -126,29 +149,49 @@ class EditCellTable extends React.Component {
     let count=data.length;
     const newRow={
         key: count+Math.random(),
-        orgName: {
-          editable: true,
-          value: '',
-        },
-        supplier: {
-          editable: true,
+        productName:{
+          editable:true,
           value:'',
         },
-        content: {
+        width:{
           editable:true,
-          value: '',
+          value:0,
         },
-        amount: {
+        height:{
           editable:true,
-          value: 0,
+          value:0,
         },
-        payTimeStr: {
+        num:{
           editable:true,
-          value: '',
+          value:0,
         },
-        remark: {
+        areas:{
           editable:true,
-          value: '',
+          value:0,
+        },
+        singlePrice:{
+          editable:true,
+          value:0,
+        },
+        thickness:{
+          editable:true,
+          value:'',
+        },
+        color:{
+          editable:true,
+          value:'',
+        },
+        parts:{
+          editable:true,
+          value:'',
+        },
+        glassInfo:{
+          editable:true,
+          value:'',
+        },
+        waistLine:{
+          editable:true,
+          value:'',
         },
       }
     // this.setState({
@@ -182,17 +225,14 @@ class EditCellTable extends React.Component {
     let c=0;
     if(data && data[0]){
       data.map(t=>{
-        c+=parseFloat(t.amount.value)
+        c+=parseFloat(t.num.value)*parseFloat(t.areas.value)*parseFloat(t.singlePrice.value)
       })
     }
     return c.toFixed(2);
   }
   del(_index){
     const data =this.props.dataSource[0]?this.props.dataSource.filter((item,index)=>index!==_index):[];
-    
-    // this.setState({data});
     if(this.props.callbackParent)this.props.callbackParent(data);
-    //this.getActualExpense(data);
   }
   editDone(index, type) {
     let data  = this.props.dataSource;
@@ -202,22 +242,13 @@ class EditCellTable extends React.Component {
         data[index][item].status=type;
       }
     });
-    // this.setState({ data }, () => {
-    //   Object.keys(data[index]).forEach((item) => {
-    //     if (data[index][item] && typeof data[index][item].editable !== 'undefined') {
-    //       delete data[index][item].status;
-    //     }
-    //   });
-    // });
     if(this.props.callbackParent){
       this.props.callbackParent(data);
-      //this.getActualExpense(data);
     }
     this.props.setIsEditable && this.props.setIsEditable(findIsEditable(data));
   }
   render() {
     let data = this.props.dataSource;
-    //console.log(data)
     const dataSource = data.map((item) => {
       const obj = {};
       Object.keys(item).forEach((key) => {
@@ -232,15 +263,15 @@ class EditCellTable extends React.Component {
       <Row gutter={24} className={this.props.className}>
 
         <Col span={24} className='qite-list-title' style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-            <div><Icon type="credit-card" />预算明细</div>
-            <a onClick={e=>this.add(e)}>添加预算明细</a>
+            <div><Icon type="credit-card" />样板房明细</div>
+            <a onClick={e=>this.add(e)}>添加明细</a>
         </Col>
         <Col span={24}>
             <Table bordered 
               dataSource={dataSource} 
               columns={columns} 
               pagination={false}
-              scroll={{ x: 1100 }} 
+              scroll={{ x: 1600 }} 
               rowKey={record=>record.key}
               footer={()=>(
                 <div>

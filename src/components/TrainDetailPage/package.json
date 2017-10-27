@@ -1,0 +1,6 @@
+{
+  "name": "TrainDetailPage",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./TrainDetailPage.js"
+}

@@ -34,6 +34,7 @@ class InputCurrencyCell extends React.Component {
   }
   render() {
     const { value, editable } = this.state;
+    const prematter = this.props.prematter!==undefined?this.props.prematter:'¥';
     return (
       <div>
         {
@@ -41,14 +42,14 @@ class InputCurrencyCell extends React.Component {
             <div>
               <InputNumber step={1} min={0}
                 defaultValue={value}
-                formatter={temp => `¥ ${temp?temp.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+                formatter={temp => `${prematter} ${temp?temp.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
                 parser={temp => temp?temp.toString().replace(/¥\s?|(,*)/g, ''):0}
                 onChange={e=>this.handleChange(e)}
               />
             </div>
             :
             <div className="editable-row-text">
-              { `¥ ${value?value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}` || '¥ 0.00'}
+              { `${prematter} ${value?value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}` || `${prematter} 0.00`}
             </div>
         }
       </div>

@@ -1,9 +1,5 @@
 let apiPrefix='/qite/sys',apiPrefixDev='/api/v1',apiPrefixPro='/qite/busi',apiPreLogi='/qite/logi';
-// let baseURL=process.env.NODE_ENV === 'production'?'http://www.aylsonclub.com':'http://192.168.0.142:8000';
-
-// let websocketUrl='ws://www.aylsonclub.com/qite/websocket/socketServer.do';
 let _websocketUrl='/qite/websocket/socketServer.do';
-// let websocketUrl='ws://192.168.0.119:8080/qite/websocket/socketServer.do';
 
 module.exports = {
   name: '伊蕾莎集团办公系统',
@@ -46,7 +42,8 @@ module.exports = {
     },
     //组织机构
     organizations:{
-      query:`${apiPrefix}/org/getTree`,
+      query:`${apiPrefix}/org/getTree?isDisable=false`,
+      queryAll:`${apiPrefix}/org/getTree`,
       queryById:`${apiPrefix}/org/getById`,
       add:`${apiPrefix}/org/add`,
       update:`${apiPrefix}/org/update`,

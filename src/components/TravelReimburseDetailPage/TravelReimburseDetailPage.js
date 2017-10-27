@@ -31,7 +31,18 @@ class TravelReimburseDetailPage extends React.Component {
       }
       return '';
     }
-    let c=parseFloat(data.actualExpense)-parseFloat(data.advanceExpense);
+    let _actualExpense=0;
+    if(data.detailList&&data.detailList[0]){
+      let _t=0;
+      data.detailList.map(t=>{
+        _t+=parseFloat(t.vehicleCost)
+          +parseFloat(t.livingCost)
+          +parseFloat(t.otherCost)
+          +parseFloat(t.subsidyAmount)
+      })
+      _actualExpense=_t.toFixed(2);
+  }
+    let c=parseFloat(_actualExpense)-parseFloat(data.advanceExpense);
     let item={};
     if(c>0){
       item.surplus=0.00;
@@ -179,8 +190,8 @@ class TravelReimburseDetailPage extends React.Component {
             报销总额：
           </Col>
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-             {`¥ ${data.actualExpense?String(data.actualExpense.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-            &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(data.actualExpense?data.actualExpense.toFixed(2):0.00)}
+             {`¥ ${_actualExpense?String(_actualExpense).replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
+            &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(_actualExpense?_actualExpense:0.00)}
           </Col>
         </Row>
         
