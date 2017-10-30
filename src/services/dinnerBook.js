@@ -35,7 +35,7 @@ export async function save (params) {
 export async function getDinnerInfo (params) {
   return request({
     url: dinnerBook.getDinnerInfo,
-    method: 'get',
+    method: 'post',
     data: params,
   })
 }

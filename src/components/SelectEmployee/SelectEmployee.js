@@ -115,7 +115,7 @@ class SelectEmployee extends React.Component {
           return fields;
         }
         if(res && !res.success){
-           throw res.message;
+           message.error(res.message);
         }
       }).then(fields=>{
         // console.log('fields:',fields)
@@ -124,7 +124,7 @@ class SelectEmployee extends React.Component {
             this.setState({employeeList:result.data.detailList})
           }
           if(result && !result.success){
-             throw result.message;
+             message.error(result.message);
           }
         });
       }).catch(error=>{

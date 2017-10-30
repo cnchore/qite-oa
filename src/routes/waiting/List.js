@@ -28,6 +28,9 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
         if(record.busiCode.substr(0,2)==='LE'){
           return <Tag color='#108ee9'>待销假</Tag>;
         }
+        if(record.busiCode.substr(0,2)==='UC'){
+          return <Tag color='#108ee9'>还车登记</Tag>;
+        }
         return <Tag color='#108ee9'>待完善资料</Tag>;
       case 4:
         if(record.busiCode.substr(0,2)==='LE'){

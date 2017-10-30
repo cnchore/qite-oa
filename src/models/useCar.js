@@ -157,7 +157,7 @@ export default {
         if(newData && newData.success){
           data=yield call(audit,taskItem)
           if(data.success) {
-            message.success('[还车登记]成功');
+            message.success(formItem.state===-2?'[还车登记]成功':'[退回修改]成功');
             //yield put({ type: 'hideModal' })
 
             let queryList=parse(location.hash.substr(location.hash.indexOf('?')+1)); 

@@ -446,6 +446,9 @@ const getHMS=(text)=>{
       window.location.replace(`${window.location.origin}${window.location.pathname}#/purchase?${_url}`);
       window.location.reload();
     }
+    if(_code==='UC' && record.state===-2){
+      text='还车登记';
+    }
     switch(record.state){
       case 1:
       if(_code==='PE'){

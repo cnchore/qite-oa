@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message } from 'antd'
 //import moment from 'moment';
 import config from '../../utils/config'
-import uploadImageCallBack from '../../services/uploadImageCallBack'
+// import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
-import {changeMoneyToChinese} from '../../utils'
+// import {changeMoneyToChinese} from '../../utils'
 import EditCellTable from './EditCellTable'
 import { FileUpload,SelectUser } from '../../components'
 import CommentTable from '../../components/CommentTable'
@@ -97,12 +97,14 @@ const modal = ({
       }
       _defaultDetailList.map((f,index)=>{
         if(f.id) data[`detailList[${index}].id`]=f.id;
-        data[`detailList[${index}].orgName`]=f.orgName.value;
-        data[`detailList[${index}].supplier`]=f.supplier.value;
-        data[`detailList[${index}].content`]=f.content.value;
-        data[`detailList[${index}].amount`]=f.amount.value;
-        data[`detailList[${index}].remark`]=f.remark.value;
-        data[`detailList[${index}].payTimeStr`]=f.payTimeStr.value;
+        data[`detailList[${index}].no`]=f.no.value;        // 编号（String）
+        data[`detailList[${index}].spec`]=f.spec.value;        //名称及规格（String）
+        data[`detailList[${index}].unit`]=f.unit.value;        //单位（String）
+        data[`detailList[${index}].applyNum`]=f.applyNum.value;       //申请领取数量（Integer）
+        data[`detailList[${index}].pickNum`]=f.pickNum.value;         //实际领取数量（Integer）
+        data[`detailList[${index}].singlePrice`]=f.singlePrice.value;     //单价（Float）
+        data[`detailList[${index}].use`]=f.use.value;         //用途（String）
+
       })
       
       if(item.id){
@@ -139,31 +141,34 @@ const modal = ({
       let newRow={
         key: temp.id,
         id:temp.id,
-        orgName: {
+        no: {
           editable: false,
-          value: temp.orgName?temp.orgName:'',
+          value: temp.no,
         },
-        supplier: {
+        spec: {
           editable: false,
-          value: temp.supplier?temp.supplier:'',
+          value: temp.spec,
         },
-        content: {
+        unit: {
           editable:false,
-          value: temp.content?temp.content:'',
+          value: temp.unit,
         },
-        amount: {
+        applyNum: {
           editable:false,
-          value: temp.amount!==null&&temp.amount!==undefined?temp.amount:0,
+          value: temp.applyNum || 0,
         },
-        payTimeStr: {
+        pickNum: {
           editable:false,
-          value: temp.payTime?temp.payTime:'',
+          value: temp.pickNum || 0,
         },
-        remark: {
+        singlePrice: {
           editable:false,
-          value: temp.remark,
+          value: temp.singlePrice || 0,
         },
-        
+        use:{
+          editable:false,
+          value:temp.use,
+        }
       }
       return newRow;
     })
@@ -223,7 +228,7 @@ const modal = ({
 
           </Col>
           <Col span={24} className='qite-list-title'>
-            <Icon type="credit-card" />预算申请信息
+            <Icon type="credit-card" />领料申请信息
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             姓名：

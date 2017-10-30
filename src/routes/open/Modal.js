@@ -601,7 +601,7 @@ const modal = ({
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<Input/>)}
+              })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }}/>)}
             </FormItem>
           </Col>
         </Row>

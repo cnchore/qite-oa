@@ -131,7 +131,7 @@ const modal = ({
       // formItem.isupdated=true;
       // console.log('formItem')
       confirm({
-        title:'你确定提交还车记录么？',
+        title:item.state===-2?'你确定提交还车记录么？':'你确定提交修改么？',
         onOk(){
             if(taskData && taskData.taskId){
               let _formItem={...item,...formItem,useTimeStr:item.useTime,returnTimeStr:item.returnTime};
@@ -196,13 +196,13 @@ const modal = ({
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} style={{display:'flex',justifyContent:'space-between',marginBottom:'24px',paddingBottom:'12px',borderBottom:'1px solid #d9d9d9'}}>
             <div className='qite-title'>
-            <Icon type={item.id?'edit':'plus'} />{title}</div>
+            <Icon type={item.id?'edit':'plus'} />{item.state===-1?'退回修改':item.state===-2?'还车登记':title}</div>
            
             <Affix target={()=>document.getElementById('layout-main')}>
                 {taskData && taskData.taskId?(
                   <div style={{backgroundColor:'#fff'}}>
                     <Button style={{ marginRight: 12 }} type="primary" loading={auditLoading} 
-                    onClick={handleAudit} size="large">还车并提交</Button>
+                    onClick={handleAudit} size="large">{item.state===-2?'还车并提交':'确定修改并提交'}</Button>
                     <Button  type="ghost" onClick={onGoback} size="large">返回待办</Button>
                   </div>
                   ):(
@@ -265,7 +265,7 @@ const modal = ({
           </Col>
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             {
-              taskData && taskData.taskId?
+              taskData && taskData.taskId && item.state==-2?
               <FormItem>
                 {item.remark || '无'}
               </FormItem>
@@ -292,7 +292,7 @@ const modal = ({
           </Col>
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             {
-              taskData && taskData.taskId?
+              taskData && taskData.taskId && item.state==-2?
               <FormItem>
                 {item.carInfo}
               </FormItem>
@@ -318,7 +318,7 @@ const modal = ({
           </Col>
           <Col xs={18} md={6} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             {
-              taskData && taskData.taskId?
+              taskData && taskData.taskId && item.state==-2?
               <FormItem>
                 {item.useTime || '无'}
               </FormItem>
@@ -342,7 +342,7 @@ const modal = ({
           </Col>
           <Col xs={18} md={10} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             {
-              taskData && taskData.taskId?
+              taskData && taskData.taskId && item.state==-2?
               <FormItem>
                 {item.returnTime}
               </FormItem>
@@ -366,7 +366,7 @@ const modal = ({
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             {
-              taskData && taskData.taskId?
+              taskData && taskData.taskId && item.state==-2?
               <FormItem>
                 {item.estiLocation}
               </FormItem>
@@ -388,7 +388,7 @@ const modal = ({
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             {
-              taskData && taskData.taskId?
+              taskData && taskData.taskId && item.state==-2?
               <FormItem>
                 {item.estiKilometer}
               </FormItem>
@@ -409,7 +409,7 @@ const modal = ({
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             {
-              taskData && taskData.taskId?
+              taskData && taskData.taskId && item.state==-2?
               <FormItem>
                 {item.driverName || '无'}
               </FormItem>
