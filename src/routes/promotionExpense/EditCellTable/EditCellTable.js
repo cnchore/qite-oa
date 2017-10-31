@@ -177,7 +177,12 @@ class EditCellTable extends React.Component {
               pagination={false}
               scroll={{ x: 767 }} 
               rowKey={record=>record.key}
-              
+              footer={()=>(
+                <div>
+                合计金额：{`¥ ${this.getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+                &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(this.getTotalAmount())}
+                </div>
+              )}
               />
         </Col>
         
@@ -187,12 +192,7 @@ class EditCellTable extends React.Component {
       
   }
 }
-// footer={()=>(
-//                 <div>
-//                 合计金额：{`¥ ${this.getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
-//                 &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(this.getTotalAmount())}
-//                 </div>
-//               )}
+
 
 EditCellTable.propTypes = {
   dataSource: PropTypes.array,

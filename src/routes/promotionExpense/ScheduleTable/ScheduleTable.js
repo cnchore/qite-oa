@@ -5,12 +5,12 @@ import PropTypes from 'prop-types'
 import { Table, Popconfirm,Col,Icon,Row } from 'antd'
 //import moment from 'moment';
 import InputCell from '../../../components/InputCell'
-import InputCurrencyCell from '../../../components/InputCurrencyCell'
-// import DateTimeCell from '../../../components/DateTimeCell'
+// import InputCurrencyCell from '../../../components/InputCurrencyCell'
+import DateTimeCell from '../../../components/DateTimeCell'
 // import SelectCell from '../../../components/SelectCell'
-import {changeMoneyToChinese,findIsEditable} from '../../../utils'
+import {findIsEditable} from '../../../utils'
 
-class EditCellTable extends React.Component {
+class ScheduleTable extends React.Component {
   constructor(props) {
     super(props);
     this.columns = [{
@@ -18,21 +18,28 @@ class EditCellTable extends React.Component {
       dataIndex:'index',width:60,
       render:(text,record,index)=>index+1,
     },{
-      title: '费用明细',
-      dataIndex: 'costDetail',
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'costDetail', text,'input'),
+      title: '重要工作内容',
+      dataIndex: 'content',
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'content', text,'input'),
+    },{
+      title: '完成时间',
+      dataIndex: 'finishTimeStr',
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'finishTimeStr', text,'datetime'),
+    },{
+      title: '负责人',
+      dataIndex: 'charger',
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'charger', text,'input'),
+    },{
+      title: '备注',
+      dataIndex: 'remark',
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'remark', text,'input'),
     
-    }, {
-      title: '金额',
-      dataIndex: 'costAmount',
-      width: 120,
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'costAmount', text,'currency'),
     }, {
       title: '操作',
       dataIndex: 'operation',
       fixed:'right',width:120,
       render: (text, record, index) => {
-        const { editable } = this.props.dataSource[index].costDetail;
+        const { editable } = this.props.dataSource[index].content;
         return (
           <div className="editable-row-operations">
             {
@@ -71,11 +78,12 @@ class EditCellTable extends React.Component {
         return (<InputCell
           editable={editable}
           value={text}
+          length={20}
           onChange={value => this.handleChange(key, index, value)}
           status={status}
         />);
-      case 'currency':
-        return (<InputCurrencyCell
+      case 'datetime':
+        return (<DateTimeCell
           editable={editable}
           value={text}
           onChange={value => this.handleChange(key, index, value)}
@@ -88,13 +96,21 @@ class EditCellTable extends React.Component {
     let count=data.length;
     const newRow={
         key: count+Math.random(),
-        costDetail: {
+        content: {
           editable: true,
           value: '',
         },
-        costAmount: {
+        finishTimeStr: {
           editable:true,
-          value: 0,
+          value: '',
+        },
+        charger: {
+          editable: true,
+          value: '',
+        },
+        remark: {
+          editable:true,
+          value: '',
         },
       }
     // this.setState({
@@ -167,8 +183,8 @@ class EditCellTable extends React.Component {
       <Row gutter={24} className={this.props.className}>
 
         <Col span={24} className='qite-list-title' style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-            <div><Icon type="credit-card" />费用明细</div>
-            <a onClick={e=>this.add(e)}>添加费用明细</a>
+            <div><Icon type="credit-card" />活动执行进度</div>
+            <a onClick={e=>this.add(e)}>添加进度</a>
         </Col>
         <Col span={24}>
             <Table bordered 
@@ -187,16 +203,10 @@ class EditCellTable extends React.Component {
       
   }
 }
-// footer={()=>(
-//                 <div>
-//                 合计金额：{`¥ ${this.getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
-//                 &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(this.getTotalAmount())}
-//                 </div>
-//               )}
 
-EditCellTable.propTypes = {
+ScheduleTable.propTypes = {
   dataSource: PropTypes.array,
   dicList:PropTypes.array,
 }
 
-export default EditCellTable
+export default ScheduleTable

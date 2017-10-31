@@ -8,6 +8,10 @@ import PurchaseForm from '../../components/PurchaseForm'
 import ReimburseForm from '../../components/ReimburseForm'
 import TravelReimburseForm from '../../components/TravelReimburseForm'
 import BudgetForm from '../../components/BudgetForm'
+import AdReimburseForm from '../../components/AdReimburseForm'
+import AdForm from '../../components/AdForm'
+import SalesPromotionForm from '../../components/SalesPromotionForm'
+
 import cs from 'classnames'
 class Print extends React.Component {
   render () {
@@ -38,6 +42,19 @@ class Print extends React.Component {
 				case 'PA':
 					printForm=<PurchaseApplyForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></PurchaseApplyForm>
 					break;
+				case 'AR'://广告费用报销
+					printForm=<AdReimburseForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></AdReimburseForm>
+					// isA4=true;
+					break;
+				case 'AD'://广告投放
+					printForm=<AdForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></AdForm>
+					// isA4=true;
+					break;
+				case 'SP'://促销活动支持
+					printForm=<SalesPromotionForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></SalesPromotionForm>
+					// isA4=true;
+					break;
+					
 			}
 		}else{
 			return <div>错误：无可打印表单</div>

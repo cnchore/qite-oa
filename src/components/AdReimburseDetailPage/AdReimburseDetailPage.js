@@ -47,15 +47,16 @@ class AdReimburseDetailPage extends React.Component {
             pagination={false}
             scroll={{ x: 767 }}
             rowKey={record=>record.id}
-            footer={()=>(
-              <div>
-              合计金额：{`¥ ${getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
-              &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(getTotalAmount())}
-              </div>
-            )} 
+            
             />
         )
     }
+    // footer={()=>(
+    //           <div>
+    //           合计金额：{`¥ ${getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+    //           &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(getTotalAmount())}
+    //           </div>
+    //         )} 
     return (
       <div>
         <Row gutter={24} className={styles['q-detail']}>
@@ -127,6 +128,12 @@ class AdReimburseDetailPage extends React.Component {
             {data.adDays?data.adDays:'0'}天
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            广告形式：
+          </Col>
+          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.adForm?data.adForm:'无'}
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             活动内容：
           </Col>
           <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
@@ -157,6 +164,19 @@ class AdReimburseDetailPage extends React.Component {
             {data.estiImprove?data.estiImprove:0}万元
           </Col>
           
+          
+        </Row>
+   
+        
+        <Row gutter={24} className={styles['q-detail']}>
+          <Col span={24} className='qite-list-title'>
+              <Icon type="credit-card" />费用明细
+          </Col>
+          <Col xs={24} md={24} xl={24} className={styles['q-detail-conent']}>
+            {getTable()}
+          </Col>
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
             费用合计：
           </Col>
@@ -174,14 +194,6 @@ class AdReimburseDetailPage extends React.Component {
           </Col>
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             {data.companyPay?data.companyPay:0}万元
-          </Col>
-        </Row>
-   
-        
-        <Row gutter={24} className={styles['q-detail']}>
-          
-          <Col xs={24} md={24} xl={24} className={styles['q-detail-conent']}>
-            {getTable()}
           </Col>
         </Row>
         {defaultFileList && defaultFileList[0]?

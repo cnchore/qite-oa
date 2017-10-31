@@ -292,7 +292,13 @@ module.exports = {
       deleteById:`${apiPrefixPro}/salesPromotion/deleteById`,
     },
     // 促销费用报销
-
+    promotionExpense:{
+      query:`${apiPrefixPro}/promotionExpense/getPage`,
+      queryById:`${apiPrefixPro}/promotionExpense/getById`,
+      getList:`${apiPrefixPro}/promotionExpense/getList`,
+      save:`${apiPrefixPro}/promotionExpense/save`,
+      deleteById:`${apiPrefixPro}/promotionExpense/deleteById`,
+    },
     // 样板房折扣申请
     sampleRoom:{
       query:`${apiPrefixPro}/sampleRoom/getPage`,
