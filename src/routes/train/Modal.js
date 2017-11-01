@@ -7,7 +7,7 @@ import config from '../../utils/config'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
 import {changeMoneyToChinese} from '../../utils'
-// import EditCellTable from './EditCellTable'
+import EditCellTable from './EditCellTable'
 import { FileUpload,SelectUser } from '../../components'
 import CommentTable from '../../components/CommentTable'
 
@@ -72,7 +72,7 @@ const modal = ({
         return null;
       }
       if(isEditable){
-        message.warning('请先保存预算明细');
+        message.warning('请先保存明细');
         return null;
       }
       data = {...values}
@@ -89,6 +89,21 @@ const modal = ({
           data[`attachList[${index}].attachName`]=f.name;
         })
       }
+      let _defaultDetailList=[];
+      if(detailList && detailList.length>0){
+        _defaultDetailList=detailList;
+      }else if(defaultDetailList[0]){
+        _defaultDetailList=defaultDetailList;
+      }
+      _defaultDetailList.map((f,index)=>{
+        if(f.id) data[`detailList[${index}].id`]=f.id;
+        data[`detailList[${index}].lecturerFee`]=f.lecturerFee.value;
+        data[`detailList[${index}].toolFee`]=f.toolFee.value;
+        data[`detailList[${index}].trafficFee`]=f.trafficFee.value;
+        data[`detailList[${index}].mealsFee`]=f.mealsFee.value;
+        data[`detailList[${index}].hotelFee`]=f.hotelFee.value;
+        data[`detailList[${index}].otherFee`]=f.otherFee.value;
+      })
       data.trainTimeStr=data.trainTimeStr?data.trainTimeStr.format(dateTimeFormat):null;
       
       if(item.id){
@@ -118,7 +133,44 @@ const modal = ({
   }else{
     defaultFileList=[];
   }
- 
+  if(detailList && detailList[0]){
+    defaultDetailList=detailList;
+  }else if(item.detailList && item.detailList[0]){
+    defaultDetailList=item.detailList.map(temp=>{
+      let newRow={
+        key: temp.id,
+        id:temp.id,
+        lecturerFee:{
+          editable:false,
+          value:temp.lecturerFee || 0,
+        },
+        toolFee:{
+          editable:false,
+          value:temp.toolFee || 0,
+        },
+        trafficFee:{
+          editable:false,
+          value:temp.trafficFee || 0,
+        },
+        mealsFee:{
+          editable:false,
+          value:temp.mealsFee || 0,
+        },
+        hotelFee:{
+          editable:false,
+          value:temp.hotelFee || 0,
+        },
+        otherFee:{
+          editable:false,
+          value:temp.otherFee || 0,
+        },
+        
+      }
+      return newRow;
+    })
+  }else{
+    defaultDetailList=[];
+  }
   const handleSubmit=(data)=>{
     confirm({
         title: `你确定提交申请么?`,
@@ -305,96 +357,7 @@ const modal = ({
               })(<Input />)}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            讲师费用：
-          </Col>
-           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('lecturerFee', {
-                initialValue:item.lecturerFee?item.lecturerFee:0,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                  },
-                ],
-              })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
-            </FormItem>
-          </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            工具费：
-          </Col>
-           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('toolFee', {
-                initialValue:item.toolFee?item.toolFee:0,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                  },
-                ],
-              })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
-            </FormItem>
-          </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            交通费：
-          </Col>
-           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('trafficFee', {
-                initialValue:item.trafficFee?item.trafficFee:0,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                  },
-                ],
-              })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
-            </FormItem>
-          </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            餐饮费：
-          </Col>
-           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('mealsFee', {
-                initialValue:item.mealsFee?item.mealsFee:0,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                  },
-                ],
-              })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
-            </FormItem>
-          </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            住宿费：
-          </Col>
-           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('hotelFee', {
-                initialValue:item.hotelFee?item.hotelFee:0,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                  },
-                ],
-              })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
-            </FormItem>
-          </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            其他费用：
-          </Col>
-           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('otherFee', {
-                initialValue:item.otherFee?item.otherFee:0,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                  },
-                ],
-              })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
-            </FormItem>
-          </Col>
+          
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             评估方式：
           </Col>
@@ -426,7 +389,12 @@ const modal = ({
             </FormItem>
           </Col>
         </Row>
-        
+        <EditCellTable dicList={dicList} 
+          dataSource={defaultDetailList} 
+          callbackParent={getDetailList}
+          setIsEditable={setIsEditable}
+          className={styles['q-detail']}/> 
+         
         <Row gutter={24} className={styles['q-detail']}>
 
           <Col span={24} className='qite-list-title'>

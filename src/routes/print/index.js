@@ -10,6 +10,10 @@ import TravelReimburseForm from '../../components/TravelReimburseForm'
 import BudgetForm from '../../components/BudgetForm'
 import AdReimburseForm from '../../components/AdReimburseForm'
 import AdForm from '../../components/AdForm'
+import TrainForm from '../../components/TrainForm'
+import MaterialGiftForm from '../../components/MaterialGiftForm'
+import SampleRoomForm from '../../components/SampleRoomForm'
+import PromotionExpenseForm from '../../components/PromotionExpenseForm'
 import SalesPromotionForm from '../../components/SalesPromotionForm'
 
 import cs from 'classnames'
@@ -52,6 +56,22 @@ class Print extends React.Component {
 					break;
 				case 'SP'://促销活动支持
 					printForm=<SalesPromotionForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></SalesPromotionForm>
+					// isA4=true;
+					break;
+				case 'PX'://促销活动费用报销
+					printForm=<PromotionExpenseForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></PromotionExpenseForm>
+					// isA4=true;
+					break;
+				case 'SM'://样板房折扣申请
+					printForm=<SampleRoomForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></SampleRoomForm>
+					isA4=true;
+					break;
+				case 'MG'://常规物料及礼品制作
+					printForm=<MaterialGiftForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></MaterialGiftForm>
+					// isA4=true;
+					break;
+				case 'TN'://常规物料及礼品制作
+					printForm=<TrainForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></TrainForm>
 					// isA4=true;
 					break;
 					

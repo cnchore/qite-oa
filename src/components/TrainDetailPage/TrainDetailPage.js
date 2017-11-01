@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './TrainDetailPage.less'
-import { Icon,Row,Col } from 'antd'
+import { Icon,Row,Col,Table } from 'antd'
 import classNames from 'classnames';
 import FileList from '../FileList'
+import {changeMoneyToChinese} from '../../utils'
 
 
 class TrainDetailPage extends React.Component {
@@ -17,6 +18,60 @@ class TrainDetailPage extends React.Component {
       defaultFileList=data.attachList.map((temp)=>{
         return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
       })
+    }
+    const getTotalAmount=()=>{
+      
+      let c=0;
+      if(data && data.detailList && data.detailList[0]){
+        data.detailList.map(t=>{
+          c+=parseFloat(t.lecturerFee?t.lecturerFee:0)
+          +parseFloat(t.toolFee?t.toolFee:0)
+          +parseFloat(t.trafficFee?t.trafficFee:0)
+          +parseFloat(t.mealsFee?t.mealsFee:0)
+          +parseFloat(t.hotelFee?t.hotelFee:0)
+          +parseFloat(t.otherFee?t.otherFee:0);
+        })
+      }
+      return c.toFixed(2);
+    }
+    const columns=[{
+      title:'序号',
+      dataIndex:'index',
+      render:(text,record,index)=>index+1,
+    },{
+      title: '讲师费用',
+      dataIndex: 'lecturerFee',
+    }, {
+      title: '工具费',
+      dataIndex: 'toolFee',
+    }, {
+      title: '交通费',
+      dataIndex: 'trafficFee',
+    }, {
+      title: '餐饮费',
+      dataIndex: 'mealsFee',
+    }, {
+      title: '住宿费',
+      dataIndex: 'hotelFee',
+    }, {
+      title: '其他费用',
+      dataIndex: 'otherFee',
+    }]
+    const getTable=()=>{
+      return (<Table bordered 
+            dataSource={data.detailList || []} 
+            columns={columns} 
+            pagination={false}
+            scroll={{ x: 767 }}
+            rowKey={record=>record.id}
+            footer={()=>(
+              <div>
+              合计金额：{`¥ ${getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+              &nbsp;&nbsp;&nbsp;&nbsp;大写：{changeMoneyToChinese(getTotalAmount())}
+              </div>
+            )} 
+            />
+        )
     }
     return (
       <div>
@@ -70,42 +125,7 @@ class TrainDetailPage extends React.Component {
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
               {data.trainAddress || '无'}
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            讲师费用：
-          </Col>
-           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-              {data.lecturerFee || '0'}
-          </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            工具费：
-          </Col>
-           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-              {data.toolFee || '0'}
-          </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            交通费：
-          </Col>
-           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-              {data.trafficFee || '0'}
-          </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            餐饮费：
-          </Col>
-           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-              {data.mealsFee || '0'}
-          </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            住宿费：
-          </Col>
-           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-              {data.hotelFee || '0'}
-          </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            其他费用：
-          </Col>
-           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-              {data.otherFee || '0'}
-          </Col>
+          
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             评估方式：
           </Col>
@@ -119,6 +139,14 @@ class TrainDetailPage extends React.Component {
               {data.trainOutline || '无'}
           </Col>
         
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}>
+          <Col span={24} className='qite-list-title'>
+              <Icon type="credit-card" />培训费用明细
+          </Col>
+          <Col xs={24} md={24} xl={24} className={styles['q-detail-conent']}>
+            {getTable()}
+          </Col>
         </Row>
         {defaultFileList && defaultFileList[0]?
         <Row gutter={24} className={styles['q-detail']}>

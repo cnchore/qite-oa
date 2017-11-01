@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 //import styles from './EditCellTable.less'
 import { Table, Popconfirm,Col,Icon,Row } from 'antd'
 //import moment from 'moment';
-import InputCell from '../../../components/InputCell'
+// import InputCell from '../../../components/InputCell'
 import InputCurrencyCell from '../../../components/InputCurrencyCell'
-import DateTimeCell from '../../../components/DateTimeCell'
-import SelectCell from '../../../components/SelectCell'
+// import DateTimeCell from '../../../components/DateTimeCell'
+// import SelectCell from '../../../components/SelectCell'
 import {changeMoneyToChinese,findIsEditable} from '../../../utils'
 
 class EditCellTable extends React.Component {
@@ -17,45 +17,37 @@ class EditCellTable extends React.Component {
       title:'序号',
       dataIndex:'index',width:60,
       render:(text,record,index)=>index+1,
-    
     },{
-      title: '部门',
-      dataIndex: 'orgName',
-      width: 120,
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'orgName', text,'input'),
-    
+      title: '讲师费用',
+      dataIndex: 'lecturerFee',
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'lecturerFee', text,'currency'),
     }, {
-      title: '供应商',
-      dataIndex: 'supplier',
-      width: 120,
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'supplier', text,'input'),
+      title: '工具费',
+      dataIndex: 'toolFee',
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'toolFee', text,'currency'),
     }, {
-      title: '内容',
-      dataIndex: 'content',
-      width: 120,
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'content', text,'input'),
+      title: '交通费',
+      dataIndex: 'trafficFee',
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'trafficFee', text,'currency'),
     }, {
-      title: '金额',
-      dataIndex: 'amount',
-      width: 120,
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'amount', text,'currency'),
+      title: '餐饮费',
+      dataIndex: 'mealsFee',
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'mealsFee', text,'currency'),
     }, {
-      title: '备注',
-      dataIndex: 'remark',
-      
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'remark', text,'input'),
+      title: '住宿费',
+      dataIndex: 'hotelFee',
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'hotelFee', text,'currency'),
     }, {
-      title: '用付款时间',
-      dataIndex: 'payTimeStr',
-      width: 200,
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'payTimeStr', text,'datetime'),
+      title: '其他费用',
+      dataIndex: 'otherFee',
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'otherFee', text,'currency'),
     
     }, {
       title: '操作',
       dataIndex: 'operation',
       fixed:'right',width:120,
       render: (text, record, index) => {
-        const { editable } = this.props.dataSource[index].orgName;
+        const { editable } = this.props.dataSource[index].lecturerFee;
         return (
           <div className="editable-row-operations">
             {
@@ -90,32 +82,10 @@ class EditCellTable extends React.Component {
       return text;
     }
     switch(colType){
-      case 'input':
-        return (<InputCell
-          editable={editable}
-          value={text}
-          onChange={value => this.handleChange(key, index, value)}
-          status={status}
-        />);
       case 'currency':
         return (<InputCurrencyCell
           editable={editable}
           value={text}
-          onChange={value => this.handleChange(key, index, value)}
-          status={status}
-        />);
-      case 'datetime':
-        return (<DateTimeCell
-          editable={editable}
-          value={text}
-          onChange={value => this.handleChange(key, index, value)}
-          status={status}
-        />);
-      case 'select':
-        return (<SelectCell
-          editable={editable}
-          value={text}
-          selectOptions={dicList}
           onChange={value => this.handleChange(key, index, value)}
           status={status}
         />);
@@ -126,29 +96,29 @@ class EditCellTable extends React.Component {
     let count=data.length;
     const newRow={
         key: count+Math.random(),
-        orgName: {
-          editable: true,
-          value: '',
-        },
-        supplier: {
-          editable: true,
-          value:'',
-        },
-        content: {
+        lecturerFee:{
           editable:true,
-          value: '',
+          value:0,
         },
-        amount: {
+        toolFee:{
           editable:true,
-          value: 0,
+          value:0,
         },
-        payTimeStr: {
+        trafficFee:{
           editable:true,
-          value: '',
+          value:0,
         },
-        remark: {
+        mealsFee:{
           editable:true,
-          value: '',
+          value:0,
+        },
+        hotelFee:{
+          editable:true,
+          value:0,
+        },
+        otherFee:{
+          editable:true,
+          value:0,
         },
       }
     // this.setState({
@@ -182,7 +152,12 @@ class EditCellTable extends React.Component {
     let c=0;
     if(data && data[0]){
       data.map(t=>{
-        c+=parseFloat(t.amount.value)
+        c+=parseFloat(t.lecturerFee.value)
+        +parseFloat(t.toolFee.value)
+        +parseFloat(t.trafficFee.value)
+        +parseFloat(t.mealsFee.value)
+        +parseFloat(t.hotelFee.value)
+        +parseFloat(t.otherFee.value);
       })
     }
     return c.toFixed(2);
@@ -232,15 +207,15 @@ class EditCellTable extends React.Component {
       <Row gutter={24} className={this.props.className}>
 
         <Col span={24} className='qite-list-title' style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-            <div><Icon type="credit-card" />预算明细</div>
-            <a onClick={e=>this.add(e)}>添加预算明细</a>
+            <div><Icon type="credit-card" />培训费用明细</div>
+            <a onClick={e=>this.add(e)}>添加明细</a>
         </Col>
         <Col span={24}>
             <Table bordered 
               dataSource={dataSource} 
               columns={columns} 
               pagination={false}
-              scroll={{ x: 1100 }} 
+              scroll={{ x: 960 }} 
               rowKey={record=>record.key}
               footer={()=>(
                 <div>

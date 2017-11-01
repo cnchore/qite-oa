@@ -3,15 +3,15 @@ import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Icon} from 'antd'
 import cs from 'classnames'
-import AdReimburseDetailPage from '../../../components/AdReimburseDetailPage'
+import PromotionExpenseDetailPage from '../../../components/PromotionExpenseDetailPage'
 import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
 import TaskNodeList from '../../../components/TaskNodeList'
 import {setPrintData} from '../../../utils'
 import Iconfont from '../../../components/Iconfont'
 import audited from '../../../svg/audited.svg'
-const Detail = ({ adReimburseDetail }) => {
-  const { data,employeeList,commentList,taskNode } = adReimburseDetail
+const Detail = ({ promotionExpenseDetail }) => {
+  const { data,employeeList,commentList,taskNode } = promotionExpenseDetail
   setPrintData(data,employeeList,null,commentList)
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>
@@ -29,7 +29,7 @@ const Detail = ({ adReimburseDetail }) => {
         </a>
       </div>
 
-      <AdReimburseDetailPage data={data} employeeList={employeeList} />
+      <PromotionExpenseDetailPage data={data} employeeList={employeeList} />
       {
         taskNode && taskNode[0] && data && data.state<2?
         <TaskNodeList data={taskNode} />
@@ -49,8 +49,8 @@ const Detail = ({ adReimburseDetail }) => {
 }
 
 Detail.propTypes = {
-  adReimburseDetail: PropTypes.object,
+  promotionExpenseDetail: PropTypes.object,
   loading: PropTypes.bool,
 }
 
-export default connect(({ adReimburseDetail, loading }) => ({ adReimburseDetail, loading: loading.models.adReimburseDetail }))(Detail)
+export default connect(({ promotionExpenseDetail, loading }) => ({ promotionExpenseDetail, loading: loading.models.promotionExpenseDetail }))(Detail)
