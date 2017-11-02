@@ -10,6 +10,13 @@ import TravelReimburseForm from '../../components/TravelReimburseForm'
 import BudgetForm from '../../components/BudgetForm'
 import AdReimburseForm from '../../components/AdReimburseForm'
 import AdForm from '../../components/AdForm'
+import RenoSubsidyForm from '../../components/RenoSubsidyForm'
+import ShopUpgradeForm from '../../components/ShopUpgradeForm'
+import OpenForm from '../../components/OpenForm'
+import ShopForm from '../../components/ShopForm'
+import MaterialSupportForm from '../../components/MaterialSupportForm'
+import SampleReplaceForm from '../../components/SampleReplaceForm'
+import CardForm from '../../components/CardForm'
 import TrainForm from '../../components/TrainForm'
 import MaterialGiftForm from '../../components/MaterialGiftForm'
 import SampleRoomForm from '../../components/SampleRoomForm'
@@ -73,6 +80,34 @@ class Print extends React.Component {
 				case 'TN'://常规物料及礼品制作
 					printForm=<TrainForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></TrainForm>
 					// isA4=true;
+					break;
+				case 'CD'://名片制作
+					printForm=<CardForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></CardForm>
+					// isA4=true;
+					break;
+				case 'SR'://售后问题处理
+					printForm=<SampleReplaceForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></SampleReplaceForm>
+					isA4=true;
+					break;
+				case 'MS'://物料支持自助
+					printForm=<MaterialSupportForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></MaterialSupportForm>
+					// isA4=true;
+					break;
+				case 'OP'://开业支持
+					printForm=<OpenForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></OpenForm>
+					// isA4=true;
+					break;
+				case 'SU'://店面升级自助申请
+					printForm=<ShopUpgradeForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></ShopUpgradeForm>
+					// isA4=true;
+					break;
+				case 'RS'://店面装修补贴费用申请
+					printForm=<RenoSubsidyForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></RenoSubsidyForm>
+					// isA4=true;
+					break;
+				case 'SH'://建店申请
+					printForm=<ShopForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></ShopForm>
+					isA4=true;
 					break;
 					
 			}

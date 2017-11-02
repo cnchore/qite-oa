@@ -1,0 +1,6 @@
+{
+  "name": "CardForm",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./CardForm.js"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "ShopForm",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ShopForm.js"
+}
