@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './FileUpload.less'
-import { Upload, Icon, message,Progress,Row,Col } from 'antd'
+import { Upload, Icon, message,Progress,Row,Col,Tooltip } from 'antd'
 import config from '../../utils/config'
 import classNames from 'classnames';
 import DOC from '../../../assets/doc.png'
@@ -50,30 +50,29 @@ class FileUpload extends React.Component {
   handleChange = (info) => {
     const status = info.file.status;
 
-    let defaultList=this.props.defaultFileList.filter(item=>item.uid!==info.file.uid)
+    let defaultList=this.props.defaultFileList.filter(item=>item.uid!==info.file.uid && item.uid!=='invalid')
 
     if(status==='uploading'){
-      // this.setState({fileList:[...defaultList,info.file]})
       // console.log('before:',info.file);
       if(this.props.callbackParent)this.props.callbackParent([...defaultList,info.file]);
     }else if (status === 'done') {
       let f=info.file;
       f.url=info.file.response.data;
       // console.log('done:',f)
-      // this.setState({fileList:[...defaultList,f]})
       //if(this.props.fileList)this.props.fileList=[...defaultList,f];
       if(this.props.callbackParent)this.props.callbackParent([...defaultList,f]);
       message.success(`${info.file.name} 上传成功.`);
-      //this.setState({ imageUrl:info.file.response.data });
 
     } else if (status === 'error') {
-      // this.setState({fileList:defaultList})
-
+      if(this.props.callbackParent)this.props.callbackParent([...defaultList,info.file]);
       message.error(`${info.file.name} 上传失败.`);
     }
     
   }
   getThumbUrl=(file,t=false)=>{
+    if(file && !file.url){
+      return null;
+    }
     if(file.type==='image/jpeg'){
       if(t){
         return file.url;
@@ -127,8 +126,8 @@ class FileUpload extends React.Component {
   }
   handleRemove=(file)=>{
     let l=this.props.defaultFileList.filter(item=>item.uid!==file.uid);
-    //console.log('before:',l)
-    if(this.props.callbackParent)this.props.callbackParent(l);
+    // console.log('before:',this.props.defaultFileList,l)
+    if(this.props.callbackParent)this.props.callbackParent(l[0]?l:[{uid:"invalid",url:''}]);
 
     //if(this.props.fileList)this.props.fileList=l;
   }
@@ -148,7 +147,7 @@ class FileUpload extends React.Component {
     const _imgs=[{src:previewImage,name:previewName}]
     const { prefixCls,fileList,showPreviewIcon, showRemoveIcon,defaultFileList } = this.props
     // console.log('defaultFileList:',defaultFileList);
-    const _fileList = defaultFileList.map((file,index)=>{
+    const _fileList = defaultFileList.filter(f=>f.uid!=='invalid').map((file,index)=>{
       let thumbUrl=this.getThumbUrl(file);
       return (
          <Col md={24} xl={12} className={styles['file-col']} key={`file-${index}`}>
@@ -156,12 +155,14 @@ class FileUpload extends React.Component {
             <Col span={4}  className={styles['file-img-div']}>
               { (thumbUrl)?
                 <img className={styles.fileImg} src={thumbUrl} alt={file.name} onClick={e=>this.handlePreview(file)}/>
-                :<Icon type="loading" />  
+                :<Icon type="loading" />
               }
             </Col>
             <Col span={file.createTime?8:16}>
-              {file.name}
-              {file.status==='done'?null:<Progress type="line" {...this.props.progressAttr} percent={file.percent} />}
+              {file.name && file.name.length>20?
+                <Tooltip title={file.name}>{file.name.substr(0,17)}...</Tooltip>
+                :file.name
+              }
             </Col>
             {
               file.createTime?(
@@ -180,12 +181,22 @@ class FileUpload extends React.Component {
                 <Icon type="delete" style={{ fontSize: 18 }} onClick={() => this.handleRemove(file)}/>
             </Col>
           </Row>
+          {file.status==='done'?
+            null
+            :
+            <div className={styles['q-loading']}>
+              <div className={styles['close']} onClick={()=>this.handleRemove(file)}><Icon type="close" /></div>
+              <Icon type="loading" />
+              <p>上传中，请耐心等待...</p>
+            </div>}
+
         </Col>
       );
     });
-
+   
+    // {file.status==='done'?null:<Progress type="line" {...this.props.progressAttr} percent={file.percent} />}
     return (
-     
+
       <Row gutter={24} style={{marginBottom:'12px'}} className={styles.fileRow}>
         <Col md={4} xl={3} style={{display:'flex',justifyContent:'center'}}>
           <Upload

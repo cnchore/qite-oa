@@ -9,15 +9,25 @@ import cs from 'classnames'
 import TaskNodeList from '../../../components/TaskNodeList'
 import Iconfont from '../../../components/Iconfont'
 import audited from '../../../svg/audited.svg'
+import {setPrintData} from '../../../utils'
 const Detail = ({ travelDetail }) => {
   const { data,employeeList,dicList,commentList,taskNode } = travelDetail
-  
+  setPrintData(data,employeeList,dicList,commentList)
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>
       <Iconfont className="q-icon-audited" colorful type={audited} />
-      <a href="javascript:window.history.back();" className="q-goback">
-        <Icon type="close-circle-o" />
-      </a>
+      <div className="q-goback">
+        {
+          data?
+          <a href={`${location.origin}${location.pathname}#/print`} target="_black" className="q-print-link">
+            打印表单
+          </a>
+          :null
+        }
+        <a href="javascript:window.history.back();">
+          <Icon type="close-circle-o" />
+        </a>
+      </div>
       <TravelDetailPage data={data} employeeList={employeeList} dicList={dicList} />
       {
         taskNode && taskNode[0] && data && data.state<2?

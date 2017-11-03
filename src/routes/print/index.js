@@ -18,6 +18,7 @@ import MaterialSupportForm from '../../components/MaterialSupportForm'
 import SampleReplaceForm from '../../components/SampleReplaceForm'
 import CardForm from '../../components/CardForm'
 import TrainForm from '../../components/TrainForm'
+import TravelForm from '../../components/TravelForm'
 import MaterialGiftForm from '../../components/MaterialGiftForm'
 import SampleRoomForm from '../../components/SampleRoomForm'
 import PromotionExpenseForm from '../../components/PromotionExpenseForm'
@@ -108,6 +109,10 @@ class Print extends React.Component {
 				case 'SH'://建店申请
 					printForm=<ShopForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></ShopForm>
 					isA4=true;
+					break;
+				case 'TL':
+					printForm=<TravelForm data={printData.busiData} employeeList={printData.employeeList} dicList={printData.dicList} commentList={printData.commentList}/>
+					// isA4=true;
 					break;
 					
 			}

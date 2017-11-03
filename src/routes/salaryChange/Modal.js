@@ -69,13 +69,13 @@ const modal = ({
       }
       data = {...values}
       if(fileList && fileList.length>0){
-        fileList.map((f,index)=>{
+        fileList.filter(fl=>fl.uid!=='invalid').map((f,index)=>{
           if(f.id) data[`attachList[${index}].id`]=f.id;
           data[`attachList[${index}].attachUrl`]=f.url;
           data[`attachList[${index}].attachName`]=f.name;
         })
       }else if(defaultFileList[0]){
-        defaultFileList.map((f,index)=>{
+        defaultFileList.filter(fl=>fl.uid!=='invalid').map((f,index)=>{
           if(f.id) data[`attachList[${index}].id`]=f.id;
           data[`attachList[${index}].attachUrl`]=f.url;
           data[`attachList[${index}].attachName`]=f.name;
@@ -88,6 +88,7 @@ const modal = ({
       //console.log('-----',data)
       if(item.id){
         data.id=item.id
+        data.code=item.code;
       }
       
     })
@@ -117,6 +118,7 @@ const modal = ({
         title: `你确定提交申请么?`,
         onOk () {
           let fields=getFields();
+          fields.isupdated=true;
           if(fields){
             onSubmit(fields,data)
           }

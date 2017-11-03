@@ -122,7 +122,7 @@ export default {
       const {formItem,nextUser}=payload
       let newData=null,data=null;
 
-      if(formItem && !formItem.id){
+      if(formItem && formItem.isupdated){
         newData=yield call(save,formItem);
         if(newData && newData.data && nextUser && nextUser.userId){
           data=yield call(startProcess, { 
@@ -132,7 +132,7 @@ export default {
           })
         }
         
-      }else if(formItem && formItem.id && nextUser && nextUser.userId){
+      }else{
         data= yield call(startProcess, { 
           busiId: formItem.id,
           busiCode:formItem.code, 

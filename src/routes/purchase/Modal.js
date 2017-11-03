@@ -120,7 +120,7 @@ const modal = ({
         }
 
       }
-      _fileList.map((f,index)=>{
+      _fileList.filter(fl=>fl.uid!=='invalid').map((f,index)=>{
         if(f.id) data[`attachList[${index}].id`]=f.id;
         data[`attachList[${index}].attachUrl`]=f.url;
         data[`attachList[${index}].attachName`]=f.name;
@@ -237,22 +237,57 @@ const modal = ({
       onOk(fields)
     }
   }
-  if(item.attachList && item.attachList[0]){
+  // console.log(fileList,item.attachList)
+  if(fileList[0]){
+    if(taskDefinitionKey && _use && item.state===1){
+      //采购询价附件
+      defaultFileList=fileList.filter(f=>(f.sourceType===10 && f.use!==null) || f.sourceType===undefined ).map((temp)=>{
+        if(temp.createTime)
+          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+        return {...temp}
+      })
+      applyFileList=fileList.filter(f=>f.sourceType===10 && f.use===null).map((temp)=>{
+        if(temp.createTime)
+          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+        return {...temp}
+      })
+    }else{
+      //采购申请附件
+      defaultFileList=fileList.filter(f=>(f.sourceType===10 && f.use===null) || f.sourceType===undefined).map((temp)=>{
+        if(temp.createTime)
+          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+        return {...temp}
+      })
+      purInquiryFileList=fileList.filter(f=>f.sourceType===10 && f.use!==null).map((temp)=>{
+        if(temp.createTime)
+          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+        return {...temp}
+      })
+    }
+  }else if(item.attachList && item.attachList[0]){
     if(taskDefinitionKey && _use && item.state===1){
       //采购询价附件
       defaultFileList=item.attachList.filter(f=>f.sourceType===10 && f.use!==null).map((temp)=>{
-        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+        if(temp.createTime)
+          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+        return {...temp}
       })
       applyFileList=item.attachList.filter(f=>f.sourceType===10 && f.use===null).map((temp)=>{
-        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+        if(temp.createTime)
+          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+        return {...temp}
       })
     }else{
       //采购申请附件
       defaultFileList=item.attachList.filter(f=>f.sourceType===10 && f.use===null).map((temp)=>{
-        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+        if(temp.createTime)
+          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+        return {...temp}
       })
       purInquiryFileList=item.attachList.filter(f=>f.sourceType===10 && f.use!==null).map((temp)=>{
-        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+        if(temp.createTime)
+          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+        return {...temp}
       })
     }
   }else{
@@ -333,6 +368,7 @@ const modal = ({
       confirm({
         title: `你确定提交申请么?`,
         onOk () {
+          fields.isupdated=true;
           onSubmit(fields,data)
         },
       })

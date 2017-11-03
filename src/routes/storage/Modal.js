@@ -53,7 +53,7 @@ const modal = ({
   const handleOk = (id) => {
     let data={};
     if(fileList && fileList[0]){
-        fileList.filter(item=>!item.id).map((f,index)=>{
+        fileList.filter(item=>!item.id && item.uid!=='invalid').map((f,index)=>{
           if(f.id) data[`attachList[${index}].id`]=f.id;
           data[`attachList[${index}].attachUrl`]=f.url;
           data[`attachList[${index}].attachName`]=f.name;

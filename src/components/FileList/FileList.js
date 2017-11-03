@@ -34,6 +34,9 @@ class FileList extends React.Component {
     // console.log('fileList nextProps:',nextProps)
   }
   getThumbUrl=(file,t=false)=>{
+    if(file && !file.url){
+      return null;
+    }
     if(file.type==='image/jpeg'){
       if(t){
         return file.url;
