@@ -17,8 +17,10 @@ import ShopForm from '../../components/ShopForm'
 import MaterialSupportForm from '../../components/MaterialSupportForm'
 import SampleReplaceForm from '../../components/SampleReplaceForm'
 import CardForm from '../../components/CardForm'
+import SealForm from '../../components/SealForm'
 import TrainForm from '../../components/TrainForm'
 import TravelForm from '../../components/TravelForm'
+import PickForm from '../../components/PickForm'
 import MaterialGiftForm from '../../components/MaterialGiftForm'
 import SampleRoomForm from '../../components/SampleRoomForm'
 import PromotionExpenseForm from '../../components/PromotionExpenseForm'
@@ -110,9 +112,17 @@ class Print extends React.Component {
 					printForm=<ShopForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></ShopForm>
 					isA4=true;
 					break;
-				case 'TL':
+				case 'TL'://出差申请
 					printForm=<TravelForm data={printData.busiData} employeeList={printData.employeeList} dicList={printData.dicList} commentList={printData.commentList}/>
 					// isA4=true;
+					break;
+				case 'SL'://印章使用申请
+					printForm=<SealForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></SealForm>
+					// isA4=true;
+					break;
+				case 'PP'://领料单
+					printForm=<PickForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></PickForm>
+					isA4=true;
 					break;
 					
 			}

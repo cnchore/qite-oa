@@ -1,0 +1,86 @@
+.title{
+  font-family: '宋体';
+  position: relative;
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+  span{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 25%;
+    height: 100%;
+    text-align: right;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 30px;
+  }
+ 
+}
+.header{
+  text-align: right;
+}
+.table{
+  margin-top: 10px;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+    // overflow: hidden;
+    border: 0;
+    padding: 0;
+    border-top: 1px solid #555;
+    border-left: 1px solid #555;
+    
+    td{
+      word-break: break-all;
+      padding: 6px 8px;
+      border-right: 1px solid #555;
+      border-bottom: 1px solid #555;
+      height: 34px;
+      vertical-align: middle;
+      // width: 100/9%;
+      text-align: right;
+      &.tl{
+        text-align: left;
+      }
+      &.tc{
+        text-align: center;
+      }
+      &.tc-space25{
+        text-align: center;
+        i{
+         letter-spacing: 25mm;
+        }
+      }
+      &.flex{
+        div{
+          display: flex;
+          justify-content: space-between;
+          span{
+            flex:1;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+.footer{
+  display: flex;
+  div{
+    flex:1;
+    text-align: right;
+    td{
+      height: auto;
+      padding: 0;
+    }
+  }
+}
+/*其他打印样式*/
+  @page{
+    font-size: 12px;
+    font-family: '宋体';
+    size: A4 landscape;       
+    margin: 0;
+    width: 280mm;
+    padding: 0;
+  }

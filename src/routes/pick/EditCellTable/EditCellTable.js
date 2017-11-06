@@ -49,6 +49,11 @@ class EditCellTable extends React.Component {
       dataIndex: 'singlePrice',
       width: 120,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'singlePrice', text,'currency'),
+    }, {
+      title: '总值',
+      dataIndex: 'amountCount',
+      width: 120,
+      render:(text,record)=>(parseFloat(record.singlePrice)*parseFloat(record.pickNum)).toFixed(2),
     },{
       title:'用途',
       dataIndex:'use',

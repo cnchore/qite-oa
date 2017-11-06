@@ -3,15 +3,15 @@ import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Icon} from 'antd'
 import cs from 'classnames'
-import BudgetDetailPage from '../../../components/BudgetDetailPage'
+import PickDetailPage from '../../../components/PickDetailPage'
 import CommentTable from '../../../components/CommentTable'
 import FlowImg from '../../../components/FlowImg'
 import TaskNodeList from '../../../components/TaskNodeList'
 import {setPrintData} from '../../../utils'
 import Iconfont from '../../../components/Iconfont'
 import audited from '../../../svg/audited.svg'
-const Detail = ({ budgetDetail }) => {
-  const { data,employeeList,commentList,taskNode } = budgetDetail
+const Detail = ({ pickDetail }) => {
+  const { data,employeeList,commentList,taskNode } = pickDetail
   setPrintData(data,employeeList,null,commentList)
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>
@@ -29,7 +29,7 @@ const Detail = ({ budgetDetail }) => {
         </a>
       </div>
 
-      <BudgetDetailPage data={data} employeeList={employeeList} />
+      <PickDetailPage data={data} employeeList={employeeList} />
       {
         taskNode && taskNode[0] && data && data.state<2?
         <TaskNodeList data={taskNode} />
@@ -49,8 +49,8 @@ const Detail = ({ budgetDetail }) => {
 }
 
 Detail.propTypes = {
-  budgetDetail: PropTypes.object,
+  pickDetail: PropTypes.object,
   loading: PropTypes.bool,
 }
 
-export default connect(({ budgetDetail, loading }) => ({ budgetDetail, loading: loading.models.budgetDetail }))(Detail)
+export default connect(({ pickDetail, loading }) => ({ pickDetail, loading: loading.models.pickDetail }))(Detail)

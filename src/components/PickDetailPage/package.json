@@ -1,0 +1,6 @@
+{
+  "name": "PickDetailPage",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./PickDetailPage.js"
+}
