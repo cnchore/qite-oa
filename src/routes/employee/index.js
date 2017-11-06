@@ -129,6 +129,7 @@ const Employee = ({ location, dispatch, employee, loading }) => {
         payload: id,
       })
     },
+    
     onUserChange(userId,isDisable) {
       
       dispatch({

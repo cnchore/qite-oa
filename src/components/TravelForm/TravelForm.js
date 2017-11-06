@@ -78,7 +78,7 @@ class TravelForm extends React.Component {
             </tr>
             <tr>
               <td className={styles['tc']}>部门审核</td>
-              <td className={styles['tl']} colSpan="5">{getAuditerName(commentList,'直属主管审批')}</td>
+              <td className={styles['tl']} colSpan="5">{getAuditerName(commentList,'中心总监审批')}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>行政人事部审核</td>

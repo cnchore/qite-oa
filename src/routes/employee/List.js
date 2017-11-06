@@ -4,11 +4,12 @@ import { Table,Row, Col,Tree,Modal,Tag } from 'antd'
 import styles from './List.less'
 import classnames from 'classnames'
 import { DropOption } from '../../components'
+import AuditConfigModal from '../../components/AuditConfigModal'
 
 const TreeNode = Tree.TreeNode;
 const confirm = Modal.confirm
 
-const List = ({ onUserChange,onResetPwd, onEditItem,onTreeSelect,location, ...tableProps }) => {
+const List = ({ onUserChange,onResetPwd, onEditItem,onTreeSelect,onAuditConfig,location, ...tableProps }) => {
   const { orgTree,orgList }=tableProps;
   const handleMenuClick = (record, e) => {
     if (e.key === '1') {
@@ -70,13 +71,14 @@ const List = ({ onUserChange,onResetPwd, onEditItem,onTreeSelect,location, ...ta
       title: '操作',
       key: 'operation',
       fixed:'right',
-      width: 220,
+      width: 340,
       render: (text, record) => {
         return (
           <span className={styles['q-operation']}>
             <a onClick={e=>handleMenuClick(record,{key:'1'})}>员工编辑</a>
             <a onClick={e=>handleMenuClick(record,{key:'2'})}>{record.isDisable?'账号启用':'账号禁用'}</a>
             <a onClick={e=>handleMenuClick(record,{key:'3'})}>密码重置</a>
+            <AuditConfigModal userId={record.userId} />
           </span>
         )
       },
@@ -95,7 +97,7 @@ const List = ({ onUserChange,onResetPwd, onEditItem,onTreeSelect,location, ...ta
   }
   return (
     <Row gutter={24}>
-     
+      
       <Col className={styles.tree} xl={{ span: 6 }} md={{ span: 6 }} sm={{ span: 8 }} xs={{span:24}}>
          <h3>组织机构</h3>
         <Tree onSelect={onSelect} showLine defaultExpandAll>
@@ -107,7 +109,7 @@ const List = ({ onUserChange,onResetPwd, onEditItem,onTreeSelect,location, ...ta
           {...tableProps}
           className={classnames({ [styles.table]: true })}
           bordered
-          scroll={{ x: 1024 }}
+          scroll={{ x: 1224 }}
           columns={columns}
           simple
           rowKey={record => record.id}

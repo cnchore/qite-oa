@@ -422,6 +422,16 @@ module.exports = {
       save:`${apiPreLogi}/carDetail/save`,
       deleteById:`${apiPreLogi}/carDetail/deleteById`,
     },
+    // 审批角色管理
+    auditConfig:{
+      query:`${apiPrefixPro}/auditConfig/getPage`,
+      queryById:`${apiPrefixPro}/auditConfig/getById`,
+      getList:`${apiPrefixPro}/auditConfig/getList`,
+      add:`${apiPrefixPro}/auditConfig/add`,
+      update:`${apiPrefixPro}/auditConfig/update`,
+      saveUserAudit:`${apiPrefixPro}/auditConfig/saveUserAudit`,
+      deleteById:`${apiPrefixPro}/auditConfig/deleteById`,
+    },
     //流程处理
     workflow:{
       deploy:`${apiPrefixPro}/workflow/deploy`,

@@ -1,0 +1,6 @@
+{
+  "name": "AuditConfigModal",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./AuditConfigModal.js"
+}
