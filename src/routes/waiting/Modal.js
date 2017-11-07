@@ -25,6 +25,22 @@ import NoticeDetailPage from '../../components/NoticeDetailPage'
 import styles from './Modal.less'
 import LegworkDetailPage from '../../components/LegworkDetailPage'
 
+import AdReimburseDetailPage from '../../components/AdReimburseDetailPage'
+import AdDetailPage from '../../components/AdDetailPage'
+import RenoSubsidyDetailPage from '../../components/RenoSubsidyDetailPage'
+import ShopUpgradeDetailPage from '../../components/ShopUpgradeDetailPage'
+import OpenDetailPage from '../../components/OpenDetailPage'
+import ShopDetailPage from '../../components/ShopDetailPage'
+import MaterialSupportDetailPage from '../../components/MaterialSupportDetailPage'
+import SampleReplaceDetailPage from '../../components/SampleReplaceDetailPage'
+import CardDetailPage from '../../components/CardDetailPage'
+import SealDetailPage from '../../components/SealDetailPage'
+import TrainDetailPage from '../../components/TrainDetailPage'
+import PickDetailPage from '../../components/PickDetailPage'
+import MaterialGiftDetailPage from '../../components/MaterialGiftDetailPage'
+import SampleRoomDetailPage from '../../components/SampleRoomDetailPage'
+import PromotionExpenseDetailPage from '../../components/PromotionExpenseDetailPage'
+import SalesPromotionDetailPage from '../../components/SalesPromotionDetailPage'
 const confirm = Modal.confirm
 const FormItem = Form.Item
 const RadioGroup = Radio.Group;
@@ -152,6 +168,54 @@ const modal = ({
         break;
       case 'NE':
         detailpage=<NoticeDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList?taskData.dicList:[]}/>
+        break;
+      case 'AR'://广告费用报销
+        detailpage=<AdReimburseDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'AD'://广告投放
+        detailpage=<AdDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'SP'://促销活动支持
+        detailpage=<SalesPromotionDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'PX'://促销活动费用报销
+        detailpage=<PromotionExpenseDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'SM'://样板房折扣申请
+        detailpage=<SampleRoomDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'MG'://常规物料及礼品制作
+        detailpage=<MaterialGiftDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'TN'://常规物料及礼品制作
+        detailpage=<TrainDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'CD'://名片制作
+        detailpage=<CardDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'SR'://售后问题处理
+        detailpage=<SampleReplaceDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'MS'://物料支持自助
+        detailpage=<MaterialSupportDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'OP'://开业支持
+        detailpage=<OpenDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'SU'://店面升级自助申请
+        detailpage=<ShopUpgradeDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'RS'://店面装修补贴费用申请
+        detailpage=<RenoSubsidyDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'SH'://建店申请
+        detailpage=<ShopDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'SL'://印章使用申请
+        detailpage=<SealDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'PP'://领料单
+        detailpage=<PickDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
         break;
     }
   }

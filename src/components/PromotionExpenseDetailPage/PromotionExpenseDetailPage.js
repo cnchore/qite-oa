@@ -149,7 +149,7 @@ class PromotionExpenseDetailPage extends React.Component {
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             活动天数：
           </Col>
-          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={20} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             {data.actDays || '0'}
           </Col>
           

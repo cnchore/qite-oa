@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './FileList.less'
-import { Icon,Progress,Row,Col } from 'antd'
+import { Icon,Progress,Row,Col,Tooltip } from 'antd'
 import classNames from 'classnames';
 import DOC from '../../../assets/doc.png'
 import DOCX from '../../../assets/docx.png'
@@ -110,8 +110,11 @@ class FileList extends React.Component {
               }
             </Col>
             <Col key={index+2+Math.random()} span={file.createTime?10:16}>
-              {file.name}
-              {file.status==='done'?null:<Progress type="line" {...this.props.progressAttr} percent={file.percent} />}
+              {
+                file.name && file.name.length>20?
+                <Tooltip title={<div className="tooltip-open">{file.name}</div>}>{file.name.substr(0,17)}...</Tooltip>
+                :<span>{file.name && file.name}</span>
+              }
             </Col>
             {
               file.createTime?(

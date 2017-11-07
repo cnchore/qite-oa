@@ -433,6 +433,38 @@ const getHMS=(text)=>{
         return <Link to={`/notice/${id}`}>{content}</Link>
         case 'LW'://外勤
         return <Link to={`/legwork/${id}`}>{content}</Link>
+        case 'AR'://广告费用报销
+        return <Link to={`/adReimburse/${id}`}>{content}</Link>
+        case 'AD'://广告投放
+        return <Link to={`/ad/${id}`}>{content}</Link>
+        case 'SP'://促销活动支持
+        return <Link to={`/salesPromotion/${id}`}>{content}</Link>
+        case 'PX'://促销活动费用报销
+        return <Link to={`/promotionExpense/${id}`}>{content}</Link>
+        case 'SM'://样板房折扣申请
+        return <Link to={`/sampleRoom/${id}`}>{content}</Link>
+        case 'MG'://常规物料及礼品制作
+        return <Link to={`/materialGift/${id}`}>{content}</Link>
+        case 'TN'://常规物料及礼品制作
+        return <Link to={`/train/${id}`}>{content}</Link>
+        case 'CD'://名片制作
+        return <Link to={`/cardDetail/${id}`}>{content}</Link>
+        case 'SR'://售后问题处理
+        return <Link to={`/sampleReplace/${id}`}>{content}</Link>
+        case 'MS'://物料支持自助
+        return <Link to={`/materialSupport/${id}`}>{content}</Link>
+        case 'OP'://开业支持
+        return <Link to={`/open/${id}`}>{content}</Link>
+        case 'SU'://店面升级自助申请
+        return <Link to={`/shopUpgrade/${id}`}>{content}</Link>
+        case 'RS'://店面装修补贴费用申请
+        return <Link to={`/renoSubsidy/${id}`}>{content}</Link>
+        case 'SH'://建店申请
+        return <Link to={`/shop/${id}`}>{content}</Link>
+        case 'SL'://印章使用申请
+        return <Link to={`/seal/${id}`}>{content}</Link>
+        case 'PP'://领料单
+        return <Link to={`/pick/${id}`}>{content}</Link>
       }
     }
     return '新消息';
@@ -497,6 +529,38 @@ const getHMS=(text)=>{
         return <Link to={`/notice?${_url}`}>{text}</Link>;
         case 'LW':
         return <Link to={`/legwork?${_url}`}>{text}</Link>;
+        case 'AR'://广告费用报销
+        return <Link to={`/adReimburse?${_url}`}>{text}</Link>;
+        case 'AD'://广告投放
+        return <Link to={`/ad?${_url}`}>{text}</Link>;
+        case 'SP'://促销活动支持
+        return <Link to={`/salesPromotion?${_url}`}>{text}</Link>;
+        case 'PX'://促销活动费用报销
+        return <Link to={`/promotionExpense?${_url}`}>{text}</Link>;
+        case 'SM'://样板房折扣申请
+        return <Link to={`/sampleRoom?${_url}`}>{text}</Link>;
+        case 'MG'://常规物料及礼品制作
+        return <Link to={`/materialGift?${_url}`}>{text}</Link>;
+        case 'TN'://常规物料及礼品制作
+        return <Link to={`/train?${_url}`}>{text}</Link>;
+        case 'CD'://名片制作
+        return <Link to={`/cardDetail?${_url}`}>{text}</Link>;
+        case 'SR'://售后问题处理
+        return <Link to={`/sampleReplace?${_url}`}>{text}</Link>;
+        case 'MS'://物料支持自助
+        return <Link to={`/materialSupport?${_url}`}>{text}</Link>;
+        case 'OP'://开业支持
+        return <Link to={`/open?${_url}`}>{text}</Link>;
+        case 'SU'://店面升级自助申请
+        return <Link to={`/shopUpgrade?${_url}`}>{text}</Link>;
+        case 'RS'://店面装修补贴费用申请
+        return <Link to={`/renoSubsidy?${_url}`}>{text}</Link>;
+        case 'SH'://建店申请
+        return <Link to={`/shop?${_url}`}>{text}</Link>;
+        case 'SL'://印章使用申请
+        return <Link to={`/seal?${_url}`}>{text}</Link>;
+        case 'PP'://领料单
+        return <Link to={`/pick?${_url}`}>{text}</Link>;
         default :
         return null;
       }

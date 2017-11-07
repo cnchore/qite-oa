@@ -12,9 +12,9 @@ class TravelReimburseForm extends React.Component {
       totalLivingCost=0,
       totalOtherCost=0,
       totalSubsidyAmount=0,
-      c=parseFloat(data.actualExpense)-parseFloat(data.advanceExpense),
-      surplus=c<0?c.toFixed(2):0.00,
-      validReimburse=c>0?c.toFixed(2):0.00;
+      total=0,
+      surplus=0,
+      validReimburse=0;
 
     const getDicType=(value,remark=null)=>{
       let n=dicList.filter(item=>String(item.dicValue)===String(value));
@@ -35,6 +35,10 @@ class TravelReimburseForm extends React.Component {
       if(item.livingCost)totalLivingCost+=parseFloat(item.livingCost);
       if(item.otherCost)totalOtherCost+=parseFloat(item.otherCost);
       if(item.subsidyAmount)totalSubsidyAmount+=parseFloat(item.subsidyAmount);
+      total+=t;
+      let c=parseFloat(total)-parseFloat(data.advanceExpense);
+      surplus=c<0?c.toFixed(2):0.00;
+      validReimburse=c>0?c.toFixed(2):0.00;
       return (
         <tr key={item.id}>
           <td className={styles['tl']}>{item.departureTime && item.departureTime}</td>
@@ -100,11 +104,11 @@ class TravelReimburseForm extends React.Component {
               <td>¥ {totalLivingCost && totalLivingCost.toFixed(2)}</td>
               <td>¥ {totalSubsidyAmount && totalSubsidyAmount.toFixed(2)}</td>
               <td>¥ {totalOtherCost && totalOtherCost.toFixed(2)}</td>
-              <td>¥ {data && data.actualExpense && data.actualExpense.toFixed(2)}</td>
+              <td>¥ {total.toFixed(2)}</td>
             </tr>
             <tr>
-              <td colSpan="3"  className={styles['tl']}>报销总额(大写)：{changeMoneyToChinese(data.actualExpense)}</td>
-              <td colSpan="3" className={styles['tl']}>预支旅费：¥ {data && data.advanceExpense && data.advanceExpense.toFixed(2)}</td>
+              <td colSpan="3"  className={styles['tl']}>报销总额(大写)：{changeMoneyToChinese(total)}</td>
+              <td colSpan="3" className={styles['tl']}>预支旅费：¥ {total.toFixed(2)}</td>
               <td colSpan="2" className={styles['tl']}>补额不足：¥ {validReimburse}</td>
               <td colSpan="2" className={styles['tl']}>归还多余：¥ {surplus}</td>
             </tr>

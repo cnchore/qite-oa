@@ -160,7 +160,7 @@ class FileUpload extends React.Component {
             </Col>
             <Col span={file.createTime?8:16}>
               {file.name && file.name.length>20?
-                <Tooltip title={file.name}>{file.name.substr(0,17)}...</Tooltip>
+                <Tooltip title={<div className="tooltip-open">{file.name}</div>}>{file.name.substr(0,17)}...</Tooltip>
                 :file.name
               }
             </Col>

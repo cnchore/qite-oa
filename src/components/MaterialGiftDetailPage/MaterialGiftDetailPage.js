@@ -123,7 +123,7 @@ class MaterialGiftDetailPage extends React.Component {
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             物料要求关键点：
           </Col>
-          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             {data.remark || '无'}
           </Col>
         </Row>
