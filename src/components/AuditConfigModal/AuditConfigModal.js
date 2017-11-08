@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 // import ReactDOM from 'react-dom'
 import styles from './AuditConfigModal.less'
-import { Table,Modal,message,Tooltip } from 'antd'
+import { Table,Modal,message,Tooltip,Input } from 'antd'
 import {query,saveUserAudit} from '../../services/auditConfig'
 // import {config,treeToArray } from '../../utils'
 // const {prefix} =config;
-// const TreeNode = Tree.TreeNode;
+const Search = Input.Search;
 class AuditConfigModal extends React.Component {
   state = {
     list:[],
@@ -21,18 +21,17 @@ class AuditConfigModal extends React.Component {
       total: null,
     },
   }
-
-  showModal = () => {
+  queryList=(remarkLike='',page=1,rows=10)=>{
     let userId=this.props.userId;
-    query({userId}).then(res=>{
+    query({userId,remarkLike,page,rows}).then(res=>{
       if(res.success){
         let _list=res.data.rowsObject;
         this.setState({
           list:_list,
           pagination: {
             ...this.state.pagination,
-            current: 1,
-            pageSize: 10,
+            current: page,
+            pageSize: rows,
             total: res.data.total,
           },
           modalVisible: true,
@@ -42,6 +41,9 @@ class AuditConfigModal extends React.Component {
         message.error(res.message);
       }
     })
+  }
+  showModal = () => {
+    this.queryList();
   }
   
   handleOk = (e) => {
@@ -70,14 +72,16 @@ class AuditConfigModal extends React.Component {
       modalVisible: false,
     });
   }
-  
+  handleSearch=(value)=>{
+    this.queryList(value);
+  }
   render() {
     const { list,selectedRowKeys,pagination,selectedRow } = this.state;
     const {userId} =this.props;
     const self=this;
     const renderTips=(text)=>{
-     return text && text.length>20?
-      <Tooltip title={text}>{text.substr(0,17)}...</Tooltip>
+     return text && text.length>120?
+      <Tooltip title={text}>{text.substr(0,117)}...</Tooltip>
       :<span>{text && text}</span>
     }
 
@@ -86,17 +90,12 @@ class AuditConfigModal extends React.Component {
         title: '角色名称',
         key: 'auditName',
         dataIndex: 'auditName',
-        render:(text)=>renderTips(text),
-      }, {
-        title: '角色编码',
-        dataIndex: 'auditCode',
-        key: 'auditCode',
-        render:(text)=>renderTips(text),
+        // render:(text)=>renderTips(text),
       }, {
         title: '角色描述',
         dataIndex: 'remark',
         key: 'remark',
-        render:(text)=>renderTips(text),
+        // render:(text)=>renderTips(text),
       },
     ]
     const rowSelection = {
@@ -119,25 +118,7 @@ class AuditConfigModal extends React.Component {
       pagination,
       rowSelection,
       onChange (page) {
-        query({userId,page:page.current,rows:page.pageSize}).then(res=>{
-          if(res.success){
-            let _list=res.data.rowsObject;
-            this.setState({
-              list:_list,
-              pagination: {
-                ...this.state.pagination,
-                current: 1,
-                pageSize: 10,
-                total: res.data.total,
-              },
-              modalVisible: true,
-              selectedRowKeys:_list[0]?_list.filter(f=>String(f.isUserAudit)==='true').map(r=>f.id):[]
-            })
-          }else{
-            message.error(res.message);
-          }
-        })
-        
+        self.queryList('',page.current,page.pageSize).bind(self);
       },
       onRowClick(record){
         if(record && record.id){
@@ -160,12 +141,17 @@ class AuditConfigModal extends React.Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-        <Table
+          <Table
             {...tableProps}
             bordered
             columns={columns}
             simple
             rowKey={record => record.id}
+            title={
+              ()=><Search addonBefore="角色描述：" placeholder="输入角色描述" size="large" 
+              style={{width:400}}
+              onSearch={value=>this.handleSearch(value)} />
+            }
           />
         </Modal>
       </span>

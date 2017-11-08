@@ -448,7 +448,7 @@ const getHMS=(text)=>{
         case 'TN'://常规物料及礼品制作
         return <Link to={`/train/${id}`}>{content}</Link>
         case 'CD'://名片制作
-        return <Link to={`/cardDetail/${id}`}>{content}</Link>
+        return <Link to={`/card/${id}`}>{content}</Link>
         case 'SR'://售后问题处理
         return <Link to={`/sampleReplace/${id}`}>{content}</Link>
         case 'MS'://物料支持自助
@@ -544,7 +544,7 @@ const getHMS=(text)=>{
         case 'TN'://常规物料及礼品制作
         return <Link to={`/train?${_url}`}>{text}</Link>;
         case 'CD'://名片制作
-        return <Link to={`/cardDetail?${_url}`}>{text}</Link>;
+        return <Link to={`/card?${_url}`}>{text}</Link>;
         case 'SR'://售后问题处理
         return <Link to={`/sampleReplace?${_url}`}>{text}</Link>;
         case 'MS'://物料支持自助
