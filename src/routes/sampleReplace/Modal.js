@@ -55,6 +55,7 @@ const modal = ({
   onGoback,
   isEditable,
   setIsEditable,
+  busiType,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -109,10 +110,13 @@ const modal = ({
         data[`detailList[${index}].glassInfo`]=f.glassInfo.value;     //玻璃规格及颜色（String）
         data[`detailList[${index}].waistLine`]=f.waistLine.value;     //格条及腰线（String）
       })
-      
+      if(busiType){
+        data.type=busiType;
+      }
       if(item.id){
         data.id=item.id;
         data.code=item.code;
+        data.type=item.type?item.type:null;
       }
       //console.log('--travelIds---',data);
     })

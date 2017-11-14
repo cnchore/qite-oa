@@ -1,0 +1,6 @@
+{
+  "name": "FormGeneral",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./FormGeneral.js"
+}

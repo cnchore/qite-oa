@@ -262,7 +262,7 @@ export default {
       return { ...state, modalVisible: false }
     },
     setState(state,action){
-      return {...state,currentItem:action.payload}
+      return {...state,...action.payload}
     },
     setFileList(state,action){
       return {...state,fileList:action.payload}

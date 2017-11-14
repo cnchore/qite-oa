@@ -80,8 +80,8 @@ class TravelReimburseForm extends React.Component {
           <tbody>
             <tr>
               <td colSpan="3" className={styles['tl']}>部门：{employeeList && employeeList.postList && employeeList.postList[0].orgName && employeeList.postList[0].orgName}</td>
-              <td colSpan="3" className={styles['tl']}>出差人：{employeeList && employeeList.realName && employeeList.realName}</td>
-              <td colSpan="4" className={styles['tl']}>出差事由：{data && data.remark && data.remark}</td>
+              <td colSpan="3" className={styles['tl-col-3']}>出差人：{employeeList && employeeList.realName && employeeList.realName}</td>
+              <td colSpan="4" className={styles['tl-col-3']}>出差事由：{data && data.remark && data.remark}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>出发时间</td>

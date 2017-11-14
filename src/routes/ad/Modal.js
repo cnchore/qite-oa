@@ -151,8 +151,7 @@ const modal = ({
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} style={{display:'flex',justifyContent:'space-between',marginBottom:'24px',paddingBottom:'12px',borderBottom:'1px solid #d9d9d9'}}>
-            <div className='qite-title'>
-            <Icon type={item.id?'edit':'plus'} />{title}</div>
+            <div className='qite-title'><Icon type={item.id?'edit':'plus'} />{title}</div>
            
             <Affix target={()=>document.getElementById('layout-main')}>
                {taskData && taskData.taskId?(
@@ -209,24 +208,9 @@ const modal = ({
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请时间：
           </Col>
-          <Col xs={18} md={20} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {item.createTime || item.createTimeStr || '系统自动生成'}
-            </FormItem>
-          </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            申请人：
-          </Col>
-          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            <FormItem >
-              {getFieldDecorator('applyName', {
-                initialValue: item.applyName,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                  },
-                ],
-              })(<Input/>)}
             </FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
@@ -247,7 +231,7 @@ const modal = ({
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             城市：
           </Col>
-          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {getFieldDecorator('city', {
                 initialValue: item.city,

@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const SampleReplace = ({ location, dispatch, sampleReplace, loading }) => {
-  const { list,fileList,dicList,detailList,employeeList, taskData,
+  const { list,fileList,dicList,detailList,employeeList, taskData,busiType,
     pagination, currentItem, modalVisible, modalType,isEditable } = sampleReplace
   const { pageSize } = pagination
 
@@ -16,7 +16,7 @@ const SampleReplace = ({ location, dispatch, sampleReplace, loading }) => {
     visible: modalVisible,
     fileList,
     employeeList,
-    // travelList,
+    busiType,
     detailList,
     dicList,
     taskData,
@@ -132,7 +132,7 @@ const SampleReplace = ({ location, dispatch, sampleReplace, loading }) => {
       }))
     },
     
-    onAdd () {
+    onAdd (busiType) {
       dispatch({
         type: 'sampleReplace/showModal',
         payload: {
@@ -140,6 +140,7 @@ const SampleReplace = ({ location, dispatch, sampleReplace, loading }) => {
           fileList:[],
           detailList:[],
           taskData:{},
+          busiType:busiType
         },
       })
     },

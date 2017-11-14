@@ -90,6 +90,7 @@ class AuditConfigModal extends React.Component {
         title: '角色名称',
         key: 'auditName',
         dataIndex: 'auditName',
+        width:120,
         // render:(text)=>renderTips(text),
       }, {
         title: '角色描述',

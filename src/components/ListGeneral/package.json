@@ -1,0 +1,6 @@
+{
+  "name": "ListGeneral",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ListGeneral.js"
+}

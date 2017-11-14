@@ -54,7 +54,10 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
       title: '申请时间',
       dataIndex: 'createTime',width:170,
       key: 'createTime',
-    
+    },{
+      title:'类型',
+      dataIndex:'type',key:'type',
+      render:(text)=>String(text)==='1'?'艾厨':String(text)==='2'?'艾臣':'',
     }, {
       title: '状态',
       dataIndex: 'state',
