@@ -13,7 +13,7 @@ const Ad = ({ location, dispatch, ad, loading }) => {
   const { pageSize } = pagination
 
   const cards=[{
-    title:'基本信息',
+    title:'申请信息',
     rows:[{
       text:'申请人姓名',
       type:'label',
@@ -53,7 +53,7 @@ const Ad = ({ location, dispatch, ad, loading }) => {
       rules:[],
     }]
     },{
-      title:'申请信息',
+      title:'',
       rows:[{
         text:'申请区域',
         type:'input',
@@ -103,7 +103,7 @@ const Ad = ({ location, dispatch, ad, loading }) => {
         type:'input',
         field:'goal',
         defaultValue:'currentItem.goal',
-        layout:{span:24},
+        layout:{lg:8,md:12,sm:24},
         props:{placeholder:'请输入投放目的',type:'textarea',autosize:{minRows: 2, maxRows: 5}},
         rules:[{required:true,message:'不能为空'}],
       },{
@@ -111,23 +111,23 @@ const Ad = ({ location, dispatch, ad, loading }) => {
         type:'input',
         field:'adForm',
         defaultValue:'currentItem.adForm',
-        layout:{span:24},
-        props:{placeholder:'请输入广告形式'},
+        layout:{lg:8,md:12,sm:24},
+        props:{placeholder:'请输入广告形式',type:'textarea',autosize:{minRows: 2, maxRows: 5}},
         rules:[{required:true,message:'不能为空'}],
       },{
         text:'覆盖范围',
         type:'input',
         field:'coverArea',
         defaultValue:'currentItem.coverArea',
-        layout:{span:24},
-        props:{placeholder:'请输入覆盖范围'},
+        layout:{lg:8,md:12,sm:24},
+        props:{placeholder:'请输入覆盖范围',type:'textarea',autosize:{minRows: 2, maxRows: 5}},
         rules:[{required:true,message:'不能为空'}],
       },{
         text:'方案描述',
         type:'input',
         field:'desc',
         defaultValue:'currentItem.desc',
-        layout:{span:24},
+        layout:{lg:8,md:12,sm:24},
         props:{placeholder:'请输入方案描述',type:'textarea',autosize:{minRows: 2, maxRows: 5}},
         rules:[{required:true,message:'不能为空'}],
       },{
@@ -135,7 +135,7 @@ const Ad = ({ location, dispatch, ad, loading }) => {
         type:'input',
         field:'estiResult',
         defaultValue:'currentItem.estiResult',
-        layout:{span:24},
+        layout:{lg:8,md:12,sm:24},
         props:{placeholder:'请输入预期效果',type:'textarea',autosize:{minRows: 2, maxRows: 5}},
         rules:[{required:true,message:'不能为空'}],
       },{
@@ -143,7 +143,7 @@ const Ad = ({ location, dispatch, ad, loading }) => {
         type:'input',
         field:'remark',
         defaultValue:'currentItem.remark',
-        layout:{span:24},
+        layout:{lg:8,md:12,sm:24},
         props:{placeholder:'请输入备注说明',type:'textarea',autosize:{minRows: 2, maxRows: 5}},
         rules:[{required:true,message:'不能为空'}],
       }]
