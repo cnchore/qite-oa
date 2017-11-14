@@ -21,7 +21,7 @@ export default {
     dicList:[],
     detailList:[],
     employeeList:[],
-    // travelList:[],
+    busiType:null,
     taskData:{},
     isEditable:false,
     pagination: {

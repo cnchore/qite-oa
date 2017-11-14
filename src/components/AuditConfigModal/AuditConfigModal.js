@@ -90,6 +90,7 @@ class AuditConfigModal extends React.Component {
         title: '角色名称',
         key: 'auditName',
         dataIndex: 'auditName',
+        width:120,
         // render:(text)=>renderTips(text),
       }, {
         title: '角色描述',
@@ -135,7 +136,8 @@ class AuditConfigModal extends React.Component {
       <span style={{marginLeft:'8px'}}>
         <a  onClick={e=>this.showModal()}>审批角色绑定</a>
         <Modal
-          width={800}
+          style={{ top: 20 }}
+          width={1020}
           title='用户绑定审批角色'
           visible={this.state.modalVisible}
           onOk={this.handleOk}

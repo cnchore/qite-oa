@@ -41,9 +41,9 @@ class TravelReimburseForm extends React.Component {
       validReimburse=c>0?c.toFixed(2):0.00;
       return (
         <tr key={item.id}>
-          <td className={styles['tl']}>{item.departureTime && item.departureTime}</td>
+          <td className={styles['tl']}>{item.departureTime && item.departureTime.substr(0,16)}</td>
           <td className={styles['tl']}>{item.departurePlace && item.departurePlace}</td>
-          <td className={styles['tl']}>{item.arrivalTime && item.arrivalTime}</td>
+          <td className={styles['tl']}>{item.arrivalTime && item.arrivalTime.substr(0,16)}</td>
           <td className={styles['tl']}>{item.arrivalPlace && item.arrivalPlace}</td>
           <td className={styles['tl']}>{item.vehicle && getDicType(item.vehicle)}</td>
           <td>¥ {item.vehicleCost && item.vehicleCost.toFixed(2)}</td>
@@ -80,8 +80,8 @@ class TravelReimburseForm extends React.Component {
           <tbody>
             <tr>
               <td colSpan="3" className={styles['tl']}>部门：{employeeList && employeeList.postList && employeeList.postList[0].orgName && employeeList.postList[0].orgName}</td>
-              <td colSpan="3" className={styles['tl']}>出差人：{employeeList && employeeList.realName && employeeList.realName}</td>
-              <td colSpan="4" className={styles['tl']}>出差事由：{data && data.remark && data.remark}</td>
+              <td colSpan="3" className={styles['tl-col-3']}>出差人：{employeeList && employeeList.realName && employeeList.realName}</td>
+              <td colSpan="4" className={styles['tl-col-3']}>出差事由：{data && data.remark && data.remark}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>出发时间</td>
