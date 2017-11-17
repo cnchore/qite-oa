@@ -64,6 +64,14 @@ const Routers = function ({ history, app }) {
             }, 'setting-roles')
           },
         }, {
+          path: '/setting/auditRole',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/auditRole'))
+              cb(null, require('./routes/auditRole/'))
+            }, 'setting-auditRole')
+          },
+        }, {
           path: '/setting/menu',
           getComponent (nextState, cb) {
             require.ensure([], require => {

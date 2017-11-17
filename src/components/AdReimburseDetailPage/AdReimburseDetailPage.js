@@ -143,25 +143,25 @@ class AdReimburseDetailPage extends React.Component {
             促销期销售计划：
           </Col>
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.saleGoal?data.saleGoal:0}万元
+            {data.saleGoal?data.saleGoal:0}元
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
             去年同期销售额：
           </Col>
           <Col xs={18} md={8} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.lastYearSales?data.lastYearSales:0}万元
+            {data.lastYearSales?data.lastYearSales:0}元
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
             预计达成销售：
           </Col>
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.estiSale?data.estiSale:0}万元
+            {data.estiSale?data.estiSale:0}元
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
             预估销售提高：
           </Col>
           <Col xs={18} md={8} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.estiImprove?data.estiImprove:0}万元
+            {data.estiImprove?data.estiImprove:0}元
           </Col>
           
           
@@ -181,19 +181,19 @@ class AdReimburseDetailPage extends React.Component {
             费用合计：
           </Col>
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.cost?data.cost:0}万元
+            {data.cost?data.cost:0}元
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
             客户分摊：
           </Col>
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.clientPay?data.clientPay:0}万元
+            {data.clientPay?data.clientPay:0}元
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
             公司分摊：
           </Col>
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.companyPay?data.companyPay:0}万元
+            {data.companyPay?data.companyPay:0}元
           </Col>
         </Row>
         {defaultFileList && defaultFileList[0]?

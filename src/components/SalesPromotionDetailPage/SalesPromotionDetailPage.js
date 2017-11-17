@@ -51,13 +51,13 @@ class SalesPromotionDetailPage extends React.Component {
             费用预算：
           </Col>
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.budge?data.budge:0}万元
+            {data.budge?data.budge:0}元
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
             预计达成销售：
           </Col>
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.estiSale?data.estiSale:0}万元
+            {data.estiSale?data.estiSale:0}元
           </Col>
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
@@ -100,7 +100,7 @@ class SalesPromotionDetailPage extends React.Component {
             物料费用：
           </Col>
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.materialExpense?data.materialExpense:0}万元
+            {data.materialExpense?data.materialExpense:0}元
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             到场人员：
@@ -158,7 +158,7 @@ class SalesPromotionDetailPage extends React.Component {
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} className='qite-list-title'>
-            <Icon type="credit-card" />物料设计
+            <Icon type="credit-card" />物料设计关键点
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             版面：
@@ -181,7 +181,7 @@ class SalesPromotionDetailPage extends React.Component {
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} className='qite-list-title'>
-            <Icon type="credit-card" />活动宣传
+            <Icon type="credit-card" />活动宣传计划
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             户外：

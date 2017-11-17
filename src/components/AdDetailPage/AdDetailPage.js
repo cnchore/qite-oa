@@ -48,7 +48,7 @@ class AdDetailPage extends React.Component {
             预计费用：
           </Col>
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.estiCost?data.estiCost:0}万元
+            {data.estiCost?data.estiCost:0}元
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             投放开始时间：

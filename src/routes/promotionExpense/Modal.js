@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,DatePicker,InputNumber } from 'antd'
+import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,DatePicker,InputNumber,Checkbox } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
 import styles from './Modal.less'
@@ -17,6 +17,7 @@ const confirm = Modal.confirm
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item
 //const Option =Select.Option;
+const CheckboxGroup = Checkbox.Group;
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -124,6 +125,12 @@ const modal = ({
       data.actTimeStartStr=data.actTimeStartStr?data.actTimeStartStr.format(dateTimeFormat):null;
       data.actTimeEndStr=data.actTimeEndStr?data.actTimeEndStr.format(dateTimeFormat):null;
       data.cost=item.cost;
+      if(data.actObj){
+        data.actObj=data.actObj.join();
+      }
+      if(data.expenseForm){
+        data.expenseForm=data.expenseForm.join();
+      }
       if(item.id){
         data.id=item.id;
         data.code=item.code;
@@ -235,6 +242,8 @@ const modal = ({
     }
   }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
+  const expenseFormOptions=['促销活动','广告','返利','其他'];
+  const actObjOptions=['渠道','消费者','家装公司','统购统采型家装公司','KA','区域媒体','物料制作','店面改造'];
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -418,13 +427,13 @@ const modal = ({
           <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {getFieldDecorator('expenseForm', {
-                initialValue: item.expenseForm,
+                initialValue: item.expenseForm&& !(item.expenseForm instanceof Array)?item.expenseForm.split(','):null,
                 rules: [
                   {
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<Input />)}
+              })(<CheckboxGroup options={expenseFormOptions} />)}
             </FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
@@ -433,13 +442,13 @@ const modal = ({
           <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {getFieldDecorator('actObj', {
-                initialValue: item.actObj,
+                initialValue: item.actObj&& !(item.actObj instanceof Array)?item.actObj.split(','):null,
                 rules: [
                   {
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<Input />)}
+              })(<CheckboxGroup options={actObjOptions} />)}
             </FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
@@ -483,7 +492,7 @@ const modal = ({
                 ],
               })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             去年同期销售额：
@@ -499,7 +508,7 @@ const modal = ({
                 ],
               })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             预计达成销售：
@@ -515,7 +524,7 @@ const modal = ({
                 ],
               })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             预估销售提高：
@@ -531,7 +540,7 @@ const modal = ({
                 ],
               })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
         </Row>
         <EditCellTable dicList={dicList} 

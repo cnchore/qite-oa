@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const AdReimburse = ({ location, dispatch, adReimburse, loading }) => {
-  const { list,fileList,dicList,detailList,employeeList, taskData,
+  const { list,fileList,dicList,detailList,employeeList, taskData,adList,
     pagination, currentItem, modalVisible, modalType,isEditable } = adReimburse
   const { pageSize } = pagination
 
@@ -16,7 +16,7 @@ const AdReimburse = ({ location, dispatch, adReimburse, loading }) => {
     visible: modalVisible,
     fileList,
     employeeList,
-    // travelList,
+    adList,
     detailList,
     dicList,
     taskData,

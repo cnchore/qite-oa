@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,DatePicker,InputNumber,Switch } from 'antd'
+import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,DatePicker,InputNumber,Switch,Checkbox } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
 // import uploadImageCallBack from '../../services/uploadImageCallBack'
@@ -16,6 +16,7 @@ const confirm = Modal.confirm
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item
 //const Option =Select.Option;
+const CheckboxGroup = Checkbox.Group;
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -95,7 +96,12 @@ const modal = ({
       data.makingTimeStr=data.makingTimeStr?data.makingTimeStr.format(dateTimeFormat):null;
       data.installTimeStr=data.installTimeStr?data.installTimeStr.format(dateTimeFormat):null;
       data.planTrialHoursStr=data.planTrialHoursStr?data.planTrialHoursStr.format(dateTimeFormat):null;
-      
+      if(data.shopLocationLevel){
+        data.shopLocationLevel=data.shopLocationLevel.join();
+      }
+      if(data.shopType){
+        data.shopType=data.shopType.join();
+      }
       if(item.id){
         data.id=item.id;
         data.code=item.code;
@@ -153,6 +159,8 @@ const modal = ({
     }
   }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
+  const shopLocationLevelOptions=['优','良','差'];
+  const shopTypeOptions=['沿街店','室内店'];
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -338,13 +346,13 @@ const modal = ({
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {getFieldDecorator('shopLocationLevel', {
-                initialValue: item.shopLocationLevel,
+                initialValue: item.shopLocationLevel&& !(item.shopLocationLevel instanceof Array)?item.shopLocationLevel.split(','):null,
                 rules: [
                   {
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<Input/>)}
+              })(<CheckboxGroup options={shopLocationLevelOptions} />)}
             </FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
@@ -353,13 +361,13 @@ const modal = ({
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {getFieldDecorator('shopType', {
-                initialValue: item.shopType,
+                initialValue: item.shopType&& !(item.shopType instanceof Array)?item.shopType.split(','):null,
                 rules: [
                   {
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<Input/>)}
+              })(<CheckboxGroup options={shopTypeOptions} />)}
             </FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
@@ -721,7 +729,7 @@ const modal = ({
             <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
               操&nbsp;&nbsp;&nbsp;&nbsp;作：
             </Col>
-            <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
               <FormItem >
                 {getFieldDecorator('action', {
                   initialValue:null,

@@ -221,12 +221,42 @@ const modal = ({
   }
   const handleActChange=(e)=>{
       var _reasonStr='';
-      if(e.target.value==='1' || e.target.value==='2'){
-        _reasonStr='同意';
+      switch(e.target.value){
+        case '0'://结束
+          _reasonStr='不同意，流程终止';
+          break;
+        case '1'://同意
+        case '2'://同意并办结
+          _reasonStr='同意';
+          break;
+        case '3'://退回上一步
+          _reasonStr='不同意，退回修改';
+          break;
+        case '4'://退回申请人修改
+          _reasonStr='不同意，退回申请人修改';
+          break;
+        case '5'://重新申请
+          break;
+        case '6'://同意，待完善资料
+          break;
+        case '7'://完善资料并办结
+          break;
+        case '8'://转办
+          break;
+        case '9'://同意
+          _reasonStr='同意';
+          break;
+        case '10'://不同意
+          _reasonStr='不同意';
+          break;
+        case '11'://协同
+          _reasonStr='已协同处理';
+          break;
+        case '12'://知会
+          _reasonStr='已阅';
+          break;
       }
-      if(e.target.value==='3' || e.target.value==='4'){
-        _reasonStr='不同意，退回修改';
-      }
+      
       // 1 同意；3 返回上一步
       if(e.target.value==='1' || e.target.value==='3'){
         setNeedSel(true,_reasonStr);

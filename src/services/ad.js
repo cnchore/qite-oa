@@ -17,6 +17,14 @@ export async function queryById (params) {
     data: params,
   })
 }
+export async function adSearch (params) {
+  return request({
+    url: ad.getList,
+    method: 'get',
+    data: params,
+  })
+}
+
 export async function save (params) {
   return request({
     url: ad.save,

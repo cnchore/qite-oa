@@ -259,7 +259,7 @@ const modal = ({
                 ],
               })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
             预计达成销售：
@@ -275,7 +275,7 @@ const modal = ({
                 ],
               })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
@@ -375,7 +375,7 @@ const modal = ({
                 ],
               })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             到场人员：
@@ -506,7 +506,7 @@ const modal = ({
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} className='qite-list-title'>
-            <Icon type="credit-card" />物料设计
+            <Icon type="credit-card" />物料设计关键点
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             版面：
@@ -556,7 +556,7 @@ const modal = ({
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} className='qite-list-title'>
-            <Icon type="credit-card" />活动宣传
+            <Icon type="credit-card" />活动宣传计划
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             户外：
@@ -629,7 +629,7 @@ const modal = ({
             <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
               操&nbsp;&nbsp;&nbsp;&nbsp;作：
             </Col>
-            <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
               <FormItem >
                 {getFieldDecorator('action', {
                   initialValue:null,

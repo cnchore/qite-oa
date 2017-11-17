@@ -339,6 +339,12 @@ const getHMS=(text)=>{
       s=Math.ceil((t%3600)%60);
   return `${h}时${m}分${s}秒`
 }
+const getDateDiff=(a,b)=>{
+  if(!a || !b) return 0;
+  let _a=typeof a ==='string'?new Date(a).getTime():a;
+  let _b=typeof b ==='string'?new Date(b).getTime():b;
+  return Math.abs(_a - _b) / (1000 * 60 * 60 * 24);
+}
   const getMsgAction=(item)=>{
     let codeStr=item.code && item.code || null,
       id=codeStr&&codeStr.split('#')[1]||-1,
@@ -675,4 +681,5 @@ const getHMS=(text)=>{
     showNotice,
     getAuditerName,
     getAuditerTime,
+    getDateDiff,
   }

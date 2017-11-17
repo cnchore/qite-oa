@@ -31,13 +31,7 @@ const WaitSignList = ({ onEditItem,location, ...tableProps }) => {
       title: '流程名称',
       dataIndex: 'flowName',
       key: 'flowName',
-    },{
-      title: '原因',
-      dataIndex: 'reason',width:120,
-      key: 'reason',
-      render:(text)=>text && text.length>15?
-                    <Tooltip title={text}>{`${text.substr(0,12)}...`}</Tooltip>
-                    :<span>{text && text}</span>
+   
     }, {
       title: '当前阶段',
       dataIndex: 'nodeName',
@@ -51,6 +45,13 @@ const WaitSignList = ({ onEditItem,location, ...tableProps }) => {
      
     },
   ]
+   // },{
+   //    title: '原因',
+   //    dataIndex: 'reason',width:120,
+   //    key: 'reason',
+   //    render:(text)=>text && text.length>15?
+   //                  <Tooltip title={text}>{`${text.substr(0,12)}...`}</Tooltip>
+   //                  :<span>{text && text}</span>
   return (
     <div>
       <Table

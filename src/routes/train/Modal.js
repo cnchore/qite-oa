@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,DatePicker,InputNumber } from 'antd'
+import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,DatePicker,InputNumber,Checkbox } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
 // import uploadImageCallBack from '../../services/uploadImageCallBack'
@@ -16,6 +16,7 @@ const confirm = Modal.confirm
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item
 //const Option =Select.Option;
+const CheckboxGroup = Checkbox.Group;
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -105,7 +106,9 @@ const modal = ({
         data[`detailList[${index}].otherFee`]=f.otherFee.value;
       })
       data.trainTimeStr=data.trainTimeStr?data.trainTimeStr.format(dateTimeFormat):null;
-      
+      if(data.evalWay){
+        data.evalWay=data.evalWay.join();
+      }
       if(item.id){
         data.id=item.id;
         data.code=item.code;
@@ -200,6 +203,7 @@ const modal = ({
     }
   }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
+  const evalWayOptions=['考试方式','内部分享','制定实施计划并执行'];
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -346,7 +350,7 @@ const modal = ({
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             培训地点：
           </Col>
-          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {getFieldDecorator('trainAddress', {
                 initialValue: item.trainAddress,
@@ -359,21 +363,7 @@ const modal = ({
             </FormItem>
           </Col>
           
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            评估方式：
-          </Col>
-          <Col xs={18} md={20} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            <FormItem >
-              {getFieldDecorator('evalWay', {
-                initialValue: item.evalWay,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                  },
-                ],
-              })(<Input />)}
-            </FormItem>
-          </Col>
+          
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             培训提纲：
           </Col>
@@ -387,6 +377,21 @@ const modal = ({
                   },
                 ],
               })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            评估方式：
+          </Col>
+          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem >
+              {getFieldDecorator('evalWay', {
+                initialValue: item.evalWay&& !(item.evalWay instanceof Array)?item.evalWay.split(','):null,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<CheckboxGroup options={evalWayOptions} />)}
             </FormItem>
           </Col>
         </Row>

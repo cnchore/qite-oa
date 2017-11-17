@@ -109,15 +109,15 @@ class PromotionExpenseForm extends React.Component {
             {defaultScheduleRows && defaultScheduleRows}
             <tr>
               <td className={styles['tc']} rowSpan='2'>销售目标</td>
-              <td className={styles['tl-span15']}>促销期销售计划（万元）</td>
+              <td className={styles['tl-span15']}>促销期销售计划（元）</td>
               <td colSpan='2' className={styles['tl']}>{data.saleGoal || '0'}</td>
-              <td className={styles['tl-span15']}>去年同期销售额（万元）</td>
+              <td className={styles['tl-span15']}>去年同期销售额（元）</td>
               <td colSpan='3' className={styles['tl']}>{data.lastYearSales || '0'}</td>
             </tr>
             <tr>
-              <td className={styles['tl-span15']}>预计达成销售（万元）</td>
+              <td className={styles['tl-span15']}>预计达成销售（元）</td>
               <td colSpan='2' className={styles['tl']}>{data.estiSale || '0'}</td>
-              <td className={styles['tl-span15']}>预告销售提高（万元）</td>
+              <td className={styles['tl-span15']}>预告销售提高（元）</td>
               <td colSpan='3' className={styles['tl']}>{data.estiImprove || '0'}</td>
             </tr>
             <tr>

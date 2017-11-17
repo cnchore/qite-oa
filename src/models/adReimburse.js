@@ -1,4 +1,5 @@
 import { query,queryById,save,deleteById} from '../services/adReimburse'
+import { adSearch} from '../services/ad'
 import { queryEmployee } from '../services/employee'
 import { getDic } from '../services/dictionary'
 import { config } from '../utils'
@@ -21,7 +22,7 @@ export default {
     dicList:[],
     detailList:[],
     employeeList:[],
-    // travelList:[],
+    adList:[],
     taskData:{},
     isEditable:false,
     pagination: {
@@ -79,7 +80,12 @@ export default {
             employeeList:userInfo.data.employeeVo,
           },
         })
-        
+        yield put({
+          type:'getAdList',
+          payload:{
+            isChoose:true
+          }
+        })
       }
     },
     *getDic ({ payload }, { call, put }) {
@@ -95,6 +101,15 @@ export default {
       }
     },
     
+    *getAdList ({ payload }, { call, put }) {
+      const data = yield call(adSearch, payload)
+      if (data) {
+        yield put({
+          type: 'getAdListSuccess',
+          payload: data.data,
+        })
+      }
+    },
     *create ({ payload }, { call, put }) {
 
       const data = yield call(save, payload)
@@ -252,7 +267,9 @@ export default {
     getDicSuccess(state,action){
       return {...state,dicList:action.payload}
     },
-    
+    getAdListSuccess(state,action){
+      return {...state,adList:action.payload}
+    },
     showModal (state, action) {
 
       return { ...state, ...action.payload, modalVisible: true }

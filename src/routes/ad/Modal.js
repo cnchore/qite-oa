@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,DatePicker,InputNumber } from 'antd'
+import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,DatePicker,InputNumber,Checkbox } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
 // import uploadImageCallBack from '../../services/uploadImageCallBack'
@@ -16,6 +16,7 @@ const confirm = Modal.confirm
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item
 //const Option =Select.Option;
+const CheckboxGroup = Checkbox.Group;
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -89,7 +90,13 @@ const modal = ({
       
       data.deliveryTimeStartStr=data.deliveryTimeStartStr?data.deliveryTimeStartStr.format(dateTimeFormat):null;
       data.deliveryTimeEndStr=data.deliveryTimeEndStr?data.deliveryTimeEndStr.format(dateTimeFormat):null;
-      
+      if(data.adForm){
+        
+        data.adForm=data.adForm.join();
+        if(data.adForm.indexOf('其他')>0 && data.adFormRemark){
+          data.adForm+=':'+data.adFormRemark;
+        }
+      }
       if(item.id){
         data.id=item.id;
         data.code=item.code;
@@ -147,6 +154,21 @@ const modal = ({
     }
   }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
+  const adFormOptions=['影视媒体','电波广告','平面媒体','网络媒体','其他'];
+  if(item.adForm && !(item.adForm instanceof Array)){
+    let l=item.adForm.indexOf('其他');
+    if(l>-1){
+      item.adFormRemark=item.adForm.substr(l).replace('其他:','');
+      item.adForm=`${item.adForm.substr(0,l)}其他`;
+    }
+    item.adForm=item.adForm.split(',');
+  }
+  
+
+  const handleadFormChange=(checkedValues)=>{
+    item.adForm=checkedValues;
+    // console.log('adForm',checkedValues)
+  }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -259,7 +281,7 @@ const modal = ({
                 ],
               })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             投放开始时间：
@@ -312,17 +334,27 @@ const modal = ({
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             广告形式：
           </Col>
-          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem >
               {getFieldDecorator('adForm', {
-                initialValue: item.adForm,
+                initialValue: item.adForm&& item.adForm instanceof Array?item.adForm:null,
                 rules: [
                   {
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<Input/>)}
+                onChange:handleadFormChange,
+              })(<CheckboxGroup options={adFormOptions} />)}
             </FormItem>
+            {
+              item.adForm && item.adForm instanceof Array && item.adForm.filter(f=>f==='其他').length>0?
+                <FormItem >
+                  {getFieldDecorator('adFormRemark', {
+                    initialValue:item.adFormRemark,
+                  })(<Input />)}
+                </FormItem>
+              :null
+            }
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             覆盖范围：
@@ -412,7 +444,7 @@ const modal = ({
             <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
               操&nbsp;&nbsp;&nbsp;&nbsp;作：
             </Col>
-            <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
               <FormItem >
                 {getFieldDecorator('action', {
                   initialValue:null,

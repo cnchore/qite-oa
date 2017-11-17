@@ -84,7 +84,7 @@ class MaterialGiftDetailPage extends React.Component {
               {data.materialType || '无'}
           </Col>
            <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            物料设计：
+            物料设计关键点：
           </Col>
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
               {data.materialDesign || '无'}

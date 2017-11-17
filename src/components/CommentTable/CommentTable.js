@@ -8,7 +8,9 @@ class CommentTable extends React.Component {
   render () {
 
     const { data } = this.props
-    
+    const _data=data && data[0]?data.sort(
+          (a,b)=>new Date(a.finishTime || '1900-1-1').getTime() - new Date(b.finishTime || '1900-1-1').getTime()
+        ):[];
     const columns = [
       {
         title: '序号',
@@ -60,7 +62,7 @@ class CommentTable extends React.Component {
           <Col span={24}>
             <Table
               pagination={false}
-              dataSource={data}
+              dataSource={_data}
               bordered
               scroll={{ x: 967 }}
               columns={columns}

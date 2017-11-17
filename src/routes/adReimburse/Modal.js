@@ -1,20 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,DatePicker,InputNumber } from 'antd'
+import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,DatePicker,InputNumber,Checkbox,Select } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
-import {changeMoneyToChinese} from '../../utils'
+import {changeMoneyToChinese,getDateDiff} from '../../utils'
 import EditCellTable from './EditCellTable'
 import { FileUpload,SelectUser } from '../../components'
 import CommentTable from '../../components/CommentTable'
 
 const confirm = Modal.confirm
-// const { RangePicker } = DatePicker
+const { RangePicker } = DatePicker
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item
-//const Option =Select.Option;
+const Option =Select.Option;
+const CheckboxGroup = Checkbox.Group;
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -54,6 +55,7 @@ const modal = ({
   onGoback,
   isEditable,
   setIsEditable,
+  adList,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -99,14 +101,23 @@ const modal = ({
         data[`detailList[${index}].costDetail`]=f.costDetail.value;
         data[`detailList[${index}].costAmount`]=f.costAmount.value;
       })
-      data.adTimeStartStr=data.adTimeStartStr?data.adTimeStartStr.format(dateTimeFormat):null;
-      data.adTimeEndStr=data.adTimeEndStr?data.adTimeEndStr.format(dateTimeFormat):null;
+      data.adTimeStartStr=data.adTime?data.adTime[0].format(dateTimeFormat):null;
+      data.adTimeEndStr=data.adTime?data.adTime[1].format(dateTimeFormat):null;
+      if(!data.adDays){
+        data.adDays=getDateDiff(data.adTimeStartStr,data.adTimeEndStr);
+      }
+      data.adTime=null;
       data.cost=item.cost;
+      data.adForm=data.adForm.join();
+      if(data.adIds && data.adIds[0]){
+        let trIds=data.adIds;
+        data.adCodes=trIds.map(c=>c.label).join()
+        data.adIds=trIds.map(t=>t.key).join()
+      }
       if(item.id){
         data.id=item.id;
         data.code=item.code;
       }
-      //console.log('--travelIds---',data);
     })
     return data;
   }
@@ -153,6 +164,10 @@ const modal = ({
   if(defaultDetailList[0]){
     item.cost=0;
     defaultDetailList.forEach(d=>{item.cost+=parseFloat(d.costAmount.value);})
+    if(item.cost){
+      item.clientPay=(item.cost * 0.5).toFixed(2);
+      item.companyPay=(item.cost * 0.5).toFixed(2);
+    }
   }
   const handleSubmit=(data)=>{
     confirm({
@@ -183,6 +198,25 @@ const modal = ({
     }
   }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
+  const adFormOptions=['电视','报纸','标牌','小区'];
+  if((item.adTimeStartStr || item.adTimeStart) && (item.adTimeEndStr || item.adTimeEnd)){
+    item.adTime=[moment(item.adTimeStartStr || item.adTimeStart,dateTimeFormat),moment(item.adTimeEnd || item.adTimeEndStr,dateTimeFormat)]
+  }
+  const handleAdTimeChange=(dates,dateStrings)=>{
+    item.adDays=dateStrings?getDateDiff(dateStrings[0],dateStrings[1]):0;
+  }
+  const adOptions=adList.map(ad=><Option key={String(ad.id)}>{ad.code}</Option>)
+  const getAdIds=()=>{
+    if(item.adIds && item.adCodes){
+      let ids=item.adIds.split(',');
+      let codes=item.adCodes.split(',');
+      return ids.map((item,index)=>{
+        return {key:item,label:codes[index]}
+      })
+    }else{
+      return [];
+    }
+  }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -250,6 +284,21 @@ const modal = ({
               {item.createTime || item.createTimeStr || '系统自动生成'}
             </FormItem>
           </Col>
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
+            广告投放申请单：
+          </Col>
+          <Col xs={18} md={20} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}}>
+              {getFieldDecorator('adIds', {
+                initialValue:getAdIds(),
+                
+              })(<Select mode="multiple" labelInValue >{adOptions}</Select>)}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请区域：
           </Col>
@@ -340,38 +389,25 @@ const modal = ({
               })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
             </FormItem>
           </Col>
+
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            广告开始时间：
+            广告时间：
           </Col>
-          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={20} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
-              {getFieldDecorator('adTimeStartStr', {
-                initialValue:(item.adTimeStartStr || item.adTimeStart)? moment(item.adTimeStartStr || item.adTimeStart,dateTimeFormat):null,
+              {getFieldDecorator('adTime', {
+                initialValue:item.adTime,
                 rules: [
                   {
                     required: true,message:'不能为空',
                    
                   },
                 ],
-              })(<DatePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
+                onChange:handleAdTimeChange,
+              })(<RangePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            广告结束时间：
-          </Col>
-          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            <FormItem >
-              {getFieldDecorator('adTimeEndStr', {
-                initialValue:(item.adTimeEndStr || item.adTimeEnd)? moment(item.adTimeEndStr || item.adTimeEnd,dateTimeFormat):null,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-              })(<DatePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
-            </FormItem>
-          </Col>
+          
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             广告天数：
           </Col>
@@ -388,20 +424,21 @@ const modal = ({
             </FormItem>
             <FormItem >天</FormItem>
           </Col>
-          
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}> 
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             广告形式：
           </Col>
           <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {getFieldDecorator('adForm', {
-                initialValue: item.adForm,
+                initialValue: item.adForm&& !(item.adForm instanceof Array)?item.adForm.split(','):null,
                 rules: [
                   {
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<Input />)}
+              })(<CheckboxGroup options={adFormOptions} />)}
             </FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
@@ -419,10 +456,10 @@ const modal = ({
               })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
+          <Col xs={6} md={5} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             促销期销售计划：
           </Col>
-          <Col xs={18} md={8} xl={9} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+          <Col xs={18} md={19} xl={9} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem >
               {getFieldDecorator('saleGoal', {
                 initialValue:item.saleGoal?item.saleGoal:0,
@@ -433,12 +470,12 @@ const modal = ({
                 ],
               })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
+          <Col xs={6} md={5} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             去年同期销售额：
           </Col>
-          <Col xs={18} md={8} xl={9} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+          <Col xs={18} md={19} xl={9} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem >
               {getFieldDecorator('lastYearSales', {
                 initialValue:item.lastYearSales?item.lastYearSales:0,
@@ -449,12 +486,12 @@ const modal = ({
                 ],
               })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
+          <Col xs={6} md={5} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             预计达成销售：
           </Col>
-          <Col xs={18} md={8} xl={9} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+          <Col xs={18} md={19} xl={9} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem >
               {getFieldDecorator('estiSale', {
                 initialValue:item.estiSale?item.estiSale:0,
@@ -465,12 +502,12 @@ const modal = ({
                 ],
               })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
+          <Col xs={6} md={5} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             预估销售提高：
           </Col>
-          <Col xs={18} md={8} xl={9} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+          <Col xs={18} md={19} xl={9} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem >
               {getFieldDecorator('estiImprove', {
                 initialValue:item.estiImprove?item.estiImprove:0,
@@ -481,7 +518,7 @@ const modal = ({
                 ],
               })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
           
           
@@ -493,7 +530,8 @@ const modal = ({
           dataSource={defaultDetailList} 
           callbackParent={getDetailList}
           setIsEditable={setIsEditable}
-          className={styles['q-detail']}/> 
+          className={styles['q-detail']}/>
+          <br/> 
         <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             费用合计：
@@ -502,7 +540,7 @@ const modal = ({
             <FormItem >
               {item.cost || 0}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             客户分摊：
@@ -516,9 +554,9 @@ const modal = ({
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
+              })(<InputNumber style={{width:'100%'}} precision={2} step={1} readOnly/>)}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             公司分摊：
@@ -532,9 +570,9 @@ const modal = ({
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
+              })(<InputNumber style={{width:'100%'}} precision={2} step={1} readOnly/>)}
             </FormItem>
-            <FormItem >万元</FormItem>
+            <FormItem >元</FormItem>
           </Col>
         </Row>
          

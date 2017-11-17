@@ -29,6 +29,22 @@ import TaskNodeList from '../../../components/TaskNodeList'
 import Iconfont from '../../../components/Iconfont'
 import audited from '../../../svg/audited.svg'
 
+import AdReimburseDetailPage from '../../../components/AdReimburseDetailPage'
+import AdDetailPage from '../../../components/AdDetailPage'
+import RenoSubsidyDetailPage from '../../../components/RenoSubsidyDetailPage'
+import ShopUpgradeDetailPage from '../../../components/ShopUpgradeDetailPage'
+import OpenDetailPage from '../../../components/OpenDetailPage'
+import ShopDetailPage from '../../../components/ShopDetailPage'
+import MaterialSupportDetailPage from '../../../components/MaterialSupportDetailPage'
+import SampleReplaceDetailPage from '../../../components/SampleReplaceDetailPage'
+import CardDetailPage from '../../../components/CardDetailPage'
+import SealDetailPage from '../../../components/SealDetailPage'
+import TrainDetailPage from '../../../components/TrainDetailPage'
+import PickDetailPage from '../../../components/PickDetailPage'
+import MaterialGiftDetailPage from '../../../components/MaterialGiftDetailPage'
+import SampleRoomDetailPage from '../../../components/SampleRoomDetailPage'
+import PromotionExpenseDetailPage from '../../../components/PromotionExpenseDetailPage'
+import SalesPromotionDetailPage from '../../../components/SalesPromotionDetailPage'
 const Detail = ({ completeDetail }) => {
   const { data,employeeList,dicList,taskNode } = completeDetail
   let detailpage=null,
@@ -43,6 +59,23 @@ const Detail = ({ completeDetail }) => {
       case 'BD':
       case 'PE':
       case 'PA':
+      case 'AR'://广告费用报销
+      case 'AD'://广告投放
+      case 'SP'://促销活动支持
+      case 'PX'://促销活动费用报销
+      case 'SM'://样板房折扣申请
+      case 'MG'://常规物料及礼品制作
+      case 'TN'://常规物料及礼品制作
+      case 'CD'://名片制作
+      case 'SR'://售后问题处理
+      case 'MS'://物料支持自助
+      case 'OP'://开业支持
+      case 'SU'://店面升级自助申请
+      case 'RS'://店面装修补贴费用申请
+      case 'SH'://建店申请
+      case 'TL'://出差申请
+      case 'SL'://印章使用申请
+      case 'PP'://领料单
         printData=true;
         setPrintData(data.busiData,data.userVo.employeeVo,dicList,data.commentList)
         break;
@@ -103,7 +136,56 @@ const Detail = ({ completeDetail }) => {
         break
       case 'NE':
         detailpage=<NoticeDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList} />
-        break
+        break;
+      case 'AR'://广告费用报销
+        detailpage=<AdReimburseDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'AD'://广告投放
+        detailpage=<AdDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'SP'://促销活动支持
+        detailpage=<SalesPromotionDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'PX'://促销活动费用报销
+        detailpage=<PromotionExpenseDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'SM'://样板房折扣申请
+        detailpage=<SampleRoomDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'MG'://常规物料及礼品制作
+        detailpage=<MaterialGiftDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'TN'://常规物料及礼品制作
+        detailpage=<TrainDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'CD'://名片制作
+        detailpage=<CardDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'SR'://售后问题处理
+        detailpage=<SampleReplaceDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'MS'://物料支持自助
+        detailpage=<MaterialSupportDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'OP'://开业支持
+        detailpage=<OpenDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'SU'://店面升级自助申请
+        detailpage=<ShopUpgradeDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'RS'://店面装修补贴费用申请
+        detailpage=<RenoSubsidyDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'SH'://建店申请
+        detailpage=<ShopDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'SL'://印章使用申请
+        detailpage=<SealDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'PP'://领料单
+        detailpage=<PickDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+
     }
   }
   //console.log(data,employeeList)

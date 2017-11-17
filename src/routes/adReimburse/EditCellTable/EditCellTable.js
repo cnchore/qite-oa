@@ -23,9 +23,9 @@ class EditCellTable extends React.Component {
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'costDetail', text,'input'),
     
     }, {
-      title: '金额',
+      title: '报销金额',
       dataIndex: 'costAmount',
-      width: 120,
+      width: 200,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'costAmount', text,'currency'),
     }, {
       title: '操作',

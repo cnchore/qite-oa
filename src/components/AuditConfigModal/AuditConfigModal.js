@@ -87,13 +87,13 @@ class AuditConfigModal extends React.Component {
 
     const columns = [
       {
-        title: '角色名称',
+        title: '审批角色名称',
         key: 'auditName',
         dataIndex: 'auditName',
         width:120,
         // render:(text)=>renderTips(text),
       }, {
-        title: '角色描述',
+        title: '应用的流程',
         dataIndex: 'remark',
         key: 'remark',
         // render:(text)=>renderTips(text),
@@ -138,7 +138,7 @@ class AuditConfigModal extends React.Component {
         <Modal
           style={{ top: 20 }}
           width={1020}
-          title='用户绑定审批角色'
+          title='审批角色绑定'
           visible={this.state.modalVisible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
@@ -150,7 +150,7 @@ class AuditConfigModal extends React.Component {
             simple
             rowKey={record => record.id}
             title={
-              ()=><Search addonBefore="角色描述：" placeholder="输入角色描述" size="large" 
+              ()=><Search addonBefore="应用的流程：" placeholder="输入应用的流程" size="large" 
               style={{width:400}}
               onSearch={value=>this.handleSearch(value)} />
             }
