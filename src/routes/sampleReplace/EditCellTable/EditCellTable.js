@@ -58,7 +58,7 @@ class EditCellTable extends React.Component {
       },{
       dataIndex:'thickness',
       width:120,
-      title:'型材皮厚(T)',
+      title:'型材壁厚(T)',
       render:(text,record,index)=>this.renderColumns(this.props.dataSource,index,'thickness',text,'input'),
       },{
       dataIndex:'color',

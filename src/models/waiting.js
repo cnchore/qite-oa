@@ -1,5 +1,6 @@
 import { queryById,queryEmployee } from '../services/missClock'
 import { getMyTaskToDoPage,getTaskInfo,audit,getDic,getOrg } from '../services/workFlow'
+import * as train from '../services/train'
 import * as car from '../services/car'
 import { treeToArray,config } from '../utils'
 import { parse } from 'qs'
@@ -88,17 +89,20 @@ export default {
           let dicType=null,dicRes=null;  
           switch(response.data.busiCode.substr(0,2)){
             case 'LE':
-                dicType='leaveType_item'
+                dicType='leaveType_item';
               break;
             case 'OT':
-                dicType='overtimes_item'
+                dicType='overtimes_item';
               break;
             case 'TL':
             case 'TR':
-              dicType='tripMode_item'
+              dicType='tripMode_item';
               break;
             case 'UC':
-              dicType='carType_item'
+              dicType='carType_item';
+              break;
+            case 'SL':
+              dicType='sealType_item';
               break;
           }
           if(dicType){
@@ -131,9 +135,18 @@ export default {
         throw response
       }
     },
-    *submit ({ payload }, { call, put }) {
-
-      const data = yield call(audit, payload)
+    *submit ({ payload }, { call,select, put }) {
+      const taskData = yield select(({waiting})=>waiting.taskData);
+      let saveData={};
+      let data=null;
+      if(payload.isNeedSave && taskData.busiCode.substr(0,2)==='TN'){
+        saveData=yield call(train.save,payload);
+      }else{
+        saveData.success=true;
+      }
+      if(saveData.success){
+       data = yield call(audit, payload)
+      }
       if (data.success) {
         message.success('办理成功');
         let queryList=parse(location.hash.substr(location.hash.indexOf('?')+1)); 

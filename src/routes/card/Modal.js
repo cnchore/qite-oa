@@ -103,7 +103,8 @@ const modal = ({
         data[`detailList[${index}].phone`]=f.phone.value;     //联系电话（String）
         data[`detailList[${index}].qq`]=f.qq.value;      // qq（String）
         data[`detailList[${index}].email`]=f.email.value;     //邮箱（String）
-        data[`detailList[${index}].num`]=f.num.value;     //数量：盒（Integer）
+        data[`detailList[${index}].edition`]=f.edition.value;     //数量：盒（Integer）
+        data[`detailList[${index}].group`]=f.group.value;     //数量：盒（Integer）
       })
       data.needTimeStr=data.needTimeStr?data.needTimeStr.format(dateTimeFormat):null;
       
@@ -165,9 +166,13 @@ const modal = ({
           editable:false,
           value:temp.email,
         },
-        num:{
+        edition:{
           editable:false,
-          value: temp.num!==null&&temp.num!==undefined?temp.num:0,
+          value: temp.edition,
+        },
+        group:{
+          editable:false,
+          value: temp.group,
         },
         
       }

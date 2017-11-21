@@ -123,7 +123,7 @@ class OpenDetailPage extends React.Component {
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} className='qite-list-title'>
-            <Icon type="credit-card" />促销活动
+            <Icon type="credit-card" />开业活动方案关键点
           </Col>  
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             主题方面：
@@ -181,7 +181,7 @@ class OpenDetailPage extends React.Component {
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} className='qite-list-title'>
-            <Icon type="credit-card" />活动宣传计划
+            <Icon type="credit-card" />开业活动宣传计划
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             户外：

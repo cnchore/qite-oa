@@ -5,7 +5,7 @@ import moment from 'moment';
 import config from '../../utils/config'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
-import {changeMoneyToChinese} from '../../utils'
+import {changeMoneyToChinese,getDateDiff} from '../../utils'
 import EditCellTable from './EditCellTable'
 import ScheduleTable from './ScheduleTable'
 
@@ -13,7 +13,7 @@ import { FileUpload,SelectUser } from '../../components'
 import CommentTable from '../../components/CommentTable'
 
 const confirm = Modal.confirm
-// const { RangePicker } = DatePicker
+const { RangePicker } = DatePicker
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item
 //const Option =Select.Option;
@@ -122,8 +122,12 @@ const modal = ({
         data[`scheduleList[${index}].remark`]=s.remark.value;        //备注（String）
       })
 
-      data.actTimeStartStr=data.actTimeStartStr?data.actTimeStartStr.format(dateTimeFormat):null;
-      data.actTimeEndStr=data.actTimeEndStr?data.actTimeEndStr.format(dateTimeFormat):null;
+      data.actTimeStartStr=data.actTime?data.actTime[0].format(dateTimeFormat):null;
+      data.actTimeEndStr=data.actTime?data.actTime[1].format(dateTimeFormat):null;
+      if(!data.actDays){
+        data.actDays=getDateDiff(data.actTimeStartStr,data.actTimeEndStr);
+      }
+      data.actTime=null;
       data.cost=item.cost;
       if(data.actObj){
         data.actObj=data.actObj.join();
@@ -241,6 +245,12 @@ const modal = ({
       })
     }
   }
+  if((item.actTimeStartStr || item.actTimeStart) && (item.actTimeEndStr || item.actTimeEnd)){
+    item.actTime=[moment(item.actTimeStartStr || item.actTimeStart,dateTimeFormat),moment(item.actTimeEnd || item.actTimeEndStr,dateTimeFormat)]
+  }
+  const handleActTimeChange=(dates,dateStrings)=>{
+    item.actDays=dateStrings?getDateDiff(dateStrings[0],dateStrings[1]):0;
+  }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
   const expenseFormOptions=['促销活动','广告','返利','其他'];
   const actObjOptions=['渠道','消费者','家装公司','统购统采型家装公司','KA','区域媒体','物料制作','店面改造'];
@@ -306,7 +316,7 @@ const modal = ({
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请时间：
           </Col>
-          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={20} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {item.createTime || item.createTimeStr || '系统自动生成'}
             </FormItem>
@@ -314,10 +324,25 @@ const modal = ({
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请区域：
           </Col>
-          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            <FormItem >
+          <Col xs={18} md={8} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}}>
               {getFieldDecorator('applyArea', {
                 initialValue: item.applyArea,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input style={{width:'100%'}}/>)}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            申请城市：
+          </Col>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('city', {
+                initialValue: item.city,
                 rules: [
                   {
                     required: true,message:'不能为空',
@@ -373,37 +398,22 @@ const modal = ({
             </FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            活动开始时间：
+            活动时间：
           </Col>
-          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={20} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
-              {getFieldDecorator('actTimeStartStr', {
-                initialValue:(item.actTimeStartStr || item.actTimeStart)? moment(item.actTimeStartStr || item.actTimeStart,dateTimeFormat):null,
+              {getFieldDecorator('actTime', {
+                initialValue:item.actTime,
                 rules: [
                   {
                     required: true,message:'不能为空',
-                   
                   },
                 ],
-              })(<DatePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
+                onChange:handleActTimeChange,
+              })(<RangePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            活动结束时间：
-          </Col>
-          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            <FormItem >
-              {getFieldDecorator('actTimeEndStr', {
-                initialValue:(item.actTimeEndStr || item.actTimeEnd)? moment(item.actTimeEndStr || item.actTimeEnd,dateTimeFormat):null,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-              })(<DatePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
-            </FormItem>
-          </Col>
+          
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             活动天数：
           </Col>
@@ -420,7 +430,8 @@ const modal = ({
             </FormItem>
             <FormItem >天</FormItem>
           </Col>
-          
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}> 
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             费用形式：
           </Col>

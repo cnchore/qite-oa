@@ -64,8 +64,10 @@ const modal = ({
   },
   ...modalProps
 }) => {
-  const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
-
+  const dateTimeFormat='YYYY-MM-DD HH:mm:ss';
+  const taskDefinitionKey=taskData.taskVo && taskData.taskVo.taskDefinitionKey || null;
+  const _use=taskDefinitionKey?taskDefinitionKey.split('_')[0]:'';
+  const isTrainer=_use==='trainer'?true:false;
   const getFields = () => {
     let data=null;
     validateFieldsAndScroll((err,values) => {
@@ -363,37 +365,52 @@ const modal = ({
             </FormItem>
           </Col>
           
-          
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            培训提纲：
-          </Col>
-          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            <FormItem >
-              {getFieldDecorator('trainOutline', {
-                initialValue: item.trainOutline,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                  },
-                ],
-              })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
-            </FormItem>
-          </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            评估方式：
-          </Col>
-          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('evalWay', {
-                initialValue: item.evalWay&& !(item.evalWay instanceof Array)?item.evalWay.split(','):null,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                  },
-                ],
-              })(<CheckboxGroup options={evalWayOptions} />)}
-            </FormItem>
-          </Col>
+          {
+            isTrainer?
+            <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+              培训提纲：
+            </Col>
+            :null
+          }
+          {
+            isTrainer?
+            <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+              <FormItem >
+                {getFieldDecorator('trainOutline', {
+                  initialValue: item.trainOutline,
+                  rules: [
+                    {
+                      required: true,message:'不能为空',
+                    },
+                  ],
+                })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
+              </FormItem>
+            </Col>
+            :null
+          }
+          {
+            isTrainer?
+            <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+              评估方式：
+            </Col>
+            :null
+          }
+          {
+            isTrainer?
+            <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+              <FormItem >
+                {getFieldDecorator('evalWay', {
+                  initialValue: item.evalWay&& !(item.evalWay instanceof Array)?item.evalWay.split(','):null,
+                  rules: [
+                    {
+                      required: true,message:'不能为空',
+                    },
+                  ],
+                })(<CheckboxGroup options={evalWayOptions} />)}
+              </FormItem>
+            </Col>
+            :null
+          }
         </Row>
         <EditCellTable dicList={dicList} 
           dataSource={defaultDetailList} 

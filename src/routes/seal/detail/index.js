@@ -11,8 +11,8 @@ import {setPrintData} from '../../../utils'
 import Iconfont from '../../../components/Iconfont'
 import audited from '../../../svg/audited.svg'
 const Detail = ({ sealDetail }) => {
-  const { data,employeeList,commentList,taskNode } = sealDetail
-  setPrintData(data,employeeList,null,commentList)
+  const { data,employeeList,commentList,taskNode,dicList } = sealDetail
+  setPrintData(data,employeeList,dicList,commentList)
   return (
     <div className={cs({'content-inner':true,...JSON.parse(`{"audited${data && data.state && data.state}":true}`) })}>
       <Iconfont className="q-icon-audited" colorful type={audited} />
@@ -29,7 +29,7 @@ const Detail = ({ sealDetail }) => {
         </a>
       </div>
 
-      <SealDetailPage data={data} employeeList={employeeList} />
+      <SealDetailPage data={data} employeeList={employeeList} dicList={dicList} />
       {
         taskNode && taskNode[0] && data && data.state<2?
         <TaskNodeList data={taskNode} />

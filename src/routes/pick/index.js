@@ -25,7 +25,7 @@ const Pick = ({ location, dispatch, pick, loading }) => {
     submitLoading:loading.effects['pick/submit'],
     confirmLoading: loading.effects[`pick/${modalType}`],
     auditLoading:loading.effects['pick/audit'],
-    title: `${modalType === 'create' ? '新增－预算申请' : modalType==='update'?'编辑－预算申请':'退回修改－预算申请'}`,
+    title: `${modalType === 'create' ? '新增－领料申请' : modalType==='update'?'编辑－领料申请':'退回修改－领料申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({

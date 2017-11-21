@@ -64,8 +64,12 @@ class CardDetailPage extends React.Component {
         width: 120,
         render:(text)=>renderTooltips(text,15)
       }, {
-        title: '数量(盒)',
-        dataIndex: 'num',
+        title: '艾臣/艾厨/通用版本',
+        dataIndex: 'edition',
+        width: 200,
+      }, {
+        title: '战队',
+        dataIndex: 'group',
         width: 120,
       }]
     const getTable=()=>{
@@ -73,7 +77,7 @@ class CardDetailPage extends React.Component {
             dataSource={data.detailList || []} 
             columns={columns} 
             pagination={false}
-            scroll={{ x: 1000 }}
+            scroll={{ x: 1200 }}
             rowKey={record=>record.id}
             footer={()=>(
               <div>

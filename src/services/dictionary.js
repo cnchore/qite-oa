@@ -11,7 +11,7 @@ export async function query (params) {
 }
 export async function getDic (params) {
   return request({
-    url: dictionary.query,
+    url: dictionary.getList,
     method: 'get',
     data: params,
   })

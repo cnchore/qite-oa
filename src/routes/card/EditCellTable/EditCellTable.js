@@ -48,10 +48,15 @@ class EditCellTable extends React.Component {
       width: 120,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'email', text,'input'),
     }, {
-      title: '数量(盒)',
-      dataIndex: 'num',
+      title: '艾臣/艾厨/通用版本',
+      dataIndex: 'edition',
+      width: 200,
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'edition', text,'input'),
+    }, {
+      title: '战队',
+      dataIndex: 'group',
       width: 120,
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'num', text,'currency'),
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'group', text,'input'),
     }, {
       title: '操作',
       dataIndex: 'operation',
@@ -153,9 +158,13 @@ class EditCellTable extends React.Component {
           editable:true,
           value:'',
         },
-        num:{
+        edition:{
           editable:true,
-          value:0,
+          value:'',
+        },
+        group:{
+          editable:true,
+          value:'',
         },
       }
     // this.setState({
@@ -247,7 +256,7 @@ class EditCellTable extends React.Component {
               dataSource={dataSource} 
               columns={columns} 
               pagination={false}
-              scroll={{ x: 1100 }} 
+              scroll={{ x: 1300 }} 
               rowKey={record=>record.key}
               footer={()=>(
                 <div>

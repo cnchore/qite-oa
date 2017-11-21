@@ -5,7 +5,7 @@ import styles from './SealForm.less'
 import {changeMoneyToChinese,config} from '../../utils'
 class SealForm extends React.Component {
   render () {
-    const { data,employeeList } = this.props
+    const { data,employeeList,dicList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],total=0;
 
@@ -13,7 +13,13 @@ class SealForm extends React.Component {
       let _date=data.createTime && new Date(data.createTime) || new Date();
       return `${_date.getFullYear()}年${_date.getMonth()+1}月${_date.getDate()}日`
     }
-    
+    const getDicType=(value,remark=null)=>{
+      let n=dicList.filter(item=>String(item.dicValue)===String(value));
+      if(n && n[0]){
+        return n[0].dicName;
+      }
+      return '';
+    }
     return (
       <div >
         <div className={styles['title']}>印章使用申请表</div>
@@ -21,7 +27,7 @@ class SealForm extends React.Component {
           <tbody>
             <tr>
               <td className={styles['tc-span10']}>印章类别</td>
-              <td className={styles['tc']}>{data.type || ''}</td>
+              <td className={styles['tc']}>{getDicType(data.type) || ''}</td>
               <td className={styles['tc']}>承办人</td>
               <td className={styles['tc']}>{employeeList.realName || ''}</td>
               <td className={styles['tc']}>申请时间</td>

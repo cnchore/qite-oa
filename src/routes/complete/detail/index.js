@@ -180,7 +180,7 @@ const Detail = ({ completeDetail }) => {
         detailpage=<ShopDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
         break;
       case 'SL'://印章使用申请
-        detailpage=<SealDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        detailpage=<SealDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList} />
         break;
       case 'PP'://领料单
         detailpage=<PickDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />

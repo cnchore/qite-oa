@@ -39,27 +39,32 @@ export default {
         if(other.data.state!==0){
           flowImgSrc=yield call(getDiagramByBusiness,{busiCode:other.data.code,busiId:other.data.id})
         }
-        
+        yield put({
+          type:'getDic',
+          payload:{
+            dicType:'sealType_item'
+          }
+        });
         yield put({
           type:'getTaskListByBusinessKey',
           payload:{
             busiCode:other.data.code,
             busiId:other.data.id
           }
-        })
+        });
         yield put({
           type:'queryEmployee',
           payload:other.data.userId
-        })
+        });
         yield put({
           type: 'querySuccess',
           payload: {
             data: {...other.data,flowImgSrc},
             commentList:commentData&&commentData.success?commentData.data:null,
           },
-        })
+        });
       } else {
-        throw data
+        throw data;
       }
     },
     *getDic ({ payload }, { call, put }) {

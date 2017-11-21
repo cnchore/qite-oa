@@ -86,7 +86,7 @@ class Print extends React.Component {
 					break;
 				case 'CD'://名片制作
 					printForm=<CardForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></CardForm>
-					// isA4=true;
+					isA4=true;
 					break;
 				case 'SR'://售后问题处理
 					printForm=<SampleReplaceForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></SampleReplaceForm>

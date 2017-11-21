@@ -24,7 +24,8 @@ class CardForm extends React.Component {
           <td className={styles['tc']}>{item.phone || ''}</td>
           <td className={styles['tc']}>{item.qq || ''}</td>
           <td className={styles['tc']}>{item.email || ''}</td>
-          <td className={styles['tc']}>{item.num || ''}</td>
+          <td className={styles['tc']}>{item.edition || ''}</td>
+          <td className={styles['tc']}>{item.group || ''}</td>
         </tr>
       )
     })
@@ -32,6 +33,7 @@ class CardForm extends React.Component {
         for(var i=0;i<(6-data.detailList.length);i++){
           defaultRows.push(
             <tr key={6+i}>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -60,7 +62,8 @@ class CardForm extends React.Component {
               <td className={styles['tc']} >联系电话</td>
               <td className={styles['tc']} >QQ</td>
               <td className={styles['tc']} >邮箱</td>
-              <td className={styles['tc']} >数量(盒)</td>
+              <td className={styles['tc']} >艾臣/艾厨/通用版本</td>
+              <td className={styles['tc']} >战队</td>
             </tr>
             {getRows}
             {defaultRows && defaultRows}
@@ -70,20 +73,20 @@ class CardForm extends React.Component {
                 座机号：{data.planeNumber || ''}<br/>
                 {data.remark || ''}
               </td>
-              <td className={styles['tc']} colSpan="2">需要日期</td>
+              <td className={styles['tc']} colSpan="3">需要日期</td>
             </tr>
             <tr>
-              <td className={styles['tc']} colSpan="2">{data.needTime || ''}</td>
+              <td className={styles['tc']} colSpan="3">{data.needTime || ''}</td>
             </tr>
             <tr>
               <td className={styles['tc']} colSpan="2">申请人确认</td>
               <td className={styles['tc']} colSpan="2">{employeeList.realName  || ''}</td>
               <td className={styles['tc']} colSpan="2">设计师签证</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="3"></td>
               
             </tr>
             <tr>
-              <td className={styles['tl']} colSpan="8">注：发起人－平面设计师</td>
+              <td className={styles['tl']} colSpan="9">注：发起人－平面设计师</td>
             </tr>
           </tbody>
         </table>

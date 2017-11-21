@@ -32,18 +32,21 @@ export default {
         let dicType=null;  
         switch(other.data.busiCode.substr(0,2)){
           case 'LE':
-              dicType='leaveType_item'
+              dicType='leaveType_item';
             break;
           case 'OT':
-              dicType='overtimes_item'
+              dicType='overtimes_item';
             break;
           case 'TL':
           case 'TR':
-              dicType='tripMode_item'
+              dicType='tripMode_item';
             break;
           case 'UC':
-              dicType='carType_item'
+              dicType='carType_item';
             break;
+          case 'SL':
+              dicType='sealType_item';
+              break;
         }
         if(dicType){
           yield put({

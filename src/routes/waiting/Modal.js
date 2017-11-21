@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input,Radio,Modal,Row,Col,DatePicker,Button,Icon,Affix } from 'antd'
+import { Form, Input,Radio,Modal,Row,Col,DatePicker,Button,Icon,Affix,Checkbox } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
 import { SelectUser } from '../../components'
@@ -44,6 +44,8 @@ import SalesPromotionDetailPage from '../../components/SalesPromotionDetailPage'
 const confirm = Modal.confirm
 const FormItem = Form.Item
 const RadioGroup = Radio.Group;
+const CheckboxGroup = Checkbox.Group;
+
 const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: {
@@ -77,7 +79,11 @@ const modal = ({
   },
   ...modalProps
 }) => {
-  const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
+  const dateTimeFormat='YYYY-MM-DD HH:mm:ss';
+  const taskDefinitionKey=taskData.taskVo && taskData.taskVo.taskDefinitionKey || null;
+  const _use=taskDefinitionKey?taskDefinitionKey.split('_')[0]:'';
+  const isTrainer=_use==='trainer'?true:false;
+
   const getFields=()=>{
     let data={};
     validateFields((errors) => {
@@ -85,6 +91,33 @@ const modal = ({
         return {}
       }
       data= {...getFieldsValue()}
+      if(isTrainer){
+        data.isNeedSave=true;
+        data.id=taskData.busiData.id;
+        data.code=taskData.busiData.code;
+        data.projectName=taskData.busiData.projectName;                 //培训项目名称
+        data.purpose=taskData.busiData.purpose;                    //培训目的
+        data.trainTimeStr=taskData.busiData.trainTime;                //培训时间
+        data.trainObj=taskData.busiData.trainObj;                 //培训对象
+        data.trainWay=taskData.busiData.trainWay;                 //培训方式
+        data.trainAddress=taskData.busiData.trainAddress;                //培训地点
+        data.userId=taskData.busiData.userId;
+        taskData.busiData.attachList.filter(fl=>fl.uid!=='invalid').map((f,index)=>{
+          if(f.id) data[`attachList[${index}].id`]=f.id;
+          data[`attachList[${index}].attachUrl`]=f.url;
+          data[`attachList[${index}].attachName`]=f.name;
+        })
+        taskData.busiData.detailList.map((f,index)=>{
+        if(f.id) data[`detailList[${index}].id`]=f.id;
+        data[`detailList[${index}].lecturerFee`]=f.lecturerFee.value;
+        data[`detailList[${index}].toolFee`]=f.toolFee.value;
+        data[`detailList[${index}].trafficFee`]=f.trafficFee.value;
+        data[`detailList[${index}].mealsFee`]=f.mealsFee.value;
+        data[`detailList[${index}].hotelFee`]=f.hotelFee.value;
+        data[`detailList[${index}].otherFee`]=f.otherFee.value;
+      })
+
+      }
       data.taskId=taskData.taskId;
       data.busiCode=taskData.busiCode;
       data.busiId=taskData.busiId;
@@ -187,7 +220,7 @@ const modal = ({
       case 'MG'://常规物料及礼品制作
         detailpage=<MaterialGiftDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
         break;
-      case 'TN'://常规物料及礼品制作
+      case 'TN'://培训申请
         detailpage=<TrainDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
         break;
       case 'CD'://名片制作
@@ -212,7 +245,7 @@ const modal = ({
         detailpage=<ShopDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
         break;
       case 'SL'://印章使用申请
-        detailpage=<SealDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        detailpage=<SealDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={dicList} />
         break;
       case 'PP'://领料单
         detailpage=<PickDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
@@ -264,6 +297,8 @@ const modal = ({
         setNeedSel(false,_reasonStr);
       }
   }
+  const evalWayOptions=['考试方式','内部分享','制定实施计划并执行'];
+
   return (
       <Form layout='horizontal'>
         <Row gutter={24} className={styles['q-detail']}>
@@ -283,6 +318,54 @@ const modal = ({
         </Row>
 
         {detailpage}
+        <Row gutter={24} className={styles['q-detail']}>
+        {
+          isTrainer?
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            培训提纲：
+          </Col>
+          :null
+        }
+        {
+          isTrainer?
+          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('trainOutline', {
+                initialValue: taskData.busiData.trainOutline,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
+            </FormItem>
+          </Col>
+          :null
+        }
+        {
+          isTrainer?
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            评估方式：
+          </Col>
+          :null
+        }
+        {
+          isTrainer?
+          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem >
+              {getFieldDecorator('evalWay', {
+                initialValue: taskData.busiData.evalWay&& !(taskData.busiData.evalWay instanceof Array)?taskData.busiData.evalWay.split(','):null,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
+              })(<CheckboxGroup options={evalWayOptions} />)}
+            </FormItem>
+          </Col>
+          :null
+        }
+        </Row>
         {
           taskData && taskData.commentList && taskData.commentList[0]?
             <CommentTable data={taskData.commentList} />

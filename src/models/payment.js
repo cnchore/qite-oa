@@ -46,10 +46,10 @@ export default {
               payload: query,
             })
           }
-          dispatch({
-            type: 'getPurchaseList',
-            payload: {isChoose:true},
-          })
+          // dispatch({
+          //   type: 'getPurchaseList',
+          //   payload: {isChoose:true},
+          // })
           dispatch({
             type: 'getDic',
             payload: {dicType:'paymentType_item'},
@@ -84,21 +84,10 @@ export default {
             employeeList:userInfo.data.employeeVo,
           },
         })
-      }else {
-        // if (location.pathname !== '/login') {
-        //   let from = location.pathname
-        //   if (location.pathname === '/dashboard') {
-        //     from = '/dashboard'
-        //   }
-        //   window.location = `${location.origin}/login?from=${from}`
-        // }
       }
     },
     *getPurchaseList ({ payload }, { call, put }) {
-
-     // payload = parse(location.search.substr(1))
-      const data = yield call(getPurchaseList, payload)
-
+      const data = yield call(getPurchaseList, {isChoose:true,...payload});
       if (data) {
         yield put({
           type: 'getPurchaseListSuccess',
@@ -107,7 +96,6 @@ export default {
       }
     },
     *create ({ payload }, { call, put }) {
-
       const data = yield call(save, payload)
       if (data.success) {
         message.success('新增成功');
@@ -183,6 +171,7 @@ export default {
         let taskData=yield call(getTaskInfo,{taskId:payload.taskId})
         if(taskData.success){
           taskData.data.taskId=payload.taskId;
+          yield put({type:'getPurchaseList'});
           yield put({
             type:'showModal',
             payload:{
@@ -192,12 +181,12 @@ export default {
               employeeList:userInfo.data.employeeVo,
               modalType:'toBackEdit',
             }
-          })
+          });
         }else{
-          throw taskData
+          throw taskData;
         }
       }else{
-        throw mcData
+        throw mcData;
       }
     },
     *editItem ({ payload }, { call, put }) {
@@ -205,7 +194,7 @@ export default {
       const data = yield call(queryById, {id})
 
       if (data.success) {
-        
+        yield put({type:'getPurchaseList'});
         yield put({ 
           type: 'showModal',
           payload:{
@@ -274,7 +263,6 @@ export default {
       return {...state,purchaseList:action.payload}
     },
     showModal (state, action) {
-
       return { ...state, ...action.payload, modalVisible: true }
     },
 

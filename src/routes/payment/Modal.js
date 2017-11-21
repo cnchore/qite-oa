@@ -150,7 +150,6 @@ const modal = ({
     item.payAmount=value;
   }
   const handleSelectChange=(value)=>{
-    
     let selected=purchaseList.filter(item=>(value.findIndex(f=>String(f)===String(item.id)))>-1);
     //console.log('selected:',value,selected);
     if(selected && selected[0]){
@@ -163,8 +162,8 @@ const modal = ({
       })
       item.purchaseCodes=codes.join();
     }
-    
   }
+  
   const typeChange=(value)=>{
     if(value==='付款申请'){
       message.info('必须上传发票等附件哦，亲')
@@ -247,7 +246,7 @@ const modal = ({
               {getFieldDecorator('type', {
                 initialValue:item.type?item.type:undefined,
                 onChange:typeChange,
-              })(<Select placeholder="请选择">{typeOption}</Select>)}
+              })(<Select placeholder="请选择" >{typeOption}</Select>)}
               
             </FormItem>
             

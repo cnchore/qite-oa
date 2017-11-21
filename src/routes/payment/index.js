@@ -60,6 +60,7 @@ const Payment = ({ location, dispatch, payment, loading }) => {
         pathname:query.from,
       }))
     },
+    
   }
 
   const listProps = {
@@ -120,13 +121,16 @@ const Payment = ({ location, dispatch, payment, loading }) => {
     
     onAdd () {
       dispatch({
+        type:'payment/getPurchaseList'
+      });
+      dispatch({
         type: 'payment/showModal',
         payload: {
           modalType: 'create',
           fileList:[],
           taskData:{},
         },
-      })
+      });
     },
    
   }

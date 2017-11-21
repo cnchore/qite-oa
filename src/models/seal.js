@@ -49,6 +49,12 @@ export default {
               payload: query,
             })
           }
+          dispatch({
+            type:'getDic',
+            payload:{
+              dicType:'sealType_item'
+            }
+          })
         }
       })
     },

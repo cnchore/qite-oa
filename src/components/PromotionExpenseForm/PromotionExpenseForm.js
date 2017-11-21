@@ -64,7 +64,7 @@ class PromotionExpenseForm extends React.Component {
               <td className={styles['tc']}>申请区域</td>
               <td className={styles['tl']}>{data.applyArea || '无'}</td>
               <td className={styles['tc']}>城市</td>
-              <td className={styles['tl']}>{data.applyArea || '无'}</td>
+              <td className={styles['tl']}>{data.city || '无'}</td>
               <td className={styles['tc']}>申请人</td>
               <td className={styles['tl']}>{employeeList.realName || '无'}</td>
               <td className={styles['tc']}>联系电话</td>

@@ -7,14 +7,20 @@ import FileList from '../FileList'
 // import {changeMoneyToChinese} from '../../utils'
 class SealDetailPage extends React.Component {
   render () {
-    const { data,employeeList } = this.props
+    const { data,employeeList,dicList } = this.props
     let defaultFileList=[];
     if(data.attachList&& data.attachList[0]){
       defaultFileList=data.attachList.map((temp)=>{
         return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
       })
     }
-    
+    const getDicType=(value,remark=null)=>{
+      let n=dicList.filter(item=>String(item.dicValue)===String(value));
+      if(n && n[0]){
+        return n[0].dicName;
+      }
+      return '';
+    }
     return (
       <div>
         <Row gutter={24} className={styles['q-detail']}>
@@ -45,7 +51,7 @@ class SealDetailPage extends React.Component {
             盖章类别：
           </Col>
           <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.type || '无'}
+            {getDicType(data.type) || '无'}
           </Col>
           
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>

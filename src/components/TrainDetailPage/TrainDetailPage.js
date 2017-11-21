@@ -125,19 +125,34 @@ class TrainDetailPage extends React.Component {
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
               {data.trainAddress || '无'}
           </Col>
-          
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            评估方式：
-          </Col>
-          <Col xs={18} md={20} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-              {data.evalWay || '无'}
-          </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            培训提纲：
-          </Col>
-          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-              {data.trainOutline || '无'}
-          </Col>
+          {
+            data.evalWay?
+            <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+              评估方式：
+            </Col>
+            :null
+          }
+          {
+            data.evalWay?
+            <Col xs={18} md={20} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+                {data.evalWay || '无'}
+            </Col>
+            :null
+          }
+          {
+            data.trainOutline?
+            <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+              培训提纲：
+            </Col>
+            :null
+          }
+          {
+            data.trainOutline?
+            <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+                {data.trainOutline || '无'}
+            </Col>
+            :null
+          }
         
         </Row>
         <Row gutter={24} className={styles['q-detail']}>

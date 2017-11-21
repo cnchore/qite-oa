@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,Switch } from 'antd'
+import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,Switch,Select } from 'antd'
 //import moment from 'moment';
 import config from '../../utils/config'
 // import uploadImageCallBack from '../../services/uploadImageCallBack'
@@ -15,7 +15,7 @@ const confirm = Modal.confirm
 //const { RangePicker } = DatePicker
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item
-//const Option =Select.Option;
+const Option =Select.Option;
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -145,6 +145,7 @@ const modal = ({
       })
     }
   }
+  const dicOption=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -219,13 +220,13 @@ const modal = ({
           <Col xs={18} md={8} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {getFieldDecorator('type', {
-                initialValue: item.type,
+                initialValue: item.type?String(item.type):undefined,
                 rules: [
                   {
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<Input />)}
+              })(<Select style={{width:'100%'}}>{dicOption}</Select>)}
             </FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
