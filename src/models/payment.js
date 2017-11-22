@@ -171,7 +171,7 @@ export default {
         let taskData=yield call(getTaskInfo,{taskId:payload.taskId})
         if(taskData.success){
           taskData.data.taskId=payload.taskId;
-          yield put({type:'getPurchaseList'});
+          yield put({type:'getPurchaseList',payload:{payId:payload.busiId}});
           yield put({
             type:'showModal',
             payload:{
@@ -194,7 +194,6 @@ export default {
       const data = yield call(queryById, {id})
 
       if (data.success) {
-        yield put({type:'getPurchaseList'});
         yield put({ 
           type: 'showModal',
           payload:{

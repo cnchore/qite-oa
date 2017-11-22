@@ -82,20 +82,7 @@ export default {
             employeeList:userInfo.data.employeeVo,
           },
         })
-        yield put({
-          type:'getTravelList',
-          payload:{
-            userId:userInfo.data.id,
-          }
-        })
-      }else {
-        // if (location.pathname !== '/login') {
-        //   let from = location.pathname
-        //   if (location.pathname === '/dashboard') {
-        //     from = '/dashboard'
-        //   }
-        //   window.location = `${location.origin}/login?from=${from}`
-        // }
+        
       }
     },
     *getDic ({ payload }, { call, put }) {
@@ -111,10 +98,12 @@ export default {
       }
     },
     *getTravelList ({ payload }, { call, put }) {
-
-     // payload = parse(location.search.substr(1))
-      const data = yield call(getTravelList, payload)
-
+      const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
+      let userId=null;
+      if (userInfo && userInfo.data) {
+        userId=userInfo.data.id;
+      }
+      const data = yield call(getTravelList, {userId:userId,...payload})
       if (data) {
         yield put({
           type: 'getTravelListSuccess',
@@ -199,6 +188,7 @@ export default {
         let taskData=yield call(getTaskInfo,{taskId:payload.taskId})
         if(taskData.success){
           taskData.data.taskId=payload.taskId;
+          yield put({type:'getTravelList'});
           yield put({
             type:'showModal',
             payload:{
@@ -209,7 +199,7 @@ export default {
               modalType:'toBackEdit',
               detailList:[],
             }
-          })
+          });
         }else{
           throw taskData
         }

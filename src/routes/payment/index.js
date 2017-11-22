@@ -94,12 +94,18 @@ const Payment = ({ location, dispatch, payment, loading }) => {
     },
     onEditItem (item) {
       dispatch({
+        type:'payment/getPurchaseList',
+        payload:{
+          payId:item.id,
+        }
+      });
+      dispatch({
         type: 'payment/editItem',
         payload: {
           modalType: 'update',
           currentItem: item,
         },
-      })
+      });
     },
   }
 

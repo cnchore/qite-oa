@@ -106,13 +106,14 @@ const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
       })
     },
     onEditItem (item) {
+      dispatch({type:'travelReimburse/getTravelList'});
       dispatch({
         type: 'travelReimburse/editItem',
         payload: {
           modalType: 'update',
           currentItem: item,
         },
-      })
+      });
     },
   }
 
@@ -133,6 +134,7 @@ const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
     },
     
     onAdd () {
+      dispatch({type:'travelReimburse/getTravelList'});
       dispatch({
         type: 'travelReimburse/showModal',
         payload: {
@@ -141,7 +143,7 @@ const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
           detailList:[],
           taskData:{},
         },
-      })
+      });
     },
    
   }

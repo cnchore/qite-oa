@@ -79,14 +79,14 @@ class CardDetailPage extends React.Component {
             pagination={false}
             scroll={{ x: 1200 }}
             rowKey={record=>record.id}
-            footer={()=>(
-              <div>
-              合计数量：{`${getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
-              </div>
-            )} 
             />
         )
     }
+            // footer={()=>(
+            //   <div>
+            //   合计数量：{`${getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+            //   </div>
+            // )} 
     return (
       <div>
         <Row gutter={24} className={styles['q-detail']}>

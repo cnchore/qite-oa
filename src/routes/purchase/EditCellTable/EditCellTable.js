@@ -59,7 +59,7 @@ class EditCellTable extends React.Component {
     }, {
       title: '使用时间',
       dataIndex: 'useTimeStr',
-      width: 120,
+     
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'useTimeStr', text,'datetime'),
     }, {
       title: '原因和用途',
@@ -77,7 +77,6 @@ class EditCellTable extends React.Component {
     }, {
       title: '预估到货时间',
       dataIndex: 'estiArrivalTime',
-      width: 120,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'estiArrivalTime', text,'datetime'),
     
     }, {

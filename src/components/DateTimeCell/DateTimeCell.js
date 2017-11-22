@@ -42,24 +42,17 @@ class DateTimeCell extends React.Component {
 
   render() {
     const { value, editable,dateFormat,showTime } = this.state;
-    return (
-      <div>
-        {
-          editable ?
-            <div>
+    return (editable ?
               <DatePicker style={{width:'100%'}}
                 showTime={showTime}
                 format={dateFormat}
                 defaultValue={value?moment(value,dateFormat):null}
                 onChange={e=>this.handleChange(e)}
               />
-            </div>
             :
             <div className="editable-row-text">
               {value?showTime?value.toString():value.toString().substr(0,10):''}
             </div>
-        }
-      </div>
     );
   }
 }

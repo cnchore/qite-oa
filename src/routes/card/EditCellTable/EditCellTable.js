@@ -258,11 +258,6 @@ class EditCellTable extends React.Component {
               pagination={false}
               scroll={{ x: 1300 }} 
               rowKey={record=>record.key}
-              footer={()=>(
-                <div>
-                合计数量：{`${this.getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
-                </div>
-              )}
               />
         </Col>
         
@@ -272,6 +267,11 @@ class EditCellTable extends React.Component {
       
   }
 }
+              // footer={()=>(
+              //   <div>
+              //   合计数量：{`${this.getTotalAmount().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+              //   </div>
+              // )}
 
 
 EditCellTable.propTypes = {

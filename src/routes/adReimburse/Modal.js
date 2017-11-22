@@ -109,10 +109,10 @@ const modal = ({
       data.adTime=null;
       data.cost=item.cost;
       data.adForm=data.adForm.join();
-      if(data.adIds && data.adIds[0]){
-        let trIds=data.adIds;
-        data.adCodes=trIds.map(c=>c.label).join()
-        data.adIds=trIds.map(t=>t.key).join()
+      data.adIds=data.adIds && data.adIds.join();
+      if(data.adIds){
+        let _a=`,${data.adIds}`;
+        data.adCodes=adList.filter(f=>_a.indexOf(`,${f.id}`)>-1).map(c=>c.code).join();
       }
       if(item.id){
         data.id=item.id;
@@ -206,16 +206,9 @@ const modal = ({
     item.adDays=dateStrings?getDateDiff(dateStrings[0],dateStrings[1]):0;
   }
   const adOptions=adList.map(ad=><Option key={String(ad.id)}>{ad.code}</Option>)
-  const getAdIds=()=>{
-    if(item.adIds && item.adCodes){
-      let ids=item.adIds.split(',');
-      let codes=item.adCodes.split(',');
-      return ids.map((item,index)=>{
-        return {key:item,label:codes[index]}
-      })
-    }else{
-      return [];
-    }
+  
+  if(item.adList && item.adList[0]){
+    item.adIds=item.adList.map(m=>String(m.id));
   }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -292,9 +285,8 @@ const modal = ({
           <Col xs={18} md={20} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('adIds', {
-                initialValue:getAdIds(),
-                
-              })(<Select mode="multiple" labelInValue >{adOptions}</Select>)}
+                initialValue:item.adIds?item.adIds:undefined,
+              })(<Select mode="multiple" >{adOptions}</Select>)}
             </FormItem>
           </Col>
         </Row>

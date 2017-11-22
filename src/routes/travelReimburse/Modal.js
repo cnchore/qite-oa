@@ -111,13 +111,10 @@ const modal = ({
         data.actualExpense+=parseFloat(f.vehicleCost.value)+parseFloat(f.livingCost.value)+parseFloat(f.otherCost.value)
         
       })
-      //console.log('--travelIds---',...data.travelIds);
-      if(data.travelIds && data.travelIds[0]){
-
-        let trIds=data.travelIds;
-        //console.log('--Ids---',...trIds);
-        data.travelCodes=trIds.map(c=>c.label).join()
-        data.travelIds=trIds.map(t=>t.key).join()
+      data.travelIds=data.travelIds.join();
+      if(data.travelIds){
+        let _a=`,${data.travelIds}`;
+        data.travelCodes=travelList.filter(f=>_a.indexOf(`,${f.id}`)>-1).map(c=>c.code).join();
       }
       if(item.id){
         data.id=item.id;
@@ -425,9 +422,8 @@ const modal = ({
           <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('travelIds', {
-                initialValue:getTravelIds(),
-                
-              })(<Select mode="multiple" labelInValue >{travelOptions}</Select>)}
+                initialValue:typeof item.travelIds ==='string'?item.travelIds.split(','):[],
+              })(<Select mode="multiple" >{travelOptions}</Select>)}
             </FormItem>
           </Col>
         </Row>

@@ -79,8 +79,11 @@ const modal = ({
           data[`attachList[${index}].attachName`]=f.name;
         })
       }
-      data.purchaseIds=data.purchaseIds.join();
-      data.purchaseCodes=item.purchaseCodes;
+      data.purchaseIds=data.purchaseIds && data.purchaseIds.join();
+      if(data.purchaseIds){
+        let _a=`,${data.purchaseIds}`;
+        data.purchaseCodes=purchaseList.filter(f=>_a.indexOf(`,${f.id}`)>-1).map(m=>m.code).join();
+      }
       //console.log('-----',data)
       if(item.id){
         data.id=item.id;
@@ -154,13 +157,12 @@ const modal = ({
     //console.log('selected:',value,selected);
     if(selected && selected[0]){
       item.payAmount=0;
-      
-      let codes=[];
+      // let codes=[];
       selected.map(sel=>{
-        codes.push(sel.code);
+        // codes.push(sel.code);
         item.payAmount+=parseFloat(sel.totalAmount);
       })
-      item.purchaseCodes=codes.join();
+      // item.purchaseCodes=codes.join();
     }
   }
   
@@ -279,7 +281,7 @@ const modal = ({
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('purchaseIds', {
-                initialValue:item.purchaseIds===undefined||item.purchaseIds==='' || item.purchaseIds===null?[]:item.purchaseIds.split(','),
+                initialValue:typeof item.purchaseIds ==='string'?item.purchaseIds.split(','):[],
                 onChange:handleSelectChange,
               })(<Select mode="multiple" >{purchaseOption}</Select>)}
               

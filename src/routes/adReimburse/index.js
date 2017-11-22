@@ -107,12 +107,19 @@ const AdReimburse = ({ location, dispatch, adReimburse, loading }) => {
     },
     onEditItem (item) {
       dispatch({
+        type:'adReimburse/getAdList',
+        payload:{
+          isChoose:true,
+          reimburseId:item.id,
+        }
+      });
+      dispatch({
         type: 'adReimburse/editItem',
         payload: {
           modalType: 'update',
           currentItem: item,
         },
-      })
+      });
     },
   }
 
@@ -134,6 +141,12 @@ const AdReimburse = ({ location, dispatch, adReimburse, loading }) => {
     
     onAdd () {
       dispatch({
+        type:'adReimburse/getAdList',
+        payload:{
+          isChoose:true,
+        }
+      });
+      dispatch({
         type: 'adReimburse/showModal',
         payload: {
           modalType: 'create',
@@ -141,7 +154,7 @@ const AdReimburse = ({ location, dispatch, adReimburse, loading }) => {
           detailList:[],
           taskData:{},
         },
-      })
+      });
     },
    
   }

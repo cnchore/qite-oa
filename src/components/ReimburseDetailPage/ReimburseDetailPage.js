@@ -117,6 +117,12 @@ class ReimburseDetailPage extends React.Component {
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             {data.bankName?data.bankName:'无'}
           </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            采购申请单：
+          </Col>
+          <Col xs={18} md={20} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.purchaseCodes?data.purchaseCodes:'无'}
+          </Col>
         </Row>
    
         

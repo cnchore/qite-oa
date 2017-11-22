@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form,Radio,Input,Modal,Row,Col,Button,Icon,Affix,message } from 'antd'
+import { Form,Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,Select } from 'antd'
 //import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
@@ -16,7 +16,7 @@ const confirm = Modal.confirm
 //const { RangePicker } = DatePicker
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item
-//const Option =Select.Option;
+const Option =Select.Option;
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -56,6 +56,7 @@ const modal = ({
   onGoback,
   isEditable,
   setIsEditable,
+  purchaseList,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -107,7 +108,11 @@ const modal = ({
           
         })
       }
-      
+      data.purchaseIds=data.purchaseIds&&data.purchaseIds.join();
+      if(data.purchaseIds){
+        let _a=`,${data.purchaseIds}`;
+        data.purchaseCodes=purchaseList.filter(f=>_a.indexOf(`,${f.id}`)>-1).map(m=>m.code).join();
+      }
       if(item.id){
         data.id=item.id;
         data.code=item.code;
@@ -197,6 +202,10 @@ const modal = ({
     }
   }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
+  const purchaseOption=purchaseList.map(pur=><Option key={pur.id}>{pur.code}</Option>)
+  if(item.purchaseList && item.purchaseList[0]){
+    item.purchaseIds=item.purchaseList.map(m=>String(m.id));
+  }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -313,7 +322,20 @@ const modal = ({
             </FormItem>
           </Col>
         </Row>
-        
+        <Row gutter={24} className={styles['q-detail']}>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            采购申请单：
+          </Col>
+          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}}>
+              {getFieldDecorator('purchaseIds', {
+                initialValue:item.purchaseIds,
+              })(<Select mode="multiple" >{purchaseOption}</Select>)}
+              
+            </FormItem>
+            
+          </Col>
+        </Row>
         
         <EditCellTable dicList={dicList} 
           dataSource={defaultDetailList} 

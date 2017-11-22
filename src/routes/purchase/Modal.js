@@ -238,61 +238,39 @@ const modal = ({
     }
   }
   // console.log(fileList,item.attachList)
+  
+  let __fileList=[];
   if(fileList[0]){
-    if(taskDefinitionKey && _use && item.state===1){
-      //采购询价附件
-      defaultFileList=fileList.filter(f=>(f.sourceType===10 && f.use!==null) || f.sourceType===undefined ).map((temp)=>{
-        if(temp.createTime)
-          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
-        return {...temp}
-      })
-      applyFileList=fileList.filter(f=>f.sourceType===10 && f.use===null).map((temp)=>{
-        if(temp.createTime)
-          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
-        return {...temp}
-      })
-    }else{
-      //采购申请附件
-      defaultFileList=fileList.filter(f=>(f.sourceType===10 && f.use===null) || f.sourceType===undefined).map((temp)=>{
-        if(temp.createTime)
-          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
-        return {...temp}
-      })
-      purInquiryFileList=fileList.filter(f=>f.sourceType===10 && f.use!==null).map((temp)=>{
-        if(temp.createTime)
-          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
-        return {...temp}
-      })
-    }
+    __fileList=fileList;
   }else if(item.attachList && item.attachList[0]){
-    if(taskDefinitionKey && _use && item.state===1){
-      //采购询价附件
-      defaultFileList=item.attachList.filter(f=>f.sourceType===10 && f.use!==null).map((temp)=>{
-        if(temp.createTime)
-          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
-        return {...temp}
-      })
-      applyFileList=item.attachList.filter(f=>f.sourceType===10 && f.use===null).map((temp)=>{
-        if(temp.createTime)
-          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
-        return {...temp}
-      })
-    }else{
-      //采购申请附件
-      defaultFileList=item.attachList.filter(f=>f.sourceType===10 && f.use===null).map((temp)=>{
-        if(temp.createTime)
-          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
-        return {...temp}
-      })
-      purInquiryFileList=item.attachList.filter(f=>f.sourceType===10 && f.use!==null).map((temp)=>{
-        if(temp.createTime)
-          return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
-        return {...temp}
-      })
-    }
-  }else{
-    defaultFileList=[];
+    __fileList=item.attachList;
   }
+  if(taskDefinitionKey && _use && item.state===1){
+    //采购询价附件
+    defaultFileList=__fileList.filter(f=>(f.sourceType===10 && f.use!==null) || f.sourceType===undefined ).map((temp)=>{
+      if(temp.createTime)
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      return {...temp}
+    })
+    applyFileList=item.attachList.filter(f=>f.sourceType===10 && f.use===null).map((temp)=>{
+      if(temp.createTime)
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      return {...temp}
+    })
+  }else{
+    //采购申请附件
+    defaultFileList=__fileList.filter(f=>(f.sourceType===10 && f.use===null) || f.sourceType===undefined).map((temp)=>{
+      if(temp.createTime)
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      return {...temp}
+    })
+    purInquiryFileList=__fileList.filter(f=>f.sourceType===10 && f.use!==null).map((temp)=>{
+      if(temp.createTime)
+        return {...temp,uid:temp.id,status:'done',url:temp.attachUrl,name:temp.attachName}
+      return {...temp}
+    })
+  }
+  
   if(detailList && detailList[0]){
     defaultDetailList=detailList;
   }else if(item.purchaseDetailList && item.purchaseDetailList[0]){

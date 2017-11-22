@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Reimburse = ({ location, dispatch, reimburse, loading }) => {
-  const { list,fileList,dicList,detailList,taskData,travelList,employeeList, 
+  const { list,fileList,dicList,detailList,taskData,purchaseList,employeeList, 
     pagination, currentItem, modalVisible, modalType,isEditable } = reimburse
   const { pageSize } = pagination
 
@@ -16,7 +16,7 @@ const Reimburse = ({ location, dispatch, reimburse, loading }) => {
     visible: modalVisible,
     fileList,
     employeeList,
-    travelList,
+    purchaseList,
     detailList,
     dicList,
     taskData,
@@ -107,6 +107,13 @@ const Reimburse = ({ location, dispatch, reimburse, loading }) => {
     },
     onEditItem (item) {
       dispatch({
+        type:'reimburse/getPurchaseList',
+        payload:{
+          isChooseReimburse:true,
+          reimburseId:item.id,
+        }
+      });
+      dispatch({
         type: 'reimburse/editItem',
         payload: {
           modalType: 'update',
@@ -134,6 +141,12 @@ const Reimburse = ({ location, dispatch, reimburse, loading }) => {
     
     onAdd () {
       dispatch({
+        type:'reimburse/getPurchaseList',
+        payload:{
+          isChooseReimburse:true
+        }
+      });
+      dispatch({
         type: 'reimburse/showModal',
         payload: {
           modalType: 'create',
@@ -141,7 +154,7 @@ const Reimburse = ({ location, dispatch, reimburse, loading }) => {
           detailList:[],
           taskData:{},
         },
-      })
+      });
     },
    
   }

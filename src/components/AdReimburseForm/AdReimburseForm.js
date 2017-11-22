@@ -55,6 +55,10 @@ class AdReimburseForm extends React.Component {
               <td colSpan='4' className={styles['tl']}>{data.clientAddress || '无'}</td>
             </tr>
             <tr>
+              <td className={styles['tc']}>广告投放申请单</td>
+              <td colSpan='7' className={styles['tl']}>{data.adCodes || '无'}</td>
+            </tr>
+            <tr>
               <td className={styles['tc']}>广告主题</td>
               <td colSpan='7' className={styles['tl']}>{data.adTheme || '无'}</td>
             </tr>

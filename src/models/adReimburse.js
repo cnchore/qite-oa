@@ -79,30 +79,22 @@ export default {
             },
             employeeList:userInfo.data.employeeVo,
           },
-        })
-        yield put({
-          type:'getAdList',
-          payload:{
-            isChoose:true
-          }
-        })
+        });
+        
       }
     },
     *getDic ({ payload }, { call, put }) {
-
-     // payload = parse(location.search.substr(1))
-      const data = yield call(getDic, payload)
-
+      const data = yield call(getDic, payload);
       if (data) {
         yield put({
           type: 'getDicSuccess',
           payload: data.data,
-        })
+        });
       }
     },
     
     *getAdList ({ payload }, { call, put }) {
-      const data = yield call(adSearch, payload)
+      const data = yield call(adSearch, {isChoose:true,...payload})
       if (data) {
         yield put({
           type: 'getAdListSuccess',
@@ -186,6 +178,7 @@ export default {
         let taskData=yield call(getTaskInfo,{taskId:payload.taskId})
         if(taskData.success){
           taskData.data.taskId=payload.taskId;
+          yield put({type:'getAdList',payload:{reimburseId:payload.busiId}});
           yield put({
             type:'showModal',
             payload:{
@@ -196,12 +189,12 @@ export default {
               modalType:'toBackEdit',
               detailList:[],
             }
-          })
+          });
         }else{
-          throw taskData
+          throw taskData;
         }
       }else{
-        throw mcData
+        throw mcData;
       }
     },
     

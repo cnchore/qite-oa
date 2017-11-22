@@ -1,4 +1,5 @@
 import { query,queryById,save,deleteById,submit,queryEmployee,getDic } from '../services/reimburse'
+import * as purchase from '../services/purchase'
 import { config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
@@ -19,7 +20,7 @@ export default {
     dicList:[],
     detailList:[],
     employeeList:[],
-    travelList:[],
+    purchaseList:[],
     taskData:{},
     isEditable:false,
     pagination: {
@@ -79,21 +80,10 @@ export default {
           },
         })
         
-      }else {
-        // if (location.pathname !== '/login') {
-        //   let from = location.pathname
-        //   if (location.pathname === '/dashboard') {
-        //     from = '/dashboard'
-        //   }
-        //   window.location = `${location.origin}/login?from=${from}`
-        // }
       }
     },
     *getDic ({ payload }, { call, put }) {
-
-     // payload = parse(location.search.substr(1))
-      const data = yield call(getDic, payload)
-
+     const data = yield call(getDic, payload)
       if (data) {
         yield put({
           type: 'getDicSuccess',
@@ -103,7 +93,6 @@ export default {
     },
     
     *create ({ payload }, { call, put }) {
-
       const data = yield call(save, payload)
       if (data.success) {
         message.success('新增成功');
@@ -174,11 +163,11 @@ export default {
     *toBackEdit({payload},{call,put}){
       // const mcData=yield call(queryById,{id:payload.busiId})
       // const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
-
       // if(mcData.success&& userInfo.data){
         let taskData=yield call(getTaskInfo,{taskId:payload.taskId})
         if(taskData.success){
           taskData.data.taskId=payload.taskId;
+          yield put({type:'getPurchaseList',payload:{reimburseId:payload.busiId}});
           yield put({
             type:'showModal',
             payload:{
@@ -189,7 +178,7 @@ export default {
               modalType:'toBackEdit',
               detailList:[],
             }
-          })
+          });
         }else{
           throw taskData
         }
@@ -229,6 +218,17 @@ export default {
         throw data
       }
     },
+    *getPurchaseList ({ payload }, { call, put }) {
+      const data = yield call(purchase.getList, {isChooseReimburse:true,...payload});
+      if (data) {
+        yield put({
+          type: 'getPurchaseListSuccess',
+          payload: {
+            purchaseList:data.data
+          },
+        })
+      }
+    },
     *deleteById ({ payload }, { call, put }) {
       const data = yield call(deleteById, {id:payload.id})
       if (data.success) {
@@ -259,9 +259,10 @@ export default {
     getDicSuccess(state,action){
       return {...state,dicList:action.payload}
     },
-    
+    getPurchaseListSuccess(state,action){
+      return {...state,...action.payload}
+    },
     showModal (state, action) {
-
       return { ...state, ...action.payload, modalVisible: true }
     },
 

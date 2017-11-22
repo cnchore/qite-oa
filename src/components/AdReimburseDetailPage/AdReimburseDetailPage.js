@@ -92,6 +92,12 @@ class AdReimburseDetailPage extends React.Component {
             {data.clientAddress?data.clientAddress:'无'}
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            广告投放申请单：
+          </Col>
+          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.adCodes?data.adCodes:'无'}
+          </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             广告主题：
           </Col>
           <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
