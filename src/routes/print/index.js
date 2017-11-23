@@ -117,7 +117,7 @@ class Print extends React.Component {
 					// isA4=true;
 					break;
 				case 'SL'://印章使用申请
-					printForm=<SealForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></SealForm>
+					printForm=<SealForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList} dicList={printData.dicList}></SealForm>
 					// isA4=true;
 					break;
 				case 'PP'://领料单

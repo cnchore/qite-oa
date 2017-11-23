@@ -196,25 +196,25 @@ class PromotionExpenseDetailPage extends React.Component {
             促销期销售计划：
           </Col>
           <Col xs={18} md={8} xl={9} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.saleGoal || '0'}
+            {data.saleGoal || '0'}元
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
             去年同期销售额：
           </Col>
           <Col xs={18} md={8} xl={9} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.lastYearSales || '0'}
+            {data.lastYearSales || '0'}元
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
             预计达成销售：
           </Col>
           <Col xs={18} md={8} xl={9} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.estiSale || '0'}
+            {data.estiSale || '0'}元
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
             预估销售提高：
           </Col>
           <Col xs={18} md={8} xl={9} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.estiImprove || '0'}
+            {data.estiImprove || '0'}元
           </Col>
         </Row>
         <Row gutter={24} className={styles['q-detail']}>

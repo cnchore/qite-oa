@@ -18,7 +18,7 @@ export default {
     modalVisible: false,
     modalType: 'create',
     fileList:[],
-    dicList:[],
+    dicList:[{dicValue:'艾臣',dicName:'艾臣'},{dicValue:'艾厨',dicName:'艾厨'},{dicValue:'通用版本',dicName:'通用版本'}],
     detailList:[],
     employeeList:[],
     // travelList:[],

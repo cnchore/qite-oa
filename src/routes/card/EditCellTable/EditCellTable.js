@@ -38,7 +38,7 @@ class EditCellTable extends React.Component {
       width: 120,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'phone', text,'input'),
     }, {
-      title: 'qq',
+      title: '微信/QQ',
       dataIndex: 'qq',
       width: 120,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'qq', text,'input'),
@@ -51,7 +51,7 @@ class EditCellTable extends React.Component {
       title: '艾臣/艾厨/通用版本',
       dataIndex: 'edition',
       width: 200,
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'edition', text,'input'),
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'edition', text,'select'),
     }, {
       title: '战队',
       dataIndex: 'group',

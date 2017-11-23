@@ -108,15 +108,15 @@ const modal = ({
           data[`attachList[${index}].attachName`]=f.name;
         })
         taskData.busiData.detailList.map((f,index)=>{
-        if(f.id) data[`detailList[${index}].id`]=f.id;
-        data[`detailList[${index}].lecturerFee`]=f.lecturerFee.value;
-        data[`detailList[${index}].toolFee`]=f.toolFee.value;
-        data[`detailList[${index}].trafficFee`]=f.trafficFee.value;
-        data[`detailList[${index}].mealsFee`]=f.mealsFee.value;
-        data[`detailList[${index}].hotelFee`]=f.hotelFee.value;
-        data[`detailList[${index}].otherFee`]=f.otherFee.value;
-      })
-
+          if(f.id) data[`detailList[${index}].id`]=f.id;
+          data[`detailList[${index}].lecturerFee`]=f.lecturerFee;
+          data[`detailList[${index}].toolFee`]=f.toolFee;
+          data[`detailList[${index}].trafficFee`]=f.trafficFee;
+          data[`detailList[${index}].mealsFee`]=f.mealsFee;
+          data[`detailList[${index}].hotelFee`]=f.hotelFee;
+          data[`detailList[${index}].otherFee`]=f.otherFee;
+        })
+        data.evalWay=data.evalWay?data.evalWay.join():null;
       }
       data.taskId=taskData.taskId;
       data.busiCode=taskData.busiCode;
