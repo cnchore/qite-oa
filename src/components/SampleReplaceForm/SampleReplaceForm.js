@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './SampleReplaceForm.less'
 // import cs from 'classnames';
-import {changeMoneyToChinese,config} from '../../utils'
+import {changeMoneyToChinese,config,getAuditerName} from '../../utils'
 class SampleReplaceForm extends React.Component {
   render () {
-    const { data,employeeList } = this.props
+    const { data,employeeList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],total=0,discountAmount=0;
 
@@ -109,29 +109,29 @@ class SampleReplaceForm extends React.Component {
               <td className={styles['tc']} >发起人</td>
               <td className={styles['tc']} colSpan="2">{employeeList.realName || '无'}</td>
               <td className={styles['tc']} colSpan="2">部门主管</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'当区负责人')}</td>
               <td className={styles['tc']} colSpan="3">售后部</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'售后部专员')}</td>
             </tr>
             <tr>
               <td className={styles['tc']} >品质部</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'品质部经理')}</td>
               <td className={styles['tc']} colSpan="2">制造部</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'制造中心总监')}</td>
               <td className={styles['tc']} colSpan="3">客服部</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'订单中心经理')}</td>
             </tr>
             <tr>
               <td className={styles['tc']} >研发部</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'技术服务中心经理')}</td>
               <td className={styles['tc']} colSpan="2">主动营销部</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'部门总监')}</td>
               <td className={styles['tc']} colSpan="3">营销总经理</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'营销副总')}</td>
             </tr>
             <tr>
               <td className={styles['tc']} >总经理</td>
-              <td className={styles['tc']} colSpan="11"></td>
+              <td className={styles['tc']} colSpan="11">{getAuditerName(commentList,'总经理')}</td>
             </tr>
             
           </tbody>

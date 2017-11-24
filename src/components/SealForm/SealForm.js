@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './SealForm.less'
 // import cs from 'classnames';
-import {changeMoneyToChinese,config} from '../../utils'
+import {changeMoneyToChinese,config,getAuditerName} from '../../utils'
 class SealForm extends React.Component {
   render () {
-    const { data,employeeList,dicList } = this.props
+    const { data,employeeList,dicList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],total=0;
 
@@ -37,19 +37,19 @@ class SealForm extends React.Component {
               <td className={styles['tc']} rowSpan="5">用章事由（名称、摘要）</td>
               <td className={styles['tc']} rowSpan="4" colSpan="3">{data.reason || ''}</td>
               <td className={styles['tc']}>部门负责人</td>
-              <td className={styles['tc']}></td>
+              <td className={styles['tc']}>{getAuditerName(commentList,'部门总监')}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>财务总监</td>
-              <td className={styles['tc']}></td>
+              <td className={styles['tc']}>{getAuditerName(commentList,'财务总监')}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>营销总经理</td>
-              <td className={styles['tc']}></td>
+              <td className={styles['tc']}>{getAuditerName(commentList,'营销副总')}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>总经理</td>
-              <td className={styles['tc']}></td>
+              <td className={styles['tc']}>{getAuditerName(commentList,'总经理')}</td>
             </tr>
             <tr>
               <td className={styles['tc']} colSpan="3">

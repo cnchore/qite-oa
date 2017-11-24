@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './TrainForm.less'
 // import cs from 'classnames';
-import {changeMoneyToChinese,config} from '../../utils'
+import {changeMoneyToChinese,config,getAuditerName} from '../../utils'
 class TrainForm extends React.Component {
   render () {
-    const { data,employeeList } = this.props
+    const { data,employeeList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],total=0,lecturerFeeTotal=0,toolFeeTotal=0,trafficFeeTotal=0,mealsFeeTotal=0,hotelFeeTotal=0,otherFeeTotal=0;
 
@@ -120,9 +120,9 @@ class TrainForm extends React.Component {
               <td className={styles['tc']}>发起人</td>
               <td className={styles['tc']} colSpan="2">{employeeList.realName  || ''}</td>
               <td className={styles['tc']}>培训讲师</td>
-              <td className={styles['tc']}></td>
+              <td className={styles['tc']}>{getAuditerName(commentList,'培训讲师')}</td>
               <td className={styles['tc']}>招商/主动营销部总监</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'部门总监')}</td>
             </tr>
             
           </tbody>

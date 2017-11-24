@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './CardForm.less'
 // import cs from 'classnames';
-import {changeMoneyToChinese,config} from '../../utils'
+import {changeMoneyToChinese,config,getAuditerName} from '../../utils'
 class CardForm extends React.Component {
   render () {
-    const { data,employeeList } = this.props
+    const { data,employeeList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],total=0;
 
@@ -60,7 +60,7 @@ class CardForm extends React.Component {
               <td className={styles['tc']} >部门</td>
               <td className={styles['tc']} >职位名称</td>
               <td className={styles['tc']} >联系电话</td>
-              <td className={styles['tc']} >QQ</td>
+              <td className={styles['tc']} >微信/QQ</td>
               <td className={styles['tc']} >邮箱</td>
               <td className={styles['tc']} >艾臣/艾厨/通用版本</td>
               <td className={styles['tc']} >战队</td>
@@ -79,14 +79,14 @@ class CardForm extends React.Component {
               <td className={styles['tc']} colSpan="3">{data.needTime || ''}</td>
             </tr>
             <tr>
-              <td className={styles['tc']} colSpan="2">申请人确认</td>
+              <td className={styles['tc']} colSpan="2">申请人</td>
               <td className={styles['tc']} colSpan="2">{employeeList.realName  || ''}</td>
-              <td className={styles['tc']} colSpan="2">设计师签证</td>
-              <td className={styles['tc']} colSpan="3"></td>
+              <td className={styles['tc']} colSpan="2">申请人部门负责人签名</td>
+              <td className={styles['tc']} colSpan="3">{getAuditerName(commentList,'部门总监')}</td>
               
             </tr>
             <tr>
-              <td className={styles['tl']} colSpan="9">注：发起人－平面设计师</td>
+              <td className={styles['tl']} colSpan="9">注：</td>
             </tr>
           </tbody>
         </table>

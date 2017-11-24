@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './MaterialGiftForm.less'
 // import cs from 'classnames';
-import {changeMoneyToChinese,config} from '../../utils'
+import {changeMoneyToChinese,config,getAuditerName} from '../../utils'
 class MaterialGiftForm extends React.Component {
   render () {
-    const { data,employeeList } = this.props
+    const { data,employeeList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],total=0;
 
@@ -87,17 +87,17 @@ class MaterialGiftForm extends React.Component {
               <td className={styles['tc']}>发起人</td>
               <td className={styles['tc']}>{employeeList.realName  || ''}</td>
               <td className={styles['tc']}>部门负责人</td>
-              <td className={styles['tc']}></td>
+              <td className={styles['tc']}>{getAuditerName(commentList,'当区负责人')}</td>
               <td className={styles['tc']} colSpan="2">财务部</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'财务部会计')}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>客服部</td>
-              <td className={styles['tc']}></td>
+              <td className={styles['tc']}>{getAuditerName(commentList,'订单中心经理')}</td>
               <td className={styles['tc']}>仓管部</td>
-              <td className={styles['tc']}></td>
+              <td className={styles['tc']}>{getAuditerName(commentList,'仓管')}</td>
               <td className={styles['tc']} colSpan="2">招商/主动营销部总监</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'部门总监')}</td>
             </tr>
           </tbody>
         </table>

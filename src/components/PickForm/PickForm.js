@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './PickForm.less'
 // import cs from 'classnames';
-import {changeMoneyToChinese,config} from '../../utils'
+import {changeMoneyToChinese,config,getAuditerName} from '../../utils'
 class PickForm extends React.Component {
   render () {
-    const { data,employeeList } = this.props
+    const { data,employeeList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],total=0;
 
@@ -90,9 +90,9 @@ class PickForm extends React.Component {
             <tr>
               <td className={styles['flex']} colSpan="8">
                 <div>
-                  <span>仓库主管：</span>
+                  <span>仓库主管：{getAuditerName(commentList,'仓管')}</span>
                   <span>发料：</span>
-                  <span>领料部门负责人：</span>
+                  <span>领料部门负责人：{getAuditerName(commentList,'部门总监')}</span>
                   <span>领料人：{employeeList.realName || ''}</span>
                 </div>
               </td>

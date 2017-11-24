@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './MaterialSupportForm.less'
 // import cs from 'classnames';
-import {changeMoneyToChinese,config} from '../../utils'
+import {changeMoneyToChinese,config,getAuditerName} from '../../utils'
 class MaterialSupportForm extends React.Component {
   render () {
-    const { data,employeeList } = this.props
+    const { data,employeeList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],total=0;
 
@@ -86,12 +86,12 @@ class MaterialSupportForm extends React.Component {
             <tr>
               
               <td className={styles['tc']} colSpan="2">区域负责人审批</td>
-              <td className={styles['tc']} colSpan="10"></td>
+              <td className={styles['tc']} colSpan="10">{getAuditerName(commentList,'当区负责人')}</td>
             </tr>
             <tr>
               
               <td className={styles['tc']} colSpan="2">运营部总监审批</td>
-              <td className={styles['tc']} colSpan="10"></td>
+              <td className={styles['tc']} colSpan="10">{getAuditerName(commentList,'部门总监')}</td>
             </tr>
           </tbody>
         </table>

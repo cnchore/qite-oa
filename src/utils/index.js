@@ -648,8 +648,10 @@ const getDateDiff=(a,b)=>{
     if(!(commentList instanceof Array))
       return ''
     let cList=commentList.filter(c=>c.nodeName===nodeName);
-        cList=cList?cList[0]:null;
-        return cList?cList.auditerName:'';
+    if(cList && !cList[0]){
+      cList=commentList.filter(f=>f.nodeName.indexOf(nodeName)>-1);
+    }
+    return cList?cList[0]?cList[0].auditerName:'':'';
   }
   const getAuditerTime=(commentList,nodeName)=>{
     if(!commentList || (commentList && !commentList[0]))

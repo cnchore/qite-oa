@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './SampleRoomForm.less'
 // import cs from 'classnames';
-import {changeMoneyToChinese,config} from '../../utils'
+import {changeMoneyToChinese,config,getAuditerName} from '../../utils'
 class SampleRoomForm extends React.Component {
   render () {
-    const { data,employeeList } = this.props
+    const { data,employeeList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],total=0,discountAmount=0;
 
@@ -16,7 +16,7 @@ class SampleRoomForm extends React.Component {
     const getTable=()=>data && data.detailList && data.detailList.map((item,index)=>{
       let amount=parseFloat(item.num)*parseFloat(item.areas)*parseFloat(item.singlePrice);
       total+=amount;
-      discountAmount=total*parseFloat(data.applyDiscount);
+      discountAmount=total;//*parseFloat(data.applyDiscount);
     return  <tr key={index}>
         <td className={styles['tc']}>{item.productName || ''}</td>
         <td className={styles['tc']}>{item.width || ''}</td>
@@ -77,9 +77,9 @@ class SampleRoomForm extends React.Component {
             </tr>
             <tr>
               <td className={styles['tc']}>小区地址</td>
-              <td colSpan='9' className={styles['tc']}>{data.address || '无'}</td>
+              <td colSpan='7' className={styles['tc']}>{data.address || '无'}</td>
               <td className={styles['tc']}>申请折扣</td>
-              <td className={styles['tc']}>{data.applyDiscount || '0'}</td>
+              <td colSpan="3" className={styles['tc']}>{data.applyDiscount || ''}</td>
             </tr>
             
             <tr>
@@ -120,15 +120,15 @@ class SampleRoomForm extends React.Component {
               <td className={styles['tc']} >发起人</td>
               <td className={styles['tc']} colSpan="2">{employeeList.realName || '无'}</td>
               <td className={styles['tc']} colSpan="2">主动营销部总监</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'部门总监')}</td>
               <td className={styles['tc']} colSpan="3">财务部</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'财务部会计')}</td>
             </tr>
             <tr>
               <td className={styles['tc']} >客服部</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'订单中心经理')}</td>
               <td className={styles['tc']} colSpan="2">营销中心总经理</td>
-              <td className={styles['tc']} colSpan="7"></td>
+              <td className={styles['tc']} colSpan="7">{getAuditerName(commentList,'营销副总')}</td>
              
             </tr>
             

@@ -3,10 +3,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './AdReimburseForm.less'
 // import cs from 'classnames';
-import {changeMoneyToChinese,config} from '../../utils'
+import {changeMoneyToChinese,config,getAuditerName} from '../../utils'
 class AdReimburseForm extends React.Component {
   render () {
-    const { data,employeeList } = this.props
+    const { data,employeeList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],total=0;
 
@@ -55,8 +55,8 @@ class AdReimburseForm extends React.Component {
               <td colSpan='4' className={styles['tl']}>{data.clientAddress || '无'}</td>
             </tr>
             <tr>
-              <td className={styles['tc']}>广告投放申请单</td>
-              <td colSpan='7' className={styles['tl']}>{data.adCodes || '无'}</td>
+              <td colSpan='3' className={styles['tc']}>广告投放申请单</td>
+              <td colSpan='5' className={styles['tl']}>{data.adCodes || '无'}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>广告主题</td>
@@ -113,29 +113,29 @@ class AdReimburseForm extends React.Component {
               <td className={styles['tl']}>{data.companyPay || '0'}</td>
             </tr>
             <tr>
-              <td className={styles['tc']}>申请报销时间</td>
-              <td colSpan='7' className={styles['tl']}>{getCreateDate()}</td>
+              <td colSpan='3' className={styles['tc']}>申请报销时间</td>
+              <td colSpan='5' className={styles['tl']}>{getCreateDate()}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>费用审批</td>
-              <td colSpan='3' className={styles['tl']}>签字：</td>
-              <td colSpan='4' className={styles['tl']}>批复金额：</td>
+              <td colSpan='3' className={styles['tl']}>签字：{getAuditerName(commentList,'总经理')}</td>
+              <td colSpan='4' className={styles['tl']}>批复金额：{data.cost || '0'}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>制表人</td>
               <td className={styles['tl']}>{employeeList.realName || '无'}</td>
               <td className={styles['tc']}>主动营销部总监</td>
-              <td></td>
+              <td className={styles['tl']}>{getAuditerName(commentList,'部门总监')}</td>
               <td className={styles['tc']}>品牌部总监</td>
-              <td colSpan='3'></td>
+              <td colSpan='3' className={styles['tl']}>{getAuditerName(commentList,'品牌部总监')}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>客服部</td>
-              <td></td>
+              <td className={styles['tl']}>{getAuditerName(commentList,'订单中心经理')}</td>
               <td className={styles['tc']}>财务部</td>
-              <td></td>
+              <td className={styles['tl']}>{getAuditerName(commentList,'财务总监')}</td>
               <td className={styles['tc']}>营销总经理</td>
-              <td colSpan='3'></td>
+              <td colSpan='3' className={styles['tl']}>{getAuditerName(commentList,'营销副总')}</td>
             </tr>
           </tbody>
         </table>

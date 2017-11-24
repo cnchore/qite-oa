@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './ShopUpgradeForm.less'
 // import cs from 'classnames';
-import {changeMoneyToChinese,config} from '../../utils'
+import {changeMoneyToChinese,config,getAuditerName} from '../../utils'
 class ShopUpgradeForm extends React.Component {
   render () {
-    const { data,employeeList } = this.props
+    const { data,employeeList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],total=0;
 
@@ -74,15 +74,15 @@ class ShopUpgradeForm extends React.Component {
               <td className={styles['tc']} >发起人</td>
               <td className={styles['tc']} >{employeeList.realName || ''}</td>
               <td className={styles['tc']} colSpan="2">主动营销部总监</td>
-              <td className={styles['tc']} ></td>
+              <td className={styles['tc']} >{getAuditerName(commentList,'部门总监')}</td>
               <td className={styles['tc']} >品牌部总监</td>
-              <td className={styles['tc']} colSpan="2"></td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'品牌部总监')}</td>
             </tr>
             <tr>
               <td className={styles['tc']} >售后部</td>
-              <td className={styles['tc']} ></td>
+              <td className={styles['tc']} >{getAuditerName(commentList,'售后部专员')}</td>
               <td className={styles['tc']} colSpan="2">财务部总监</td>
-              <td className={styles['tc']} colSpan="4"></td>
+              <td className={styles['tc']} colSpan="4">{getAuditerName(commentList,'财务总监')}</td>
              
             </tr>
             

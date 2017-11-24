@@ -109,10 +109,12 @@ const modal = ({
       data.adTime=null;
       data.cost=item.cost;
       data.adForm=data.adForm.join();
-      data.adIds=data.adIds && data.adIds.join();
+      // data.adIds=data.adIds && data.adIds.join();
       if(data.adIds){
-        let _a=`,${data.adIds}`;
-        data.adCodes=adList.filter(f=>_a.indexOf(`,${f.id}`)>-1).map(c=>c.code).join();
+        // let _a=`,${data.adIds}`;
+        // data.adCodes=adList.filter(f=>_a.indexOf(`,${f.id}`)>-1).map(c=>c.code).join();
+        let _r=adList.filter(f=>String(f.id)===String(data.adIds));
+        data.adCodes=_r?_r[0].code:'';
       }
       if(item.id){
         data.id=item.id;
@@ -208,7 +210,7 @@ const modal = ({
   const adOptions=adList.map(ad=><Option key={String(ad.id)}>{ad.code}</Option>)
   
   if(item.adList && item.adList[0]){
-    item.adIds=item.adList.map(m=>String(m.id));
+    item.adIds=item.adList.map(m=>String(m.id))[0];
   }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -286,7 +288,7 @@ const modal = ({
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('adIds', {
                 initialValue:item.adIds?item.adIds:undefined,
-              })(<Select mode="multiple" >{adOptions}</Select>)}
+              })(<Select >{adOptions}</Select>)}
             </FormItem>
           </Col>
         </Row>

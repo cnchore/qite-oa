@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './OpenForm.less'
 // import cs from 'classnames';
-import {changeMoneyToChinese,config} from '../../utils'
+import {changeMoneyToChinese,config,getAuditerName} from '../../utils'
 class OpenForm extends React.Component {
   render () {
-    const { data,employeeList } = this.props
+    const { data,employeeList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],total=0;
 
@@ -121,13 +121,13 @@ class OpenForm extends React.Component {
               <td className={styles['tc']} >发起人</td>
               <td className={styles['tc']} colSpan="3">{employeeList.realName || '无'}</td>
               <td className={styles['tc']} >部门主管</td>
-              <td className={styles['tc']} colSpan="3"></td>
+              <td className={styles['tc']} colSpan="3">{getAuditerName(commentList,'当区负责人')}</td>
             </tr>
             <tr>
               <td className={styles['tc']} >品牌部总监</td>
-              <td className={styles['tc']} colSpan="3"></td>
+              <td className={styles['tc']} colSpan="3">{getAuditerName(commentList,'品牌部总监')}</td>
               <td className={styles['tc']} >主动营销部总监</td>
-              <td className={styles['tc']} colSpan="3"></td>
+              <td className={styles['tc']} colSpan="3">{getAuditerName(commentList,'部门总监')}</td>
              
             </tr>
             
