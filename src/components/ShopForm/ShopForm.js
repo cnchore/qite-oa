@@ -125,7 +125,7 @@ class ShopForm extends React.Component {
             <td className={styles['tc']} colSpan="2">发起人</td>
             <td className={styles['tc']}>{employeeList.realName || ''}</td>
             <td className={styles['tc']} colSpan="2">部门主管</td>
-            <td className={styles['tc']}>{getAuditerName(commentList,'部门总监')}</td>
+            <td className={styles['tc']}>{getAuditerName(commentList,'当区负责人')}</td>
             <td className={styles['tc']}>品牌部总监</td>
             <td className={styles['tc']}>{getAuditerName(commentList,'品牌部总监')}</td>
            </tr>

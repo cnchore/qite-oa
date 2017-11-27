@@ -85,8 +85,8 @@ class MaterialSupportForm extends React.Component {
             </tr>
             <tr>
               
-              <td className={styles['tc']} colSpan="2">区域负责人审批</td>
-              <td className={styles['tc']} colSpan="10">{getAuditerName(commentList,'当区负责人')}</td>
+              <td className={styles['tc']} colSpan="2">区域负责人</td>
+              <td className={styles['tc']} colSpan="10">{employeeList.realName || ''}</td>
             </tr>
             <tr>
               

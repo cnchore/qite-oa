@@ -245,7 +245,7 @@ const modal = ({
         detailpage=<ShopDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
         break;
       case 'SL'://印章使用申请
-        detailpage=<SealDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={dicList} />
+        detailpage=<SealDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList || []} />
         break;
       case 'PP'://领料单
         detailpage=<PickDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />

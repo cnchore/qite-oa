@@ -41,7 +41,7 @@ class SealForm extends React.Component {
             </tr>
             <tr>
               <td className={styles['tc']}>财务总监</td>
-              <td className={styles['tc']}>{getAuditerName(commentList,'财务总监')}</td>
+              <td className={styles['tc']}>{getAuditerName(commentList,'财务部总监')}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>营销总经理</td>

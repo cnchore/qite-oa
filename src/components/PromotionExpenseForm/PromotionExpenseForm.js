@@ -143,15 +143,15 @@ class PromotionExpenseForm extends React.Component {
               <td className={styles['tc']}>部门主管</td>
               <td colSpan='2'className={styles['tc']}>{getAuditerName(commentList,'当区负责人')}</td>
               <td className={styles['tc']}>主动营销部总监</td>
-              <td colSpan='2' className={styles['tc']}>{getAuditerName(commentList,'主动营销部总监')}</td>
+              <td colSpan='2' className={styles['tc']}>{getAuditerName(commentList,'部门总监')}</td>
             </tr>
             <tr>
-              <td className={styles['tc']}>客服部经理</td>
+              <td className={styles['tc']}>订单中心</td>
               <td className={styles['tc']}>{getAuditerName(commentList,'订单中心经理')}</td>
               <td className={styles['tc']}>营销总经理</td>
               <td colSpan='2' className={styles['tc']}>{getAuditerName(commentList,'营销副总')}</td>
               <td className={styles['tc']}>财务部总监</td>
-              <td colSpan='2' className={styles['tc']}>{getAuditerName(commentList,'财务总监')}</td>
+              <td colSpan='2' className={styles['tc']}>{getAuditerName(commentList,'财务部总监')}</td>
             </tr>
           </tbody>
         </table>

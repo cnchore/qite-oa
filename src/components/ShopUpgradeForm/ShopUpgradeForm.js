@@ -81,8 +81,8 @@ class ShopUpgradeForm extends React.Component {
             <tr>
               <td className={styles['tc']} >售后部</td>
               <td className={styles['tc']} >{getAuditerName(commentList,'售后部专员')}</td>
-              <td className={styles['tc']} colSpan="2">财务部总监</td>
-              <td className={styles['tc']} colSpan="4">{getAuditerName(commentList,'财务总监')}</td>
+              <td className={styles['tc']} colSpan="2">财务部会计</td>
+              <td className={styles['tc']} colSpan="4">{getAuditerName(commentList,'财务部会计')}</td>
              
             </tr>
             

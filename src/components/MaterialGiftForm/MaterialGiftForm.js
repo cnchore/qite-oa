@@ -92,7 +92,7 @@ class MaterialGiftForm extends React.Component {
               <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'财务部会计')}</td>
             </tr>
             <tr>
-              <td className={styles['tc']}>客服部</td>
+              <td className={styles['tc']}>订单中心</td>
               <td className={styles['tc']}>{getAuditerName(commentList,'订单中心经理')}</td>
               <td className={styles['tc']}>仓管部</td>
               <td className={styles['tc']}>{getAuditerName(commentList,'仓管')}</td>

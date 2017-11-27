@@ -130,7 +130,7 @@ class AdReimburseForm extends React.Component {
               <td colSpan='3' className={styles['tl']}>{getAuditerName(commentList,'品牌部总监')}</td>
             </tr>
             <tr>
-              <td className={styles['tc']}>客服部</td>
+              <td className={styles['tc']}>订单中心</td>
               <td className={styles['tl']}>{getAuditerName(commentList,'订单中心经理')}</td>
               <td className={styles['tc']}>财务部</td>
               <td className={styles['tl']}>{getAuditerName(commentList,'财务总监')}</td>

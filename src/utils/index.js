@@ -325,6 +325,8 @@ const getMsgType=(t)=>{
     return '申请通过通知相关人';
     case 17:
     return '报餐通知';
+    case 17:
+    return '超时未销假通知';
     default:
     return '新消息';
   }
@@ -401,6 +403,9 @@ const getDateDiff=(a,b)=>{
     }else if(_msgType===17){
       // 申请通过通知相关人
       return `可以报餐啦，不要忘记哦，亲`
+    }else if(_msgType===18){
+      // 超时未销假消息通知
+      return <Link to={`/waiting`}>{content}</Link>
     }else if(codeType&&id!==-1){
       switch(codeType){
         case 'MC'://考勤异常

@@ -125,7 +125,7 @@ class SampleRoomForm extends React.Component {
               <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'财务部会计')}</td>
             </tr>
             <tr>
-              <td className={styles['tc']} >客服部</td>
+              <td className={styles['tc']} >订单中心</td>
               <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'订单中心经理')}</td>
               <td className={styles['tc']} colSpan="2">营销中心总经理</td>
               <td className={styles['tc']} colSpan="7">{getAuditerName(commentList,'营销副总')}</td>

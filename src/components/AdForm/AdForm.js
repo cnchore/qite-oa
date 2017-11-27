@@ -70,11 +70,11 @@ class AdForm extends React.Component {
               <td className={styles['tc']} colSpan="2">发起人</td>
               <td className={styles['tc']} colSpan="2">{employeeList.realName || '无'}</td>
               <td className={styles['tc']} colSpan="2">主动营销部总监</td>
-              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'部门总监')}</td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'本部门总监')}</td>
               
             </tr>
             <tr>
-              <td className={styles['tc']} colSpan="2">客服部经理</td>
+              <td className={styles['tc']} colSpan="2">订单中心</td>
               <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'订单中心经理')}</td>
               <td className={styles['tc']} colSpan="2">品牌部总监</td>
               <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'品牌部总监')}</td>

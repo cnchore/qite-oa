@@ -122,7 +122,7 @@ class SalesPromotionForm extends React.Component {
               <td className={styles['tc']} colSpan="2">{employeeList.realName || '无'}</td>
               <td className={styles['tc']} >主动营销部总监</td>
               <td className={styles['tc']} >{getAuditerName(commentList,'部门总监')}</td>
-              <td className={styles['tc']} >客服部经理</td>
+              <td className={styles['tc']} >订单中心</td>
               <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'订单中心经理')}</td>
             </tr>
             <tr>

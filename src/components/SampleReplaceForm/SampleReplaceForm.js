@@ -118,7 +118,7 @@ class SampleReplaceForm extends React.Component {
               <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'品质部经理')}</td>
               <td className={styles['tc']} colSpan="2">制造部</td>
               <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'制造中心总监')}</td>
-              <td className={styles['tc']} colSpan="3">客服部</td>
+              <td className={styles['tc']} colSpan="3">订单中心</td>
               <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'订单中心经理')}</td>
             </tr>
             <tr>
