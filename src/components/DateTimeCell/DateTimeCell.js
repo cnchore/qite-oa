@@ -10,7 +10,8 @@ class DateTimeCell extends React.Component {
     value: this.props.value,
     editable: this.props.editable || false,
     showTime: this.props.showTime!==undefined?this.props.showTime:true,
-    dateFormat:this.props.dateFormat || 'YYYY-MM-DD HH:mm:ss'
+    dateFormat:this.props.dateFormat || 'YYYY-MM-DD HH:mm:ss',
+    showFormat:this.props.showFormat || 'YYYY-MM-DD HH:mm:ss'
   }
  
 
@@ -39,9 +40,22 @@ class DateTimeCell extends React.Component {
     //console.log('DateTimeCell:',dateString.format(this.state.dateFormat))
     this.setState({ value:dateString?dateString.format(dateFormat):null});
   }
-
+  showValue=(text,showTime,showFormat)=>{
+    if(!text){
+      return '';
+    }else{
+      if(showFormat){
+        let l=showFormat.split(',');
+        return l&&l.length===2?text.substr(l[0],l[1]):text;
+      }else if(!showTime){
+        return text.substr(0,10);
+      }else{
+        return text;
+      }
+    }
+  }
   render() {
-    const { value, editable,dateFormat,showTime } = this.state;
+    const { value, editable,dateFormat,showTime,showFormat } = this.state;
     return (editable ?
               <DatePicker style={{width:'100%'}}
                 showTime={showTime}
@@ -51,7 +65,7 @@ class DateTimeCell extends React.Component {
               />
             :
             <div className="editable-row-text">
-              {value?showTime?value.toString():value.toString().substr(0,10):''}
+              {this.showValue(value,showTime,showFormat)}
             </div>
     );
   }

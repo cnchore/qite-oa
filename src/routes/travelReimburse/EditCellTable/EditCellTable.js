@@ -21,7 +21,7 @@ class EditCellTable extends React.Component {
     },{
       title: '出发时间',
       dataIndex: 'departureTimeStr',
-      width: 200,
+      width: 80,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'departureTimeStr', text,'datetime'),
     
     }, {
@@ -31,7 +31,7 @@ class EditCellTable extends React.Component {
     }, {
       title: '到达时间',
       dataIndex: 'arrivalTimeStr',
-      width: 200,
+      width: 80,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'arrivalTimeStr', text,'datetime'),
     }, {
       title: '到达地点',
@@ -40,7 +40,7 @@ class EditCellTable extends React.Component {
     }, {
       title: '交通工具',
       dataIndex: 'vehicle',
-      width: 200,
+      width: 120,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'vehicle', text,'select'),
     }, {
       title: '交通费用',
@@ -130,6 +130,7 @@ class EditCellTable extends React.Component {
         return (<DateTimeCell
           editable={editable}
           value={text}
+          showFormat="5,5"
           onChange={value => this.handleChange(key, index, value)}
           status={status}
         />);
@@ -256,7 +257,7 @@ class EditCellTable extends React.Component {
               dataSource={dataSource} 
               columns={columns} 
               pagination={false}
-              scroll={{ x: 1920 }} 
+              scroll={{ x: 1520 }} 
               rowKey={record=>record.key}
               footer={()=>(
                 <div>

@@ -35,25 +35,25 @@ class Print extends React.Component {
 				isA4=false;
 		if(printData && printData.busiData && printData.busiData.code){
 			switch(printData.busiData.code.substr(0,2)){
-				case 'TR':
+				case 'TR'://差旅费报销
 					printForm=<TravelReimburseForm data={printData.busiData} employeeList={printData.employeeList} dicList={printData.dicList} commentList={printData.commentList}/>
-					isA4=true;
+					// isA4=true;
 					break;
-				case 'PT':
+				case 'PT'://付款申请
 					printForm=<PaymentForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></PaymentForm>
 					break;
-				case 'RE':
+				case 'RE'://报销申请
 					printForm=<ReimburseForm  data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></ReimburseForm>
 					break;
-				case 'BD':
+				case 'BD'://预算
 					printForm=<BudgetForm  data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></BudgetForm>
-					isA4=true;
+					// isA4=true;
 					break;
-				case 'PE':
+				case 'PE'://采购申请
 					printForm=<PurchaseForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></PurchaseForm>
 					isA4=true;
 					break;
-				case 'PA':
+				case 'PA'://申购
 					printForm=<PurchaseApplyForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></PurchaseApplyForm>
 					break;
 				case 'AR'://广告费用报销

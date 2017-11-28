@@ -1,17 +1,19 @@
 
 .print-container,
 .print-container-a4{
-	width: 210mm;
 	margin: 0 auto;
-	padding-top: 20px;
 	background-color: #fff;
 	overflow: auto;
 	height: 100vh;
 }
 .print-container-a4{
 	width: 280mm;
+	padding-top: 20px;
 }
-
+.print-container{
+	width: 210mm;
+	padding-top: 10px;
+}
 .print-btn {
 	text-align: right;
 }
@@ -34,8 +36,20 @@
 	.print-btn{
 		display:none;
 	}
+	.print-container,.print-container-a4{
+		width: 100%;
+		padding: 10px;
+		margin: 0 auto;
+	}
+	.print-container{
+		size: A5 landscape;  
+	}
+	.print-container-a4{
+		size: A4 landscape;  
+	}
+
 	 @page{
-    margin: 0 !important;
+    margin: 0 auto;
     padding: 0;
   }
 }

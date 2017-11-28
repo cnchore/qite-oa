@@ -62,12 +62,14 @@ class TravelReimburseDetailPage extends React.Component {
       },{
         title: '出发时间',
         dataIndex: 'departureTime',
+        render:(text)=>text?text.substr(5,5):'',
       }, {
         title: '出发地点',
         dataIndex: 'departurePlace',
       }, {
         title: '到达时间',
         dataIndex: 'arrivalTime',
+        render:(text)=>text?text.substr(5,5):'',
       }, {
         title: '到达地点',
         dataIndex: 'arrivalPlace',

@@ -41,11 +41,11 @@ class TravelReimburseForm extends React.Component {
       validReimburse=c>0?c.toFixed(2):0.00;
       return (
         <tr key={item.id}>
-          <td className={styles['tl']}>{item.departureTime && item.departureTime.substr(0,16)}</td>
-          <td className={styles['tl']}>{item.departurePlace && item.departurePlace}</td>
-          <td className={styles['tl']}>{item.arrivalTime && item.arrivalTime.substr(0,16)}</td>
-          <td className={styles['tl']}>{item.arrivalPlace && item.arrivalPlace}</td>
-          <td className={styles['tl']}>{item.vehicle && getDicType(item.vehicle)}</td>
+          <td className={styles['tc']}>{item.departureTime && item.departureTime.substr(5,5)}</td>
+          <td className={styles['tc']}>{item.departurePlace && item.departurePlace}</td>
+          <td className={styles['tc']}>{item.arrivalTime && item.arrivalTime.substr(5,5)}</td>
+          <td className={styles['tc']}>{item.arrivalPlace && item.arrivalPlace}</td>
+          <td className={styles['tc']}>{item.vehicle && getDicType(item.vehicle)}</td>
           <td>¥ {item.vehicleCost && item.vehicleCost.toFixed(2)}</td>
           <td>¥ {item.livingCost && item.livingCost.toFixed(2)}</td>
           <td>¥ {item.subsidyAmount && item.subsidyAmount.toFixed(2)}</td>
@@ -120,7 +120,8 @@ class TravelReimburseForm extends React.Component {
           </tbody>
         </table>
         <div className={styles['footer']}>
-          <span>主管：{getAuditerName(commentList,'直属副总/总监审批')}</span>
+          <span>财务主管：{getAuditerName(commentList,'财务总监复核')}</span>
+          <span>会计复核：{getAuditerName(commentList,'财务复核')}</span>
           <span>审核：{getAuditerName(commentList,'总经理审批')}</span>
           <span>报销人：{employeeList && employeeList.realName && employeeList.realName}</span>
         </div>
