@@ -170,7 +170,7 @@ const modal = ({
               {taskData && taskData.taskId?(
                 <div style={{backgroundColor:'#fff'}}>
                   <Button style={{ marginRight: 12 }} type="primary" loading={auditLoading} 
-                  onClick={handleAudit} size="large">{item.state===-2?'确定销假':'确定修改并提交'}</Button>
+                  onClick={handleAudit} size="large">{item.state===-2?'确定取消任务代理':'确定修改并提交'}</Button>
                   <Button  type="ghost" onClick={onGoback} size="large">返回待办</Button>
                 </div>
                 ):(

@@ -413,7 +413,7 @@ const getDateDiff=(a,b)=>{
         case 'SC'://调薪
         return <Link to={`/salaryChange/${id}`}>{content}</Link>
         case 'LE'://请假
-        return <Link to={`/leave/${id}`}>{content.replace('待完善资料','待销假')}</Link>
+        return <Link to={`/leave/${id}`}>{content.replace('待完善资料','取消任务代理')}</Link>
         case 'OT'://加班
         return <Link to={`/overTime/${id}`}>{content}</Link>
         case 'TL'://出差
@@ -507,7 +507,7 @@ const getDateDiff=(a,b)=>{
         case 'SC':
         return <Link to={`/salaryChange?${_url}`}>{text}</Link>;
         case 'LE':
-        return <Link to={`/leave?${_url}`}>{record.state===-2?'销假':'退回修改'}</Link>;
+        return <Link to={`/leave?${_url}`}>{record.state===-2?'取消任务代理':'退回修改'}</Link>;
         case 'OT':
         return <Link to={`/overtime?${_url}`}>{text}</Link>;
         case 'TL':    

@@ -6,7 +6,10 @@ import classNames from 'classnames';
 import FileList from '../FileList'
 class LeaveDetailPage extends React.Component {
   render () {
-    const { data,employeeList,dicList } = this.props
+    let { data,employeeList,dicList } = this.props
+    if(!dicList){
+      dicList=[];
+    }
     let defaultFileList=[];
     if(data&& data.attachList&& data.attachList[0]){
       defaultFileList=data.attachList.map((temp)=>{

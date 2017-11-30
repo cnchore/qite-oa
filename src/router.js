@@ -804,6 +804,24 @@ const Routers = function ({ history, app }) {
               cb(null, require('./routes/car/detail/'))
             }, 'car-detail')
           },
+        
+        }, {
+          //物流信息管理
+          path: '/logistics',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/logistics'))
+              cb(null, require('./routes/logistics/'))
+            }, 'logistics')
+          },
+        }, {
+          path: 'logistics/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/logistics/detail'))
+              cb(null, require('./routes/logistics/detail/'))
+            }, 'logistics-detail')
+          },
         }, {
           path: '/login',
           getComponent (nextState, cb) {

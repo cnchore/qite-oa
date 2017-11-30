@@ -45,7 +45,10 @@ import SampleRoomDetailPage from '../../../components/SampleRoomDetailPage'
 import PromotionExpenseDetailPage from '../../../components/PromotionExpenseDetailPage'
 import SalesPromotionDetailPage from '../../../components/SalesPromotionDetailPage'
 const Detail = ({ filedDetail }) => {
-  const { data,employeeList,dicList } = filedDetail
+  let { data,employeeList,dicList } = filedDetail
+  if(!dicList){
+    dicList=[];
+  }
   let detailpage=null,
       printData=false,
       _code='';
@@ -131,7 +134,7 @@ const Detail = ({ filedDetail }) => {
         detailpage=<BudgetDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
         break
       case 'LW'://外勤
-        detailpage=<LeaveDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
+        detailpage=<LegworkDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
         break
       case 'NE':
         detailpage=<NoticeDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList} />

@@ -422,6 +422,15 @@ module.exports = {
       save:`${apiPreLogi}/carDetail/save`,
       deleteById:`${apiPreLogi}/carDetail/deleteById`,
     },
+    //物流信息管理
+    logistics:{
+      query:`${apiPrefixPro}/logistics/getPage`,
+      getList:`${apiPrefixPro}/logistics/getList`,
+      getById:`${apiPrefixPro}/logistics/getById`,
+      save:`${apiPrefixPro}/logistics/save`,
+      change:`${apiPrefixPro}/logistics/updateLogisticsState`,
+      deleteById:`${apiPrefixPro}/logistics/deleteById`,
+    },
     // 审批角色管理
     auditConfig:{
       query:`${apiPrefixPro}/auditConfig/getPage`,
