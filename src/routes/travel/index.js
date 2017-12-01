@@ -7,13 +7,15 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Travel = ({ location, dispatch, travel, loading }) => {
-  const { list,fileList,dicList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = travel
+  const { list,fileList,dicList,employeeList,taskData, pagination, 
+    agentObject,currentItem, modalVisible, modalType } = travel
   const { pageSize } = pagination
 
   const modalProps = {
     item: modalType === 'create' ? {} : currentItem,
     visible: modalVisible,
     fileList,
+    agentObject,
     employeeList,
     dicList,
     taskData,
@@ -34,7 +36,12 @@ const Travel = ({ location, dispatch, travel, loading }) => {
         type: 'travel/hideModal',
       })
     },
-    
+    setAgent(agentObject){
+      dispatch({
+        type:'travel/setAgent',
+        payload:agentObject
+      })
+    },
     getFileList(fileList){
       dispatch({
         type:'travel/setFileList',
@@ -124,6 +131,7 @@ const Travel = ({ location, dispatch, travel, loading }) => {
           modalType: 'create',
           fileList:[],
           taskData:{},
+          agentObject:{},
         },
       })
     },

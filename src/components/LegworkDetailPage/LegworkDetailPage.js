@@ -51,6 +51,12 @@ class LegworkDetailPage extends React.Component {
         <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
           {data.createTime || data.createTimeStr}
         </Col>
+        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          代理人：
+        </Col>
+        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          {data.agentUserName || '无'}
+        </Col>
         <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' ,paddingLeft:'0px'}} className={styles['q-detail-label']}>
           出差地点：
         </Col>
@@ -68,8 +74,8 @@ class LegworkDetailPage extends React.Component {
           {data.legworkHours && data.legworkHours || '无'}
           <span className='q-pd-8'>小时</span>
         </Col>
-        
-       
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}>
         <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
           出勤事由：
         </Col>

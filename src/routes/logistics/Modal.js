@@ -39,7 +39,7 @@ const modal = ({
         message.error('请在备注中，填写运输异常情况！');
         return;
       }
-      data.deliveryDateStr=data.deliveryDateStr?data.deliveryDateStr.format(dateFormat):null;          //发货日期及装货时间
+      data.deliveryDateStr=data.deliveryDateStr?data.deliveryDateStr.format(dateTimeFormat):null;          //发货日期及装货时间
       data.sendLogisticsTimeStr=data.sendLogisticsTimeStr?data.sendLogisticsTimeStr.format(dateTimeFormat):null;       //发送到物流时间
       data.predictArrivalTimeStr=data.predictArrivalTimeStr?data.predictArrivalTimeStr.format(dateTimeFormat):null;      //估计到货时间
       
@@ -149,7 +149,7 @@ const modal = ({
           {getFieldDecorator('deliveryDateStr', {
             initialValue:(item.deliveryDateStr || item.deliveryDate)? moment(item.deliveryDateStr || item.deliveryDate,dateTimeFormat):null,
             
-          })(<DatePicker format={dateFormat} style={{width:'220px'}}/>)}
+          })(<DatePicker format={dateTimeFormat} showTime style={{width:'220px'}}/>)}
         </FormItem>
         <FormItem label="发送到物流时间" hasFeedback {...formItemLayout}>
           {getFieldDecorator('sendLogisticsTimeStr', {

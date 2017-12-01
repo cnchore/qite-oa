@@ -19,6 +19,7 @@ export default {
     dicList:[],
     employeeList:[],
     taskData:{},
+    agentObject:{},
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -186,6 +187,7 @@ export default {
               taskData:taskData.data,
               employeeList:userInfo.data.employeeVo,
               modalType:'toBackEdit',
+              agentObject:{},
             }
           })
         }else{
@@ -209,6 +211,7 @@ export default {
             currentItem:data.data,
             fileList:[],
             taskData:{},
+            agentObject:{},
           } 
         })
       } else {
@@ -271,7 +274,9 @@ export default {
     setFileList(state,action){
       return {...state,fileList:action.payload}
     },
-
+    setAgent(state,action){
+      return {...state,agentObject:action.payload}
+    },
   },
 
 }

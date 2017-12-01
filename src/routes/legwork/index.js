@@ -7,7 +7,8 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Legwork = ({ location, dispatch, legwork, loading }) => {
-  const { list,fileList,dicList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = legwork
+  const { list,fileList,dicList,employeeList,taskData, pagination,
+    agentObject, currentItem, modalVisible, modalType } = legwork
   const { pageSize } = pagination
 
   const modalProps = {
@@ -17,6 +18,7 @@ const Legwork = ({ location, dispatch, legwork, loading }) => {
     employeeList,
     dicList,
     taskData,
+    agentObject,
     maskClosable: false,
     submitLoading:loading.effects['legwork/submit'],
     confirmLoading: loading.effects[`legwork/${modalType}`],
@@ -34,7 +36,12 @@ const Legwork = ({ location, dispatch, legwork, loading }) => {
         type: 'legwork/hideModal',
       })
     },
-    
+    setAgent(agentObject){
+      dispatch({
+        type:'legwork/setAgent',
+        payload:agentObject
+      })
+    },
     getFileList(fileList){
       dispatch({
         type:'legwork/setFileList',
@@ -124,6 +131,7 @@ const Legwork = ({ location, dispatch, legwork, loading }) => {
           modalType: 'create',
           fileList:[],
           taskData:{},
+          agentObject:{},
         },
       })
     },

@@ -47,6 +47,8 @@ const modal = ({
   auditLoading,
   onGoback,
   defaultFileList=[],
+  agentObject={},
+  setAgent,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -87,6 +89,9 @@ const modal = ({
       // data.city=item.city;
       // data.area=item.area;
       //console.log('-----',data)
+      data.agentUserName= agentObject.agentUserName && agentObject.agentUserName || item.agentUserName;
+      data.agentUserId= agentObject.agentUserId && agentObject.agentUserId || item.agentUserId;
+
       if(item.id){
         data.id=item.id;
         data.code=item.code;
@@ -192,6 +197,11 @@ const modal = ({
   //   item.city=selectedOptions[1].label;
   //   item.area=selectedOptions[2].label;
   // }
+  const handleAgent=(data)=>{
+    if(data && data.userId){
+      setAgent({agentUserId:data.userId,agentUserName:data.realName})
+    }
+  }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -254,9 +264,20 @@ const modal = ({
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请时间：
           </Col>
-          <Col xs={18} md={8} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {item.createTime || item.createTimeStr || '系统自动生成'}
+            </FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            任务代理人：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem >
+                {agentObject.agentUserName && agentObject.agentUserName || item.agentUserName}
+            </FormItem>
+            <FormItem >
+              <SelectUser type="selectAgent" callBack={handleAgent} ></SelectUser>
             </FormItem>
           </Col>
         </Row>
