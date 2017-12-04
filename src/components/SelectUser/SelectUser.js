@@ -114,7 +114,7 @@ class SelectUser extends React.Component {
             {treeNodes}
           </Tree>
         </Col>
-        <Col span={12}>
+        <Col span={12} className={styles.table}>
           <Table
             {...tableProps}
             bordered
@@ -154,6 +154,7 @@ class SelectUser extends React.Component {
       <span style={{marginLeft:'8px'}}>
       { _span }
       <Modal
+        style={{ top: 10 }}
         width={600}
         title={_title}
         visible={this.state.modalVisible}

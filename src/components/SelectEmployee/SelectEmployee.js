@@ -141,7 +141,7 @@ class SelectEmployee extends React.Component {
             {treeNodes}
           </Tree>
         </Col>
-        <Col span={14}>
+        <Col span={14} className={styles.table}>
           <Table
             {...tableProps}
             bordered
@@ -156,6 +156,7 @@ class SelectEmployee extends React.Component {
       <span style={{marginRight:'12px'}}>
         <Button type="primary"  size="large" onClick={e=>this.showModal()}>添加内部人员</Button>
         <Modal
+          style={{ top: 10 }}
           width={800}
           title='添加内部人员'
           visible={this.state.modalVisible}

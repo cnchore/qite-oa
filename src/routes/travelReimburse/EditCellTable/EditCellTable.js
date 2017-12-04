@@ -21,7 +21,7 @@ class EditCellTable extends React.Component {
     },{
       title: '出发时间',
       dataIndex: 'departureTimeStr',
-      width: 80,
+      width: 180,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'departureTimeStr', text,'datetime'),
     
     }, {
@@ -31,7 +31,7 @@ class EditCellTable extends React.Component {
     }, {
       title: '到达时间',
       dataIndex: 'arrivalTimeStr',
-      width: 80,
+      width: 180,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'arrivalTimeStr', text,'datetime'),
     }, {
       title: '到达地点',

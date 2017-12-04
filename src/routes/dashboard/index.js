@@ -5,7 +5,7 @@ import { Row, Col, Card,Icon,Tabs } from 'antd'
 import { NumberCard, UserInfo,WaitList,WaitSignList } from './components'
 import styles from './index.less'
 import { color,getTheme,classnames,getMsgType,getMsgAction } from '../../utils'
-import { Link } from 'dva/router'
+import { Link,routerRedux } from 'dva/router'
 
 const TabPane=Tabs.TabPane;
 function Dashboard ({ dashboard,loading,location,dispatch }) {
@@ -18,7 +18,11 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
     bgcolor: 'light1',
     title: '待办件',
     number: waitData && waitData.total || 0,
-    linkto:'/waiting',
+    linkto:()=>{
+      dispatch(routerRedux.push({
+        pathname:'/waiting',
+      }))
+    },
     desc:'指定本人处理的业务',
    
   }
@@ -28,7 +32,11 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
     bgcolor:'light2',
     title: '待签收件',
     number: waitSignData && waitSignData.total || 0,
-    linkto:'/waitSign',
+    linkto:()=>{
+      dispatch(routerRedux.push({
+        pathname:'/waitSign',
+      }))
+    },
     desc:'未选择指定处理人，需手动签收本人应处理的业务',
    
   }

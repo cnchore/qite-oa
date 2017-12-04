@@ -877,7 +877,7 @@ const Routers = function ({ history, app }) {
     const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
     if (!userInfo || (userInfo && !userInfo.data)) {
       if(pathname!=='/login'){
-        console.log('no login');
+        // console.log('no login');
         history.replace(`/login?from=${pathname}${search}`)
         return;
       }

@@ -8,8 +8,12 @@ import { classnames,getTheme } from '../../../utils'
 
 function NumberCard ({ icon, bgcolor,color, title, number,linkto,desc, countUp }) {
   let _color=!getTheme()?color:'#fff';
+  const handerClick=()=>{
+    linkto && linkto();
+  }
   return (
-    <Card className={classnames(styles.numberCard,{[styles.light1]:getTheme() && bgcolor==='light1'},{[styles.light2]:getTheme() && bgcolor==='light2'})} bordered={false} bodyStyle={{ padding: 0 }}>
+    <Card className={classnames(styles.numberCard,{[styles.light1]:getTheme() && bgcolor==='light1'},{[styles.light2]:getTheme() && bgcolor==='light2'})} 
+      bordered={false} bodyStyle={{ padding: 0 }} onClick={handerClick}>
       {
         desc?
         <Tooltip placement="topLeft" title={desc}>
@@ -18,8 +22,8 @@ function NumberCard ({ icon, bgcolor,color, title, number,linkto,desc, countUp }
         : <i className={classnames(icon,styles.iconWarp)} style={{ color:_color }} />
       }
       
-      <div className={styles.content}>
-        
+      <div className={styles.content} >
+      
         <p className={styles.number}>
         {
           desc?
@@ -28,7 +32,7 @@ function NumberCard ({ icon, bgcolor,color, title, number,linkto,desc, countUp }
           </Tooltip>
           :<span className={styles.title}>{title || 'No Title'}</span>
         }
-          <Link to={ linkto || '#'}>
+          
             <CountUp
               start={0}
               end={number}
@@ -38,8 +42,8 @@ function NumberCard ({ icon, bgcolor,color, title, number,linkto,desc, countUp }
               separator=","
               {...countUp || {}}
             />
-          </Link>
         </p>
+      
       </div>
     </Card>
   )
