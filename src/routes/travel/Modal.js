@@ -4,16 +4,16 @@ import { Form, Input,Radio, InputNumber,Modal,Row,Col,Cascader,DatePicker,Button
 import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
-import uploadImageCallBack from '../../services/uploadImageCallBack'
+// import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 import city from '../../utils/chinaCity'
-import {changeMoneyToChinese} from '../../utils'
+import {changeMoneyToChinese,treeToArray} from '../../utils'
 import CommentTable from '../../components/CommentTable'
 const confirm = Modal.confirm
 const { RangePicker } = DatePicker
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item
-
+const cityArray=treeToArray(city,null,'parent','value');
 const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: {
@@ -85,9 +85,10 @@ const modal = ({
       data.provinceId=data.destination?data.destination[0]:-1;
       data.cityId=data.destination?data.destination[1]:-1;
       data.areaId=data.destination?data.destination[2]:-1;
-      data.province=item.province;
-      data.city=item.city;
-      data.area=item.area;
+      data.destination=null;
+      data.province=getCityLabel(data.provinceId) || item.province;
+      data.city=getCityLabel(data.cityId) || item.city;
+      data.area=getCityLabel(data.areaId) || item.area;
       data.agentUserName= agentObject.agentUserName && agentObject.agentUserName || item.agentUserName;
       data.agentUserId= agentObject.agentUserId && agentObject.agentUserId || item.agentUserId;
 
@@ -95,10 +96,23 @@ const modal = ({
       if(item.id){
         data.id=item.id;
         data.code=item.code;
+        data.state=item.state;
       }
     })
     return data;
   }
+  const getCityLabel=(value)=>{
+    if(!cityArray.length){
+      return '';
+    }
+    let _list=cityArray.filter(f=>String(f.value)===String(value));
+    if(_list && _list[0]){
+      return _list[0].label;
+    }
+    return '';
+  }
+ 
+  
   const handleOk = () => {
     let fields=getFields();
     if(fields){
@@ -218,7 +232,7 @@ const modal = ({
               {taskData && taskData.taskId?(
                 <div style={{backgroundColor:'#fff'}}>
                   <Button style={{ marginRight: 12 }} type="primary" loading={auditLoading} 
-                  onClick={handleAudit} size="large">确定修改并提交</Button>
+                  onClick={handleAudit} size="large">{item.state===-2?'确定取消任务代理':'确定修改并提交'}</Button>
                   <Button  type="ghost" onClick={onGoback} size="large">返回待办</Button>
                 </div>
                 ):(
@@ -281,9 +295,14 @@ const modal = ({
             <FormItem >
                 {agentObject.agentUserName && agentObject.agentUserName || item.agentUserName}
             </FormItem>
-            <FormItem >
-              <SelectUser type="selectAgent" callBack={handleAgent} ></SelectUser>
-            </FormItem>
+            {
+              taskData && taskData.taskId && item.state!==-1?
+              null
+              :
+              <FormItem >
+                <SelectUser type="selectAgent" callBack={handleAgent} ></SelectUser>
+              </FormItem>
+            }
           </Col>
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
@@ -300,7 +319,7 @@ const modal = ({
                    
                   },
                 ],
-              })(<Input style={{width:'100%'}}/>)}
+              })(<Input disabled={taskData && taskData.taskId && item.state!==-1} style={{width:'100%'}}/>)}
               
             </FormItem>
             
@@ -321,7 +340,7 @@ const modal = ({
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<RangePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
+              })(<RangePicker disabled={taskData && taskData.taskId && item.state!==-1} showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
             </FormItem>
             
           </Col>
@@ -337,7 +356,7 @@ const modal = ({
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<InputNumber step={1} />)}
+              })(<InputNumber disabled={taskData && taskData.taskId && item.state!==-1} step={1} />)}
             </FormItem>
             <FormItem >小时</FormItem>
           </Col>
@@ -352,11 +371,9 @@ const modal = ({
               {getFieldDecorator('destination', {
                 initialValue:initialDestination,
                 rules: [{required: true,message:'不能为空',},],
-                onChange:destinationChange,
               })(
-                <Cascader
+                <Cascader disabled={taskData && taskData.taskId && item.state!==-1}
                   size="large"
-                  
                   options={city}
                 />
               )}
@@ -371,7 +388,7 @@ const modal = ({
               {getFieldDecorator('address', {
                 initialValue:item.address,
                 rules: [{required: true,message:'不能为空',},],
-              })(<Input />)}
+              })(<Input disabled={taskData && taskData.taskId && item.state!==-1}/>)}
             </FormItem>
 
           </Col>
@@ -390,7 +407,7 @@ const modal = ({
                    
                   },
                 ],
-              })(<Input />)}
+              })(<Input disabled={taskData && taskData.taskId && item.state!==-1}/>)}
               
             </FormItem>
             
@@ -410,7 +427,7 @@ const modal = ({
                    
                   },
                 ],
-              })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
+              })(<Input disabled={taskData && taskData.taskId && item.state!==-1} type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
             </FormItem>
           </Col>
         </Row>
@@ -429,14 +446,14 @@ const modal = ({
                   },
                 ],
                 onChange:handleRadioChange,
-              })(<RadioGroup labelInValue>{dicRadio}</RadioGroup>)}
+              })(<RadioGroup  disabled={taskData && taskData.taskId && item.state!==-1} labelInValue>{dicRadio}</RadioGroup>)}
               
             </FormItem>
             {item.tripMode==='5'?
             <FormItem >
               {getFieldDecorator('tripModeRemark', {
                 initialValue:item.tripModeRemark,
-              })(<Input />)}
+              })(<Input disabled={taskData && taskData.taskId && item.state!==-1} />)}
             </FormItem>
             :null}
           </Col>
@@ -452,7 +469,7 @@ const modal = ({
                 rules: [{required: true,message:'不能为空',},],
                 onChange:handleExpenseChange,
               })(
-                <InputNumber
+                <InputNumber disabled={taskData && taskData.taskId && item.state!==-1}
                   step={1} style={{width:'150px'}}
                   formatter={value => `¥ ${value?value.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}`}
                   parser={value => value?value.toString().replace(/¥\s?|(,*)/g, ''):0}
@@ -493,7 +510,7 @@ const modal = ({
             <CommentTable data={taskData.commentList} />
           :null
         }
-        {taskData && taskData.taskId?
+        {taskData && taskData.taskId && item.state!==-1?
           <Row gutter={24} className={styles['q-detail']}>
             <Col span={24} className='qite-list-title'>
               <Icon type="edit" />流程办理

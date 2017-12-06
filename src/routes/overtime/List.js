@@ -70,15 +70,6 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete, location, ...tableProps }
       dataIndex: 'createTime',width:170,
       key: 'createTime',
     }, {
-      title: '申请加班时间',
-      dataIndex: 'overTimeStart',width:350,
-      key: 'overTimeStart',
-      render:(text,record)=>`${record.overTimeStart}至${record.overTimeEnd}`,
-    }, {
-      title: '加班时长',width:120,
-      key: 'overtimeHours',
-      render:(text,record)=>getOvertimeHours(record.overTimeStart,record.overTimeEnd),
-    }, {
       title: '加班类型',width:120,
       dataIndex: 'type',
       key: 'type',

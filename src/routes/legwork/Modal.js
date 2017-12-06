@@ -4,7 +4,7 @@ import { Form, Input,Radio, InputNumber,Modal,Row,Col,Cascader,DatePicker,Button
 import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
-import uploadImageCallBack from '../../services/uploadImageCallBack'
+// import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 import city from '../../utils/chinaCity'
 import {changeMoneyToChinese} from '../../utils'
@@ -95,6 +95,7 @@ const modal = ({
       if(item.id){
         data.id=item.id;
         data.code=item.code;
+        data.state=item.state;
       }
     })
     return data;
@@ -140,7 +141,7 @@ const modal = ({
       taskItem.action=formItem.action;
       // console.log('formItem')
       confirm({
-        title:'你确定提交修改么？',
+        title:item.state===-2?'你确定取消任务代理么？':'你确定提交修改么？',
         onOk(){
             onAudit(formItem,taskItem)
         },
@@ -213,7 +214,7 @@ const modal = ({
               {taskData && taskData.taskId?(
                 <div style={{backgroundColor:'#fff'}}>
                   <Button style={{ marginRight: 12 }} type="primary" loading={auditLoading} 
-                  onClick={handleAudit} size="large">确定修改并提交</Button>
+                  onClick={handleAudit} size="large">{item.state===-2?'确定取消任务代理':'确定修改并提交'}</Button>
                   <Button  type="ghost" onClick={onGoback} size="large">返回待办</Button>
                 </div>
                 ):(
@@ -276,9 +277,13 @@ const modal = ({
             <FormItem >
                 {agentObject.agentUserName && agentObject.agentUserName || item.agentUserName}
             </FormItem>
-            <FormItem >
-              <SelectUser type="selectAgent" callBack={handleAgent} ></SelectUser>
-            </FormItem>
+            {
+              taskData && taskData.taskId && item.state!==-1?
+              null:
+              <FormItem >
+                <SelectUser type="selectAgent" callBack={handleAgent} ></SelectUser>
+              </FormItem>
+            }
           </Col>
         </Row>
         
@@ -297,7 +302,7 @@ const modal = ({
                    
                   },
                 ],
-              })(<RangePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
+              })(<RangePicker disabled={taskData && taskData.taskId && item.state!==-1} showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
             </FormItem>
            
           </Col>
@@ -314,7 +319,7 @@ const modal = ({
                    
                   },
                 ],
-              })(<InputNumber step={1} />)}
+              })(<InputNumber disabled={taskData && taskData.taskId && item.state!==-1} step={1} />)}
             </FormItem>
             <FormItem>小时</FormItem>
           </Col>
@@ -331,7 +336,7 @@ const modal = ({
               {getFieldDecorator('address', {
                 initialValue:item.address,
                 rules: [{required: true,message:'不能为空',},],
-              })(<Input />)}
+              })(<Input disabled={taskData && taskData.taskId && item.state!==-1} />)}
             </FormItem>
 
           </Col>
@@ -351,7 +356,7 @@ const modal = ({
                    
                   },
                 ],
-              })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
+              })(<Input type="textarea" disabled={taskData && taskData.taskId && item.state!==-1} autosize={{ minRows: 2, maxRows: 5 }} />)}
             </FormItem>
           </Col>
         </Row>
@@ -367,7 +372,7 @@ const modal = ({
                 rules: [{required: true,message:'不能为空',},],
                 onChange:handleMealAllowanceChange,
               })(
-                <InputNumber
+                <InputNumber disabled={taskData && taskData.taskId && item.state!==-1}
                   step={1} style={{width:'150px'}}
                   formatter={value => `¥ ${value?value.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}`}
                   parser={value => value?value.toString().replace(/¥\s?|(,*)/g, ''):0}
@@ -399,7 +404,7 @@ const modal = ({
             <CommentTable data={taskData.commentList} />
           :null
         }
-        {taskData && taskData.taskId?
+        {taskData && taskData.taskId && item.state!==-1?
           <Row gutter={24} className={styles['q-detail']}>
             <Col span={24} className='qite-list-title'>
               <Icon type="edit" />流程办理

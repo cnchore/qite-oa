@@ -1,14 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input,Radio, InputNumber,Modal,Row,Col,DatePicker,Button,Icon,Affix } from 'antd'
-import moment from 'moment';
+import { Form, Input,Radio, InputNumber,Modal,Row,Col,Button,Icon,Affix } from 'antd'
+// import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
-import uploadImageCallBack from '../../services/uploadImageCallBack'
+// import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 import CommentTable from '../../components/CommentTable'
+import EditCellTable from './EditCellTable'
 const confirm = Modal.confirm
-const { RangePicker } = DatePicker
+// const { RangePicker } = DatePicker
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item
 
@@ -35,16 +36,23 @@ const modal = ({
   onCancel,
   fileList,
   dicList,
+  detailList,//明细列表
+  getDetailList,//获取明细的方法
   getFileList,
   confirmLoading,
   submitLoading,
   onSubmit,
   employeeList,
   defaultFileList=[],
+  defaultDetailList=[],//行编辑表格控件datasource
   onAudit,
   taskData={},
   auditLoading,
   onGoback,
+  isEditable,
+  setIsEditable,
+  overTimeType,
+  setOverTimeType,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -75,16 +83,25 @@ const modal = ({
           data[`attachList[${index}].attachName`]=f.name;
         })
       }
-      if(data.overTime){
-      data.overTimeStartStr=data.overTime?data.overTime[0].format(dateTimeFormat):null;
-      data.overTimeEndStr=data.overTime?data.overTime[1].format(dateTimeFormat):null;
+      let _defaultDetailList=[];
+      if(detailList && detailList.length>0){
+        _defaultDetailList=detailList;
+      }else if(defaultDetailList[0]){
+        _defaultDetailList=defaultDetailList;
       }
-      if(data.realOverTime){
-      data.realOverTimeStartStr=data.realOverTime?data.realOverTime[0].format(dateTimeFormat):null;
-      data.realOverTimeEndStr=data.realOverTime?data.realOverTime[1].format(dateTimeFormat):null;
-      }
-      data.overTime=null;
-      data.realOverTime=null;
+      _defaultDetailList.map((f,index)=>{
+        if(f.id)data[`detailList[${index}].id`]=f.id;
+        if(f.overTimeId)data[`detailList[${index}].overTimeId`]=f.overTimeId;        //加班申请单Id（int）如果有要传值
+        data[`detailList[${index}].userId`]=f.userId;         //加班人id int）
+        data[`detailList[${index}].realName`]=f.realName.value;         //加班人id int）
+        data[`detailList[${index}].orgName`]=f.orgName.value;       //部门（String）
+        data[`detailList[${index}].overTimeStartStr`]=f.overTimeStartStr.value;    //申请加班时间-开始（String）
+        data[`detailList[${index}].overTimeEndStr`]=f.overTimeEndStr.value;    //申请加班时间-结束（String）
+        data[`detailList[${index}].realOverTimeStartStr`]=f.realOverTimeStartStr.value;  //实际加班时间-开始（String）
+        data[`detailList[${index}].realOverTimeEndStr`]=f.realOverTimeEndStr.value;  //实际加班时间-结束（String）
+
+      })
+      
       if(item.id){
         data.id=item.id;
         data.code=item.code;
@@ -142,50 +159,54 @@ const modal = ({
   }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
 
-  let initialOverTime = []
-  if (item.overTimeStartStr) {
-    initialOverTime[0] = moment(item.overTimeStartStr)
-  }else if(item.overTimeStart){
-    initialOverTime[0] = moment(item.overTimeStart)
-  }
-  if (item.overTimeEndStr) {
-    initialOverTime[1] = moment(item.overTimeEndStr)
-  }else if(item.overTimeEnd){
-    initialOverTime[1] = moment(item.overTimeEnd)
-  }
-  let initialRealOverTime = []
-  if (item.realOverTimeStartStr) {
-    initialRealOverTime[0] = moment(item.realOverTimeStartStr)
-  }else if(item.realOverTimeStart){
-    initialRealOverTime[0] = moment(item.realOverTimeStart)
-  }
-  if (item.realOverTimeEndStr) {
-    initialRealOverTime[1] = moment(item.realOverTimeEndStr)
-  }else if(item.realOverTimeEnd){
-    initialRealOverTime[1] = moment(item.realOverTimeEnd)
-  }
   const dicRadio=dicList.map(dic=><Radio value={dic.dicValue} key={dic.id}>{dic.dicName}</Radio>)
   const handleRadioChange= (e) => {
     //console.log('radio checked', e.target.value,e.target);
     item.times=e.target.value;
+
   }
   const handleTypeChange= (e) => {
-    item.type=e.target.value;
+    setOverTimeType(e.target.value==='申请加班'?1:2);
   }
-  const getHours=(t=null)=>{
-    const data = {...getFieldsValue()}
-    let a=data.overTime?(data.overTime[0]?data.overTime[0].format(dateTimeFormat):null):null;
-    let b=data.overTime?(data.overTime[1]?data.overTime[1].format(dateTimeFormat):null):null;
-    if(t){
-    a=data.realOverTime?(data.realOverTime[0]?data.realOverTime[0].format(dateTimeFormat):null):null;
-    b=data.realOverTime?(data.realOverTime[1]?data.realOverTime[1].format(dateTimeFormat):null):null;
-    }
-    if(!a||!b){
-      return 0;
-    }
-    let timeA=new Date(a);
-    let timeB=new Date(b);
-    return ((timeB-timeA)/(3600*1000)).toFixed(2)
+  
+  if(detailList && detailList[0]){
+    defaultDetailList=detailList;
+  }else if(item.detailList && item.detailList[0]){
+    defaultDetailList=item.detailList.map(temp=>{
+      let newRow={
+        key: temp.id,
+        id:temp.id,
+        overTimeId:temp.overTimeId,
+        userId:temp.userId,
+        realName:{
+          editable:false,
+          value:temp.realName || '',
+        },
+        orgName:{
+          editable:false,
+          value:temp.orgName || '',
+        },
+        overTimeStartStr:{
+          editable:false,
+          value:temp.overTimeStart,
+        },
+        overTimeEndStr:{
+          editable:false,
+          value:temp.overTimeEnd,
+        },
+        realOverTimeStartStr:{
+          editable:false,
+          value:temp.realOverTimeStart,
+        },
+        realOverTimeEndStr:{
+          editable:false,
+          value:temp.realOverTimeEnd,
+        },
+      }
+      return newRow;
+    })
+  }else{
+    defaultDetailList=[];
   }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -308,48 +329,7 @@ const modal = ({
           </Col>
          
         </Row>
-        <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
-            申请加班时间：
-          </Col>
-          <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('overTime', {
-                initialValue:initialOverTime,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-              })(<RangePicker showTime format={dateTimeFormat}  style={{width:'400px'}}/>)}
-            </FormItem>
-            <FormItem> 共 {getHours()} 小时</FormItem>
-
-          </Col>
-        </Row>
-        {item.type==='补报加班'?
-        <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' ,paddingLeft:'0px'}} className={styles['q-detail-label-require']}>
-            实际加班时间：
-          </Col>
-          <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem >
-              {getFieldDecorator('realOverTime', {
-                initialValue:initialRealOverTime,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-              })(<RangePicker showTime format={dateTimeFormat}  style={{width:'400px'}}/>)}
-            </FormItem>
-            <FormItem> 共 {getHours(1)} 小时</FormItem>
-
-          </Col>
-        </Row>
-        :null}
+       
         <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             加班原因：
@@ -368,15 +348,22 @@ const modal = ({
             </FormItem>
           </Col>
         </Row>
+        <EditCellTable dicList={dicList} 
+          dataSource={defaultDetailList} 
+          callbackParent={getDetailList}
+          setIsEditable={setIsEditable}
+          overTimeType={overTimeType}
+          className={styles['q-detail']}/> 
+        <br/>
         <Row gutter={12} className={styles['q-detail']} style={{marginLeft:'2px',marginRight:'2px'}}>
-        <blockquote>
-          <p>
-            备注：<br/>
-            1、请在加班前填写此单，审批结束后交到考勤专员处备案。<br/>
-            2、当值人为：考勤专员根据考勤机所记录加班后打卡时间或保安记录离开时间，实际加班时间以当值人员记录为准
-          </p>
-        </blockquote>
-      </Row> 
+          <blockquote>
+            <p>
+              备注：<br/>
+              1、请在加班前填写此单，审批结束后交到考勤专员处备案。<br/>
+              2、当值人为：考勤专员根据考勤机所记录加班后打卡时间或保安记录离开时间，实际加班时间以当值人员记录为准
+            </p>
+          </blockquote>
+        </Row> 
         <Row gutter={24} className={styles['q-detail']}>
 
           <Col span={24} className='qite-list-title'>

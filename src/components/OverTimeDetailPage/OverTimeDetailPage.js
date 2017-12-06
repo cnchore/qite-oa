@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './OverTimeDetailPage.less'
-import { Icon,Row,Col } from 'antd'
+import { Icon,Row,Col,Table } from 'antd'
 import classNames from 'classnames';
 import FileList from '../FileList'
 class OverTimeDetailPage extends React.Component {
@@ -28,6 +28,47 @@ render () {
         return remark&&n[0].dicName==='其他'?remark:n[0].dicName;
       }
       return '';
+    }
+    const columns = [{
+      title:'序号',
+      dataIndex:'index',width:60,
+      render:(text,record,index)=>index+1,
+    },{
+      title: '加班人',
+      dataIndex: 'realName',
+    }, {
+      title: '部门',
+      dataIndex: 'orgName',
+    }, {
+      title: '申请加班开始时间',
+      dataIndex: 'overTimeStart',
+    }, {
+      title: '申请加班结束时间',
+      dataIndex: 'overTimeEnd',
+    }, {
+      title: '申请加班时长',
+      dataIndex: 'otTimes',
+      render:(text,record)=>getHours(record.overTimeStart,record.overTimeEnd),
+    }, {
+      title: '实际加班开始时间',
+      dataIndex: 'realOverTimeStart',
+    }, {
+      title: '实际加班结束时间',
+      dataIndex: 'realOverTimeEnd',
+    }, {
+      title: '实际加班时长',
+      dataIndex: 'rotTimes',
+      render:(text,record)=>getHours(record.realOverTimeStart,record.realOverTimeEnd),
+    }];
+    const getTable=()=>{
+      return (<Table bordered 
+            dataSource={data.detailList || []} 
+            columns={columns} 
+            pagination={false}
+            scroll={{ x: 767 }}
+            rowKey={record=>record.id}
+            />
+        )
     }
     return (
       <div>
@@ -78,26 +119,18 @@ render () {
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>加班原因：</Col>
           <Col xs={18} md={8} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>{data.remark}</Col>
-          
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>申请加班时间：</Col>
-          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-          {data.overTimeStartStr || data.overTimeStart || '无'} 至
-          {data.overTimeEndStr || data.overTimeEnd || '无'}，共 {getHours(data.overTimeStart,data.overTimeEnd)} 小时
-          </Col>
-       
-        { data.realOverTimeStart?
-            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>实际加班时间：</Col>
-          :null}
-        { data.realOverTimeStart?
-            <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.realOverTimeStartStr || data.realOverTimeStart || '无'} 至
-            {data.realOverTimeEndStr || data.realOverTimeEnd || '无'}，共 {getHours(data.realOverTimeStart,data.realOverTimeEnd)} 小时
-            </Col>
-          :null}
-        
         
         </Row>
-        <Row gutter={12} className={styles['q-detail']} style={{marginLeft:'2px',marginRight:'2px'}}>
+        <Row gutter={24} className={styles['q-detail']}>
+          <Col span={24} className='qite-list-title'>
+              <Icon type="credit-card" />加班明细
+          </Col>
+          <Col xs={24} md={24} xl={24} className={styles['q-detail-conent']}>
+            {getTable()}
+          </Col>
+        </Row>
+
+        <Row gutter={12} className={styles['q-detail']} style={{marginLeft:'2px',marginTop:'12px',marginRight:'2px'}}>
           <blockquote>
             <p>
               备注：<br/>

@@ -7,7 +7,8 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Overtime = ({ location, dispatch, overtime, loading }) => {
-  const { list,fileList,dicList,employeeList,taskData,pagination, currentItem, modalVisible, modalType } = overtime
+  const { list,fileList,dicList,employeeList,taskData,pagination, 
+    overTimeType,isEditable,detailList,currentItem, modalVisible, modalType } = overtime
   const { pageSize } = pagination
 
   const modalProps = {
@@ -17,6 +18,7 @@ const Overtime = ({ location, dispatch, overtime, loading }) => {
     employeeList,
     dicList,
     taskData,
+    overTimeType,detailList,isEditable,
     maskClosable: false,
     submitLoading:loading.effects['overtime/submit'],
     confirmLoading: loading.effects[`overtime/${modalType}`],
@@ -34,11 +36,28 @@ const Overtime = ({ location, dispatch, overtime, loading }) => {
         type: 'overtime/hideModal',
       })
     },
-    
+    getDetailList(detailList){
+      dispatch({
+        type:'overtime/setState',
+        payload:{detailList}
+      })
+    },
+    setOverTimeType(overTimeType){
+      dispatch({
+        type:'overtime/setState',
+        payload:{overTimeType}
+      })
+    },
+    setIsEditable(isEditable){
+      dispatch({
+        type:'overtime/setState',
+        payload:{isEditable}
+      })
+    },
     getFileList(fileList){
       dispatch({
-        type:'overtime/setFileList',
-        payload:fileList
+        type:'overtime/setState',
+        payload:{fileList}
       })
     },
     onSubmit (formItem,nextUser) {
@@ -124,6 +143,9 @@ const Overtime = ({ location, dispatch, overtime, loading }) => {
           modalType: 'create',
           fileList:[],
           taskData:{},
+          isEditable:false,
+          overTimeType:1,
+          detailList:[],
         },
       })
     },

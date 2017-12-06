@@ -4,7 +4,7 @@ import { Form, Input,Radio, InputNumber,Modal,Row,Col,DatePicker,Button,Icon,Aff
 import moment from 'moment';
 import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
-import uploadImageCallBack from '../../services/uploadImageCallBack'
+// import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 import CommentTable from '../../components/CommentTable'
 
@@ -137,7 +137,7 @@ const modal = ({
       taskItem.action=formItem.action;
       // console.log('formItem')
       confirm({
-        title:'你确定提交修改么？',
+        title:item.state===-2?'你确定取消任务代理么？':'你确定提交修改么？',
         onOk(){
             onAudit(formItem,taskItem)
         },
@@ -233,7 +233,7 @@ const modal = ({
             <FormItem >
                 {agentObject.agentUserName && agentObject.agentUserName || item.agentUserName}
             </FormItem>
-            {taskData && taskData.taskId?
+            {taskData && taskData.taskId && item.state!==-1?
               null:
               <FormItem >
                 <SelectUser type="selectAgent" callBack={handleAgent} ></SelectUser>
@@ -255,7 +255,7 @@ const modal = ({
                   },
                 ],
                 onChange:handleRadioChange,
-              })(<RadioGroup labelInValue disabled={taskData && taskData.taskId} >{dicRadio}</RadioGroup>)}
+              })(<RadioGroup labelInValue disabled={taskData && taskData.taskId && item.state!==-1} >{dicRadio}</RadioGroup>)}
               
             </FormItem>
             {item.type==='7'?
@@ -281,7 +281,7 @@ const modal = ({
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<RangePicker showTime format={dateTimeFormat} disabled={taskData && taskData.taskId} style={{width:'100%'}}/>)}
+              })(<RangePicker showTime format={dateTimeFormat} disabled={taskData && taskData.taskId && item.state!==-1} style={{width:'100%'}}/>)}
             </FormItem>
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
@@ -297,7 +297,7 @@ const modal = ({
                       required: true,message:'不能为空',
                     },
                   ],
-                })(<InputNumber disabled={taskData && taskData.taskId} step={1} />)}
+                })(<InputNumber disabled={taskData && taskData.taskId && item.state!==-1} step={1} />)}
               </FormItem>
            
             <FormItem>小时</FormItem>
@@ -316,7 +316,7 @@ const modal = ({
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<Input type="textarea" disabled={taskData && taskData.taskId} autosize={{ minRows: 2, maxRows: 5 }} />)}
+              })(<Input type="textarea" disabled={taskData && taskData.taskId && item.state!==-1} autosize={{ minRows: 2, maxRows: 5 }} />)}
             </FormItem>
           </Col>
           <Col span={24} className='qite-list-title'>
@@ -333,7 +333,7 @@ const modal = ({
             <CommentTable data={taskData.commentList} />
           :null
         }
-        {taskData && taskData.taskId?
+        {taskData && taskData.taskId && item.state!==-1?
           <Row gutter={24} className={styles['q-detail']}>
             <Col span={24} className='qite-list-title'>
               <Icon type="edit" />流程办理

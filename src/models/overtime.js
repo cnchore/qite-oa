@@ -15,6 +15,9 @@ export default {
     dicList:[],
     employeeList:[],
     taskData:{},
+    overTimeType:1,
+    detailList:[],
+    isEditable:false,
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -181,6 +184,9 @@ export default {
               fileList:[],
               taskData:taskData.data,
               employeeList:userInfo.data.employeeVo,
+              isEditable:false,
+              overTimeType:1,
+              detailList:[],
               modalType:'toBackEdit',
             }
           })
@@ -205,6 +211,9 @@ export default {
             currentItem:data.data,
             fileList:[],
             taskData:{},
+            isEditable:false,
+            detailList:[],
+            overTimeType:1,
           } 
         })
       } else {
@@ -262,11 +271,9 @@ export default {
       return { ...state, modalVisible: false }
     },
     setState(state,action){
-      return {...state,currentItem:action.payload}
+      return {...state,...action.payload}
     },
-    setFileList(state,action){
-      return {...state,fileList:action.payload}
-    },
+    
 
   },
 

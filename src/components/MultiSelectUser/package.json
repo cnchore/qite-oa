@@ -1,0 +1,6 @@
+{
+  "name": "MultiSelectUser",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./MultiSelectUser.js"
+}
