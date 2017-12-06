@@ -1,0 +1,6 @@
+{
+  "name": "FlowImgView",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./FlowImgView.js"
+}

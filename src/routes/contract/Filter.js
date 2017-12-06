@@ -76,13 +76,13 @@ const Filter = ({
 
   return (
     <Row gutter={24}>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
+      <Col {...ColProps} xl={{ span: 8 }} md={{ span: 8 }}>
         {getFieldDecorator('codeLike', 
           { initialValue: codeLike 
           })(<Search placeholder="申请单号" size="large" onSearch={handleSubmit} />)}
       </Col>
      
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
+      <Col {...ColProps} xl={{ span: 8 }} md={{ span: 8 }} >
         <FilterItem label="申请时间">
           {getFieldDecorator('createTime', { 
             initialValue:createTime? moment(createTime):null,
@@ -93,25 +93,21 @@ const Filter = ({
           )}
         </FilterItem>
       </Col>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }} >
+      <Col {...ColProps} xl={{ span: 8 }} md={{ span: 8 }} >
         {getFieldDecorator('contractNameLike', 
           { initialValue: contractNameLike 
           })(<Search placeholder="合同名称" size="large" onSearch={handleSubmit} />)}
       </Col>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }} >
+      <Col {...ColProps} xl={{ span: 8 }} md={{ span: 8 }} >
         {getFieldDecorator('contractCodeLike', 
           { initialValue: contractCodeLike 
           })(<Search placeholder="合同编号" size="large" onSearch={handleSubmit} />)}
       </Col>
-      <Col {...TwoColProps} xl={{ span: 6 }} md={{ span: 16 }} >
+      <Col {...TwoColProps} xl={{ span: 16 }} md={{ span: 16 }} >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div >
             <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>
             <Button icon="reload" size="large" onClick={handleReset}>重置</Button>
-          </div>
-          <div>
             <Button icon="plus" size="large" type="ghost" onClick={onAdd}>新增</Button>
-          </div>
         </div>
       </Col>
     </Row>

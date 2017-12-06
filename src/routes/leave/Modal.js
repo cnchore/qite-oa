@@ -233,9 +233,12 @@ const modal = ({
             <FormItem >
                 {agentObject.agentUserName && agentObject.agentUserName || item.agentUserName}
             </FormItem>
-            <FormItem >
-              <SelectUser type="selectAgent" callBack={handleAgent} ></SelectUser>
-            </FormItem>
+            {taskData && taskData.taskId?
+              null:
+              <FormItem >
+                <SelectUser type="selectAgent" callBack={handleAgent} ></SelectUser>
+              </FormItem>
+            }
           </Col>
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
@@ -252,7 +255,7 @@ const modal = ({
                   },
                 ],
                 onChange:handleRadioChange,
-              })(<RadioGroup labelInValue>{dicRadio}</RadioGroup>)}
+              })(<RadioGroup labelInValue disabled={taskData && taskData.taskId} >{dicRadio}</RadioGroup>)}
               
             </FormItem>
             {item.type==='7'?
@@ -313,7 +316,7 @@ const modal = ({
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
+              })(<Input type="textarea" disabled={taskData && taskData.taskId} autosize={{ minRows: 2, maxRows: 5 }} />)}
             </FormItem>
           </Col>
           <Col span={24} className='qite-list-title'>

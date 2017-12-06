@@ -1,14 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Breadcrumb, Icon } from 'antd'
-import { Link } from 'dva/router'
-import styles from './Bread.less'
-import pathToRegexp from 'path-to-regexp'
-import { queryArray,classnames } from '../../utils'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Breadcrumb, Icon } from 'antd';
+import { Link } from 'dva/router';
+import styles from './Bread.less';
+import pathToRegexp from 'path-to-regexp';
+import { queryArray,classnames } from '../../utils';
+import FlowImgView from '../FlowImgView';
 const Bread = ({ menu,darkTheme }) => {
   // 匹配当前路由
   let pathArray = []
-  let current,
+  let current,code='',
   _hash=location.hash,
   _pathname=_hash?_hash.split('?')[0].substr(1):location.pathname;
   if(_hash && _hash.indexOf('#/report?')>-1){
@@ -22,6 +23,7 @@ const Bread = ({ menu,darkTheme }) => {
   }else if(_hash && _hash.indexOf('#/knowledge')>-1 && _hash.indexOf('?noComment=true')>-1){
     _pathname='/knowledge?isMyKnowledge=true';
   }
+  
   for (let index in menu) {
     if (menu[index].router && pathToRegexp(menu[index].router).exec(_pathname)) {
       current = menu[index]
@@ -44,7 +46,13 @@ const Bread = ({ menu,darkTheme }) => {
   } else {
     getPathArray(current)
   }
-
+  if(pathArray && pathArray[0] && pathArray.filter(f=>f.name==='我的申请').length){
+    let __pathName=pathArray.slice(-1)[0].router;
+    // console.log(__pathName)
+    let _code=__pathName.substr(1);
+    code=`${_code.substr(0,1).toUpperCase()}${_code.substr(1)}`;
+  }
+  
   // 递归查找父级
   const breads = pathArray.map((item, key) => {
     const content = (
@@ -68,6 +76,9 @@ const Bread = ({ menu,darkTheme }) => {
       <Breadcrumb>
         {breads}
       </Breadcrumb>
+      {
+        code?<FlowImgView code={code}/>:null
+      }
     </div>
   )
 }

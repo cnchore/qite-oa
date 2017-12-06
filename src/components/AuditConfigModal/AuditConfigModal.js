@@ -49,10 +49,10 @@ class AuditConfigModal extends React.Component {
   handleOk = (e) => {
     //console.log(e);
     const { selectedRow} =this.state;
-    if(selectedRow && selectedRow.length<1 ){
-      message.error('请选择一个角色后，再试');
-      return;
-    }
+    // if(selectedRow && selectedRow.length<1 ){
+    //   message.error('请选择一个角色后，再试');
+    //   return;
+    // }
     let userId=this.props.userId;
     saveUserAudit({userId,auditIds:selectedRow.map(f=>f.id).join()}).then(res=>{
       if(res.success){

@@ -6,10 +6,10 @@ import config from '../../utils/config'
 // import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
 //import city from '../../utils/chinaCity'
-import {changeMoneyToChinese} from '../../utils'
+// import {changeMoneyToChinese} from '../../utils'
 import EditCellTable from './EditCellTable'
-import { FileUpload,SelectUser } from '../../components'
 import CommentTable from '../../components/CommentTable'
+import { FileUpload } from '../../components'
 
 const confirm = Modal.confirm
 //const { RangePicker } = DatePicker
@@ -222,7 +222,7 @@ const modal = ({
                   </div>
                   ):(
                   <div style={{backgroundColor:'#fff'}}>
-                    <SelectUser type="button" callBack={handleSubmit}  loading={submitLoading}>提交</SelectUser>
+                    <Button type="primary" loading={submitLoading} onClick={e=>handleSubmit({userId:-1})} size="large">提交</Button>
                     <Button style={{ marginLeft: 12,marginRight: 12 }} type="primary" loading={confirmLoading} onClick={handleOk} size="large">暂存</Button>
                     <Button  type="ghost" onClick={onCancel} size="large">取消</Button>
                   </div>)

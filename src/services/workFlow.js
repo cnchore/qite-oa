@@ -7,6 +7,9 @@ const { workflow,employee,dictionary,organizations } = api
 export function getDiagram (params) {
   return `${baseURL()}${workflow.getDiagram}?procDefId=${params.procDefId}&procInstId=${params.procInstId}`;
 }
+export function getDiagramByKey (key) {
+  return `${baseURL()}${workflow.getDiagramByKey}?key=${key}`;
+}
 export async function getDic (params) {
   return request({
     url: dictionary.getList,

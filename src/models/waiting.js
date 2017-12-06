@@ -20,6 +20,7 @@ export default {
     employeeList:[],
     isNeedSel:false,
     reasonStr:'',
+    needEvalRemark:false,
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -200,6 +201,7 @@ export default {
         employeeList:action.payload.employeeList[0],
         isNeedSel:false,
         modalVisible: true,
+        needEvalRemark:false,
         reasonStr:'', }
     },
     getDicSuccess(state,action){
@@ -213,6 +215,9 @@ export default {
       return {...state,fileList:action.payload}
     },
     setNeedSel(state,action){
+      return {...state,...action.payload}
+    },
+    setNeedEvalRemark(state,action){
       return {...state,...action.payload}
     },
   },

@@ -511,7 +511,7 @@ const getDateDiff=(a,b)=>{
         case 'OT':
         return <Link to={`/overtime?${_url}`}>{text}</Link>;
         case 'TL':    
-        return <Link to={`/travel?${_url}`}>{text}</Link>;
+        return <Link to={`/travel?${_url}`}>{record.state===-2?'取消任务代理':'退回修改'}</Link>;
         case 'TR':
         return <Link to={`/travelReimburse?${_url}`}>{text}</Link>;
         case 'CT':  
@@ -539,7 +539,7 @@ const getDateDiff=(a,b)=>{
         case 'NE':
         return <Link to={`/notice?${_url}`}>{text}</Link>;
         case 'LW':
-        return <Link to={`/legwork?${_url}`}>{text}</Link>;
+        return <Link to={`/legwork?${_url}`}>{record.state===-2?'取消任务代理':'退回修改'}</Link>;
         case 'AR'://广告费用报销
         return <Link to={`/adReimburse?${_url}`}>{text}</Link>;
         case 'AD'://广告投放

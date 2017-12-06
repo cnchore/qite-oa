@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Table, Modal,Button,Tag } from 'antd'
-import styles from './List.less'
-import classnames from 'classnames'
-import { Link } from 'dva/router'
-import { DropOption,SelectUser } from '../../components'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Table, Modal,Button,Tag } from 'antd';
+import styles from './List.less';
+import classnames from 'classnames';
+import { Link } from 'dva/router';
+import { DropOption,SelectUser } from '../../components';
 
 const confirm = Modal.confirm
 

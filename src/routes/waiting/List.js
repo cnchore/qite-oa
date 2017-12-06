@@ -25,7 +25,9 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
       case -1:
         return <Tag color='#f00'>退回修改</Tag>;
       case -2:
-        if(record.busiCode.substr(0,2)==='LE'){
+        if(record.busiCode.substr(0,2)==='LE' 
+          || record.busiCode.substr(0,2)==='LW' 
+          || record.busiCode.substr(0,2)==='TL'){
           return <Tag color='#108ee9'>待销假</Tag>;
         }
         if(record.busiCode.substr(0,2)==='UC'){

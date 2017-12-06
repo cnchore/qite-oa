@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import { FilterItem } from '../../components'
 import { Form, Button, Row, Col, DatePicker, Input,Select } from 'antd'
-
 const Search = Input.Search
 //const { RangePicker } = DatePicker
 const Option = Select.Option;
@@ -104,13 +103,9 @@ const Filter = ({
       </Col>
       <Col {...TwoColProps} xl={{ span: 8 }} md={{ span: 24 }} >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div >
             <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>
             <Button icon="reload" size="large" onClick={handleReset}>重置</Button>
-          </div>
-          <div>
             <Button icon="plus" size="large" type="ghost" onClick={onAdd}>新增</Button>
-          </div>
         </div>
       </Col>
     </Row>

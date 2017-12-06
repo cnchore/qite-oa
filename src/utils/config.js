@@ -460,6 +460,7 @@ module.exports = {
       signTask:`${apiPrefixPro}/workflow/signTask`,
       getTaskListByBusinessKey:`${apiPrefixPro}/workflow/getTaskListByBusinessKey`,
       turnToDoTask:`${apiPrefixPro}/workflow/turnToDoTask`,
+      getDiagramByKey:`${apiPrefixPro}/workflow/getDiagramByKey`,
     },
   },
 }

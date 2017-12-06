@@ -71,6 +71,8 @@ const modal = ({
   isNeedSel,
   setNeedSel,
   reasonStr,
+  needEvalRemark,
+  setNeedEvalRemark,
   form: {
     getFieldDecorator,
     validateFields,
@@ -297,8 +299,20 @@ const modal = ({
         setNeedSel(false,_reasonStr);
       }
   }
-  const evalWayOptions=['考试方式','内部分享','制定实施计划并执行'];
-
+  const evalWayOptions=['考试方式','内部分享','其他'];
+  const handleEvalWayChange=(checkedValues)=>{
+    if(checkedValues && checkedValues.filter(f=>f==='其他').length){
+      setNeedEvalRemark(true);
+    }else{
+      setNeedEvalRemark(false);
+    }
+  }
+  const handleReasonChange=(e)=>{
+    if(e.target&&e.target.value){
+      setNeedSel(false,e.target.value);
+    }
+  }
+  const reasonRadio=['已知悉，并跟进','已阅'];
   return (
       <Form layout='horizontal'>
         <Row gutter={24} className={styles['q-detail']}>
@@ -331,7 +345,7 @@ const modal = ({
           <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {getFieldDecorator('trainOutline', {
-                initialValue: taskData.busiData.trainOutline,
+                initialValue: taskData.busiData.trainOutline || '',
                 rules: [
                   {
                     required: true,message:'不能为空',
@@ -354,14 +368,26 @@ const modal = ({
           <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem >
               {getFieldDecorator('evalWay', {
-                initialValue: taskData.busiData.evalWay&& !(taskData.busiData.evalWay instanceof Array)?taskData.busiData.evalWay.split(','):null,
+                initialValue: taskData.busiData.evalWay&& !(taskData.busiData.evalWay instanceof Array)?taskData.busiData.evalWay.split(','):[],
                 rules: [
                   {
                     required: true,message:'不能为空',
                   },
                 ],
+                onChange:handleEvalWayChange,
               })(<CheckboxGroup options={evalWayOptions} />)}
             </FormItem>
+            {
+              needEvalRemark?
+                <FormItem>
+                  {getFieldDecorator('evalWayRemark',{
+                      initialValue: taskData.busiData.evalWayRemark || '',
+                      rules:[{required:true,message:'不能为空'}],
+                    })(<Input />)
+                  }
+                </FormItem>
+              :null
+            }
           </Col>
           :null
         }
@@ -388,6 +414,24 @@ const modal = ({
             </FormItem>
           </Col>
         </Row>
+        {
+          reasonStr==='已知悉，并跟进' || reasonStr==='已阅'?
+            <Row gutter={24} className={styles['q-detail']}>
+              <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+                默认意见：
+              </Col>
+              <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+                <FormItem >
+                  {getFieldDecorator('reasonStr', {
+                    initialValue:reasonStr,
+                    rules: [ { required: true,message:'不能为空',},],
+                    onChange:handleReasonChange
+                  })(<RadioGroup>{reasonRadio}</RadioGroup>)}
+                </FormItem>
+              </Col>
+            </Row>
+          :null
+        }
         <Row gutter={24} className={styles['q-detail']}>
           
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
@@ -396,7 +440,7 @@ const modal = ({
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {getFieldDecorator('approvalOpinion', {
-                initialValue:reasonStr,
+                initialValue:reasonStr || '',
                 rules: [{required: true,message:'不能为空',},],
               })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
             </FormItem>

@@ -135,7 +135,7 @@ class TrainDetailPage extends React.Component {
           {
             data.evalWay?
             <Col xs={18} md={20} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-                {data.evalWay || '无'}
+                {data.evalWay || '无'}{data.evalWayRemark?`:${data.evalWayRemark}`:''}
             </Col>
             :null
           }

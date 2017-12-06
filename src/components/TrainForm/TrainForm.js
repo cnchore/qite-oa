@@ -114,7 +114,7 @@ class TrainForm extends React.Component {
             </tr>
             <tr>
               <td className={styles['tc']} >培训评估方式</td>
-              <td className={styles['tc']} colSpan="7">{data.evalWay || ''}</td>
+              <td className={styles['tc']} colSpan="7">{data.evalWay || ''}{data.evalWayRemark?`:${data.evalWayRemark}`:''}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>发起人</td>

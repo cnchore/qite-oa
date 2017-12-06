@@ -14,7 +14,7 @@ export default {
   // },
   "proxy": {
     '/qite':{
-      // target: "http://192.168.0.107:8080",
+      // target: "http://192.168.0.112:8080",
       target: "http://test.aylsonclub.com",
       // target: "http://www.aylsonclub.com",
       changeOrigin: true,
