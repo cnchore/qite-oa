@@ -333,7 +333,7 @@ const modal = ({
             <CommentTable data={taskData.commentList} />
           :null
         }
-        {taskData && taskData.taskId && item.state!==-1?
+        {taskData && taskData.taskId?
           <Row gutter={24} className={styles['q-detail']}>
             <Col span={24} className='qite-list-title'>
               <Icon type="edit" />流程办理

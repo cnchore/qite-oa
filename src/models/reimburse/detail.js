@@ -34,7 +34,7 @@ export default {
       if (success) {
         const commentData=yield call(getCommentListBybusiness,{busiCode:other.data.code,busiId:other.data.id})
         let flowImgSrc=null;
-        if(other.data.state!==0){
+        if(other.data.state!==0 && other.data.state!==5){
           flowImgSrc=yield call(getDiagramByBusiness,{busiCode:other.data.code,busiId:other.data.id})
         }
         yield put({

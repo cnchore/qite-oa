@@ -6,7 +6,7 @@ import config from '../../utils/config'
 import { FileUpload,SelectUser } from '../../components'
 // import uploadImageCallBack from '../../services/uploadImageCallBack'
 import styles from './Modal.less'
-import city from '../../utils/chinaCity'
+// import city from '../../utils/chinaCity'
 import {changeMoneyToChinese} from '../../utils'
 import CommentTable from '../../components/CommentTable'
 const confirm = Modal.confirm
@@ -404,7 +404,7 @@ const modal = ({
             <CommentTable data={taskData.commentList} />
           :null
         }
-        {taskData && taskData.taskId && item.state!==-1?
+        {taskData && taskData.taskId?
           <Row gutter={24} className={styles['q-detail']}>
             <Col span={24} className='qite-list-title'>
               <Icon type="edit" />流程办理

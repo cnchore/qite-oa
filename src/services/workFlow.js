@@ -106,3 +106,10 @@ export async function turnToDoTask(params){
     data:params,
   })
 }
+export async function revokeApply(params){
+  return request({
+    url:workflow.revokeApply,
+    method:'post',
+    data:params,
+  })
+}

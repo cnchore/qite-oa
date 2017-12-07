@@ -49,7 +49,7 @@ export async function queryList (params) {
   return request({
     url: employee.getList,
     method: 'get',
-    data: params,
+    data: {...params,isDisable:false},
   })
 }
 export async function getDic (params) {

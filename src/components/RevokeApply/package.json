@@ -1,0 +1,6 @@
+{
+  "name": "RevokeApply",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./RevokeApply.js"
+}

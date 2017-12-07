@@ -5,7 +5,7 @@ import classnames from 'classnames'
 import { color } from './theme'
 import lodash from 'lodash'
 import { Link } from 'dva/router'
-import { notification,Button,Icon } from 'antd'
+import { notification,Button,Icon,Tag } from 'antd'
 // 连字符转驼峰
 String.prototype.hyphenToHump = function () {
   return this.replace(/-(\w)/g, (...args) => {
@@ -665,6 +665,27 @@ const getDateDiff=(a,b)=>{
         cList=cList?cList[0]:null;
         return cList?cList.finishTime:'';
   }
+  const getRecordState=(text,t=0)=>{
+    //状态：0新建  1审核中 2审核通过 3审核不通过
+    switch(text){
+      case 0:
+        return <Tag color=''>新建</Tag>;
+      case 1:
+        return <Tag color='#87d068'>审核中</Tag>;
+      case 2:
+        return <Tag color='#2db7f5'>审核通过</Tag>;
+      case 3:
+        return <Tag color='#f50'>审核不通过</Tag>;
+      case -1:
+        return <Tag color='#f00'>退回修改</Tag>;
+      case -2:
+        return t===1?<Tag color='#108ee9'>待销假</Tag>:<Tag color='#108ee9'>待完善资料</Tag>;
+      case 4:
+        return t===1?<Tag color='#2db7f5'>已销假</Tag>:<Tag color='#2db7f5'>审核通过并完善资料</Tag>;
+      case 5:
+        return <Tag color='#f00'>撤回申请</Tag>;
+    }
+  }
   module.exports = {
     config,
     treeMenuToArrayMenu,
@@ -689,4 +710,5 @@ const getDateDiff=(a,b)=>{
     getAuditerName,
     getAuditerTime,
     getDateDiff,
+    getRecordState,
   }

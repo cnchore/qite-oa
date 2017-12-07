@@ -461,6 +461,7 @@ module.exports = {
       getTaskListByBusinessKey:`${apiPrefixPro}/workflow/getTaskListByBusinessKey`,
       turnToDoTask:`${apiPrefixPro}/workflow/turnToDoTask`,
       getDiagramByKey:`${apiPrefixPro}/workflow/getDiagramByKey`,
+      revokeApply:`${apiPrefixPro}/workflow/revokeApply`,
     },
   },
 }

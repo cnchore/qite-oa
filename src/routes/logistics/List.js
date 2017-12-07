@@ -49,7 +49,7 @@ const List = ({ onDeleteItem, onEditItem,onChangeItem, location, ...tableProps }
       title: '物流状态',
       dataIndex: 'logisticsState',
       key: 'logisticsState',
-      render:(text)=>text===-1?'运输异常':text==='1'?'已完成':'运输途中',
+      render:(text)=>text===-1?'运输异常':text===1?'已完成':'运输途中',
     }, {
       title: '操作',
       key: 'operation',
