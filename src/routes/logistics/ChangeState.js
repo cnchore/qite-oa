@@ -49,6 +49,7 @@ class ChangeState extends React.Component {
     this.setState({remark:e.target.value});
   }
   render() {
+    const {logisticsState} =this.props.data;
     return (
       <span>
         <a onClick={e=>this.showModal()}>修改物流状态</a>
@@ -59,10 +60,10 @@ class ChangeState extends React.Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <Select placeholder="物流状态" onChange={this.handleChange}
+          <Select placeholder="物流状态" onChange={this.handleChange} defaultValue={String(logisticsState)}
             allowClear style={{width:'100%',marginBottom:'12px'}}  >
-            <Option value="-1">运输异常</Option>
             <Option value="0">运输途中</Option>
+            <Option value="-1">运输异常</Option>
             <Option value="1">已完成</Option>
           </Select>
 

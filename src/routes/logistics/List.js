@@ -57,9 +57,9 @@ const List = ({ onDeleteItem, onEditItem,onChangeItem, location, ...tableProps }
       width: 200,
       render: (text, record) => {
           return  (<span className={styles.action}>
-              <a onClick={e=>handleMenuClick(record,{key:1})} >编辑</a>
-              <ChangeState callBack={onChangeItem} data={record}/>
-              <a onClick={e=>handleMenuClick(record,{key:2})} >删除</a>
+              {record.logisticsState!==1?<a onClick={e=>handleMenuClick(record,{key:1})} >编辑</a>:null}
+              {record.logisticsState!==1?<ChangeState callBack={onChangeItem} data={record}/>:null}
+              {record.logisticsState!==1?<a onClick={e=>handleMenuClick(record,{key:2})} >删除</a>:null}
               <Link to={`/logistics/${record.id}`}>查看</Link>
             </span>)
       },

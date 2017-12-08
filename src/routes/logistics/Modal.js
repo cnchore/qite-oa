@@ -87,8 +87,8 @@ const modal = ({
                 ],
                 onChange:handleSelect,
               })(<Select >
-                  <Option value="-1">运输异常</Option>
                   <Option value="0">运输途中</Option>
+                  <Option value="-1">运输异常</Option>
                   <Option value="1">已完成</Option>
                 </Select>)}
             </FormItem>

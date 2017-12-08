@@ -312,7 +312,7 @@ const modal = ({
       setNeedSel(false,e.target.value);
     }
   }
-  const reasonRadio=['已知悉，并跟进','已阅'];
+  const reasonRadio=['已知悉，并跟进处理','已阅'];
   return (
       <Form layout='horizontal'>
         <Row gutter={24} className={styles['q-detail']}>
@@ -415,7 +415,7 @@ const modal = ({
           </Col>
         </Row>
         {
-          reasonStr==='已知悉，并跟进' || reasonStr==='已阅'?
+          reasonStr==='已知悉，并跟进处理' || reasonStr==='已阅'?
             <Row gutter={24} className={styles['q-detail']}>
               <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
                 默认意见：
@@ -426,7 +426,7 @@ const modal = ({
                     initialValue:reasonStr,
                     rules: [ { required: true,message:'不能为空',},],
                     onChange:handleReasonChange
-                  })(<RadioGroup>{reasonRadio}</RadioGroup>)}
+                  })(<RadioGroup options={reasonRadio} />)}
                 </FormItem>
               </Col>
             </Row>
