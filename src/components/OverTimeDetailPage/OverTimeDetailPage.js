@@ -29,7 +29,7 @@ render () {
       }
       return '';
     }
-    const columns = [{
+    let columns = [{
       title:'序号',
       dataIndex:'index',width:60,
       render:(text,record,index)=>index+1,
@@ -60,6 +60,11 @@ render () {
       dataIndex: 'rotTimes',
       render:(text,record)=>getHours(record.realOverTimeStart,record.realOverTimeEnd),
     }];
+    if(data.type==='申请加班'){
+      columns=columns.filter(f=>f.dataIndex!=='realOverTimeStart' && f.dataIndex!=='realOverTimeEnd' && f.dataIndex!=='rotTimes');
+    }else if(data.type==='补报加班'){
+      columns=columns.filter(f=>f.dataIndex!=='overTimeStart' && f.dataIndex!=='overTimeEnd' && f.dataIndex!=='otTimes');
+    }
     const getTable=()=>{
       return (<Table bordered 
             dataSource={data.detailList || []} 

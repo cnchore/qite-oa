@@ -1,0 +1,6 @@
+{
+  "name": "UrgentOrderDetailPage",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./UrgentOrderDetailPage.js"
+}

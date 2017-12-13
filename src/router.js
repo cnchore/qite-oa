@@ -787,6 +787,23 @@ const Routers = function ({ history, app }) {
               cb(null, require('./routes/pick/detail/'))
             }, 'pick-detail')
           },
+        // 订单加急 
+        }, {
+          path: '/urgentOrder',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/urgentOrder'))
+              cb(null, require('./routes/urgentOrder/'))
+            }, 'urgentOrder')
+          },
+        }, {
+          path: 'urgentOrder/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/urgentOrder/detail'))
+              cb(null, require('./routes/urgentOrder/detail/'))
+            }, 'urgentOrder-detail')
+          },
         }, {
           //公务车管理
           path: '/car',

@@ -43,6 +43,8 @@ import MaterialGiftDetailPage from '../../../components/MaterialGiftDetailPage'
 import SampleRoomDetailPage from '../../../components/SampleRoomDetailPage'
 import PromotionExpenseDetailPage from '../../../components/PromotionExpenseDetailPage'
 import SalesPromotionDetailPage from '../../../components/SalesPromotionDetailPage'
+import UrgentOrderDetailPage from '../../../components/UrgentOrderDetailPage'
+
 const Detail = ({ waitingDetail }) => {
   const { data,employeeList,dicList } = waitingDetail
   let detailpage=null;
@@ -150,6 +152,10 @@ const Detail = ({ waitingDetail }) => {
       case 'PP'://领料单
         detailpage=<PickDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
         break;
+      case 'UO'://订单加急
+        detailpage=<UrgentOrderDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList}/>
+        break;
+      
     }
   }
   //console.log(data,employeeList)

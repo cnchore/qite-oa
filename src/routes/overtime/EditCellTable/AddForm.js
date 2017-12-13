@@ -30,6 +30,14 @@ class AddForm extends React.Component {
         data.realOverTimeStartStr=realOverTime[0].format(dateTimeFormat);
         data.realOverTimeEndStr=realOverTime[1].format(dateTimeFormat);
       }
+      if(this.props.overTimeType===1 && !overTime){
+        message.error('申请加班时间不能为空！');
+        return;
+      }
+      if(this.props.overTimeType===2 && !realOverTime){
+        message.error('实际加班时间不能为空！');
+        return;
+      }
       this.setState({modalVisible:false});
       this.props.callBack && this.props.callBack(data);
     });
@@ -56,7 +64,7 @@ class AddForm extends React.Component {
     };
     
     const rangeConfig = {
-      rules: [{ type: 'array', required: true, message: '不能为空!' }],
+      rules: [{ type: 'array', required: false, message: '不能为空!' }],
     };
     const getHours=(t=0)=>{
       let a,b;

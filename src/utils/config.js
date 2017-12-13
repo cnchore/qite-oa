@@ -407,6 +407,14 @@ module.exports = {
       save:`${apiPrefixPro}/pick/save`,
       deleteById:`${apiPrefixPro}/pick/deleteById`,
     },
+    // 订单加急申请
+    urgentOrder:{
+      query:`${apiPrefixPro}/urgentOrder/getPage`,
+      queryById:`${apiPrefixPro}/urgentOrder/getById`,
+      getList:`${apiPrefixPro}/urgentOrder/getList`,
+      save:`${apiPrefixPro}/urgentOrder/save`,
+      deleteById:`${apiPrefixPro}/urgentOrder/deleteById`,
+    },
     //公务车管理
     car:{
       query:`${apiPreLogi}/car/getPage`,

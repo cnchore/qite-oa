@@ -107,6 +107,7 @@ class EditCellTable extends React.Component {
     let data  = this.props.dataSource;
     let count=data.length;
     const {selectedRows,orgName,overTimeStartStr,overTimeEndStr,realOverTimeStartStr,realOverTimeEndStr} =rows;
+    // console.log('rows:',rows);
     let newRows=[];
     if(selectedRows && selectedRows[0]){
       selectedRows.forEach((item,index)=>{

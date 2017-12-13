@@ -476,6 +476,9 @@ const getDateDiff=(a,b)=>{
         return <Link to={`/seal/${id}`}>{content}</Link>
         case 'PP'://领料单
         return <Link to={`/pick/${id}`}>{content}</Link>
+        case 'UO'://订单加急
+        return <Link to={`/urgentOrder/${id}`}>{content}</Link>
+        
       }
     }
     return '新消息';
@@ -572,6 +575,8 @@ const getDateDiff=(a,b)=>{
         return <Link to={`/seal?${_url}`}>{text}</Link>;
         case 'PP'://领料单
         return <Link to={`/pick?${_url}`}>{text}</Link>;
+        case 'UO'://订单加急
+        return <Link to={`/urgentOrder?${_url}`}>{text}</Link>;
         default :
         return null;
       }

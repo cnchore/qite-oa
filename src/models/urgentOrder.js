@@ -1,11 +1,17 @@
-import { query,queryById,save,deleteById,submit,queryEmployee,getDic } from '../services/overtime'
-import { startProcess,getTaskInfo,audit } from '../services/workFlow'
+import { query,queryById,save,deleteById} from '../services/urgentOrder'
+import { queryEmployee } from '../services/employee'
+import { getDic } from '../services/dictionary'
 import { config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
+import { startProcess,getTaskInfo,audit } from '../services/workFlow'
+
 const { prefix } = config
+
 export default {
-  namespace: 'overtime',
+
+  namespace: 'urgentOrder',
+
   state: {
     list: [],
     currentItem: {},
@@ -13,10 +19,10 @@ export default {
     modalType: 'create',
     fileList:[],
     dicList:[],
-    employeeList:[],
-    taskData:{},
-    overTimeType:1,
     detailList:[],
+    employeeList:[],
+    // travelList:[],
+    taskData:{},
     isEditable:false,
     pagination: {
       showSizeChanger: true,
@@ -30,8 +36,7 @@ export default {
   subscriptions: {
     setup ({ dispatch, history }) {
       history.listen(location => {
-
-        if (location.pathname === '/overtime') {
+        if (location.pathname==='/urgentOrder') {
           let query=location.query;
           if(query && query.taskId && query.busiId && query.from){
             dispatch({
@@ -44,10 +49,7 @@ export default {
               payload: query,
             })
           }
-          dispatch({
-            type: 'getDic',
-            payload: {dicType:'overtimes_item'},
-          })
+          dispatch({type:'getDic',payload:{dicType:'orderType_item'}});
         }
       })
     },
@@ -56,7 +58,7 @@ export default {
   effects: {
     *query ({ payload }, { call, put }) {
 
-      payload=parse(location.hash.split('#/overtime?')[1]); 
+      payload=parse(location.hash.split('#/urgentOrder?')[1]); 
       // payload = parse(location.search.substr(1))
       const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       if (userInfo && userInfo.data) {
@@ -78,21 +80,12 @@ export default {
             employeeList:userInfo.data.employeeVo,
           },
         })
-      }else {
-        // if (location.pathname !== '/login') {
-        //   let from = location.pathname
-        //   if (location.pathname === '/dashboard') {
-        //     from = '/dashboard'
-        //   }
-        //   window.location = `${location.origin}/login?from=${from}`
-        // }
+        
       }
     },
     *getDic ({ payload }, { call, put }) {
-
      // payload = parse(location.search.substr(1))
       const data = yield call(getDic, payload)
-
       if (data) {
         yield put({
           type: 'getDicSuccess',
@@ -100,6 +93,7 @@ export default {
         })
       }
     },
+    
     *create ({ payload }, { call, put }) {
 
       const data = yield call(save, payload)
@@ -156,7 +150,6 @@ export default {
           if(data.success) {
             message.success('[退回修改]成功');
             //yield put({ type: 'hideModal' })
-
             let queryList=parse(location.hash.substr(location.hash.indexOf('?')+1)); 
             window.location = `${location.origin}${location.pathname}#${queryList.from}?t=${Math.random()}`;
             
@@ -184,10 +177,8 @@ export default {
               fileList:[],
               taskData:taskData.data,
               employeeList:userInfo.data.employeeVo,
-              isEditable:false,
-              overTimeType:1,
-              detailList:[],
               modalType:'toBackEdit',
+              detailList:[],
             }
           })
         }else{
@@ -210,10 +201,8 @@ export default {
             ...payload,
             currentItem:data.data,
             fileList:[],
-            taskData:{},
-            isEditable:false,
             detailList:[],
-            overTimeType:data.data && data.data.type==='申请加班'?1:2,
+            taskData:{},
           } 
         })
       } else {
@@ -221,7 +210,7 @@ export default {
       }
     },
     *update ({ payload }, { select, call, put }) {
-      const id = yield select(({ overtime }) => overtime.currentItem.id)
+      const id = yield select(({ urgentOrder }) => urgentOrder.currentItem.id)
       const newItem = { ...payload, id }
       const data = yield call(save, newItem)
       if (data.success) {
@@ -262,6 +251,7 @@ export default {
     getDicSuccess(state,action){
       return {...state,dicList:action.payload}
     },
+    
     showModal (state, action) {
 
       return { ...state, ...action.payload, modalVisible: true }
@@ -271,10 +261,12 @@ export default {
       return { ...state, modalVisible: false }
     },
     setState(state,action){
-      return {...state,...action.payload}
+      return {...state,currentItem:action.payload}
+    },
+    setFileList(state,action){
+      return {...state,fileList:action.payload}
     },
     
-
   },
 
 }

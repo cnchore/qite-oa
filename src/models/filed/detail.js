@@ -47,6 +47,9 @@ export default {
           case 'SL':
               dicType='sealType_item';
               break;
+          case 'UO':
+              dicType='orderType_item';
+              break;
         }
         if(dicType){
           yield put({

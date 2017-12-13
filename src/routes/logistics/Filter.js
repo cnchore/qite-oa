@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Button, Row, Col, Input,Select } from 'antd'
-
+import { Form, Button, Row, Col, Input,Select,DatePicker } from 'antd'
+import moment from 'moment';
 const Search = Input.Search
 const Option=Select.Option;
+const dateTimeFormat='YYYY-MM-DD'
 
 const ColProps = {
   xs: 24,
@@ -28,9 +29,19 @@ const Filter = ({
   },
 }) => {
   
-
+  const handleFields = (fields) => {
+    const { createTimeLike,updateTimeStr } = fields
+    if (createTimeLike) {
+      fields.createTimeLike = createTimeLike.format(dateTimeFormat);
+    }
+    if(updateTimeStr){
+      fields.updateTimeStr=updateTimeStr.format(dateTimeFormat);
+    }
+    return fields
+  }
   const handleSubmit = () => {
     let fields = getFieldsValue()
+    fields = handleFields(fields)
     onFilterChange(fields)
   }
 
@@ -48,10 +59,13 @@ const Filter = ({
     setFieldsValue(fields)
     handleSubmit()
   }
-
-  const { clientNameLike, clientPhoneLike,orderCodeLike,logisticsLike,logisticsState } = filter
-
-  
+  const handleChange = (key, values) => {
+    let fields = getFieldsValue()
+    fields[key] = values
+    fields = handleFields(fields)
+    onFilterChange(fields)
+  }
+  const { clientNameLike, clientPhoneLike,orderCodeLike,logisticsLike,logisticsState,createTimeLike,updateTimeStr } = filter
 
   return (
     <Row gutter={24}>
@@ -76,15 +90,31 @@ const Filter = ({
           </Select>
           )}
       </Col>
-      <Col {...TwoColProps}  md={{ span: 8 }} xs={{ span: 12 }}>
+      <Col {...ColProps} md={{ span: 8 }} xs={{ span: 12 }}>
+        {getFieldDecorator('createTimeLike', { 
+          initialValue:createTimeLike? moment(createTimeLike):null,
+        })(
+          <DatePicker style={{ width: '100%' }} size="large" 
+           format={dateTimeFormat} placeholder="创建时间"
+          onChange={handleChange.bind(null, 'createTimeLike')}/>
+        )}
+      </Col>
+      <Col {...ColProps} md={{ span: 8 }} xs={{ span: 12 }}>
+        {getFieldDecorator('updateTimeStr', { 
+          initialValue:updateTimeStr? moment(updateTimeStr):null,
+        })(
+          <DatePicker style={{ width: '100%' }} size="large" 
+           format={dateTimeFormat} placeholder="更新时间"
+           onChange={handleChange.bind(null, 'updateTimeStr')}/>
+        )}
+      </Col>
+      <Col {...TwoColProps}  md={{ span: 16 }} xs={{ span: 12 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div >
-            <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>
+          
+            <Button icon="search" type="primary" size="large" onClick={handleSubmit}>查询</Button>
             <Button icon="reload" size="large" onClick={handleReset}>重置</Button>
-          </div>
-          <div>
             <Button  size="large" type="primary" icon="plus" onClick={onAdd}>新增</Button>
-          </div>
+         
         </div>
       </Col>
     </Row>

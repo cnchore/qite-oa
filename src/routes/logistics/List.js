@@ -51,6 +51,14 @@ const List = ({ onDeleteItem, onEditItem,onChangeItem, location, ...tableProps }
       key: 'logisticsState',
       render:(text)=>text===-1?'运输异常':text===1?'已完成':'运输途中',
     }, {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      key: 'createTime',width:170,
+    }, {
+      title: '修改时间',
+      dataIndex: 'updateTime',
+      key: 'updateTime',width:170,
+    }, {
       title: '操作',
       key: 'operation',
       fixed:'right',
@@ -74,7 +82,7 @@ const List = ({ onDeleteItem, onEditItem,onChangeItem, location, ...tableProps }
         bordered
         columns={columns}
         simple
-        scroll={{ x: 767 }}
+        scroll={{ x: 1200 }}
         rowKey={record => record.id}
       />
     </div>

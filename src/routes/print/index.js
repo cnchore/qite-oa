@@ -25,6 +25,7 @@ import MaterialGiftForm from '../../components/MaterialGiftForm'
 import SampleRoomForm from '../../components/SampleRoomForm'
 import PromotionExpenseForm from '../../components/PromotionExpenseForm'
 import SalesPromotionForm from '../../components/SalesPromotionForm'
+import UrgentOrderForm from '../../components/UrgentOrderForm'
 
 import cs from 'classnames'
 class Print extends React.Component {
@@ -124,7 +125,10 @@ class Print extends React.Component {
 					printForm=<PickForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></PickForm>
 					isA4=true;
 					break;
-					
+				case 'UO'://印章使用申请
+					printForm=<UrgentOrderForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList} dicList={printData.dicList}/>
+					// isA4=true;
+					break;
 			}
 		}else{
 			return <div>错误：无可打印表单</div>

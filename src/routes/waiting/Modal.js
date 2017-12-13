@@ -41,6 +41,8 @@ import MaterialGiftDetailPage from '../../components/MaterialGiftDetailPage'
 import SampleRoomDetailPage from '../../components/SampleRoomDetailPage'
 import PromotionExpenseDetailPage from '../../components/PromotionExpenseDetailPage'
 import SalesPromotionDetailPage from '../../components/SalesPromotionDetailPage'
+import UrgentOrderDetailPage from '../../components/UrgentOrderDetailPage'
+
 const confirm = Modal.confirm
 const FormItem = Form.Item
 const RadioGroup = Radio.Group;
@@ -251,6 +253,9 @@ const modal = ({
         break;
       case 'PP'://领料单
         detailpage=<PickDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+      case 'UO'://印章使用申请
+        detailpage=<UrgentOrderDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList || []} />
         break;
     }
   }

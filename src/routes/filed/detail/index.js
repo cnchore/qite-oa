@@ -44,6 +44,8 @@ import MaterialGiftDetailPage from '../../../components/MaterialGiftDetailPage'
 import SampleRoomDetailPage from '../../../components/SampleRoomDetailPage'
 import PromotionExpenseDetailPage from '../../../components/PromotionExpenseDetailPage'
 import SalesPromotionDetailPage from '../../../components/SalesPromotionDetailPage'
+import UrgentOrderDetailPage from '../../../components/UrgentOrderDetailPage'
+
 const Detail = ({ filedDetail }) => {
   let { data,employeeList,dicList } = filedDetail
   if(!dicList){
@@ -78,6 +80,7 @@ const Detail = ({ filedDetail }) => {
       case 'TL'://出差申请
       case 'SL'://印章使用申请
       case 'PP'://领料单
+      case 'UO'://订单加急
         printData=true;
         setPrintData(data.busiData,data.userVo.employeeVo,dicList,data.commentList)
         break;
@@ -187,6 +190,10 @@ const Detail = ({ filedDetail }) => {
       case 'PP'://领料单
         detailpage=<PickDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
         break;
+      case 'UO'://订单加急
+        detailpage=<UrgentOrderDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList} />
+        break;
+      
     }
   }
   //console.log(data,employeeList)

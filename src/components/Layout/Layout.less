@@ -4,6 +4,7 @@
 @light-menu-bg:-webkit-linear-gradient(#243a5f, #285967);
 @light-submenu-background-color: rgba(36, 59, 95, .7);
 @light-menu-item-active-bg:-webkit-linear-gradient(right, rgb(86,177,60), rgb(60,177,127));
+
 .layout {
   position: relative;
   height: 100vh;
@@ -17,7 +18,7 @@
   
 
   .sider {
-    width: 224px;
+    width: @siderWidth;
     background: #3e3e3e;
     position: absolute;
     overflow: visible;
@@ -28,41 +29,46 @@
     color: #999;
 
     &.light {
-      background: #152a45;
+      background: #243a5f;
       .logo{
-        height: auto;
+        height: 126px;
         line-height: normal;
-        margin: 18px 0 20px 0;
+        margin: 20px 0;
         img{
           width: 80px;
-          margin-right: 0;
+          // margin-right: 0;
         }
         span{
           display: block;
+        }
+      }
+      :global{
+        .ant-menu-root{
+          height: ~"calc(100vh - 166px)";
         }
       }
     }
 
     .logo {
       text-align: center;
-      height: 40px;
-      line-height: 40px;
+      height: 126px;
+      // line-height: 40px;
       cursor: pointer;
-      margin: 28px 0;
+      margin: 20px 0;
       transition: @transition-ease-out;
       overflow: hidden;
       
       img {
-        width: 40px;
-        margin-right: 8px;
+        width: 80px;
+        // margin-right: 8px;
         transition: @transition-ease-out;
       }
 
       span {
-        vertical-align: text-bottom;
+        // vertical-align: text-bottom;
         font-size: 16px;
-        text-transform: uppercase;
-        display: inline-block;
+        // text-transform: uppercase;
+        display: block;
       }
 
       .anticon {
@@ -104,7 +110,7 @@
       }
 
       .ant-menu-root {
-        height: ~"calc(100vh - 144px)";
+        height: ~"calc(100vh - 166px)";
         overflow-x: hidden;
         border-right: none;
         // overflow: auto;
@@ -231,7 +237,7 @@
 
   }
   .main {
-    margin-left: 224px;
+    margin-left: @siderWidth;
     overflow-y: scroll;
     height: 100vh;
     transition: @transition-ease-out;
