@@ -14,7 +14,6 @@ import layer from './layer';
 
 const getRecordAction=(linkurl,record,onEditItem,handleSubmit,handleDel,onChange,needSelectUser=false)=>{
   let current=1,pageSize=10;
-  // return null;
   return record&&record.state!==undefined?
     (<span className="action-flex">
       <Link to={`/${linkurl}/${record.id}`}>查看</Link>

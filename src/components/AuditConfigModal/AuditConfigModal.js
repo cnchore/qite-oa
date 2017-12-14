@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 // import ReactDOM from 'react-dom'
 import styles from './AuditConfigModal.less'
 import { Table,Modal,message,Tooltip,Input } from 'antd'
-import {query,saveUserAudit} from '../../services/auditConfig'
+import {query,saveUserAudit,getList} from '../../services/auditConfig'
 // import {config,treeToArray } from '../../utils'
 // const {prefix} =config;
 const Search = Input.Search;
@@ -11,7 +11,6 @@ class AuditConfigModal extends React.Component {
   state = {
     list:[],
     modalVisible:false,
-    selectedRow:[],
     selectedRowKeys:[],
     pagination: {
       showSizeChanger: true,
@@ -35,7 +34,7 @@ class AuditConfigModal extends React.Component {
             total: res.data.total,
           },
           modalVisible: true,
-          selectedRowKeys:_list[0]?_list.filter(f=>String(f.isUserAudit)==='true').map(r=>r.id):[]
+          // selectedRowKeys:_list[0]?_list.filter(f=>String(f.isUserAudit)==='true').map(r=>r.id):[]
         });
       }else{
         message.error(res.message);
@@ -43,18 +42,28 @@ class AuditConfigModal extends React.Component {
     })
   }
   showModal = () => {
-    this.queryList();
+    let userId=this.props.userId,
+        isOnlyUserAudit=true;
+    getList({userId,isOnlyUserAudit}).then(res=>{
+      if(res.success){
+        let selectedRowKeys=res.data?res.data.map(f=>f.id):[];
+        this.setState({selectedRowKeys});
+        this.queryList();
+      }else{
+        message.error(res.message);
+      }
+    })
   }
   
   handleOk = (e) => {
     //console.log(e);
-    const { selectedRow} =this.state;
+    const { selectedRowKeys} =this.state;
     // if(selectedRow && selectedRow.length<1 ){
     //   message.error('请选择一个角色后，再试');
     //   return;
     // }
     let userId=this.props.userId;
-    saveUserAudit({userId,auditIds:selectedRow.map(f=>f.id).join()}).then(res=>{
+    saveUserAudit({userId,auditIds:selectedRowKeys.join()}).then(res=>{
       if(res.success){
         message.success('[审批角色绑定]成功！')
         this.setState({
@@ -76,7 +85,7 @@ class AuditConfigModal extends React.Component {
     this.queryList(value);
   }
   render() {
-    const { list,selectedRowKeys,pagination,selectedRow } = this.state;
+    const { list,selectedRowKeys,pagination } = this.state;
     const {userId} =this.props;
     const self=this;
     const renderTips=(text)=>{
@@ -100,17 +109,26 @@ class AuditConfigModal extends React.Component {
       },
     ]
     const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        this.setState({
-          selectedRow:selectedRows,
-          selectedRowKeys:selectedRows.map(item=>item.id)
-        })
+      onSelect: (record, selected, selectedRows) => {
+        // console.log('selected:',selected,record);
+        let {selectedRowKeys} = this.state;
+        if(selected){
+          selectedRowKeys=[...selectedRowKeys,record.id];
+        }else{
+          selectedRowKeys=selectedRowKeys.filter(f=>String(f)!==String(record.id));
+        }
+        this.setState({selectedRowKeys});
       },
       onSelectAll:(selected, selectedRows, changeRows)=>{
-        this.setState({
-          selectedRowKeys:selectedRows.map(item=>item.id),
-          selectedRow:selectedRows,
-        })
+        let {selectedRowKeys} = this.state;
+        if(selected){
+          selectedRowKeys=[...selectedRowKeys,...selectedRows.map(m=>m.id)];
+        }else{
+          selectedRows.forEach(item=>{
+            selectedRowKeys=selectedRowKeys.filter(f=>String(f)!==String(item.id));
+          })
+        }
+        this.setState({selectedRowKeys});
       },
       selectedRowKeys,
     };
@@ -119,12 +137,12 @@ class AuditConfigModal extends React.Component {
       pagination,
       rowSelection,
       onChange (page) {
-        self.queryList('',page.current,page.pageSize).bind(self);
+        self.queryList('',page.current,page.pageSize);
       },
       onRowClick(record){
+        // console.log(record,b,c);
         if(record && record.id){
           self.setState({
-            selectedRow:[...selectedRow,record],
             selectedRowKeys:[...selectedRowKeys,record.id]
           })
         }

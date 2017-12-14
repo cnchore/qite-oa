@@ -9,6 +9,13 @@ export async function query (params) {
     data: params,
   })
 }
+export async function getList (params) {
+  return request({
+    url: auditConfig.getList,
+    method: 'get',
+    data: params,
+  })
+}
 
 export async function queryById (params) {
   return request({
