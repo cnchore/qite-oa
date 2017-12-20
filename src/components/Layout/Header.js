@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Menu, Icon, Popover,Switch } from 'antd'
 import styles from './Header.less'
 import Menus from './Menu'
-import { classnames } from '../../utils'
+import { classnames,config } from '../../utils'
 const SubMenu = Menu.SubMenu
 
 const Header = ({ user, logout,toEditPwd, switchSider,changeTheme,darkTheme,isDashboard, siderFold, isNavbar, menuPopoverVisible, location, switchMenuPopover, navOpenKeys, changeOpenKeys, menu }) => {
@@ -37,6 +37,10 @@ const Header = ({ user, logout,toEditPwd, switchSider,changeTheme,darkTheme,isDa
           }
           </div>
       }
+      <div className={classnames(styles.title,{[styles.light]:darkTheme && isDashboard })}>
+      {darkTheme?<img alt={'logo'} src={config.logoThree} />:null}
+      {config.name}
+      </div>
       <div className={styles.rightWarpper}>
         {
           !siderFold ? 
@@ -52,11 +56,11 @@ const Header = ({ user, logout,toEditPwd, switchSider,changeTheme,darkTheme,isDa
           </div>
           :null
         }
-        <Menu mode="horizontal" onClick={handleClickMenu}>
+        <Menu mode="horizontal" onClick={handleClickMenu} theme={!darkTheme ? '' : 'light'}>
           <SubMenu mode="vertaical" style={{
-            float: 'right',
+            float: 'right'
           }} title={
-            <span> 
+            <span className={darkTheme && isDashboard?'':styles.submenu}> 
               <Icon type="user" />
               {user && user.employeeVo && user.employeeVo.realName || '系统用户'} 
             </span>

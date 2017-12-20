@@ -1,0 +1,563 @@
+@bg:#fff;
+
+// 标题
+.title{
+	display: flex;
+	:first-child{
+		flex:1;
+		vertical-align: middle;
+	}
+}
+.quick,
+.userInfo,
+.waitInfo,
+.signInfo,
+.msgInfo,
+.knowledgeInfo,
+.notice,
+.warning,
+.waitList,
+.signList{
+	background-color: @bg;
+}
+// 快捷创建
+.quick{
+	.quick-apply{
+		height: 65%;
+	}
+	.quick-often{
+		height: 35%;
+	}
+	.body{
+		display: flex;
+		justify-content: space-between;
+		overflow: auto;
+	}
+	.quick-apply-icon1,
+	.quick-apply-icon2,
+	.quick-apply-icon3,
+	.quick-apply-icon4,
+	.quick-often-icon{
+		flex:1;
+		text-align: center;
+	}
+	.quick-apply-icon1,
+	.quick-apply-icon2,
+	.quick-apply-icon3,
+	.quick-apply-icon4{
+		color:#fff;
+	}
+	.quick-apply-icon1{
+		background-color: #66cc99;
+	}
+	.quick-apply-icon2{
+		background-color: #6699cc;
+	}
+	.quick-apply-icon3{
+		background-color: #6666cc;
+	}
+	.quick-apply-icon4{
+		background-color: #cc6699;
+	}
+	
+}
+
+// 用户信息
+.userInfo{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	.userInfo-icon{
+		flex:1;
+		display: -webkit-box;
+		-webkit-box-pack:center;
+		-webkit-box-align:center;
+		-webkit-box-orient:vertical;
+		height: 100%;
+		.photo{
+			width: 100%;
+			max-width: 120px;
+			max-height: 120px;
+			border-radius: 50%;
+			background-color: #ccc;
+		}
+	}
+	.userInfo-list{
+		flex:1;
+		text-align: left;
+		font-size: larger;
+		div:last-child{
+			font-size: smaller;
+		}
+	}
+
+}
+// 信息概要
+.waitInfo,
+.signInfo,
+.msgInfo,
+.knowledgeInfo{
+	text-align: center;
+	display: -webkit-box;
+  -webkit-box-pack:center;
+  -webkit-box-align:center;
+  -webkit-box-orient:vertical;
+}
+.waitInfo-icon,
+.signInfo-icon,
+.msgInfo-icon,
+.knowledgeInfo-icon{
+	position: relative;
+	margin: 0 auto;
+	max-width: 100%;
+}
+// 微图标
+.badge{
+	position: absolute;
+	right: -18px;
+	top: -18px;
+	background-color: #ff3300;
+	border-radius: 50%;
+	padding: 1px 7px;
+	color: #fff;
+	// font-size: xx-small;
+}
+// 通知公告
+.notice{
+	.notice-list{
+		width: 100%;
+		white-space: nowrap;
+	  text-overflow: ellipsis;
+	  overflow: hidden;
+	}
+}
+// 超时公示栏
+.warning{
+	.warning-list{
+		width: 100%;
+		white-space: nowrap;
+	  text-overflow: ellipsis;
+	  overflow: hidden;
+		background-color: #996666;
+		color:#fff;
+	}
+}
+
+// 待办列表 待签收列表
+.waitList,
+.signList{
+	position: relative;
+	overflow: hidden;
+	.title{
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+	}
+	.waitList-list,
+	.signList-list{
+		display: flex;
+		&:nth-child(2){
+			// margin-top: 12px;
+		}
+	}
+}
+
+.listCenter{
+	flex:1;
+}
+.listAction{
+	position: relative;
+	.listAction-icon{
+		position: absolute;
+		top: 5px;
+		right: 0;
+	}
+	.listAction-button{
+		position: absolute;
+		bottom: 5px;
+		right: 0;
+		button{
+			background-color: #6699cc;
+			border-color: #6699cc;
+			color: #fff;
+		}
+	}
+}
+
+@gutterMd:8px;
+@screenH:830px;
+@h6:(@screenH - (6 * @gutterMd + 47px + 64px + 48px + 48px)) * 6 / 10;
+@h4:(@h6 - (1 * @gutterMd)) * 4 / 10;
+@h3:(@h6 - (1 * @gutterMd)) * 3 / 10;
+@media (min-width: 2px){
+	.home{
+		padding: @gutterMd;
+		.cellH6,.ch6h10{
+			height: @h6;
+		}
+		.cellH4,.ch4h10{
+			height: calc((@screenH - (1.5 * @gutterMd + 47px + 64px + 48px)) * 4 / 10);
+		}
+		.h4,.h3,.h3t2,.h10{
+			margin: @gutterMd / 4;
+			padding: @gutterMd @gutterMd + 8px;
+			font-size: 14px;
+
+		}
+		.h4{
+			height: @h4;
+		}
+		.h3{
+			height: @h3;
+		}
+		.h3t2{
+			height: 2 * @h3 + .5 * @gutterMd;
+		}
+		
+	}
+	.title{
+		padding: @gutterMd 0;
+		i{
+			margin-right: @gutterMd; 
+			font-size: 2 * @gutterMd;
+		}
+		:first-child{
+			line-height: 2 * @gutterMd;
+		}
+	}
+
+	.body{
+		margin-top: @gutterMd;
+	}
+	.quick-apply-icon1,
+	.quick-apply-icon2,
+	.quick-apply-icon3,
+	.quick-apply-icon4{
+		margin-right: @gutterMd;
+		padding: @gutterMd;
+		i{
+			font-size: 4 * @gutterMd;
+		}
+	}
+	.quick-often-icon{
+		margin-right: @gutterMd;
+		i{
+			font-size: 3 * @gutterMd;
+		}
+	}
+	.userInfo-list{
+		div:last-child{
+			padding-top: @gutterMd;
+		}
+	}
+	.waitInfo-icon,
+	.signInfo-icon,
+	.msgInfo-icon,
+	.knowledgeInfo-icon{
+		i{
+			font-size: 3 * @gutterMd;
+		}
+	}
+	.notice-list,.warning-list{
+		margin-bottom: @gutterMd;
+		&:nth-child(2){
+			margin-top: @gutterMd;
+		}
+	}
+	.warning-list{
+		padding: @gutterMd / 2 0 @gutterMd / 2 @gutterMd;
+	}
+
+	.cellH4{
+		.waitList,
+		.signList{
+			padding: 4 * @gutterMd + 2 * 8px  + 6px 0 0 0 ;
+			.title{
+				padding: @gutterMd @gutterMd + 8px;
+			}
+			.waitList-list,
+			.signList-list{
+				padding: @gutterMd @gutterMd + 8px;
+				div:first-child{
+					padding-right: @gutterMd;
+				}
+			}
+		}
+	}
+	.listCenter{
+		div{
+			padding-bottom: @gutterMd - 2px;
+		}
+	}
+	.listAction{
+		position: relative;
+		.listAction-icon{
+			i{
+				font-size: @gutterMd + 8px;
+			}
+		}
+	}
+}
+@gutterLg:10px;
+@screenHLg:970px;
+@h6Lg:(@screenHLg - (6 * @gutterLg + 47px + 64px + 48px + 48px)) * 6 / 10;
+@ch4Lg:(@screenHLg - (1.5 * @gutterLg + 47px + 64px + 48px)) * 4 / 10;
+@h4Lg:(@h6Lg - (1 * @gutterLg)) * 4 / 10;
+@h3Lg:(@h6Lg - (1 * @gutterLg)) * 3 / 10;
+@media (min-width: 1200px){
+	.home{
+		padding: @gutterLg;
+		.cellH6,.ch6h10{
+			height: @h6Lg;
+		}
+		.cellH4,.ch4h10{
+			height: @ch4Lg;
+		}
+		.h4,.h3,.h3t2,.h10{
+			margin: @gutterLg / 4;
+			padding: @gutterLg @gutterLg + 8px;
+			font-size: 16px;
+
+		}
+		.h4{
+			height: @h4Lg;
+		}
+		.h3{
+			height: @h3Lg;
+		}
+		.h3t2{
+			height: 2 * @h3Lg + .5 * @gutterLg;
+		}
+		
+	}
+	.title{
+		padding: @gutterLg 0;
+		i{
+			margin-right: @gutterLg; 
+			font-size: 2 * @gutterLg;
+		}
+		:first-child{
+			line-height: 2 * @gutterLg;
+		}
+	}
+
+	.body{
+		margin-top: @gutterLg;
+	}
+	.quick-apply-icon1,
+	.quick-apply-icon2,
+	.quick-apply-icon3,
+	.quick-apply-icon4{
+		margin-right: @gutterLg;
+		padding: @gutterLg;
+		i{
+			font-size: 4 * @gutterLg;
+		}
+	}
+	.quick-often-icon{
+		margin-right: @gutterLg;
+		i{
+			font-size: 3 * @gutterLg;
+		}
+	}
+	.userInfo-list{
+		div:last-child{
+			padding-top: @gutterLg;
+		}
+	}
+	.waitInfo-icon,
+	.signInfo-icon,
+	.msgInfo-icon,
+	.knowledgeInfo-icon{
+		i{
+			font-size: 3 * @gutterLg;
+		}
+	}
+	.notice-list,.warning-list{
+		margin-bottom: @gutterLg;
+		&:nth-child(2){
+			margin-top: @gutterLg;
+		}
+	}
+	.warning-list{
+		padding: @gutterLg / 2 0 @gutterLg / 2  @gutterLg;
+	}
+
+	.cellH4{
+		.waitList,
+		.signList{
+			padding: 4 * @gutterLg + 2 * 8px  + 6px 0 0 0 ;
+			.title{
+				padding: @gutterLg @gutterLg + 8px;
+			}
+			.waitList-list,
+			.signList-list{
+				padding: @gutterLg @gutterLg + 8px;
+				div:first-child{
+					padding-right: @gutterLg;
+				}
+			}
+		}
+	}
+	.listCenter{
+		div{
+			padding-bottom: @gutterLg - 2px;
+		}
+	}
+	.listAction{
+		position: relative;
+		.listAction-icon{
+			i{
+				font-size: @gutterLg + 8px;
+			}
+		}
+	}
+}
+@gutterXl:12px;
+@screenHXl:1000px;
+@h6Xl:(@screenHXl - (4 * @gutterXl + 47px + 64px + 48px + 48px)) * 6 / 10;
+@ch4Xl:(@screenHXl - (1.5 * @gutterXl + 47px + 64px + 48px)) * 4 / 10;
+@h4Xl:(@h6Xl - (1 * @gutterXl)) * 4 / 10;
+@h3Xl:(@h6Xl - (1 * @gutterXl)) * 3 / 10;
+@media (min-width: 1600px){
+	.home{
+		padding: 0 2 * @gutterXl;
+		.cellH6,.ch6h10{
+			height: @h6Xl;
+		}
+		.cellH4,.ch4h10{
+			height: @ch4Xl;
+		}
+		.h4,.h3,.h3t2,.h10{
+			margin: @gutterXl / 4;
+			padding: @gutterXl @gutterXl + 8px;
+			font-size: 16px;
+
+		}
+		.h4{
+			height: @h4Xl;
+		}
+		.h3{
+			height: @h3Xl;
+		}
+		.h3t2{
+			height: 2 * @h3Xl + .5 * @gutterXl;
+		}
+		
+	}
+	.title{
+		padding: @gutterXl 0;
+		i{
+			margin-right: @gutterXl; 
+			font-size: 2 * @gutterXl;
+		}
+		:first-child{
+			line-height: 2 * @gutterXl;
+		}
+	}
+
+	.body{
+		margin-top: @gutterXl;
+	}
+	.quick-apply-icon1,
+	.quick-apply-icon2,
+	.quick-apply-icon3,
+	.quick-apply-icon4{
+		margin-right: @gutterXl;
+		padding: @gutterXl;
+		i{
+			font-size: 4 * @gutterXl;
+		}
+	}
+	.quick-often-icon{
+		margin-right: @gutterXl;
+		i{
+			font-size: 3 * @gutterXl;
+		}
+	}
+	.userInfo-list{
+		div:last-child{
+			padding-top: @gutterXl;
+		}
+	}
+	.waitInfo-icon,
+	.signInfo-icon,
+	.msgInfo-icon,
+	.knowledgeInfo-icon{
+		i{
+			font-size: 3 * @gutterXl;
+		}
+	}
+	.notice-list,.warning-list{
+		margin-bottom: @gutterXl;
+		&:nth-child(2){
+			margin-top: @gutterXl;
+		}
+	}
+	.warning-list{
+		padding: @gutterXl / 2 0 @gutterXl / 2 @gutterXl;
+	}
+
+	.cellH4{
+		.waitList,
+		.signList{
+			padding: 4 * @gutterXl + 2 * 8px  + 6px 0 0 0 ;
+			.title{
+				padding: @gutterXl @gutterXl + 8px;
+			}
+			.waitList-list,
+			.signList-list{
+				padding: @gutterXl @gutterXl + 8px;
+				div:first-child{
+					padding-right: @gutterXl;
+				}
+			}
+		}
+	}
+	.listCenter{
+		div{
+			padding-bottom: @gutterXl - 2px;
+		}
+	}
+	.listAction{
+		position: relative;
+		.listAction-icon{
+			i{
+				font-size: @gutterXl + 8px;
+			}
+		}
+	}
+}
+//主题颜色
+.light{
+	color: #fff;
+	.h4,.h3,.h3t2,.h10{
+		background-color: rgba(39, 71, 104, .6);
+	}
+	.quick,
+	.userInfo,
+	.waitInfo,
+	.signInfo,
+	.msgInfo,
+	.knowledgeInfo,
+	.notice,
+	.warning,
+	.waitList,
+	.signList{
+		background-color: rgba(39, 71, 104, .6);
+	}
+	.waitList,
+	.signList{
+		.title{
+			background-color: rgba(102, 153, 204, .3);
+		}
+		.waitList-list,
+		.signList-list{
+			&:nth-child(2){
+				background-color: rgba(39, 71, 104, .2);
+			}
+		}
+	}
+	
+}

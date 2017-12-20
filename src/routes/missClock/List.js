@@ -8,7 +8,7 @@ import {getRecordState} from '../../utils';
 
 const confirm = Modal.confirm
 
-const List = ({ onSubmit, onEditItem,onDelete,onChange,location, ...tableProps }) => {
+const List = ({ onSubmit, onEditItem,onDelete,location,onChange, ...tableProps }) => {
   const handleSubmit = (record,e) => {
       confirm({
         title: `你确定提交申请么?`,
@@ -54,7 +54,7 @@ const List = ({ onSubmit, onEditItem,onDelete,onChange,location, ...tableProps }
   return (
     <div>
       <Table
-        {...tableProps}
+        {...tableProps} onChange={onChange}
         className={classnames({ [styles.table]: true})}
         bordered
         scroll={{ x: 867 }}

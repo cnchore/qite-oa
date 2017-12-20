@@ -56,7 +56,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete,onChange, location, ...tab
   return (
     <div>
       <Table
-        {...tableProps}
+        {...tableProps} onChange={onChange}
         className={classnames({ [styles.table]: true})}
         bordered
         scroll={{ x: 767 }}

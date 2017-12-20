@@ -67,7 +67,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete,onChange,location, ...tabl
   return (
     <div>
       <Table
-        {...tableProps}
+        {...tableProps} onChange={onChange}
         bordered
         scroll={{ x: 767 }}
         columns={columns}

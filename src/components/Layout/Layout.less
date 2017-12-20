@@ -1,9 +1,15 @@
 @import "../../themes/vars.less";
-@light-color:#999;
-@light-hover-color:#d9d9d9;
-@light-menu-bg:-webkit-linear-gradient(#243a5f, #285967);
-@light-submenu-background-color: rgba(36, 59, 95, .7);
-@light-menu-item-active-bg:-webkit-linear-gradient(right, rgb(86,177,60), rgb(60,177,127));
+// @light-color:#999;
+// @light-hover-color:#d9d9d9;
+// @light-menu-bg:-webkit-linear-gradient(#243a5f, #285967);
+// @light-submenu-background-color: rgba(36, 59, 95, .7);
+// @light-menu-item-active-bg:-webkit-linear-gradient(right, rgb(86,177,60), rgb(60,177,127));
+@light-bg:rgba(39, 71, 104, .76);
+@light-color:#fff;
+@light-hover-color:#fff;
+@light-menu-bg:rgba(39, 71, 104, 0);
+@light-submenu-background-color: rgba(39, 71, 104, 0);
+@light-menu-item-active-bg:#66cc99;
 
 .layout {
   position: relative;
@@ -14,7 +20,12 @@
       margin-left: 0;
     }
   }
-
+  &.light{
+    background-image: url('../../../assets/light-bg0.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: left top;
+  }
   
 
   .sider {
@@ -29,11 +40,11 @@
     color: #999;
 
     &.light {
-      background: #243a5f;
+      background: @light-bg;
       .logo{
-        height: 126px;
+        height: @logoHeight;
         line-height: normal;
-        margin: 20px 0;
+        margin: @logoMargin;
         img{
           width: 80px;
           // margin-right: 0;
@@ -44,17 +55,17 @@
       }
       :global{
         .ant-menu-root{
-          height: ~"calc(100vh - 166px)";
+          height: ~"calc(100vh - 120px)";
         }
       }
     }
 
     .logo {
       text-align: center;
-      height: 126px;
+      height: @logoHeight;
       // line-height: 40px;
       cursor: pointer;
-      margin: 20px 0;
+      margin: @logoMargin;
       transition: @transition-ease-out;
       overflow: hidden;
       
@@ -110,7 +121,7 @@
       }
 
       .ant-menu-root {
-        height: ~"calc(100vh - 166px)";
+        height: ~"calc(100vh - 120px)";
         overflow-x: hidden;
         border-right: none;
         // overflow: auto;
@@ -241,12 +252,7 @@
     overflow-y: scroll;
     height: 100vh;
     transition: @transition-ease-out;
-    &.light{
-      background-image: url('../../../assets/light-bg.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-    }
+    
     :global {
       .content-inner {
         background: #fff;

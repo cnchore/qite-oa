@@ -70,6 +70,10 @@ class UrgentOrderForm extends React.Component {
               <td  className={styles['tc']}>PMC经理</td>
               <td className={styles['tc']} colSpan="5">{getAuditerName(commentList,'PMC经理')}</td>
             </tr>
+             <tr>
+              <td  className={styles['tc']}>制造中心总监</td>
+              <td className={styles['tc']} colSpan="5">{getAuditerName(commentList,'制造中心总监')}</td>
+            </tr>
           </tbody>
         </table>
       </div>

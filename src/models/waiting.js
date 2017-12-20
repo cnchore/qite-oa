@@ -83,7 +83,7 @@ export default {
     },
     *editItem ({ payload }, { call, put }) {
 
-      const response = yield call(getTaskInfo, {taskId:payload.taskId})
+      const response = yield call(getTaskInfo, {taskId:payload.taskId,isRead:true})
       if (response.success && response.data && response.data.busiData) {
         const employeeRes=yield call(queryEmployee,{userId:response.data.busiData.userId})
         if(employeeRes && employeeRes.success){

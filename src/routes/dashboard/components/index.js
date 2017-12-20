@@ -2,6 +2,7 @@ import NumberCard from './numberCard'
 import UserInfo from './userInfo'
 import WaitList from './waitList'
 import WaitSignList from './waitSignList'
+import Home from './home'
 // import Quote from './quote'
 // import Sales from './sales'
 // import Weather from './weather'
@@ -12,4 +13,4 @@ import WaitSignList from './waitSignList'
 // import Cpu from './cpu'
 // import User from './user'
 
-export { NumberCard,UserInfo,WaitList,WaitSignList }
+export { NumberCard,UserInfo,WaitList,WaitSignList,Home }

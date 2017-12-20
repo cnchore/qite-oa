@@ -112,13 +112,13 @@ const App = ({ children, location, dispatch, app, loading }) => {
         <link rel="icon" href={logo} type="image/x-icon" />
       
       </Helmet>
-      <div className={classnames(styles.layout, { [styles.fold]: isNavbar ? false : siderFold }, { [styles.withnavbar]: isNavbar })}>
+      <div className={classnames(styles.layout,{[styles.light]:darkTheme && isDashboard()}, { [styles.fold]: isNavbar ? false : siderFold }, { [styles.withnavbar]: isNavbar })}>
         {!isNavbar ? <aside className={classnames(styles.sider, { [styles.light]: darkTheme })}>
           <Sider {...siderProps} />
         </aside> : ''}
-        <div className={classnames(styles.main,{[styles.light]:darkTheme && isDashboard()})} id="layout-main">
+        <div className={classnames(styles.main)} id="layout-main">
           <Header {...headerProps} className={darkTheme && isDashboard()?styles['header-light']:''}/>
-          <Bread {...breadProps} location={location} />
+          {darkTheme && isDashboard()?null:<Bread {...breadProps} location={location} />}
           <div className={styles.container}>
             <div className={styles.content}>
               <BackTop target={()=>document.getElementById('layout-main')}>

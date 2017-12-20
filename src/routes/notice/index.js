@@ -83,7 +83,8 @@ const Notice = ({ location, dispatch, notice, loading }) => {
     location,
     dicList,
     onChange (page) {
-      const { query, pathname } = location
+      const { query, pathname } = location;
+      // console.log('query:',query);
       dispatch(routerRedux.push({
         pathname,
         query: {
@@ -125,6 +126,7 @@ const Notice = ({ location, dispatch, notice, loading }) => {
       dispatch(routerRedux.push({
         pathname: location.pathname,
         query: {
+          ...location.query,
           ...value,
           page: 1,
           pageSize,

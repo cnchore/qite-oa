@@ -17,7 +17,7 @@ const getRecordAction=(linkurl,record,onEditItem,handleSubmit,handleDel,onChange
   return record&&record.state!==undefined?
     (<span className="action-flex">
       <Link to={`/${linkurl}/${record.id}`}>查看</Link>
-      { record.state===1?<RevokeApply callBack={e=>onChange({current,pageSize})} busiId={record.id} busiCode={record.code} />:null}
+      { record.isAllowRevoke===true?<RevokeApply callBack={e=>onChange({current,pageSize})} busiId={record.id} busiCode={record.code} />:null}
       { record.state===0 || record.state===5?<a onClick={e=>onEditItem(record)}>编辑</a>:null}
       { !needSelectUser && (record.state===0 || record.state===5)?<a onClick={e=>handleSubmit(record,{userId:-1})} >提交</a>:null}
       { needSelectUser && (record.state===0 || record.state===5)?<SelectUser callBack={e=>handleSubmit(record,e)} />:null}

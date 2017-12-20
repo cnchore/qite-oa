@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Table, Modal,Tooltip } from 'antd'
 import styles from './List.less'
 import classnames from 'classnames'
+import { Link } from 'dva/router';
 import { getRecordAction } from '../../components';
 import {getRecordState} from '../../utils';
 const confirm = Modal.confirm
@@ -106,7 +107,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete,onChange,location, ...tabl
   return (
     <div>
       <Table
-        {...tableProps}
+        {...tableProps} onChange={onChange}
         className={classnames({ [styles.table]: true})}
         bordered
         scroll={{ x: isMyNotice?767:1250 }}

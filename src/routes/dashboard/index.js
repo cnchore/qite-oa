@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Row, Col, Card,Icon,Tabs } from 'antd'
-import { NumberCard, UserInfo,WaitList,WaitSignList } from './components'
+import { NumberCard, UserInfo,WaitList,WaitSignList,Home } from './components'
 import styles from './index.less'
 import { color,getTheme,classnames,getMsgType,getMsgAction } from '../../utils'
 import { Link,routerRedux } from 'dva/router'
@@ -12,6 +12,7 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
   const { userInfo,waitData,messageData,noticeData,waitSignData,knowledgeData} = dashboard
   const darkTheme=getTheme();
   // console.log('dashboard:',darkTheme)
+  return <Home darkTheme={darkTheme}/>;
   const waitNum={
     icon: 'iconfont icon-daibanjian',
     color:color.blue,

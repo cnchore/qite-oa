@@ -191,7 +191,7 @@ export default {
       // const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       const employeeRes=yield call(queryEmployee,{userId:mcData.data.userId})
       if(mcData.success && employeeRes.success){
-        let taskData=yield call(getTaskInfo,{taskId:payload.taskId})
+        let taskData=yield call(getTaskInfo,{taskId:payload.taskId,isRead:true})
         if(taskData.success){
           taskData.data.taskId=payload.taskId;
           yield put({
