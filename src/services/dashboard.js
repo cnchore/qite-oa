@@ -30,6 +30,13 @@ export async function getMessageList(params){
     data:params,
   })
 }
+export async function getMessage(params){
+  return request({
+    url:message.getList,
+    method:'get',
+    data:params,
+  })
+}
 export async function getNoticeList(params){
   return request({
     url:notice.query,
@@ -39,7 +46,7 @@ export async function getNoticeList(params){
 }
 export async function getKnowledgeList(params){
   return request({
-    url:knowledge.query,
+    url:knowledge.getList,
     method:'get',
     data:params,
   })

@@ -26,6 +26,7 @@ import SampleRoomForm from '../../components/SampleRoomForm'
 import PromotionExpenseForm from '../../components/PromotionExpenseForm'
 import SalesPromotionForm from '../../components/SalesPromotionForm'
 import UrgentOrderForm from '../../components/UrgentOrderForm'
+import BorrowForm from '../../components/BorrowForm'
 
 import cs from 'classnames'
 class Print extends React.Component {
@@ -121,9 +122,14 @@ class Print extends React.Component {
 					printForm=<SealForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList} dicList={printData.dicList}></SealForm>
 					// isA4=true;
 					break;
+				
 				case 'PP'://领料单
 					printForm=<PickForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></PickForm>
 					isA4=true;
+					break;
+				case 'BO'://借款单
+					printForm=<BorrowForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}/>
+					// isA4=true;
 					break;
 				case 'UO'://印章使用申请
 					printForm=<UrgentOrderForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList} dicList={printData.dicList}/>

@@ -9,10 +9,10 @@ import { Link,routerRedux } from 'dva/router'
 
 const TabPane=Tabs.TabPane;
 function Dashboard ({ dashboard,loading,location,dispatch }) {
-  const { userInfo,waitData,messageData,noticeData,waitSignData,knowledgeData} = dashboard
+  const { userInfo,waitData,messageData,noticeData,waitSignData,knowledgeData,msgVisable} = dashboard
   const darkTheme=getTheme();
   // console.log('dashboard:',darkTheme)
-  return <Home darkTheme={darkTheme}/>;
+  
   const waitNum={
     icon: 'iconfont icon-daibanjian',
     color:color.blue,
@@ -87,7 +87,95 @@ function Dashboard ({ dashboard,loading,location,dispatch }) {
       </span>
       <span className={styles.msgtime}>{item.publishTime && item.publishTime.substr(5).substr(0,11)}</span>
     </p>) || <span className={styles.msgtime}>暂无通知公告</span>;
-  
+  //home props
+  const waitInfo={
+    number: waitData && waitData.total || 0,
+    linkto:()=>{
+      dispatch(routerRedux.push({
+        pathname:'/waiting',
+      }));
+    },
+    desc:'指定本人处理的业务',
+  }
+  const signInfo={
+    number: waitSignData && waitSignData.total || 0,
+    linkto:()=>{
+      dispatch(routerRedux.push({
+        pathname:'/waitSign',
+      }));
+    },
+    desc:'未选择指定处理人，需手动签收本人应处理的业务',
+  }
+  const _noticeList={
+    moreHander:()=>{
+      dispatch(routerRedux.push({
+        pathname:'/notice',
+        query:{isMyNotice:true}
+      }));
+    },
+    list:noticeData && noticeData.list || [],
+    linkto:(id)=>{
+      dispatch(routerRedux.push({
+        pathname:`/notice/${id}`,
+        query:{noComment:true}
+      }));
+    }
+  }
+  const _knowledgeList={
+    moreHander:()=>{
+      dispatch(routerRedux.push({
+        pathname:'/knowledge',
+        query:{isMyKnowledge:true}
+      }));
+    },
+    number:knowledgeData && knowledgeData.total || 0,
+  }
+  const signList={
+    list:waitSignData && waitSignData.list || [],
+    linkto (item) {
+      dispatch({
+        type: 'dashboard/signTask',
+        payload: item,
+      })
+    },
+  }
+  let msgData=messageData && messageData.list && messageData.list.filter(f=>f.msgType!==4 && f.msgType!==5 && f.msgType!==11 && f.msgType!==12) || []
+  let warningData=messageData && messageData.list && messageData.list.filter(f=>(f.msgType===4 || f.msgType===5 || f.msgType===11 || f.msgType===12)) || []
+
+  const msgInfo={
+    list:msgData,
+    total:msgData.length,
+    msgVisable,
+    showModal(){
+      dispatch({
+        type: 'dashboard/setState',
+        payload: {msgVisable:true},
+      })
+    },
+    hideModal(){
+      dispatch({
+        type: 'dashboard/setState',
+        payload: {msgVisable:false},
+      })
+    },
+  }
+  const warningInfo={
+    list:warningData,
+    total:warningData.length,
+  }
+  if(darkTheme){
+    return <Home darkTheme={darkTheme} 
+            userInfo={userInfo}
+            waitInfo={waitInfo}
+            signInfo={signInfo}
+            noticeList={_noticeList}
+            knowledgeList={_knowledgeList}
+            waitList={waitData && waitData.list || []}
+            signList={signList}
+            msgInfo={msgInfo}
+            warningInfo={warningInfo}
+            />;
+  }
   return (
     
     <Row gutter={24} >

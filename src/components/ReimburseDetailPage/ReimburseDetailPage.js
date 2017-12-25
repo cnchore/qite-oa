@@ -132,6 +132,29 @@ class ReimburseDetailPage extends React.Component {
             {getTable()}
           </Col>
         </Row>
+        <Row gutter={24} className={styles['q-detail']}>
+          <Col span={24} className='qite-list-title'>
+              <Icon type="credit-card" />借款信息
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            借款单：
+          </Col>
+          <Col xs={18} md={20} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.borrowCodes || '无'}
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            核销借款：
+          </Col>
+          <Col xs={18} md={20} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.loan || '0'}{'  元'}
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            应付款：
+          </Col>
+          <Col xs={18} md={20} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.payable || '0'}{'  元'}
+          </Col>
+        </Row>
         {defaultFileList && defaultFileList[0]?
           <Row gutter={24} className={styles['q-detail']}>
             <Col span={24} className='qite-list-title'>

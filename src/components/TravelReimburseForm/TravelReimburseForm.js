@@ -28,7 +28,7 @@ class TravelReimburseForm extends React.Component {
       let _date=data.createTime && new Date(data.createTime) || new Date();
       return `${_date.getFullYear()}年${_date.getMonth()+1}月${_date.getDate()}日`
     }
-    console.log(data.detailList)
+    // console.log(data.detailList)
     const getRows=data && data.detailList && data.detailList.map((item,index)=>{
       let t=parseFloat(item.vehicleCost)+parseFloat(item.livingCost)+parseFloat(item.otherCost)+parseFloat(item.subsidyAmount);
       if(item.vehicleCost)totalVehicleCost+=parseFloat(item.vehicleCost);
@@ -36,9 +36,9 @@ class TravelReimburseForm extends React.Component {
       if(item.otherCost)totalOtherCost+=parseFloat(item.otherCost);
       if(item.subsidyAmount)totalSubsidyAmount+=parseFloat(item.subsidyAmount);
       total+=t;
-      let c=parseFloat(total)-parseFloat(data.advanceExpense);
-      surplus=c<0?c.toFixed(2):0.00;
-      validReimburse=c>0?c.toFixed(2):0.00;
+      // let c=parseFloat(total)-parseFloat(data.advanceExpense);
+      // surplus=c<0?c.toFixed(2):0.00;
+      // validReimburse=c>0?c.toFixed(2):0.00;
       return (
         <tr key={item.id}>
           <td className={styles['tc']}>{item.departureTime && item.departureTime.substr(5,5)}</td>
@@ -107,10 +107,18 @@ class TravelReimburseForm extends React.Component {
               <td>¥ {total.toFixed(2)}</td>
             </tr>
             <tr>
+               <td className={styles['tc']}>出差申请单</td>
+               <td colSpan="9" className={styles['tl']}>{data.travelCodes || '无'}</td>
+            </tr>
+            <tr>
+               <td className={styles['tc']}>借款单</td>
+               <td colSpan="9" className={styles['tl']}>{data.borrowCodes || '无'}</td>
+            </tr>
+            <tr>
               <td colSpan="3"  className={styles['tl']}>报销总额(大写)：{changeMoneyToChinese(total)}</td>
-              <td colSpan="3" className={styles['tl']}>预支旅费：¥ {total.toFixed(2)}</td>
-              <td colSpan="2" className={styles['tl']}>补额不足：¥ {validReimburse}</td>
-              <td colSpan="2" className={styles['tl']}>归还多余：¥ {surplus}</td>
+              <td colSpan="3" className={styles['tl']}>借款金额：¥ {data.advanceExpense.toFixed(2)}</td>
+              <td colSpan="2" className={styles['tl']}>实际报销：¥ {data.actualExpense>0 && data.actualExpense}</td>
+              <td colSpan="2" className={styles['tl']}>归还多余：¥ {data.actualExpense<0 && Math.abs(data.actualExpense)}</td>
             </tr>
             <tr>
               <td colSpan="2"  className={styles['tl']}>帐户名：{data.accountName&&data.accountName}</td>

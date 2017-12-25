@@ -281,19 +281,24 @@ const modal = ({
           </Col>
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             广告投放申请单：
           </Col>
           <Col xs={18} md={20} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('adIds', {
                 initialValue:item.adIds?item.adIds:undefined,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                  },
+                ],
               })(<Select >{adOptions}</Select>)}
             </FormItem>
           </Col>
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             申请区域：
           </Col>
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
@@ -308,7 +313,7 @@ const modal = ({
               })(<Input />)}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             客户姓名：
           </Col>
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
@@ -323,7 +328,7 @@ const modal = ({
               })(<Input/>)}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             客户地址：
           </Col>
           <Col xs={18} md={20} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
@@ -338,7 +343,7 @@ const modal = ({
               })(<Input />)}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             广告主题：
           </Col>
           <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
@@ -353,7 +358,7 @@ const modal = ({
               })(<Input />)}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             广告背景：
           </Col>
           <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
@@ -368,7 +373,7 @@ const modal = ({
               })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             广告目的：
           </Col>
           <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
@@ -384,7 +389,7 @@ const modal = ({
             </FormItem>
           </Col>
 
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             广告时间：
           </Col>
           <Col xs={18} md={20} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
@@ -402,7 +407,7 @@ const modal = ({
             </FormItem>
           </Col>
           
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             广告天数：
           </Col>
           <Col xs={18} md={20} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
@@ -420,7 +425,7 @@ const modal = ({
           </Col>
         </Row>
         <Row gutter={24} className={styles['q-detail']}> 
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             广告形式：
           </Col>
           <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
@@ -435,7 +440,7 @@ const modal = ({
               })(<CheckboxGroup options={adFormOptions} />)}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             活动内容：
           </Col>
           <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>

@@ -61,12 +61,8 @@ class ReimburseForm extends React.Component {
               <td >{changeMoneyToChinese(totalAmount)}</td>
             </tr>
             <tr>
-              <td rowSpan="2" className={styles['tc']}>备注</td>
-              <td rowSpan="2" colSpan="3" className={styles['tl']}>{remark}</td>
-              <td className={styles['tl']}>核销借款</td>
-            </tr>
-            <tr>
-              <td className={styles['tl']}>应付款</td>
+              <td className={styles['tc']}>备注</td>
+              <td colSpan="4" className={styles['tl']}>{remark}</td>
             </tr>
             <tr>
               <td colSpan="1"  className={styles['tl']}>帐户名：{data.accountName&&data.accountName}</td>
@@ -75,6 +71,15 @@ class ReimburseForm extends React.Component {
             </tr>
             <tr>
               <td colSpan="5" className={styles['tl']}>采购申请单：{data.purchaseCodes && data.purchaseCodes}</td>
+            </tr>
+            <tr>
+              <td colSpan="5" className={styles['tl']}>借款单：{data.borrowCodes && data.borrowCodes}</td>
+            </tr>
+            <tr>
+              <td  className={styles['tc']}>核销借款：</td>
+              <td colSpan="2"  className={styles['tl']}>{data.loan && data.loan}</td>
+              <td  className={styles['tc']}>应付款：</td>
+              <td  className={styles['tl']}>{data.payable && data.payable}</td>
             </tr>
           </tbody>
         </table>

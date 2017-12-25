@@ -82,6 +82,14 @@ class PurchaseDetailPage extends React.Component {
                     <Tooltip title={text}>{`${text.substr(0,12)}...`}</Tooltip>
                     :<span>{text && text}</span>
     }, {
+      title: '实际采购数量',
+      dataIndex: 'realPurchaseNum',key:'realPurchaseNum',
+      render:(text)=>`${text?text.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '0.00'
+    }, {
+      title: '实际采购单价',
+      dataIndex: 'realAmount',key:'realAmount',
+      render:(text)=>`¥ ${text?text.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
+    }, {
       title: '采购金额',
       dataIndex: 'purchaseAmount',key:'purchaseAmount',
       render:(text)=>`¥ ${text?text.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
@@ -112,7 +120,7 @@ class PurchaseDetailPage extends React.Component {
             dataSource={data.purchaseDetailList || []} 
             columns={columns} 
             pagination={false}
-            scroll={{ x: 1600 }}
+            scroll={{ x: 1800 }}
             rowKey={record => record.id}
             footer={()=>(
               <div>

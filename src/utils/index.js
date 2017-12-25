@@ -478,7 +478,8 @@ const getDateDiff=(a,b)=>{
         return <Link to={`/pick/${id}`}>{content}</Link>
         case 'UO'://订单加急
         return <Link to={`/urgentOrder/${id}`}>{content}</Link>
-        
+        case 'BO'://借款申请
+        return <Link to={`/borrow/${id}`}>{content}</Link>
       }
     }
     return '新消息';
@@ -526,7 +527,6 @@ const getDateDiff=(a,b)=>{
         case 'PE':
         return <Link to={`/purchase?${_url}`}>{text}</Link>;
         // return <a  onClick={handerA} target="_self">{text}</a>;
-
         case 'PT':
         return <Link to={`/payment?${_url}`}>{text}</Link>;
         case 'RT':
@@ -577,6 +577,8 @@ const getDateDiff=(a,b)=>{
         return <Link to={`/pick?${_url}`}>{text}</Link>;
         case 'UO'://订单加急
         return <Link to={`/urgentOrder?${_url}`}>{text}</Link>;
+        case 'BO'://借款
+        return <Link to={`/borrow?${_url}`}>{text}</Link>;
         default :
         return null;
       }
@@ -691,6 +693,21 @@ const getDateDiff=(a,b)=>{
         return <Tag color='#f00'>撤回申请</Tag>;
     }
   }
+  const getTreeOrgNameById=(tree,id)=>{
+    let name=null;
+    function getArray(data,id){
+      for (var i in data) {
+        if (data[i].id == id) {
+          name=data[i].orgName;
+          break;
+        } else {
+          getArray(data[i].children, id);
+        }
+      }
+    }
+    getArray(tree,id);
+    return name;
+  }
   module.exports = {
     config,
     treeMenuToArrayMenu,
@@ -716,4 +733,5 @@ const getDateDiff=(a,b)=>{
     getAuditerTime,
     getDateDiff,
     getRecordState,
+    getTreeOrgNameById
   }

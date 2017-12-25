@@ -14,6 +14,7 @@ const MenuManage = ({ location, dispatch, menuManage, loading }) => {
 
   const modalProps = {
     item: modalType === 'create' ? {parentId:currentItem.id || 0} :currentItem,
+    list,
     visible: modalVisible,
     maskClosable: false,
     width:650,

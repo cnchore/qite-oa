@@ -7,12 +7,12 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Reimburse = ({ location, dispatch, reimburse, loading }) => {
-  const { list,fileList,dicList,detailList,taskData,purchaseList,employeeList, 
+  const { list,fileList,dicList,detailList,taskData,purchaseList,employeeList, borrowList,
     pagination, currentItem, modalVisible, modalType,isEditable } = reimburse
   const { pageSize } = pagination
 
   const modalProps = {
-    item: modalType === 'create' ? {} : currentItem,
+    item: currentItem,
     visible: modalVisible,
     fileList,
     employeeList,
@@ -21,6 +21,7 @@ const Reimburse = ({ location, dispatch, reimburse, loading }) => {
     dicList,
     taskData,
     isEditable,
+    borrowList,
     maskClosable: false,
     submitLoading:loading.effects['reimburse/submit'],
     confirmLoading: loading.effects[`reimburse/${modalType}`],
@@ -66,6 +67,12 @@ const Reimburse = ({ location, dispatch, reimburse, loading }) => {
       dispatch({
         type: 'reimburse/audit',
         payload: {formItem,taskItem},
+      })
+    },
+    setState(fields){
+      dispatch({
+        type: 'reimburse/setState',
+        payload: fields,
       })
     },
     onGoback(){
@@ -114,6 +121,13 @@ const Reimburse = ({ location, dispatch, reimburse, loading }) => {
         }
       });
       dispatch({
+        type:'reimburse/getBorrowList',
+        payload:{
+          isReimburse:true,
+          reimburseId:item.id,
+        }
+      });
+      dispatch({
         type: 'reimburse/editItem',
         payload: {
           modalType: 'update',
@@ -147,9 +161,16 @@ const Reimburse = ({ location, dispatch, reimburse, loading }) => {
         }
       });
       dispatch({
+        type:'reimburse/getBorrowList',
+        payload:{
+          isReimburse:true,
+        }
+      });
+      dispatch({
         type: 'reimburse/showModal',
         payload: {
           modalType: 'create',
+          currentItem:{},
           fileList:[],
           detailList:[],
           taskData:{},

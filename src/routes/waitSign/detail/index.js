@@ -44,6 +44,7 @@ import SampleRoomDetailPage from '../../../components/SampleRoomDetailPage'
 import PromotionExpenseDetailPage from '../../../components/PromotionExpenseDetailPage'
 import SalesPromotionDetailPage from '../../../components/SalesPromotionDetailPage'
 import UrgentOrderDetailPage from '../../../components/UrgentOrderDetailPage'
+import BorrowDetailPage from '../../../components/BorrowDetailPage'
 
 const Detail = ({ waitSignDetail }) => {
   const { data,employeeList,dicList } = waitSignDetail
@@ -151,6 +152,9 @@ const Detail = ({ waitSignDetail }) => {
         break;
       case 'PP'://领料单
         detailpage=<PickDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'BO'://借款单
+        detailpage=<BorrowDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
         break;
       case 'UO'://订单加急
         detailpage=<UrgentOrderDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList} />

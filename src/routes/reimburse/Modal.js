@@ -57,6 +57,8 @@ const modal = ({
   isEditable,
   setIsEditable,
   purchaseList,
+  borrowList,
+  setState,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -101,7 +103,7 @@ const modal = ({
         })
       }else if(defaultDetailList[0]){
         defaultDetailList.map((f,index)=>{
-          if(f.id) data[`purchaseDetailList[${index}].id`]=f.id;
+          if(f.id) data[`detailList[${index}].id`]=f.id;
           data[`detailList[${index}].uses`]=f.uses.value;
           data[`detailList[${index}].amount`]=f.amount.value;
           data[`detailList[${index}].remark`]=f.remark.value;
@@ -112,7 +114,20 @@ const modal = ({
       if(data.purchaseIds){
         let _a=`,${data.purchaseIds}`;
         data.purchaseCodes=purchaseList.filter(f=>_a.indexOf(`,${f.id}`)>-1).map(m=>m.code).join();
+      }else{
+        data.purchaseIds='';
+        data.purchaseCodes='';
       }
+      if(data.borrowIds){
+        data.borrowCodes=borrowList.filter(f=>data.borrowIds.indexOf(String(f.id))>-1).map(m=>m.code).join();
+        data.loan=item.loan;//getBorrowTotal(data.borrowIds).toFixed(2);
+        data.payable=item.payable;//(getCostTotal().toFixed(2) - data.loan).toFixed(2);
+        data.borrowIds=data.borrowIds.join();
+      }else{
+        data.borrowIds='';
+        data.borrowCodes='';
+      }
+
       if(item.id){
         data.id=item.id;
         data.code=item.code;
@@ -202,9 +217,50 @@ const modal = ({
     }
   }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
-  const purchaseOption=purchaseList.map(pur=><Option key={pur.id}>{pur.code}</Option>)
+  const purchaseOption=purchaseList.map(pur=><Option key={pur.id}>{pur.code}</Option>);
   if(item.purchaseList && item.purchaseList[0]){
     item.purchaseIds=item.purchaseList.map(m=>String(m.id));
+  }
+  if(item.borrowList && item.borrowList[0]){
+    item.borrowIds=item.borrowList.map(m=>String(m.id));
+  }
+  const getCostTotal=(detailList)=>{
+    let costTotal=0,_list=detailList || defaultDetailList;
+    if(_list[0]){
+      _list.forEach(item=>{
+        costTotal+=parseFloat((item.amount.value || 0));
+      })
+    }
+    return costTotal;
+  }
+  const getBorrowTotal=(ids)=>{
+    let costTotal=0;
+    if(borrowList[0]){
+      borrowList.filter(f=>ids.indexOf(String(f.id))!==-1).forEach(item=>{
+        costTotal+=parseFloat((item.payAmount || 0));
+      })
+    }
+    return costTotal;
+  }
+  const borrowOption=borrowList.map(bor=><Option key={String(bor.id)}>{bor.code}</Option>);
+  const handleBorrowChange=(value)=>{
+    calcExpense(value);
+  }
+  
+  const calcExpense=(value,detailList=null,needSet=true)=>{
+    let costTotal=getCostTotal(detailList).toFixed(2);
+    item.loan=getBorrowTotal(value).toFixed(2);
+    item.payable=(costTotal - item.loan).toFixed(2);
+    item.borrowIds=value;
+    if(needSet){
+      setState({currentItem:item});
+    }
+  }
+  const detailCallBack=(data)=>{
+    if(item.borrowIds){
+      calcExpense(item.borrowIds,data,false)
+    }
+    setState({currentItem:item,detailList:data});
   }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -329,7 +385,7 @@ const modal = ({
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('purchaseIds', {
-                initialValue:item.purchaseIds,
+                initialValue:item.purchaseIds && item.purchaseIds[0]?item.purchaseIds:[],
               })(<Select mode="multiple" >{purchaseOption}</Select>)}
               
             </FormItem>
@@ -339,10 +395,39 @@ const modal = ({
         
         <EditCellTable dicList={dicList} 
           dataSource={defaultDetailList} 
-          callbackParent={getDetailList}
+          callbackParent={detailCallBack}
           setIsEditable={setIsEditable}
           className={styles['q-detail']}/> 
-         
+        <Row gutter={24} className={styles['q-detail']}>
+          <Col span={24} className='qite-list-title'>
+            <Icon type="credit-card" />借款信息
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            借款单：
+          </Col>
+          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}}>
+              {getFieldDecorator('borrowIds', {
+                initialValue:item.borrowIds && item.borrowIds[0]?item.borrowIds:[],
+                onChange:handleBorrowChange,
+              })(<Select mode="multiple" >{borrowOption}</Select>)}
+              
+            </FormItem>
+            
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            核销借款：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >{item.loan || 0}{'  元'}</FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            应付款：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >{item.payable || 0}{'  元'}</FormItem>
+          </Col>
+        </Row> 
         <Row gutter={24} className={styles['q-detail']}>
 
           <Col span={24} className='qite-list-title'>

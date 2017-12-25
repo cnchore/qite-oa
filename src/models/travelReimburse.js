@@ -1,5 +1,6 @@
 import { query,queryById,save,deleteById,submit,queryEmployee,getDic,getTravelList } from '../services/travelReimburse'
 import { config } from '../utils'
+import * as borrow  from '../services/borrow'
 import { parse } from 'qs'
 import { message } from 'antd'
 import { startProcess,getTaskInfo,audit } from '../services/workFlow'
@@ -21,6 +22,7 @@ export default {
     employeeList:[],
     travelList:[],
     taskData:{},
+    borrowList:[],
     isEditable:false,
     pagination: {
       showSizeChanger: true,
@@ -188,6 +190,7 @@ export default {
         let taskData=yield call(getTaskInfo,{taskId:payload.taskId})
         if(taskData.success){
           taskData.data.taskId=payload.taskId;
+          yield put({type:'getBorrowList',payload:{travelReimburseId:payload.busiId}});
           yield put({type:'getTravelList'});
           yield put({
             type:'showModal',
@@ -240,6 +243,17 @@ export default {
         throw data
       }
     },
+    *getBorrowList ({ payload }, { call, put }) {
+      const data = yield call(borrow.getList, {isTravelReimburse:true,...payload});
+      if (data) {
+        yield put({
+          type: 'setState',
+          payload: {
+            borrowList:data.data
+          },
+        })
+      }
+    },
     *deleteById ({ payload }, { call, put }) {
       const data = yield call(deleteById, {id:payload.id})
       if (data.success) {
@@ -282,7 +296,7 @@ export default {
       return { ...state, modalVisible: false }
     },
     setState(state,action){
-      return {...state,currentItem:action.payload}
+      return {...state,...action.payload}
     },
     setFileList(state,action){
       return {...state,fileList:action.payload}

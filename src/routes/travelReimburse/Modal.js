@@ -56,6 +56,8 @@ const modal = ({
   onGoback,
   setIsEditable,
   isEditable,
+  borrowList,
+  setState,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -115,6 +117,18 @@ const modal = ({
       if(data.travelIds){
         let _a=`,${data.travelIds}`;
         data.travelCodes=travelList.filter(f=>_a.indexOf(`,${f.id}`)>-1).map(c=>c.code).join();
+      }else{
+        data.travelIds='';
+        data.travelCodes='';
+      }
+      if(data.borrowIds){
+        data.borrowCodes=borrowList.filter(f=>data.borrowIds.indexOf(String(f.id))>-1).map(m=>m.code).join();
+        data.advanceExpense=item.advanceExpense;//借款金额
+        data.actualExpense=item.actualExpense;//实际报销
+        data.borrowIds=data.borrowIds.join();
+      }else{
+        data.borrowIds='';
+        data.borrowCodes='';
       }
       if(item.id){
         data.id=item.id;
@@ -236,40 +250,9 @@ const modal = ({
     }
   }
   
-  const getExpense=()=>{
-
-    return changeMoneyToChinese(item.expense);
-  }
   
   const travelOptions=travelList.map(travel=><Option key={String(travel.id)}>{travel.code}</Option>)
-
-  const getActualExpense=()=>{
-    let c=0;
-    if(detailList && detailList[0]){
-      detailList.map(t=>{
-        c+=parseFloat(t.vehicleCost.value)+parseFloat(t.livingCost.value)+parseFloat(t.otherCost.value)+parseFloat(t.subsidyAmount.value)
-      })
-    }else if(defaultDetailList && defaultDetailList[0]){
-      defaultDetailList.map(t=>{
-        c+=parseFloat(t.vehicleCost.value)+parseFloat(t.livingCost.value)+parseFloat(t.otherCost.value)+parseFloat(t.subsidyAmount.value)
-      })
-    }
-    item.actualExpense=c;
-    return c;
-  }
-
-  let t=getActualExpense();
-  let c=t-parseFloat(item.advanceExpense!==undefined && item.advanceExpense!==null?item.advanceExpense:0);
-  if(c>0){
-    item.surplus=0;
-    item.validReimburse=c;
-  }else if(c<0){
-    item.surplus=c;
-    item.validReimburse=0;
-  }else{
-    item.surplus=0;
-    item.validReimburse=0;
-  }
+ 
   const getTravelIds=()=>{
     if(item.travelIds && item.travelCodes){
 
@@ -282,7 +265,50 @@ const modal = ({
       return [];
     }
   }
-  
+  if(item.borrowList && item.borrowList[0]){
+    item.borrowIds=item.borrowList.map(m=>String(m.id));
+  }
+  const getCostTotal=(detailList)=>{
+    let costTotal=0,_list=detailList || defaultDetailList;
+    if(_list[0]){
+      _list.forEach(item=>{
+        costTotal+=parseFloat(item.vehicleCost.value)
+          +parseFloat(item.livingCost.value)
+          +parseFloat(item.otherCost.value)
+          +parseFloat(item.subsidyAmount.value);
+      })
+    }
+    return costTotal;
+  }
+  const getBorrowTotal=(ids)=>{
+    let costTotal=0;
+    if(borrowList[0]){
+      borrowList.filter(f=>ids.indexOf(String(f.id))!==-1).forEach(item=>{
+        costTotal+=parseFloat((item.payAmount || 0));
+      })
+    }
+    return costTotal;
+  }
+  const borrowOption=borrowList.map(bor=><Option key={String(bor.id)}>{bor.code}</Option>);
+
+  const handleBorrowChange=(value)=>{
+    calcExpense(value);
+  }
+  const calcExpense=(value,detailList=null,needSet=true)=>{
+    let costTotal=getCostTotal(detailList).toFixed(2);
+    item.advanceExpense=getBorrowTotal(value).toFixed(2);
+    item.actualExpense=(costTotal - item.advanceExpense).toFixed(2);
+    item.borrowIds=value;
+    if(needSet){
+      setState({currentItem:item});
+    }
+  }
+  const detailCallBack=(data)=>{
+    if(item.borrowIds){
+      calcExpense(item.borrowIds,data,false)
+    }
+    setState({currentItem:item,detailList:data});
+  }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -430,44 +456,40 @@ const modal = ({
           
         <EditCellTable dicList={dicList} 
           dataSource={defaultDetailList} 
-          callbackParent={getDetailList}
+          callbackParent={detailCallBack}
           setIsEditable={setIsEditable}
           className={styles['q-detail']}/> 
         
         <Row gutter={24} className={styles['q-detail']}>
+          <Col span={24} className='qite-list-title'>
+            <Icon type="credit-card" />借款信息
+          </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            预支旅费：
+            借款单：
           </Col>
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
-            <FormItem  >
-              {getFieldDecorator('advanceExpense', {
-                initialValue:(item.advanceExpense===undefined||item.advanceExpense===null)?0:Number(item.advanceExpense),
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-                onChange:handleAdvanceExpenseChange,
-              })(
-                <InputNumber
-                  step={1} style={{width:'120px'}}
-                  formatter={value => `¥ ${value?value.toString().replace(/¥\s?|(,*)/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-                  parser={value => value?value.toString().replace(/¥\s?|(,*)/g, ''):0}
-                  
-                />
-              )}
+            <FormItem style={{width:'100%'}}>
+              {getFieldDecorator('borrowIds', {
+                initialValue:item.borrowIds && item.borrowIds[0]?item.borrowIds:[],
+                onChange:handleBorrowChange,
+              })(<Select mode="multiple" >{borrowOption}</Select>)}
               
             </FormItem>
-           
-            <FormItem >
-            归还多余：{`¥ ${item.surplus?item.surplus.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}  
-            &nbsp;&nbsp;&nbsp;&nbsp;实际报销：{`¥ ${item.validReimburse?item.validReimburse.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-            </FormItem>
             
-         
           </Col>
-        </Row>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            借款金额：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >{item.advanceExpense || 0}{'  元'}</FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            {item.actualExpense>0?'实际报销：':'归还多余：'}
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >{Math.abs((item.actualExpense || 0))}{'  元'}</FormItem>
+          </Col>
+        </Row> 
         <Row gutter={12} className={styles['q-detail']} style={{marginLeft:'2px',marginRight:'2px'}}>
           <blockquote>
             <p>

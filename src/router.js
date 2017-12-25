@@ -744,8 +744,23 @@ const Routers = function ({ history, app }) {
             }, 'shop-detail')
           },
         },{
-          // 付款申请
-          // ？
+          // 借款申请
+         path: '/borrow',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/borrow'))
+              cb(null, require('./routes/borrow/'))
+            }, 'borrow')
+          },
+        }, {
+          path: 'borrow/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/borrow/detail'))
+              cb(null, require('./routes/borrow/detail/'))
+            }, 'borrow-detail')
+          },
+        }, {
           // 办公用品申购
           // ？
           // 请假申请

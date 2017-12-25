@@ -25,7 +25,7 @@ const MaterialGift = ({ location, dispatch, materialGift, loading }) => {
     submitLoading:loading.effects['materialGift/submit'],
     confirmLoading: loading.effects[`materialGift/${modalType}`],
     auditLoading:loading.effects['materialGift/audit'],
-    title: `${modalType === 'create' ? '新增－物料制作申请' : modalType==='update'?'编辑－物料制作申请':'退回修改－物料制作申请'}`,
+    title: `${modalType === 'create' ? '新增－促销礼品申请' : modalType==='update'?'编辑－促销礼品申请':'退回修改－促销礼品申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({

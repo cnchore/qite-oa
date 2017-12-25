@@ -26,7 +26,9 @@ class PurchaseForm extends React.Component {
             <td>{item.useTime && item.useTime.substr(5,5)}</td>
             <td>{item.remark}</td>
             <td>{item.supplierName && item.supplierName}</td>
-            <td>{item.purchaseAmount&&item.purchaseAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+            <td>{item.realPurchaseNum&&item.realPurchaseNum.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') || '0'}</td>
+            <td>{item.realAmount&&item.realAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') || '0'}</td>
+            <td>{item.purchaseAmount&&item.purchaseAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') || '0'}</td>
             <td>{item.estiArrivalTime && item.estiArrivalTime.substr(5,5)}</td>
             <td>{item.storageTime && item.storageTime.substr(5,5)}</td>
             <td>{item.isIn?'是':'否'}</td>
@@ -38,6 +40,8 @@ class PurchaseForm extends React.Component {
         for(var i=0;i<(5-data.purchaseDetailList.length);i++){
           defaultRows.push(
             <tr key={5+i}>
+              <td></td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -70,6 +74,8 @@ class PurchaseForm extends React.Component {
             <td className={styles['t2']}>需用日期</td>
             <td className={styles['t4']}>请购原因及用途</td>
             <td className={styles['t2']}>供应商名称</td>
+            <td className={styles['t1']}>采购数量</td>
+            <td className={styles['t1']}>采购单价</td>
             <td className={styles['t1']}>采购金额</td>
             <td className={styles['t1']}>预估到货时间</td>
             <td className={styles['t1']}>到货/入库时间</td>

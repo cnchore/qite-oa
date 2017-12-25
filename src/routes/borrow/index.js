@@ -6,73 +6,54 @@ import List from './List'
 import Filter from './Filter'
 import Modal from './Modal'
 
-const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
-  const { list,fileList,dicList,detailList,travelList,employeeList,taskData, borrowList,
-    pagination, currentItem, modalVisible, modalType,isEditable } = travelReimburse
+const Borrow = ({ location, dispatch, borrow, loading }) => {
+  const { list,fileList,dicList,employeeList, taskData,orgTree,
+    pagination, currentItem, modalVisible, modalType } = borrow
   const { pageSize } = pagination
 
   const modalProps = {
-    item: currentItem,
+    item: modalType === 'create' ? {} : currentItem,
     visible: modalVisible,
     fileList,
     employeeList,
-    travelList,
-    detailList,
+    orgTree,
+    // detailList,
     dicList,
     taskData,
-    isEditable,
-    borrowList,
+    // isEditable,
     maskClosable: false,
-    submitLoading:loading.effects['travelReimburse/submit'],
-    confirmLoading: loading.effects[`travelReimburse/${modalType}`],
-    auditLoading:loading.effects['travelReimburse/audit'],
-    title: `${modalType === 'create' ? '新增－差旅费报销申请' : modalType==='update'?'编辑－差旅费报销申请':'退回修改－差旅费报销申请'}`,
+    submitLoading:loading.effects['borrow/submit'],
+    confirmLoading: loading.effects[`borrow/${modalType}`],
+    auditLoading:loading.effects['borrow/audit'],
+    title: `${modalType === 'create' ? '新增－借款申请' : modalType==='update'?'编辑－借款申请':'退回修改－借款申请'}`,
     wrapClassName: 'vertical-center-modal',
     onOk (data) {
       dispatch({
-        type: `travelReimburse/${modalType}`,
+        type: `borrow/${modalType}`,
         payload: data,
       })
     },
     onCancel () {
       dispatch({
-        type: 'travelReimburse/hideModal',
-      })
-    },
-    setIsEditable(isEditable){
-      dispatch({
-        type:'travelReimburse/setIsEditable',
-        payload:isEditable
+        type: 'borrow/hideModal',
       })
     },
     getFileList(fileList){
       dispatch({
-        type:'travelReimburse/setFileList',
+        type:'borrow/setFileList',
         payload:fileList
-      })
-    },
-    getDetailList(detailList){
-      dispatch({
-        type:'travelReimburse/setDetailList',
-        payload:detailList
       })
     },
     onSubmit (formItem,nextUser) {
       dispatch({
-        type: 'travelReimburse/submit',
+        type: 'borrow/submit',
         payload: {formItem,nextUser},
       })
     },
     onAudit(formItem,taskItem){
       dispatch({
-        type: 'travelReimburse/audit',
+        type: 'borrow/audit',
         payload: {formItem,taskItem},
-      })
-    },
-    setState(fields){
-      dispatch({
-        type: 'travelReimburse/setState',
-        payload: fields,
       })
     },
     onGoback(){
@@ -82,10 +63,10 @@ const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
       }))
     },
   }
-
+  // console.log('list:',list)
   const listProps = {
     dataSource:list,
-    loading: loading.effects['travelReimburse/query'],
+    loading: loading.effects['borrow/query'],
     pagination,
     location,
     dicList,
@@ -102,32 +83,24 @@ const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
     },
     onSubmit (formItem,nextUser) {
       dispatch({
-        type: 'travelReimburse/submit',
+        type: 'borrow/submit',
         payload: {formItem,nextUser},
       })
     },
     onDelete (id) {
       dispatch({
-        type: 'travelReimburse/deleteById',
+        type: 'borrow/deleteById',
         payload: {id},
       })
     },
     onEditItem (item) {
       dispatch({
-        type:'travelReimburse/getBorrowList',
-        payload:{
-          isTravelReimburse:true,
-          travelReimburseId:item.id,
-        }
-      });
-      dispatch({type:'travelReimburse/getTravelList'});
-      dispatch({
-        type: 'travelReimburse/editItem',
+        type: 'borrow/editItem',
         payload: {
           modalType: 'update',
           currentItem: item,
         },
-      });
+      })
     },
   }
 
@@ -149,22 +122,14 @@ const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
     
     onAdd () {
       dispatch({
-        type:'travelReimburse/getBorrowList',
-        payload:{
-          isTravelReimburse:true,
-        }
-      });
-      dispatch({type:'travelReimburse/getTravelList'});
-      dispatch({
-        type: 'travelReimburse/showModal',
+        type: 'borrow/showModal',
         payload: {
           modalType: 'create',
-          currentItem:{},
           fileList:[],
           detailList:[],
           taskData:{},
         },
-      });
+      })
     },
    
   }
@@ -178,11 +143,11 @@ const TravelReimburse = ({ location, dispatch, travelReimburse, loading }) => {
   )
 }
 
-TravelReimburse.propTypes = {
-  travelReimburse: PropTypes.object,
+Borrow.propTypes = {
+  borrow: PropTypes.object,
   location: PropTypes.object,
   dispatch: PropTypes.func,
   loading: PropTypes.object,
 }
 
-export default connect(({ travelReimburse, loading }) => ({ travelReimburse, loading }))(TravelReimburse)
+export default connect(({ borrow, loading }) => ({ borrow, loading }))(Borrow)

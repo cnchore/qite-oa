@@ -33,27 +33,16 @@ class TravelReimburseDetailPage extends React.Component {
     }
     let _actualExpense=0;
     if(data.detailList&&data.detailList[0]){
-      let _t=0;
-      data.detailList.map(t=>{
-        _t+=parseFloat(t.vehicleCost)
-          +parseFloat(t.livingCost)
-          +parseFloat(t.otherCost)
-          +parseFloat(t.subsidyAmount)
-      })
-      _actualExpense=_t.toFixed(2);
-  }
-    let c=parseFloat(_actualExpense)-parseFloat(data.advanceExpense);
-    let item={};
-    if(c>0){
-      item.surplus=0.00;
-      item.validReimburse=c.toFixed(2);
-    }else if(c<0){
-      item.surplus=c.toFixed(2);
-      item.validReimburse=0.00;
-    }else{
-      item.surplus=0.00;
-      item.validReimburse=0.00;
+        let _t=0;
+        data.detailList.map(t=>{
+          _t+=parseFloat(t.vehicleCost)
+            +parseFloat(t.livingCost)
+            +parseFloat(t.otherCost)
+            +parseFloat(t.subsidyAmount)
+        })
+        _actualExpense=_t.toFixed(2);
     }
+   
     const columns = [{
         title:'序号',
         dataIndex:'index',
@@ -198,18 +187,28 @@ class TravelReimburseDetailPage extends React.Component {
         </Row>
         
         <Row gutter={24} className={styles['q-detail']}>
+          <Col span={24} className='qite-list-title'>
+            <Icon type="credit-card" />借款信息
+          </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            预支旅费：
+            借款单：
           </Col>
-          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            
-            {`¥ ${data.advanceExpense?data.advanceExpense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'} `}
-            
-            &nbsp;&nbsp;&nbsp;&nbsp;归还多余：{`¥ ${item.surplus?item.surplus.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}  
-            &nbsp;&nbsp;&nbsp;&nbsp;实际报销：{`¥ ${item.validReimburse?item.validReimburse.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}`}
-            
+          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            {data.borrowCodes || '无'}
           </Col>
-        </Row>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            借款金额：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {data.advanceExpense || 0}{'  元'}
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            {data.actualExpense>0?'实际报销：':'归还多余：'}
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            {Math.abs((data.actualExpense || 0))}{'  元'}
+          </Col>
+        </Row> 
         <Row gutter={12} className={styles['q-detail']} style={{marginLeft:'2px',marginRight:'2px'}}>
           <blockquote>
             <p>

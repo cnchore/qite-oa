@@ -7,6 +7,9 @@
 		flex:1;
 		vertical-align: middle;
 	}
+	.more{
+		cursor: pointer;
+	}
 }
 .quick,
 .userInfo,
@@ -19,6 +22,7 @@
 .waitList,
 .signList{
 	background-color: @bg;
+	overflow: hidden;
 }
 // 快捷创建
 .quick{
@@ -76,8 +80,8 @@
 		height: 100%;
 		.photo{
 			width: 100%;
-			max-width: 120px;
-			max-height: 120px;
+			max-width: 80px;
+			max-height: 80px;
 			border-radius: 50%;
 			background-color: #ccc;
 		}
@@ -102,6 +106,7 @@
   -webkit-box-pack:center;
   -webkit-box-align:center;
   -webkit-box-orient:vertical;
+  cursor: pointer;
 }
 .waitInfo-icon,
 .signInfo-icon,
@@ -129,6 +134,7 @@
 		white-space: nowrap;
 	  text-overflow: ellipsis;
 	  overflow: hidden;
+	  cursor: pointer;
 	}
 }
 // 超时公示栏
@@ -168,10 +174,12 @@
 }
 .listAction{
 	position: relative;
+	min-width: 120px;
 	.listAction-icon{
 		position: absolute;
 		top: 5px;
 		right: 0;
+		padding-right: 0 !important;
 	}
 	.listAction-button{
 		position: absolute;
@@ -184,7 +192,63 @@
 		}
 	}
 }
+.modal{
+	position: fixed;
+	z-index: 9999;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;display: none;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: -webkit-box;
+	-webkit-box-pack:center;
+	-webkit-box-align:center;
+	-webkit-box-orient:vertical;
 
+	&.msgshow{
+		display: -webkit-box;
+	}
+	&.msghide{
+		display: none;
+	}
+	.msgclose{
+		position: absolute;
+		right: 30px;
+		top:30px;
+		color:#fff;
+		cursor: pointer;
+		i{font-size: 48px;}
+	}
+	.msgbody{
+		width: 800px;
+		max-height: 70vh;
+		padding: 30px;
+		font-size: 16px;
+		border-radius: 3px;
+		background-color: #6699cc;
+		overflow: auto;
+		.msgtitle{
+			font-size: 20px;
+			display: flex;
+			i{
+				font-size: 30px;
+				margin-right: 12px;
+			}
+			margin-bottom: 20px;
+		}
+		.msg-list{
+			margin-bottom: 5px;
+			width: 100%;
+			white-space: nowrap;
+		  text-overflow: ellipsis;
+		  overflow: hidden;
+		  a{
+		  	color: #fff;
+		  	text-decoration: underline;
+		  }
+		}
+	}
+}
 @gutterMd:8px;
 @screenH:830px;
 @h6:(@screenH - (6 * @gutterMd + 47px + 64px + 48px + 48px)) * 6 / 10;
@@ -291,7 +355,6 @@
 		}
 	}
 	.listAction{
-		position: relative;
 		.listAction-icon{
 			i{
 				font-size: @gutterMd + 8px;
@@ -406,7 +469,6 @@
 		}
 	}
 	.listAction{
-		position: relative;
 		.listAction-icon{
 			i{
 				font-size: @gutterLg + 8px;
@@ -521,7 +583,6 @@
 		}
 	}
 	.listAction{
-		position: relative;
 		.listAction-icon{
 			i{
 				font-size: @gutterXl + 8px;
@@ -559,5 +620,20 @@
 			}
 		}
 	}
-	
+}
+.popover{
+	:global{
+		.ant-popover-arrow{
+			border-bottom-color:#6699cc;
+		}
+		.ant-popover-inner-content{
+
+			background-color: #6699cc;
+			color: #fff;
+		}
+	}
+	.content{
+		
+		
+	}
 }

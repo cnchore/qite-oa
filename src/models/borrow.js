@@ -1,6 +1,6 @@
-import { query,queryById,save,deleteById,submit,queryEmployee,getDic } from '../services/reimburse'
-import * as purchase from '../services/purchase'
-import * as borrow  from '../services/borrow'
+import { query,queryById,save,deleteById} from '../services/borrow'
+import { queryEmployee,getOrg } from '../services/employee'
+import { getDic } from '../services/dictionary'
 import { config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
@@ -10,7 +10,7 @@ const { prefix } = config
 
 export default {
 
-  namespace: 'reimburse',
+  namespace: 'borrow',
 
   state: {
     list: [],
@@ -19,12 +19,11 @@ export default {
     modalType: 'create',
     fileList:[],
     dicList:[],
-    detailList:[],
+    // detailList:[],
     employeeList:[],
-    purchaseList:[],
-    borrowList:[],
+    orgTree:[],
     taskData:{},
-    isEditable:false,
+    // isEditable:false,
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -37,8 +36,7 @@ export default {
   subscriptions: {
     setup ({ dispatch, history }) {
       history.listen(location => {
-
-        if (location.pathname === '/reimburse') {
+        if (location.pathname==='/borrow') {
           let query=location.query;
           if(query && query.taskId && query.busiId && query.from){
             dispatch({
@@ -51,6 +49,10 @@ export default {
               payload: query,
             })
           }
+          dispatch({
+            type: 'getOrg',
+            payload: {},
+          })
         }
       })
     },
@@ -59,7 +61,7 @@ export default {
   effects: {
     *query ({ payload }, { call, put }) {
 
-      payload=parse(location.hash.split('#/reimburse?')[1]); 
+      payload=parse(location.hash.split('#/borrow?')[1]); 
       // payload = parse(location.search.substr(1))
       const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       if (userInfo && userInfo.data) {
@@ -85,7 +87,10 @@ export default {
       }
     },
     *getDic ({ payload }, { call, put }) {
-     const data = yield call(getDic, payload)
+
+     // payload = parse(location.search.substr(1))
+      const data = yield call(getDic, payload)
+
       if (data) {
         yield put({
           type: 'getDicSuccess',
@@ -95,6 +100,7 @@ export default {
     },
     
     *create ({ payload }, { call, put }) {
+
       const data = yield call(save, payload)
       if (data.success) {
         message.success('新增成功');
@@ -149,7 +155,6 @@ export default {
           if(data.success) {
             message.success('[退回修改]成功');
             //yield put({ type: 'hideModal' })
-
             let queryList=parse(location.hash.substr(location.hash.indexOf('?')+1)); 
             window.location = `${location.origin}${location.pathname}#${queryList.from}?t=${Math.random()}`;
             
@@ -163,32 +168,32 @@ export default {
       
     },
     *toBackEdit({payload},{call,put}){
-      // const mcData=yield call(queryById,{id:payload.busiId})
-      // const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
-      // if(mcData.success&& userInfo.data){
+      const mcData=yield call(queryById,{id:payload.busiId})
+      const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
+
+      if(mcData.success&& userInfo.data){
         let taskData=yield call(getTaskInfo,{taskId:payload.taskId})
         if(taskData.success){
           taskData.data.taskId=payload.taskId;
-          yield put({type:'getPurchaseList',payload:{reimburseId:payload.busiId}});
-          yield put({type:'getBorrowList',payload:{reimburseId:payload.busiId}});
           yield put({
             type:'showModal',
             payload:{
-              currentItem:taskData.data.busiData,
+              currentItem:mcData.data,
               fileList:[],
               taskData:taskData.data,
-              employeeList:taskData.data.userVo.employeeVo,
+              employeeList:userInfo.data.employeeVo,
               modalType:'toBackEdit',
               detailList:[],
             }
-          });
+          })
         }else{
           throw taskData
         }
-      // }else{
-      //   throw mcData
-      // }
+      }else{
+        throw mcData
+      }
     },
+    
     *editItem ({ payload }, { call, put }) {
       const id=payload.currentItem.id;
       const data = yield call(queryById, {id})
@@ -210,7 +215,7 @@ export default {
       }
     },
     *update ({ payload }, { select, call, put }) {
-      const id = yield select(({ reimburse }) => reimburse.currentItem.id)
+      const id = yield select(({ borrow }) => borrow.currentItem.id)
       const newItem = { ...payload, id }
       const data = yield call(save, newItem)
       if (data.success) {
@@ -221,29 +226,17 @@ export default {
         throw data
       }
     },
-    *getPurchaseList ({ payload }, { call, put }) {
-      const data = yield call(purchase.getList, {isChooseReimburse:true,...payload});
-      if (data) {
-        yield put({
-          type: 'getPurchaseListSuccess',
-          payload: {
-            purchaseList:data.data
-          },
-        })
-      }
-    },
-    *getBorrowList ({ payload }, { call, put }) {
-      const data = yield call(borrow.getList, {isReimburse:true,...payload});
+    *getOrg ({ payload }, { call, put }) {
+      const data = yield call(getOrg, payload)
       if (data) {
         yield put({
           type: 'setState',
           payload: {
-            borrowList:data.data
+            orgTree: data.data,
           },
         })
       }
     },
-    
     *deleteById ({ payload }, { call, put }) {
       const data = yield call(deleteById, {id:payload.id})
       if (data.success) {
@@ -274,10 +267,9 @@ export default {
     getDicSuccess(state,action){
       return {...state,dicList:action.payload}
     },
-    getPurchaseListSuccess(state,action){
-      return {...state,...action.payload}
-    },
+    
     showModal (state, action) {
+
       return { ...state, ...action.payload, modalVisible: true }
     },
 
@@ -290,12 +282,7 @@ export default {
     setFileList(state,action){
       return {...state,fileList:action.payload}
     },
-    setDetailList(state,action){
-      return {...state,detailList:action.payload}
-    },
-    setIsEditable(state,action){
-      return {...state,isEditable:action.payload}
-    },
+    
   },
 
 }

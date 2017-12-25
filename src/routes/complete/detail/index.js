@@ -46,6 +46,7 @@ import SampleRoomDetailPage from '../../../components/SampleRoomDetailPage'
 import PromotionExpenseDetailPage from '../../../components/PromotionExpenseDetailPage'
 import SalesPromotionDetailPage from '../../../components/SalesPromotionDetailPage'
 import UrgentOrderDetailPage from '../../../components/UrgentOrderDetailPage'
+import BorrowDetailPage from '../../../components/BorrowDetailPage'
 
 const Detail = ({ completeDetail }) => {
   const { data,employeeList,dicList,taskNode } = completeDetail
@@ -79,6 +80,7 @@ const Detail = ({ completeDetail }) => {
       case 'SL'://印章使用申请
       case 'PP'://领料单
       case 'UO'://加急申请
+      case 'BO'://借款申请
         printData=true;
         setPrintData(data.busiData,data.userVo.employeeVo,dicList,data.commentList)
         break;
@@ -187,6 +189,9 @@ const Detail = ({ completeDetail }) => {
         break;
       case 'PP'://领料单
         detailpage=<PickDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
+        break;
+      case 'BO'://借款单
+        detailpage=<BorrowDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} />
         break;
       case 'UO'://订单加急申请
         detailpage=<UrgentOrderDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList} />

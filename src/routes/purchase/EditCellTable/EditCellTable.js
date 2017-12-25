@@ -70,10 +70,23 @@ class EditCellTable extends React.Component {
       dataIndex: 'supplierName',width:120,
       render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'supplierName', text,'input',15),
     }, {
+      title: '实际采购数量',
+      dataIndex: 'realPurchaseNum',
+      width: 130,
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'realPurchaseNum', text,'currency'),
+    }, {
+      title: '实际采购单价',
+      dataIndex: 'realAmount',
+      width: 130,
+      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'realAmount', text,'currency'),
+    }, {
       title: '采购金额',
       dataIndex: 'purchaseAmount',
-      width: 120,
-      render: (text, record, index) => this.renderColumns(this.props.dataSource, index, 'purchaseAmount', text,'currency'),
+      width: 100,
+      render: (text, record, index) => {
+        let t=parseFloat(record.realPurchaseNum)*parseFloat(record.realAmount);
+        return `¥ ${t?t.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'0.00'}` || '¥ 0.00'
+      },
     }, {
       title: '预估到货时间',
       dataIndex: 'estiArrivalTime',
@@ -124,14 +137,14 @@ class EditCellTable extends React.Component {
     //taskDo=true:任务办理中，供应商等信息可编辑，申请信息不可编辑
     let isCanEdit;
     if(!taskDo){
-      if(key==='supplierName' || key==='purchaseAmount' || key==='estiArrivalTime' || key==='storageTime')
+      if(key==='supplierName' || key==='realPurchaseNum' || key==='realAmount' || key==='estiArrivalTime' || key==='storageTime')
       {
         isCanEdit=false;//不可编辑
       }else{
         isCanEdit=true;
       }
     }else if(taskDo && (useDesc==='purInquiry' || useDesc==='purConfirm')){
-      if(key!=='supplierName' && key!=='purchaseAmount' && key!=='estiArrivalTime' && key!=='storageTime')
+      if(key!=='supplierName' && key!=='realPurchaseNum' && key!=='realAmount' && key!=='estiArrivalTime' && key!=='storageTime')
       {
         isCanEdit=false;
       }else{
@@ -140,7 +153,7 @@ class EditCellTable extends React.Component {
     }
     //可添加明细
     if(isCanAdd){
-      if(key!=='supplierName' && key!=='purchaseAmount' && key!=='estiArrivalTime' && key!=='storageTime')
+      if(key!=='supplierName' && key!=='realPurchaseNum' && key!=='realAmount' && key!=='estiArrivalTime' && key!=='storageTime')
       {
         isCanEdit=true;
       }else{
@@ -238,6 +251,14 @@ class EditCellTable extends React.Component {
           editable:false,
           value: '',
         },
+        realPurchaseNum: {
+          editable:false,
+          value: 0,
+        },
+        realAmount: {
+          editable:false,
+          value: 0,
+        },
         purchaseAmount: {
           editable:false,
           value: 0,
@@ -309,7 +330,7 @@ class EditCellTable extends React.Component {
     let c=0.00;
     if(data && data[0]){
       data.map(t=>{
-        c+=parseFloat(t.purchaseAmount.value);
+        c+=parseFloat(t.realPurchaseNum.value) * parseFloat(t.realAmount.value);
       })
     }
     return c.toFixed(2);
@@ -344,18 +365,19 @@ class EditCellTable extends React.Component {
       });
       return obj;
     });
-    let columns =[],scrollX=2100;
+    let columns =[],scrollX=2340;
 
     if(!taskDo || isCanAdd){
       columns=this.columns.filter(f=>f.dataIndex!=='supplierName' && f.dataIndex!=='purchaseAmount' 
+      && f.dataIndex!=='realPurchaseNum' && f.dataIndex!=='realAmount' 
       && f.dataIndex!=='estiArrivalTime' && f.dataIndex!=='storageTime' && f.dataIndex!=='isIn');
       scrollX=1400;
     }else if(taskDo && useDesc!=='purInquiry' && useDesc!=='purConfirm'){
       columns=this.columns.filter(f=>f.dataIndex!=='operation' && f.dataIndex!=='storageTime');
-      scrollX=2000;
+      scrollX=2240;
     }else if(useDesc==='purConfirm' || useDesc==='purInquiry'){
       columns=this.columns.filter(f=>f.dataIndex!=='storageTime');
-      scrollX=2100;
+      scrollX=2340;
     }else{
       columns=this.columns;
     }

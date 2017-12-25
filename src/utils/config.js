@@ -381,8 +381,14 @@ module.exports = {
       save:`${apiPrefixPro}/shop/save`,
       deleteById:`${apiPrefixPro}/shop/deleteById`,
     },
-    // 付款申请
-    // ？
+    // 借款申请
+    borrow:{
+      query:`${apiPrefixPro}/borrow/getPage`,
+      queryById:`${apiPrefixPro}/borrow/getById`,
+      getList:`${apiPrefixPro}/borrow/getList`,
+      save:`${apiPrefixPro}/borrow/save`,
+      deleteById:`${apiPrefixPro}/borrow/deleteById`,
+    },
     // 办公用品申购
     // ？
     // 请假申请

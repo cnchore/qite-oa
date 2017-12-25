@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table,Row, Col,Tree,Modal,Tag } from 'antd'
+import { Table,Row, Col,Tree,Modal,Tag,Tooltip } from 'antd'
 import styles from './List.less'
 import classnames from 'classnames'
 import { DropOption } from '../../components'
@@ -54,15 +54,17 @@ const List = ({ onUserChange,onResetPwd, onEditItem,onTreeSelect,onAuditConfig,l
       title: '账号状态',
       render:(text,record)=>(<Tag color={record.isDisable?'#f50':'#2db7f5'}>{record.isDisable?'禁用':'启用'}</Tag>),
     }, {
-      title: '入职时间',
-      dataIndex: 'inductionTime',
-      key: 'inductionTime',
-      width:170,
+      title: '职位名称',
+      key: 'postName',
+      render:(text,record)=>{
+        let p=record.postList && record.postList[0] && record.postList.map(item=>item.postName).join() || '';
+        return p && p.length>17?<Tooltip title={p}>{p.substr(0,15)}...</Tooltip>:<span>{p && p}</span>
+      }
+      
     }, {
       title: '职位状态',
       dataIndex: 'positionState',
       key: 'positionState',
-   
     }, {
       title: '所属机构',
       render: (text, record, index) =>(record.postList&&record.postList[0]?getOrgName(record.postList[0].orgId):''),

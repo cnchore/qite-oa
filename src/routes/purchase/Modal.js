@@ -147,6 +147,8 @@ const modal = ({
         data[`purchaseDetailList[${index}].useTimeStr`]=f.useTimeStr.value;
         data[`purchaseDetailList[${index}].remark`]=f.remark.value;
         data[`purchaseDetailList[${index}].supplierName`]=f.supplierName.value; 
+        data[`purchaseDetailList[${index}].realPurchaseNum`]=f.realPurchaseNum.value; //实际采购数量
+        data[`purchaseDetailList[${index}].realAmount`]=f.realAmount.value; //实际采购金额-单价
         data[`purchaseDetailList[${index}].purchaseAmount`]=f.purchaseAmount.value; 
         data[`purchaseDetailList[${index}].estiArrivalTimeStr`]=f.estiArrivalTime.value;
         data[`purchaseDetailList[${index}].storageTimeStr`]=f.storageTime.value;
@@ -310,6 +312,14 @@ const modal = ({
         supplierName: {
           editable:false,
           value: temp.supplierName,
+        },
+        realPurchaseNum: {
+          editable:false,
+          value: temp.realPurchaseNum?temp.realPurchaseNum:0,
+        },
+        realAmount: {
+          editable:false,
+          value: temp.realAmount?temp.realAmount:0,
         },
         purchaseAmount: {
           editable:false,
