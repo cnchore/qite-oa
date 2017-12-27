@@ -27,7 +27,7 @@ export default {
     },
   },
   effects: {
-    *login ({payload,}, { put, call }) {
+    *login ({payload}, { put, call }) {
       // sessionStorage.remove(`${prefix}userInfo`);
       yield put({ type: 'showLoginLoading' })
       const data = yield call(login, payload)
@@ -38,9 +38,9 @@ export default {
 
         yield put({ type: 'app/query'})
         if (_from) {
-          yield put(routerRedux.push(_from))
+          yield put(routerRedux.push(_from));
         } else {
-          yield put(routerRedux.push('/dashboard'))
+          yield put(routerRedux.push('/dashboard'));
         }
        
       } else {

@@ -4,9 +4,10 @@ import styles from './home.less'
 import { Row, Col,Button,Icon,Tooltip,Popover } from 'antd'
 import profle from '../../../../assets/profle.png'
 import cs from 'classnames';
-import {getWaitAction,getMsgAction} from '../../../utils'
+import {getWaitAction,getMsgAction,getQueryStringArgs} from '../../../utils'
 
-function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,knowledgeList,waitList,signList,msgInfo,warningInfo }) {
+function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
+  knowledgeList,waitList,signList,msgInfo,warningInfo,quickData }) {
   const { photo, orgName, realName} = userInfo;
   const noticeListOption=noticeList && noticeList.list[0] && noticeList.list.filter(f=>f.isRead===false).map((item,index)=>{
    return <div key={`notice-list${index}`} className={styles['notice-list']} onClick={e=>{noticeList && noticeList.linkto && noticeList.linkto(item.id)}}>{index+1}.{item.title}</div>;}) 
@@ -16,7 +17,7 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,knowledgeL
     return <div className={styles['waitList-list']} key={`waitList-list${index}`}>
             <div>{index+1}.</div>
             <div className={styles.listCenter}>
-              <div>申请人：{item.applyName}{<span style={{ color: item.urgency?'#f00':'' }} >{item.urgency?'紧急':''}</span>}</div>
+              <div>申请人：{item.applyName}{<span style={{ color: item.urgency?'#f00':'' }} >{item.urgency?'（紧急）':''}</span>}</div>
               <div>申请时间：{item.applyTime && item.applyName.substr(0,10)}</div>
               <div>流程名称：{item.flowName}</div>
             </div>
@@ -48,10 +49,40 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,knowledgeL
               <div className={styles['warning-list']} >{index+1}.{getMsgAction(item)}。{item.createTime && item.createTime.substr(5).substr(0,11)}</div>
             </Tooltip>
   }) || null;
-  const quickApplyContent1=<div className={styles.content}>
-    <p>content</p>
-    <p>content</p>
-  </div>;
+  // console.log('shortcut:',quickData.shortcut);
+  const quickApplyOption=quickData && quickData.shortcut && quickData.shortcut[0] && quickData.shortcut.filter(f=>f.isShortcut).slice(0,4).map((item,index)=>{
+    let contentData=quickData.shortcut.filter(ff=>ff.parentId===item.id) || [];
+    let _list=contentData.map((item,index)=>{
+      return <Col md={6} lg={4} className={styles['cut-list']} key={`cut-list${index}`} onClick={e=>handerClick(item.src,quickData.linkto)}>
+              <i className={`iconfont ${item.iconUrl}`}/>
+              <div>{item.menuName}</div>
+            </Col>
+
+    }) || null;
+    let content=<Row className={styles.content}>{_list}</Row>;
+    return <Popover key={`quick-apply${index}`} content={content} trigger="hover" placement="bottomLeft" arrowPointAtCenter overlayClassName={styles.popover}>
+            <div className={styles[`quick-apply-icon${index+1}`]}>
+              <i className={`iconfont ${item.iconUrl}`}/>
+              <div>{item.menuName}</div>
+            </div>
+          </Popover>
+  }) || null;
+  const handerClick=(src,linkto)=>{
+    if(src){
+      let query=getQueryStringArgs(src);
+      if(query){
+        linkto && linkto(src.substr(0,src.indexOf('?')),{...query,modalType:'create'});
+      }else{
+        linkto && linkto(src,{modalType:'create'});
+      }
+    }
+  }
+  const oftenOption=quickData && quickData.oftenList && quickData.oftenList[0] && quickData.oftenList.map((item,index)=>{
+    return <div className={styles['quick-often-icon']} key={`often-list${index}`} onClick={e=>handerClick(item.src,quickData.linkto)}>
+            <i className={`iconfont ${item.iconUrl}`}/>
+            <div>{item.menuName}</div>
+          </div>
+  }) || null;
   return (
     <div className={cs(styles.home,darkTheme?styles.light:'')}>
       <Row>
@@ -62,21 +93,13 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,knowledgeL
                 <div className={styles['quick-apply']}>
                   <div className={styles.title}><span><i className="iconfont icon-wodeshenqing"/>我的申请－快捷创建</span></div>
                   <div className={styles.body}>
-                    <Popover content={quickApplyContent1} trigger="click" placement="bottomLeft" overlayClassName={styles.popover}>
-                      <div className={styles['quick-apply-icon1']}><i className="iconfont icon-renliziyuanguanli"/><div>人力资源事务</div></div>
-                    </Popover>
-                    <div className={styles['quick-apply-icon2']}><i className="iconfont icon-hangzheng1"/><div>行政事务</div></div>
-                    <div className={styles['quick-apply-icon3']}><i className="iconfont icon-caiwu"/><div>财务事务</div></div>
-                    <div className={styles['quick-apply-icon4']}><i className="iconfont icon-yingxiao"/><div>营销中心事务</div></div>
+                    {quickApplyOption}
                   </div>
                 </div>
                 <div className={styles['quick-often']}>
                   <div className={styles.title}><span><i className="iconfont icon-changyongwenjian"/>我的常用－快捷创建</span></div>
                   <div className={styles.body}>
-                    <div className={styles['quick-often-icon']}><i className="iconfont icon-kaoqinyichang"/><div>考勤异常申请</div></div>
-                    <div className={styles['quick-often-icon']}><i className="iconfont icon-qingjiashenqing"/><div>请假申请</div></div>
-                    <div className={styles['quick-often-icon']}><i className="iconfont icon-jiabanshenqing"/><div>加班申请</div></div>
-                    <div className={styles['quick-often-icon']}><i className="iconfont icon-chuchashenqing"/><div>出差申请</div></div>
+                    {oftenOption}
                   </div>
                 </div>
               </div>

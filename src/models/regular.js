@@ -67,15 +67,8 @@ export default {
             },
             employeeList:userInfo.data.employeeVo,
           },
-        })
-      }else {
-        // if (location.pathname !== '/login') {
-        //   let from = location.pathname
-        //   if (location.pathname === '/dashboard') {
-        //     from = '/dashboard'
-        //   }
-        //   window.location = `${location.origin}/login?from=${from}`
-        // }
+        });
+        
       }
     },
     *getDic ({ payload }, { call, put }) {

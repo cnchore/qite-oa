@@ -44,6 +44,7 @@
 	.quick-often-icon{
 		flex:1;
 		text-align: center;
+		cursor: pointer;
 	}
 	.quick-apply-icon1,
 	.quick-apply-icon2,
@@ -249,6 +250,38 @@
 		}
 	}
 }
+.popover{
+	:global{
+		.ant-popover-content > .ant-popover-arrow, 
+		.ant-popover-placement-bottomLeft > .ant-popover-content > .ant-popover-arrow, 
+		.ant-popover-placement-bottomRight > .ant-popover-content > .ant-popover-arrow{
+			border-bottom-color:#6699cc;
+		}
+		.ant-popover-content > .ant-popover-arrow:after, 
+		.ant-popover-placement-bottomLeft > .ant-popover-content > .ant-popover-arrow:after, 
+		.ant-popover-placement-bottomRight > .ant-popover-content > .ant-popover-arrow:after{
+			border-bottom-color:#6699cc;
+		}
+		.ant-popover-inner-content{
+
+			background-color: #6699cc;
+			color: #fff;
+		}
+	}
+	.content{
+		max-width: 600px;
+		.cut-list{
+			cursor: pointer;
+			text-align: center;
+			padding: 5px 0;
+			min-width: 100px;
+			i{
+				font-size: 32px;
+			}
+		}
+		
+	}
+}
 @gutterMd:8px;
 @screenH:830px;
 @h6:(@screenH - (6 * @gutterMd + 47px + 64px + 48px + 48px)) * 6 / 10;
@@ -359,6 +392,11 @@
 			i{
 				font-size: @gutterMd + 8px;
 			}
+		}
+	}
+	.popover{
+		.content{
+			max-width: 400px;
 		}
 	}
 }
@@ -589,6 +627,11 @@
 			}
 		}
 	}
+	.popover{
+		.content{
+			max-width: 600px;
+		}
+	}
 }
 //主题颜色
 .light{
@@ -619,21 +662,5 @@
 				background-color: rgba(39, 71, 104, .2);
 			}
 		}
-	}
-}
-.popover{
-	:global{
-		.ant-popover-arrow{
-			border-bottom-color:#6699cc;
-		}
-		.ant-popover-inner-content{
-
-			background-color: #6699cc;
-			color: #fff;
-		}
-	}
-	.content{
-		
-		
 	}
 }

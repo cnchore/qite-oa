@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // import { parse } from 'qs'
-import styles from './index.css'
+import styles from './index.less'
 import PurchaseApplyForm from '../../components/PurchaseApplyForm'
 import PaymentForm from '../../components/PaymentForm'
 import PurchaseForm from '../../components/PurchaseForm'
@@ -39,13 +39,14 @@ class Print extends React.Component {
 			switch(printData.busiData.code.substr(0,2)){
 				case 'TR'://差旅费报销
 					printForm=<TravelReimburseForm data={printData.busiData} employeeList={printData.employeeList} dicList={printData.dicList} commentList={printData.commentList}/>
-					// isA4=true;
+					isA4=true;
 					break;
 				case 'PT'://付款申请
 					printForm=<PaymentForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></PaymentForm>
 					break;
 				case 'RE'://报销申请
 					printForm=<ReimburseForm  data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></ReimburseForm>
+					isA4=false;
 					break;
 				case 'BD'://预算
 					printForm=<BudgetForm  data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}></BudgetForm>

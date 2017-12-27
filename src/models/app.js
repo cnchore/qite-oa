@@ -1,7 +1,7 @@
 import { query, logout,getLoginUserMenu,editPwd } from '../services/app'
 import { routerRedux } from 'dva/router'
 import { parse } from 'qs'
-import { config,treeMenuToArrayMenu,getMsgAction,showNotice } from '../utils'
+import { config,treeMenuToArrayMenu,getMsgAction,showNotice,treeToArray } from '../utils'
 import { message } from 'antd'
 // import io from 'socket.io-client'
 const { prefix,websocketUrl } = config
@@ -35,11 +35,12 @@ export default {
       const menuData=yield call(getLoginUserMenu, {})
       if (data&& data.success && data.data  && menuData && menuData.success) {
         // console.log('userData:',data.message)
+        sessionStorage.setItem(`${prefix}menuData`,JSON.stringify({menuList:treeToArray(menuData.data,-1,'parentId','id')}));
         yield put({
           type: 'querySuccess',
           payload: {
             user:data.data,
-            menuList:treeMenuToArrayMenu(menuData.data)
+            menuList:treeMenuToArrayMenu(menuData.data),
           },
         })
         // showNotice('新消息','您有一条新消息');

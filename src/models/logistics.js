@@ -50,7 +50,8 @@ export default {
               total: data.data.total,
             },
           },
-        })
+        });
+        
       }
     },
     *'delete' ({ payload }, { call, put }) {

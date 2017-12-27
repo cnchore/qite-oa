@@ -119,10 +119,10 @@ const modal = ({
         data.purchaseCodes='';
       }
       if(data.borrowIds){
-        data.borrowCodes=borrowList.filter(f=>data.borrowIds.indexOf(String(f.id))>-1).map(m=>m.code).join();
+        data.borrowCodes=borrowList.filter(f=>String(data.borrowIds)===String(f.id)).map(m=>m.code).join();
         data.loan=item.loan;//getBorrowTotal(data.borrowIds).toFixed(2);
         data.payable=item.payable;//(getCostTotal().toFixed(2) - data.loan).toFixed(2);
-        data.borrowIds=data.borrowIds.join();
+        // data.borrowIds=data.borrowIds.join();
       }else{
         data.borrowIds='';
         data.borrowCodes='';
@@ -221,7 +221,7 @@ const modal = ({
   if(item.purchaseList && item.purchaseList[0]){
     item.purchaseIds=item.purchaseList.map(m=>String(m.id));
   }
-  if(item.borrowList && item.borrowList[0]){
+  if(!item.borrowIds && item.borrowList && item.borrowList[0]){
     item.borrowIds=item.borrowList.map(m=>String(m.id));
   }
   const getCostTotal=(detailList)=>{
@@ -235,8 +235,8 @@ const modal = ({
   }
   const getBorrowTotal=(ids)=>{
     let costTotal=0;
-    if(borrowList[0]){
-      borrowList.filter(f=>ids.indexOf(String(f.id))!==-1).forEach(item=>{
+    if(borrowList[0] && ids){
+      borrowList.filter(f=>String(ids)===String(f.id)).forEach(item=>{
         costTotal+=parseFloat((item.payAmount || 0));
       })
     }
@@ -247,20 +247,20 @@ const modal = ({
     calcExpense(value);
   }
   
-  const calcExpense=(value,detailList=null,needSet=true)=>{
+  const calcExpense=(value,detailList=null)=>{
     let costTotal=getCostTotal(detailList).toFixed(2);
     item.loan=getBorrowTotal(value).toFixed(2);
     item.payable=(costTotal - item.loan).toFixed(2);
     item.borrowIds=value;
-    if(needSet){
+    if(detailList){
+      setState({currentItem:item,detailList});
+    }else{
       setState({currentItem:item});
     }
   }
   const detailCallBack=(data)=>{
-    if(item.borrowIds){
-      calcExpense(item.borrowIds,data,false)
-    }
-    setState({currentItem:item,detailList:data});
+    calcExpense(item.borrowIds,data)
+    // setState({currentItem:item,detailList:data});
   }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -408,9 +408,9 @@ const modal = ({
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('borrowIds', {
-                initialValue:item.borrowIds && item.borrowIds[0]?item.borrowIds:[],
+                initialValue:item.borrowIds && String(item.borrowIds) || undefined,
                 onChange:handleBorrowChange,
-              })(<Select mode="multiple" >{borrowOption}</Select>)}
+              })(<Select >{borrowOption}</Select>)}
               
             </FormItem>
             
@@ -425,7 +425,7 @@ const modal = ({
             应付款：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            <FormItem >{item.payable || 0}{'  元'}</FormItem>
+            <FormItem ><span className="font-songti">{item.payable<0 && '-'}</span>{item.payable && Math.abs(item.payable) || 0}{'  元'}</FormItem>
           </Col>
         </Row> 
         <Row gutter={24} className={styles['q-detail']}>

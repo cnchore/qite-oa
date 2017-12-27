@@ -328,9 +328,26 @@ const modal = ({
               })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
             </FormItem>
           </Col>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            立项时间：
+          </Col>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {getFieldDecorator('projectTimeStr', {
+                initialValue:(item.projectTimeStr || item.projectTime)? moment(item.projectTimeStr || item.projectTime,dateTimeFormat):null,
+                rules: [
+                  {
+                    required: true,message:'不能为空',
+                   
+                  },
+                ],
+              })(<DatePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
+            </FormItem>
+          </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
             补贴面积：
           </Col>
+
           <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem >
               {getFieldDecorator('subsAreas', {
@@ -358,22 +375,8 @@ const modal = ({
               })(<Input/>)}
             </FormItem>
           </Col>
-          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            立项时间：
-          </Col>
-          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            <FormItem >
-              {getFieldDecorator('projectTimeStr', {
-                initialValue:(item.projectTimeStr || item.projectTime)? moment(item.projectTimeStr || item.projectTime,dateTimeFormat):null,
-                rules: [
-                  {
-                    required: true,message:'不能为空',
-                   
-                  },
-                ],
-              })(<DatePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
-            </FormItem>
-          </Col>
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             开业时间：
           </Col>
@@ -420,6 +423,8 @@ const modal = ({
               })(<InputNumber style={{width:'100%'}} precision={2} step={1} />)}
             </FormItem>
           </Col>
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             其他备注：
           </Col>

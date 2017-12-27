@@ -311,6 +311,8 @@ const modal = ({
               })(<Input />)}
             </FormItem>
           </Col>
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             升级原因：
           </Col>

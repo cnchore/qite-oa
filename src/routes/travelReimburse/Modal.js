@@ -122,10 +122,10 @@ const modal = ({
         data.travelCodes='';
       }
       if(data.borrowIds){
-        data.borrowCodes=borrowList.filter(f=>data.borrowIds.indexOf(String(f.id))>-1).map(m=>m.code).join();
+        data.borrowCodes=borrowList.filter(f=>String(data.borrowIds)===String(f.id)).map(m=>m.code).join();
         data.advanceExpense=item.advanceExpense;//借款金额
         data.actualExpense=item.actualExpense;//实际报销
-        data.borrowIds=data.borrowIds.join();
+        // data.borrowIds=data.borrowIds.join();
       }else{
         data.borrowIds='';
         data.borrowCodes='';
@@ -265,7 +265,7 @@ const modal = ({
       return [];
     }
   }
-  if(item.borrowList && item.borrowList[0]){
+  if(!item.borrowIds && item.borrowList && item.borrowList[0]){
     item.borrowIds=item.borrowList.map(m=>String(m.id));
   }
   const getCostTotal=(detailList)=>{
@@ -282,8 +282,8 @@ const modal = ({
   }
   const getBorrowTotal=(ids)=>{
     let costTotal=0;
-    if(borrowList[0]){
-      borrowList.filter(f=>ids.indexOf(String(f.id))!==-1).forEach(item=>{
+    if(borrowList[0] && ids){
+      borrowList.filter(f=>String(f.id)===String(ids)).forEach(item=>{
         costTotal+=parseFloat((item.payAmount || 0));
       })
     }
@@ -294,20 +294,20 @@ const modal = ({
   const handleBorrowChange=(value)=>{
     calcExpense(value);
   }
-  const calcExpense=(value,detailList=null,needSet=true)=>{
+  const calcExpense=(value,detailList=null)=>{
     let costTotal=getCostTotal(detailList).toFixed(2);
     item.advanceExpense=getBorrowTotal(value).toFixed(2);
     item.actualExpense=(costTotal - item.advanceExpense).toFixed(2);
     item.borrowIds=value;
-    if(needSet){
+    if(detailList){
+      setState({currentItem:item,detailList});
+    }else{
       setState({currentItem:item});
     }
   }
   const detailCallBack=(data)=>{
-    if(item.borrowIds){
-      calcExpense(item.borrowIds,data,false)
-    }
-    setState({currentItem:item,detailList:data});
+    calcExpense(item.borrowIds,data);
+    // setState({currentItem:item,detailList:data});
   }
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -376,9 +376,6 @@ const modal = ({
               {item.createTime || item.createTimeStr || '系统自动生成'}
             </FormItem>
           </Col>
-        </Row>
-        
-        <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             帐户名：
           </Col>
@@ -424,6 +421,8 @@ const modal = ({
               })(<Input  />)}
             </FormItem>
           </Col>
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
             报销说明：
           </Col>
@@ -434,7 +433,6 @@ const modal = ({
                 rules: [
                   {
                     required: true,message:'不能为空',
-                   
                   },
                 ],
               })(<Input type="textarea" autosize={{ minRows: 2, maxRows: 5 }} />)}
@@ -448,7 +446,7 @@ const modal = ({
           <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('travelIds', {
-                initialValue:typeof item.travelIds ==='string'?item.travelIds.split(','):[],
+                initialValue:item.travelIds && (typeof item.travelIds ==='string') ?item.travelIds.split(','):[],
               })(<Select mode="multiple" >{travelOptions}</Select>)}
             </FormItem>
           </Col>
@@ -470,13 +468,15 @@ const modal = ({
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('borrowIds', {
-                initialValue:item.borrowIds && item.borrowIds[0]?item.borrowIds:[],
+                initialValue:item.borrowIds && String(item.borrowIds) || undefined,
                 onChange:handleBorrowChange,
-              })(<Select mode="multiple" >{borrowOption}</Select>)}
+              })(<Select>{borrowOption}</Select>)}
               
             </FormItem>
             
           </Col>
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             借款金额：
           </Col>
@@ -484,10 +484,16 @@ const modal = ({
             <FormItem >{item.advanceExpense || 0}{'  元'}</FormItem>
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-            {item.actualExpense>0?'实际报销：':'归还多余：'}
+            实际报销：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            <FormItem >{Math.abs((item.actualExpense || 0))}{'  元'}</FormItem>
+            <FormItem >{item.actualExpense>0 && item.actualExpense || 0 }{'  元'}</FormItem>
+          </Col>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            归还多余：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >{ item.actualExpense<0 && Math.abs(item.actualExpense) || 0}{'  元'}</FormItem>
           </Col>
         </Row> 
         <Row gutter={12} className={styles['q-detail']} style={{marginLeft:'2px',marginRight:'2px'}}>

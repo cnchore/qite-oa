@@ -42,12 +42,12 @@ export default {
             dispatch({
               type: 'toBackEdit',
               payload: query,
-            })
+            });
           }else{
             dispatch({
               type: 'query',
               payload: query,
-            })
+            });
           }
         }
       })
@@ -78,8 +78,18 @@ export default {
             },
             employeeList:userInfo.data.employeeVo,
           },
-        })
-        
+        });
+        if(payload.modalType==='create'){
+          yield put({
+            type:'showModal',
+            payload:{
+              modalType: 'create',
+              fileList:[],
+              detailList:[],
+              taskData:{},
+            }
+          });
+        }
       }
     },
     *getDic ({ payload }, { call, put }) {
@@ -262,7 +272,7 @@ export default {
       return { ...state, modalVisible: false }
     },
     setState(state,action){
-      return {...state,currentItem:action.payload}
+      return {...state,...action.payload}
     },
     setFileList(state,action){
       return {...state,fileList:action.payload}

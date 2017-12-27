@@ -1,6 +1,6 @@
 import { request, config } from '../utils'
 const { api } = config
-const { workflow,message,notice,knowledge } = api
+const { workflow,message,notice,knowledge,menu } = api
 export async function getMyTaskToDoPage(params){
   return request({
     url:workflow.getMyTaskToDoPage,
@@ -47,6 +47,13 @@ export async function getNoticeList(params){
 export async function getKnowledgeList(params){
   return request({
     url:knowledge.getList,
+    method:'get',
+    data:params,
+  })
+}
+export async function getMyCommonApply(params){
+  return request({
+    url:menu.getMyCommonApply,
     method:'get',
     data:params,
   })

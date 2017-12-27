@@ -86,6 +86,7 @@ module.exports = {
       update:`${apiPrefix}/menu/update`,
       delete:`${apiPrefix}/menu/deleteById`,
       getLoginUserMenu:`${apiPrefix}/menu/getLoginUserMenu`,
+      getMyCommonApply:`${apiPrefix}/menu/getMyCommonApply`,
     },
     //权限管理
     auth:{

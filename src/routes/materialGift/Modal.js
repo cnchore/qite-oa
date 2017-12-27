@@ -343,10 +343,12 @@ const modal = ({
               })(<DatePicker showTime format={dateTimeFormat}  style={{width:'100%'}}/>)}
             </FormItem>
           </Col>
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             物料用途：
           </Col>
-          <Col xs={18} md={8} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={20} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >
               {getFieldDecorator('materialUse', {
                 initialValue: item.materialUse,

@@ -90,7 +90,7 @@ const modal = ({
         data.id=item.id;
         data.code=item.code;
       }
-      console.log('--orgName---',data);
+      // console.log('--orgName---',data);
     })
     return data;
   }

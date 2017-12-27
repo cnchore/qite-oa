@@ -77,15 +77,20 @@ export default {
             },
             employeeList:userInfo.data.employeeVo,
           },
-        })
-      }else {
-        // if (location.pathname !== '/login') {
-        //   let from = location.pathname
-        //   if (location.pathname === '/dashboard') {
-        //     from = '/dashboard'
-        //   }
-        //   window.location = `${location.origin}/login?from=${from}`
-        // }
+        });
+        if(payload.modalType==='create'){
+          yield put({
+            type:'showModal',
+            payload:{
+              modalType: 'create',
+              fileList:[],
+              detailList:[],
+              taskData:{},
+              overTimeType:1,
+              isEditable:false,
+            }
+          });
+        }
       }
     },
     *getDic ({ payload }, { call, put }) {

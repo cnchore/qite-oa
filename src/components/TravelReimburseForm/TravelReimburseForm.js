@@ -116,9 +116,9 @@ class TravelReimburseForm extends React.Component {
             </tr>
             <tr>
               <td colSpan="3"  className={styles['tl']}>报销总额(大写)：{changeMoneyToChinese(total)}</td>
-              <td colSpan="3" className={styles['tl']}>借款金额：¥ {data.advanceExpense.toFixed(2)}</td>
-              <td colSpan="2" className={styles['tl']}>实际报销：¥ {data.actualExpense>0 && data.actualExpense}</td>
-              <td colSpan="2" className={styles['tl']}>归还多余：¥ {data.actualExpense<0 && Math.abs(data.actualExpense)}</td>
+              <td colSpan="3" className={styles['tl']}>借款金额：¥ {data.advanceExpense.toFixed(2) || 0}</td>
+              <td colSpan="2" className={styles['tl']}>实际报销：¥ {data.actualExpense>0 && data.actualExpense.toFixed(2) || 0}</td>
+              <td colSpan="2" className={styles['tl']}>归还多余：¥ {data.actualExpense<0 && Math.abs(data.actualExpense).toFixed(2) || 0}</td>
             </tr>
             <tr>
               <td colSpan="2"  className={styles['tl']}>帐户名：{data.accountName&&data.accountName}</td>

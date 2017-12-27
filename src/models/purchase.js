@@ -88,8 +88,19 @@ export default {
             },
             employeeList:userInfo.data.employeeVo,
           },
-        })
-        
+        });
+        if(payload.modalType==='create'){
+          yield put({
+            type:'showModal',
+            payload:{
+              modalType: 'create',
+              fileList:[],
+              detailList:[],
+              taskData:{},
+              currentItem:{isMonthRepeat:'',typeOption:[]}
+            }
+          });
+        }
       }
     },
     *getDic ({ payload }, { call, put }) {

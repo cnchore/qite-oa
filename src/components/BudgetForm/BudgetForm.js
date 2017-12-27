@@ -3,10 +3,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './BudgetForm.less'
 // import cs from 'classnames';
-import {changeMoneyToChinese,config} from '../../utils'
+import {changeMoneyToChinese,config,getAuditerName} from '../../utils'
 class BudgetForm extends React.Component {
   render () {
-    const { data,employeeList } = this.props
+    const { data,employeeList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],total=0;
 
@@ -60,7 +60,14 @@ class BudgetForm extends React.Component {
             
             {getRows}
             {defaultRows && defaultRows}
-            
+            <tr>
+              <td className={styles['tc']}>部门负责人</td>
+              <td className={styles['tl']}>{getAuditerName(commentList,'直属副总/总监审核')}</td>
+              <td className={styles['tc']}>财务总监</td>
+              <td className={styles['tl']}>{getAuditerName(commentList,'财务总监审核')}</td>
+              <td className={styles['tc']}>总经理</td>
+              <td className={styles['tl']} colSpan="2">{getAuditerName(commentList,'总经理审批')}</td>
+            </tr>
           </tbody>
         </table>
         <div className={styles['footer']}>

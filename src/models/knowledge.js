@@ -73,9 +73,8 @@ export default {
               pageSize: Number(payload.pageSize) || 10,
               total: data.data.total,
             },
-
           },
-        })
+        });
       }
     },
 

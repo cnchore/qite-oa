@@ -1,4 +1,5 @@
-import { getMyTaskToDoPage,getMessageList,getMessage,getNoticeList,getTaskWaitSignPage,signTask,getKnowledgeList } from '../services/dashboard'
+import { getMyTaskToDoPage,getMessageList,getMessage,getNoticeList,
+  getMyCommonApply,getTaskWaitSignPage,signTask,getKnowledgeList } from '../services/dashboard'
 import { parse } from 'qs'
 import { config } from '../utils'
 const { prefix } = config
@@ -16,6 +17,8 @@ export default {
     knowledgeData:{},
     msgVisable:false,
     msgData:{},
+    oftenList:[],
+    menuData:{},
   },
   subscriptions: {
     setup ({ dispatch,history }) {
@@ -52,6 +55,10 @@ export default {
                type:'getTaskWaitSignPage',
                payload:{}
             });
+            dispatch({
+              type:'getMyCommonApply',
+              payload:{page:1,rows:4},
+            })
           }
         }
       })
@@ -70,6 +77,7 @@ export default {
                 total:data.data.total,
               },
               userInfo:payload.userInfo,
+              menuData:JSON.parse(sessionStorage.getItem(`${prefix}menuData`)),
             } 
           })
         }else{
@@ -80,6 +88,7 @@ export default {
                 list:data.data.rowsObject,
                 total:data.data.total,
               },
+              msgData:JSON.parse(sessionStorage.getItem(`${prefix}menuData`)),
             } 
           })
         }
@@ -135,6 +144,17 @@ export default {
               list:data.data.rowsObject,
               total:data.data.total,
             }
+          }
+        })
+      }
+    },
+    *getMyCommonApply({payload},{call,put}){
+      const data=yield call(getMyCommonApply,{...payload});
+      if(data.success){
+        yield put({
+          type:'setState',
+          payload:{
+            oftenList:data.data,
           }
         })
       }

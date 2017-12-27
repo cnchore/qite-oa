@@ -61,8 +61,17 @@ export default {
               total: data.data.total,
             },
           },
-        })
-        
+        });
+        if(payload.modalType==='create'){
+          yield put({
+            type:'showModal',
+            payload:{
+              modalType: 'create',
+              employeeList:[],
+              bookTimeStr:null,
+            }
+          });
+        }
       }
     },
     *getOrg ({ payload }, { call, put }) {
