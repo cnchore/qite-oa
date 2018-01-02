@@ -87,6 +87,8 @@ const DinnerBook = ({ location, dispatch, dinnerBook, loading }) => {
         pathname,
         query: {
           ...query,
+          modalType:null,
+          showModalType:null,
           page: page.current,
           pageSize: page.pageSize,
         },

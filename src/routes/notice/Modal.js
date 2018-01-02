@@ -167,7 +167,7 @@ const modal = ({
     let timeB=new Date(b);
     return ((timeB-timeA)/(3600*1000)).toFixed(2)
   }
-  // const dicOption=dicList.map(dic=><Option key={dic.id}>{dic.orgName}</Option>)
+  // const dicOption=dicList && dicList[0] && dicList.map(dic=><Option key={dic.id}>{dic.orgName}</Option>)
 
   // const onEditorStateChange = (editorContent) => {
   //   setEditorState(editorContent);

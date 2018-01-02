@@ -29,9 +29,13 @@ export default {
     setup ({ dispatch, history }) {
       history.listen(location => {
         if (location.pathname==='/dinnerBook') {
+          let {query} = location;
+          if(query.modalType){
+            query.showModalType=query.modalType;
+          }
           dispatch({
             type: 'query',
-            payload: location.query,
+            payload: query,
           })
           // dispatch({
           //   type: 'getOrg',
@@ -45,9 +49,9 @@ export default {
   effects: {
     *query ({ payload }, { call, put }) {
 
-      payload=parse(location.hash.split('#/dinnerBook?')[1]); 
+      let _payload=parse(location.hash.split('#/dinnerBook?')[1]); 
      
-      payload={...payload,rows:payload.pageSize}
+      payload={..._payload,...payload,rows:_payload.pageSize}
       const data = yield call(query, payload)
       
       if (data && data.success) {
@@ -62,7 +66,7 @@ export default {
             },
           },
         });
-        if(payload.modalType==='create'){
+        if(payload.showModalType==='create'){
           yield put({
             type:'showModal',
             payload:{

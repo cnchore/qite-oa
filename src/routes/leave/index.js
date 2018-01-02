@@ -81,6 +81,8 @@ const Leave = ({ location, dispatch, leave, loading }) => {
         pathname,
         query: {
           ...query,
+          modalType:null,
+          showModalType:null,
           page: page.current,
           pageSize: page.pageSize,
         },

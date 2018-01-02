@@ -171,7 +171,7 @@ const modal = ({
   // if(item.areaId){
   //   initialDestination[2]=item.areaId;
   // }
-  // const dicRadio=dicList.map(dic=><Radio key={dic.id} value={dic.dicValue}>{dic.dicName}</Radio>)
+  // const dicRadio=dicList && dicList[0] && dicList.map(dic=><Radio key={dic.id} value={dic.dicValue}>{dic.dicName}</Radio>)
   const handleRadioChange= (e) => {
     //console.log('radio checked', e.target.value,e.target);
     item.tripMode=e.target.value;

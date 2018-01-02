@@ -207,7 +207,7 @@ const modal = ({
     }
   }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
-  const dicOption=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
+  const dicOption=dicList && dicList[0] && dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
 
   return (
       <Form layout='horizontal' onSubmit={handleOk}>

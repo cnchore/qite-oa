@@ -88,6 +88,8 @@ const Open = ({ location, dispatch, open, loading }) => {
         pathname,
         query: {
           ...query,
+          modalType:null,
+          showModalType:null,
           page: page.current,
           pageSize: page.pageSize,
         },

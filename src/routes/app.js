@@ -15,7 +15,7 @@ const { Header, Bread, Footer, Sider, styles } = Layout
 let lastHref
 
 const App = ({ children, location, dispatch, app, loading }) => {
-  const { user,editPwdModal,menuList, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys } = app
+  const { user,editPwdModal,menuList,menuData, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys } = (app || {})
   const isDashboard=()=>{
     if(location.pathname==='/' || location.pathname==='/dashboard'){
       return true;
@@ -50,7 +50,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
   }
   const headerProps = {
     menu:menuList,
-    user,
+    user:user || {},
     siderFold,
     location,
     isNavbar,
@@ -124,7 +124,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
               <BackTop target={()=>document.getElementById('layout-main')}>
                 <div className="ant-back-top-inner">UP</div>
               </BackTop>
-              {children}
+              {React.cloneElement(children,{menuData})}
             </div>
           </div>
 

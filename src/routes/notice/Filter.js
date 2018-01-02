@@ -72,7 +72,7 @@ const Filter = ({
   }
   const { codeLike, createTime,fileNumLike,titleLike } = filter
 
-  const dicOption=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
+  const dicOption=dicList && dicList[0] && dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
   const isMyNotice=location.hash && location.hash.indexOf('isMyNotice=true')>-1 ? true :false;
   return (
     <Row gutter={24}>

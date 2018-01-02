@@ -172,7 +172,7 @@ const modal = ({
     }
   }
   const purchaseOption=purchaseList.map(pur=><Option key={pur.id}>{pur.code}</Option>)
-  const typeOption=dicList.map(d=><Option key={d.dicValue}>{d.dicName}</Option>)
+  const typeOption=dicList && dicList[0] && dicList.map(d=><Option key={d.dicValue}>{d.dicName}</Option>)
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>

@@ -1,4 +1,4 @@
-import { query, logout,getLoginUserMenu,editPwd } from '../services/app'
+import { query, logout,getLoginUserMenu,editPwd,read } from '../services/app'
 import { routerRedux } from 'dva/router'
 import { parse } from 'qs'
 import { config,treeMenuToArrayMenu,getMsgAction,showNotice,treeToArray } from '../utils'
@@ -11,6 +11,7 @@ export default {
   state: {
     user: {},
     menuList:[],
+    menuData:[],
     menuPopoverVisible: false,
     editPwdModal:false,
     siderFold: localStorage.getItem(`${prefix}siderFold`) === 'true',
@@ -24,23 +25,22 @@ export default {
       //   console.log('app location:',location)
       // })
       dispatch({ type: 'query',payload:{bindsocket:true} })
-      
     },
   },
   effects: {
-
     *query ({payload}, { call, put }) {
-      // console.log('app payload:',payload);
+      // console.log('app payload:',put);
       const data = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       const menuData=yield call(getLoginUserMenu, {})
       if (data&& data.success && data.data  && menuData && menuData.success) {
         // console.log('userData:',data.message)
-        sessionStorage.setItem(`${prefix}menuData`,JSON.stringify({menuList:treeToArray(menuData.data,-1,'parentId','id')}));
+        // sessionStorage.setItem(`${prefix}menuData`,JSON.stringify({menuList:treeToArray(menuData.data,-1,'parentId','id')}));
         yield put({
           type: 'querySuccess',
           payload: {
             user:data.data,
             menuList:treeMenuToArrayMenu(menuData.data),
+            menuData:treeToArray(menuData.data,-1,'parentId','id'),
           },
         })
         // showNotice('新消息','您有一条新消息');
@@ -51,23 +51,27 @@ export default {
             websocket.onconnect=function(){
               console.log('websocket connect.');
             }
-           
             websocket.onerror=function(error){
               console.error('socket error:',error);
             }
-          
             websocket.onmessage=function(evt){
               console.log('websocket message:',evt);
               try{
                 let msgData=evt.data?JSON.parse(evt.data):null;
                 if(msgData){
-                  showNotice('新消息',getMsgAction({...msgData,expirationTime:msgData.expirationTimeStr}));
+                  showNotice('新消息',getMsgAction({...msgData,expirationTime:msgData.expirationTimeStr},(payload)=>{
+                    put({
+                      type:'read',
+                      payload:payload,
+                    });
+                  },(payload)=>{
+                    put(routerRedux.push(payload));
+                  }));
                 }
               }catch(er){
                 console.error('websocket message error:',er);
               }
             }
-            
             window.close=function(){
               websocket.onclose();
             }
@@ -79,11 +83,18 @@ export default {
           yield put(routerRedux.push('/dashboard'))
         }
          if(!data.data.isChangePwd || data.data.pwd==='670B14728AD9902AECBA32E22FA4F6BD'){
-          message.warning('请及时修改密码',10);
+          message.warning('请及时修改密码',8);
         }
       } 
     },
-
+    *read ({payload},{call,put}){
+      const data =yield call(read,payload);
+      if(data.success){
+        // 已读成功，暂时不需下一步操作。
+      }else{
+        throw (data);
+      }
+    },
     *logout ({payload}, { call, put }) {
       const data = yield call(logout, {})
       if (data.success) {
@@ -111,7 +122,6 @@ export default {
         yield put({ type: 'handleNavbar', payload: isNavbar })
       }
     },
-
   },
   reducers: {
     querySuccess (state, { payload }) {
@@ -120,7 +130,6 @@ export default {
         ...payload,
       }
     },
-
     switchSider (state) {
       localStorage.setItem(`${prefix}siderFold`, !state.siderFold)
       return {
@@ -147,7 +156,6 @@ export default {
       //   darkTheme: !state.darkTheme,
       // }
     },
-
     switchMenuPopver (state) {
       return {
         ...state,

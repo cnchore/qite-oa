@@ -73,6 +73,8 @@ const UrgentOrder = ({ location, dispatch, urgentOrder, loading }) => {
         pathname,
         query: {
           ...query,
+          modalType:null,
+          showModalType:null,
           page: page.current,
           pageSize: page.pageSize,
         },

@@ -60,7 +60,7 @@ const modal = ({
   }
   const orgOptions = orgList.map(org => <Option key={org.id}>{org.orgName}</Option>);
   
-  // const dicOptions=dicList.map(dic=><Option key={dic.dicName}>{dic.dicName}</Option>);
+  // const dicOptions=dicList && dicList[0] && dicList.map(dic=><Option key={dic.dicName}>{dic.dicName}</Option>);
   const postLeveOptions=postLevelList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>);
 
   return (

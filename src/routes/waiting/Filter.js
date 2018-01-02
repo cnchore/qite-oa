@@ -96,7 +96,7 @@ const Filter = ({
     //状态：0新建  1审核中 2审核通过 3审核不通过 -1退回修改
   const stateList=[{value:'0',label:'新建'},{value:'1',label:'审核中'},{value:'2',label:'审核通过'},{value:'3',label:'审核不通过'},{value:'-1',label:'退回修改'},{value:'-2',label:'待完善资料'},{value:'4',label:'审核通过并完善资料'}]
   const stateOption=stateList.map(st=><Option key={st.value}>{st.label}</Option>)
-  const dicOption=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
+  const dicOption=dicList && dicList[0] && dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
 
   return (
     <Row gutter={24}>

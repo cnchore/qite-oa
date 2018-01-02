@@ -92,6 +92,8 @@ const Overtime = ({ location, dispatch, overtime, loading }) => {
         pathname,
         query: {
           ...query,
+          modalType:null,
+          showModalType:null,
           page: page.current,
           pageSize: page.pageSize,
         },

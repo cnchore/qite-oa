@@ -155,7 +155,7 @@ const modal = ({
   }else if(item.leaveTimeEnd){
     initialLeaveTime[1] = moment(item.leaveTimeEnd)
   }
-  const dicRadio=dicList.map(dic=><Radio value={dic.dicValue} key={dic.id}>{dic.dicName}</Radio>)
+  const dicRadio=dicList && dicList[0] && dicList.map(dic=><Radio value={dic.dicValue} key={dic.id}>{dic.dicName}</Radio>)
   const handleRadioChange= (e) => {
     item.type=e.target.value;
   }

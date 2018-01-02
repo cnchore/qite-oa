@@ -26,6 +26,7 @@ const Routers = function ({ history, app }) {
           path: '/dashboard',
           getComponent (nextState, cb) {
             require.ensure([], require => {
+              // console.log('no-app:',app);
               registerModel(app, require('./models/dashboard'))
               cb(null, require('./routes/dashboard/'))
             }, 'dashboard')

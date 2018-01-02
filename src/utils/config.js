@@ -27,6 +27,8 @@ module.exports = {
   },
   api: {
     dashboard: `${apiPrefixDev}/dashboard`,
+    // 已读
+    read:`${apiPrefixPro}/read`,
     //图片上传
     imgUpload:`${apiPrefix}/fileHandle/imgUpload`,
     //用户管理

@@ -28,3 +28,7 @@ app.router(require('./router'))
 
 // 4. Start
 app.start('#root')
+//dva@2 中，如果 dispatch 的 action 是一个 Effect，会返回 Promise
+window.addEventListener("unhandledrejection", function (event) {
+  event.preventDefault();
+});

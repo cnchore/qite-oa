@@ -47,7 +47,7 @@ const modal = ({
     ...modalProps,
     onOk: handleOk,
   }
-  const dicOptions = dicList.map(dic => <Option key={dic.id}>{dic.dicName}</Option>);
+  const dicOptions = dicList && dicList[0] && dicList.map(dic => <Option key={dic.id}>{dic.dicName}</Option>);
  
   const loop = data => data.map((t) => {
     if (t.children && t.children[0]) {

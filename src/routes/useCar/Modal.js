@@ -182,7 +182,7 @@ const modal = ({
     }
     return (parseFloat(data.oilCost)+parseFloat(data.roadToll)).toFixed(2);
   }
-  const dicOption=dicList.map(dic=><Option key={String(dic.id)} disabled={!dic.isAppliable}>{dic.carBrand && dic.carBrand}，{dic.carNum && dic.carNum}</Option>)
+  const dicOption=dicList && dicList[0] && dicList.map(dic=><Option key={String(dic.id)} disabled={!dic.isAppliable}>{dic.carBrand && dic.carBrand}，{dic.carNum && dic.carNum}</Option>)
   if(taskData && taskData.taskId && item.carId){
     let _info=dicList.filter(f=>String(f.id)===String(item.carId));
     if(_info && _info[0]){

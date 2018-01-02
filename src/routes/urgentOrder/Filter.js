@@ -72,7 +72,7 @@ const Filter = ({
   }
   const { codeLike, createTime } = filter
 
-  // const dicOption=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
+  // const dicOption=dicList && dicList[0] && dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
 
   return (
     <Row gutter={24}>

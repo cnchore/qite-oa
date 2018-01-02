@@ -1,17 +1,18 @@
 import { getMyTaskToDoPage,getMessageList,getMessage,getNoticeList,
-  getMyCommonApply,getTaskWaitSignPage,signTask,getKnowledgeList } from '../services/dashboard'
-import { parse } from 'qs'
-import { config } from '../utils'
+  getMyCommonApply,getTaskWaitSignPage,signTask,getKnowledgeList } from '../services/dashboard';
+import {read} from '../services/app';
+import { parse } from 'qs';
+import { config } from '../utils';
 const { prefix } = config
-// import { routerRedux } from 'dva/router'
-import { message } from 'antd'
-
+// import { routerRedux } from 'dva/router';
+import { message } from 'antd';
 export default {
   namespace: 'dashboard',
   state: {
     waitData:{},
     userInfo:{},
     messageData:{},
+    warningData:{},
     noticeData:{},
     waitSignData:{},
     knowledgeData:{},
@@ -77,7 +78,7 @@ export default {
                 total:data.data.total,
               },
               userInfo:payload.userInfo,
-              menuData:JSON.parse(sessionStorage.getItem(`${prefix}menuData`)),
+              // menuData:JSON.parse(sessionStorage.getItem(`${prefix}menuData`)),
             } 
           })
         }else{
@@ -88,7 +89,7 @@ export default {
                 list:data.data.rowsObject,
                 total:data.data.total,
               },
-              msgData:JSON.parse(sessionStorage.getItem(`${prefix}menuData`)),
+              // msgData:JSON.parse(sessionStorage.getItem(`${prefix}menuData`)),
             } 
           })
         }
@@ -110,7 +111,7 @@ export default {
       }
     },
     *getMessageList({payload},{call,put}){
-      const data=yield call(getMessageList,{...payload,rows:10});
+      const data=yield call(getMessageList,{...payload,rows:10,isRead:false,msgTypes:'1,2,3,6,7,8,9,10,13,14,15,16,17,18'});
       if(data.success){
         yield put({
           type:'getMessageListSuccess',
@@ -121,18 +122,47 @@ export default {
             }
           }
         })
+      }else{
+        throw (data);
       }
-      // const msgData = yield call(getMessage,{...payload});
-      // if(msgData.success){
-      //   yield put({
-      //     type:'setState',
-      //     payload:{
-      //       msgData:{
-      //         list:msgData.data
-      //       }
-      //     }
-      //   })
-      // }
+      const warningData=yield call(getMessageList,{...payload,rows:4,isRead:false,msgTypes:'4,5,11,12'});
+      if(warningData.success){
+        yield put({
+          type:'setState',
+          payload:{
+            warningData:{
+              list:warningData.data.rowsObject,
+              total:warningData.data.total,
+            }
+          }
+        })
+      }else{
+        throw (warningData);
+      }
+    },
+    *read({payload},{call,put}){
+      const data=yield call(read,payload);
+      if(data.success){
+        const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
+        if(userInfo&& userInfo.success && userInfo.data){
+          yield put({
+            type:'getMessageList',
+            payload:{
+              receiveUserId:userInfo.data.id,
+            }
+          })
+        }
+        if(payload && payload.hideMsg){
+          yield put({
+            type:'setState',
+            payload:{
+              msgVisable:false,
+            }
+          });
+        }
+      }else{
+        throw (data);
+      }
     },
     *getNoticeList({payload},{call,put}){
       const data=yield call(getNoticeList,{...payload,rows:10});

@@ -146,7 +146,7 @@ const modal = ({
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
   const applyTypeOptions=[{value:'1',label:'加急'},{value:'2',label:'特急'}];
   const codeTypeOptions=dicList && dicList[0]?
-    dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
+    dicList && dicList[0] && dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
     :null;
   return (
       <Form layout='horizontal' onSubmit={handleOk}>

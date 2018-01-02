@@ -88,6 +88,8 @@ const Budget = ({ location, dispatch, budget, loading }) => {
         pathname,
         query: {
           ...query,
+          modalType:null,
+          showModalType:null,
           page: page.current,
           pageSize: page.pageSize,
         },

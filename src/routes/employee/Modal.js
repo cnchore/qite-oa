@@ -160,7 +160,7 @@ const modal = ({
     }
   }
   const roleOptions=roleList&&roleList[0]?roleList.map(role=><Option key={role.id}>{role.roleName}</Option>):null;
-  const dicOptions=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
+  const dicOptions=dicList && dicList[0] && dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
   const brandTypeOptions=brandTypeList.map(bt=><Option key={String(bt.dicValue)}>{bt.dicName}</Option>)
   return (
     <Modal {...modalOpts}

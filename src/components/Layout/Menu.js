@@ -6,8 +6,9 @@ import { arrayToTree, queryArray } from '../../utils'
 import pathToRegexp from 'path-to-regexp'
 
 const Menus = ({ siderFold, darkTheme, location, handleClickNavMenu, navOpenKeys, changeOpenKeys, menu }) => {
+  if(!menu){menu=[];}
   // 生成树状
-  const menuTree = arrayToTree(menu.filter(_ => _.mpid !== -1), 'id', 'mpid')
+  const menuTree =arrayToTree(menu.filter(_ => _.mpid !== -1), 'id', 'mpid');
   const levelMap = {}
 
   // 递归生成菜单

@@ -88,6 +88,8 @@ const Ad = ({ location, dispatch, ad, loading }) => {
         pathname,
         query: {
           ...query,
+          modalType:null,
+          showModalType:null,
           page: page.current,
           pageSize: page.pageSize,
         },

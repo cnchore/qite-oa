@@ -42,14 +42,16 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
             </div>
   }) || null;
   const msgInfoOption=msgInfo && msgInfo.list && msgInfo.list[0] && msgInfo.list.map((item,index)=>{
-    return <div className={styles['msg-list']} key={`msg-list${index}`}>{index+1}.{getMsgAction(item)}。{item.createTime && item.createTime.substr(5).substr(0,11)}</div>
+    return <Tooltip key={`tooltip-msg-list${index}`} title="点击标记为已读">
+            <div className={styles['msg-list']}>{index+1}.{getMsgAction(item,msgInfo.read,msgInfo.linkto)}。{item.createTime && item.createTime.substr(5).substr(0,11)}</div>
+          </Tooltip>
   }) || null;
-  const warningInfoOption=warningInfo && warningInfo.list && warningInfo.list.map((item,index)=>{
-    return  <Tooltip key={`warning-list${index}`} title={`${index+1}.${getMsgAction(item)}。${item.createTime && item.createTime.substr(5).substr(0,11)}`}>
-              <div className={styles['warning-list']} >{index+1}.{getMsgAction(item)}。{item.createTime && item.createTime.substr(5).substr(0,11)}</div>
+  const warningInfoOption=warningInfo && warningInfo.list && warningInfo.list[0] && warningInfo.list.map((item,index)=>{
+    return  <Tooltip key={`warning-list${index}`} title={`${index+1}.${getMsgAction({...item,notNeedEleA:true})}。${item.createTime && item.createTime.substr(5).substr(0,11)}`}>
+              <div className={styles['warning-list']} >{index+1}.{getMsgAction(item,msgInfo.read)}。{item.createTime && item.createTime.substr(5).substr(0,11)}</div>
             </Tooltip>
   }) || null;
-  // console.log('shortcut:',quickData.shortcut);
+  // console.log('warningInfoOption:',warningInfoOption);
   const quickApplyOption=quickData && quickData.shortcut && quickData.shortcut[0] && quickData.shortcut.filter(f=>f.isShortcut).slice(0,4).map((item,index)=>{
     let contentData=quickData.shortcut.filter(ff=>ff.parentId===item.id) || [];
     let _list=contentData.map((item,index)=>{

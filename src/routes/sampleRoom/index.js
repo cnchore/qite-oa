@@ -88,6 +88,8 @@ const SampleRoom = ({ location, dispatch, sampleRoom, loading }) => {
         pathname,
         query: {
           ...query,
+          modalType:null,
+          showModalType:null,
           page: page.current,
           pageSize: page.pageSize,
         },

@@ -88,6 +88,8 @@ const Pick = ({ location, dispatch, pick, loading }) => {
         pathname,
         query: {
           ...query,
+          modalType:null,
+          showModalType:null,
           page: page.current,
           pageSize: page.pageSize,
         },

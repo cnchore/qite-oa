@@ -7,6 +7,7 @@ import pathToRegexp from 'path-to-regexp';
 import { queryArray,classnames } from '../../utils';
 import FlowImgView from '../FlowImgView';
 const Bread = ({ menu,darkTheme }) => {
+  if(!menu){menu=[];}
   // 匹配当前路由
   let pathArray = []
   let current,code='',

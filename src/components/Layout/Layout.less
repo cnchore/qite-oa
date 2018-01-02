@@ -21,7 +21,7 @@
     }
   }
   &.light{
-    background-image: url('../../../assets/light-bg.jpg');
+    background-image: url('../../../assets/light-bg0.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: left top;
@@ -218,7 +218,7 @@
             color:@light-hover-color;
           }
           .ant-menu-item-selected,
-          .ant-menu-submenu-active .ant-menu-submenu-title,
+          .ant-menu-submenu-active>.ant-menu-submenu-title,
           .ant-menu-item.ant-menu-item-active {
             // background-color: @dark-half;
             background: @light-menu-item-active-bg;
@@ -334,9 +334,6 @@
 // light主题
 :global .ant-menu-light {
   color: @light-color;
-  // background-color: transparent;
- 
-
   &.ant-menu-inline {
     background: @light-menu-bg;
     .ant-menu-submenu-title:hover,
@@ -350,7 +347,6 @@
     }
 
     .ant-menu-submenu-selected {
-      // color: @primary-color;
 
       &:not(.ant-menu-submenu-open) {
         background-color: transparent;
@@ -364,14 +360,12 @@
       }
 
       &:hover > a {
-        // color: @primary-color;
       }
     }
     
     .ant-menu-item-selected,
-    .ant-menu-submenu-active .ant-menu-submenu-title,
+    .ant-menu-submenu-active .ant-menu-submenu-title:hover,
     .ant-menu-item.ant-menu-item-active {
-      // background-color: @dark-half;
       background: @light-menu-item-active-bg;
       color: @light-hover-color;
       
@@ -382,14 +376,11 @@
     }
     .ant-menu-item-selected {
       color: @light-hover-color;
-      // background-color: @dark-half;
-
       & > a {
         color: @light-hover-color;
       }
 
       &:hover {
-        // background-color: @dark-half;
       }
     }
   }

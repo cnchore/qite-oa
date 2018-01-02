@@ -42,6 +42,9 @@ export default {
               payload: query,
             })
           }else{
+            if(query.modalType){
+              query.showModalType=query.modalType;
+            }
             dispatch({
               type: 'query',
               payload: query,
@@ -55,13 +58,13 @@ export default {
   effects: {
     *query ({ payload }, { call, put }) {
 
-      payload=parse(location.hash.split('#/budget?')[1]); 
+      let _payload=parse(location.hash.split('#/budget?')[1]); 
       // payload = parse(location.search.substr(1))
       const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
       if (userInfo && userInfo.data) {
-        payload.userId=userInfo.data.id;
+        _payload.userId=userInfo.data.id;
       }
-      payload={...payload,rows:payload.pageSize}
+      payload={..._payload,...payload,rows:_payload.pageSize}
       const data = yield call(query, payload)
       
       if (data && data.success && userInfo && userInfo.data) {
@@ -77,7 +80,7 @@ export default {
             employeeList:userInfo.data.employeeVo,
           },
         });
-        if(payload.modalType==='create'){
+        if(payload.showModalType==='create'){
           yield put({
             type:'showModal',
             payload:{

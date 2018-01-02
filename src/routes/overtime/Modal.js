@@ -159,7 +159,7 @@ const modal = ({
   }
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
 
-  const dicRadio=dicList.map(dic=><Radio value={dic.dicValue} key={dic.id}>{dic.dicName}</Radio>)
+  const dicRadio=dicList && dicList[0] && dicList.map(dic=><Radio value={dic.dicValue} key={dic.id}>{dic.dicName}</Radio>)
   const handleRadioChange= (e) => {
     //console.log('radio checked', e.target.value,e.target);
     item.times=e.target.value;

@@ -33,7 +33,7 @@ const Filter = ({
     onDeploy(fields);
   }
 
-  const dicOption=dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
+  const dicOption=dicList && dicList[0] && dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
 
   return (
     <Form name='fileform'>

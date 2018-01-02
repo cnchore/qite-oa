@@ -9,7 +9,13 @@ export async function login (params) {
     data: params,
   })
 }
-
+export async function read (params) {
+  return request({
+    url: api.read,
+    method: 'post',
+    data: params,
+  })
+}
 export async function logout (params) {
   return request({
     url: user.logout,
