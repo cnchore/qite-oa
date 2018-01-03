@@ -51,13 +51,13 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete,onChange,location, ...tabl
       key: 'createTime',
     }, {
       title: '收款方',
-      dataIndex: 'payee',width:200,
+      dataIndex: 'payee',width:250,
       key: 'payee',
       render:(text)=>text && text.length>15?
                     <Tooltip title={text}>{`${text.substr(0,12)}...`}</Tooltip>
                     :<span>{text && text}</span>
     }, {
-      title: '付款说明',width:120,
+      title: '付款说明',width:250,
       dataIndex: 'remark',
       key: 'remark',
       render:(text)=>text && text.length>15?

@@ -49,10 +49,10 @@ export default {
               payload: query,
             })
           }
-          dispatch({
-            type: 'getDic',
+          // dispatch({
+          //   type: 'getDic',
             // payload: {dicType:'carType_item'},
-          })
+          // })
         }
       })
     },

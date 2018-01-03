@@ -4,7 +4,7 @@ import { Table, Modal } from 'antd'
 import styles from './List.less'
 import classnames from 'classnames'
 import { getRecordAction } from '../../components';
-import {getRecordState} from '../../utils';
+import {getRecordState,renderTooltips} from '../../utils';
 
 const confirm = Modal.confirm
 
@@ -52,20 +52,24 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete,onChange,location, ...tabl
       key: 'createTime',
     }, {
       title: '合同名称',
-      dataIndex: 'contractName',width:200,
+      dataIndex: 'contractName',width:180,
       key: 'contractName',
+      render:(text)=>renderTooltips(text,10),
     }, {
-      title: '合同编号',width:220,
+      title: '合同编号',width:150,
       key: 'contractCode',
       dataIndex:'contractCode',
+      render:(text)=>renderTooltips(text,10),
     }, {
       title: '甲方',
-      dataIndex: 'firstParty',width:120,
+      dataIndex: 'firstParty',width:180,
       key: 'firstParty',
+      render:(text)=>renderTooltips(text,10),
     }, {
-      title: '乙方',width:120,
+      title: '乙方',width:180,
       dataIndex: 'secondParty',
       key: 'secondParty',
+      render:(text)=>renderTooltips(text,10),
     }, {
       title: '状态',
       dataIndex: 'state',

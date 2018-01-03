@@ -20,12 +20,12 @@
       margin-left: 0;
     }
   }
-  &.light{
+  // &.light{
     background-image: url('../../../assets/light-bg0.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: left top;
-  }
+  // }
   
 
   .sider {
@@ -252,7 +252,7 @@
     overflow-y: scroll;
     height: 100vh;
     transition: @transition-ease-out;
-    
+    background-color: #f1f1f1;
     :global {
       .content-inner {
         background: #fff;
@@ -275,6 +275,11 @@
       position: relative;
     }
     
+  }
+  &.light{
+    .main{
+      background-color: transparent;
+    }
   }
 }
 
@@ -363,6 +368,9 @@
       }
     }
     
+    .ant-menu-submenu-open .ant-menu-submenu-title[aria-expanded="true"]{
+      color:@light-menu-item-active-bg;
+    }
     .ant-menu-item-selected,
     .ant-menu-submenu-active .ant-menu-submenu-title:hover,
     .ant-menu-item.ant-menu-item-active {

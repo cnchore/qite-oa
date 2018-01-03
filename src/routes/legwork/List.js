@@ -4,7 +4,7 @@ import { Table, Modal } from 'antd'
 import styles from './List.less'
 import classnames from 'classnames'
 import { getRecordAction } from '../../components';
-import {getRecordState} from '../../utils';
+import {getRecordState,renderTooltips} from '../../utils';
 
 const confirm = Modal.confirm
 
@@ -47,6 +47,7 @@ const List = ({ onSubmit,dicList, onEditItem,onDelete,onChange,location, ...tabl
       title: '出差地点',
       dataIndex: 'address',
       key: 'address',
+      render:(text)=>renderTooltips(text,12),
     }, {
       title: '状态',
       dataIndex: 'state',

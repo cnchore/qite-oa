@@ -148,6 +148,7 @@ class Print extends React.Component {
     	<div className={styles[isA4?'print-container-a4':'print-container']}>
     		<header></header>
     		<div className={styles['print-btn']}>
+    			<span>注：点击“打印”后，如果发现内容显示不完整，请确认打印设置中，边距为“默认”，缩放为“100”。（纸张尺寸可自行选择）</span>
     			<button type="button" className='ant-btn ant-btn-primary ant-btn-lg' onClick={window.print}>打印</button>
     		</div>
     		<div className={styles['print-content']}>

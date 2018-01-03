@@ -5,7 +5,7 @@ import classnames from 'classnames'
 import { color } from './theme'
 import lodash from 'lodash'
 import { Link } from 'dva/router'
-import { notification,Button,Icon,Tag } from 'antd'
+import { notification,Button,Icon,Tag,Tooltip } from 'antd'
 // 连字符转驼峰
 String.prototype.hyphenToHump = function () {
   return this.replace(/-(\w)/g, (...args) => {
@@ -800,6 +800,17 @@ const handerMsgLinkClick=(readFn,readPayload,linkTo,linkPayload)=>{
     }
     return args;
   }
+  // 根据长度，截取字符显示
+  const renderTooltips=(text,len)=>{
+    if(!text){
+      return '';
+    }
+    text=String(text);
+    if(!len || (len && text.length<=len)){
+      return text;
+    }
+    return <Tooltip title={text}>{text.substr(0,len)}...</Tooltip>
+  }
   module.exports = {
     config,
     treeMenuToArrayMenu,
@@ -826,5 +837,6 @@ const handerMsgLinkClick=(readFn,readPayload,linkTo,linkPayload)=>{
     getDateDiff,
     getRecordState,
     getTreeOrgNameById,
-    getQueryStringArgs
+    getQueryStringArgs,
+    renderTooltips,
   }

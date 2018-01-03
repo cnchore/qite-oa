@@ -94,12 +94,15 @@ const UseCar = ({ location, dispatch, useCar, loading }) => {
     },
     onEditItem (item) {
       dispatch({
+        type:'useCar/getDic',
+      });
+      dispatch({
         type: 'useCar/editItem',
         payload: {
           modalType: 'update',
           currentItem: item,
         },
-      })
+      });
     },
   }
 
@@ -121,13 +124,16 @@ const UseCar = ({ location, dispatch, useCar, loading }) => {
     
     onAdd () {
       dispatch({
+        type:'useCar/getDic',
+      });
+      dispatch({
         type: 'useCar/showModal',
         payload: {
           modalType: 'create',
           fileList:[],
           taskData:{},
         },
-      })
+      });
     },
    
   }

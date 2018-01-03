@@ -5,7 +5,7 @@
 	background-color: #fff;
 	overflow: auto;
 	height: 100vh;
-	padding: 10px;
+	// padding: 10px;
 }
 .print-container-a4{
 	width: 280mm;
@@ -16,7 +16,9 @@
 	padding-top: 10px;
 }
 .print-btn {
-	text-align: right;
+	display: flex;
+	justify-content: space-between;
+	// text-align: right;
 }
 .btn{
 	padding: 7px 10px;
@@ -26,6 +28,7 @@
 	box-shadow: none;
 
 }
+
 .print-content{
 	width: 100%;
 	
@@ -39,8 +42,8 @@
 	}
 	.print-container,.print-container-a4{
 		width: 100%;
-		padding: 0;
-		margin: 0 auto;
+		padding: 10px;
+		margin: 0;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -52,20 +55,15 @@
     margin: 5mm;
     size: A5 landscape;
   }
-}
-.print-container{
-	@media print{
+	.print-container{
 		@page{
-			// size: A5 landscape;
-			// size:210mm 148mm;
+			size: A5 landscape;
 		}
 	}
-}
-.print-container-a4{
-	@media print{
+	.print-container-a4{
 		@page{
 			// size:297mm 210mm;
-			// size: A4 landscape;
+			size: A4 landscape;
 		}
 	}
 }
