@@ -88,6 +88,7 @@ export default {
           },
         });
         if(payload.showModalType==='create'){
+          yield put({type:'payment/getPurchaseList'});
           yield put({
             type:'showModal',
             payload:{

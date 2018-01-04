@@ -86,6 +86,18 @@ export default {
         });
         if(payload.showModalType==='create'){
           yield put({
+            type:'reimburse/getPurchaseList',
+            payload:{
+              isChooseReimburse:true
+            }
+          });
+          yield put({
+            type:'reimburse/getBorrowList',
+            payload:{
+              isReimburse:true,
+            }
+          });
+          yield put({
             type:'showModal',
             payload:{
               modalType: 'create',

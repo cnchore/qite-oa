@@ -85,6 +85,12 @@ export default {
         });
         if(payload.showModalType==='create'){
           yield put({
+            type:'adReimburse/getAdList',
+            payload:{
+              isChoose:true,
+            }
+          });
+          yield put({
             type:'showModal',
             payload:{
               modalType: 'create',
