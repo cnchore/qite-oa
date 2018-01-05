@@ -1,10 +1,11 @@
-import { query,queryById,save,deleteById} from '../services/borrow'
-import { queryEmployee,getOrg } from '../services/employee'
-import { getDic } from '../services/dictionary'
-import { config } from '../utils'
-import { parse } from 'qs'
-import { message } from 'antd'
-import { startProcess,getTaskInfo,audit } from '../services/workFlow'
+import { query,queryById,save,deleteById} from '../services/borrow';
+import * as travel from '../services/travel';
+import { queryEmployee,getOrg } from '../services/employee';
+import { getDic } from '../services/dictionary';
+import { config } from '../utils';
+import { parse } from 'qs';
+import { message } from 'antd';
+import { startProcess,getTaskInfo,audit } from '../services/workFlow';
 
 const { prefix } = config
 
@@ -19,6 +20,7 @@ export default {
     modalType: 'create',
     fileList:[],
     dicList:[],
+    travelList:[],
     // detailList:[],
     employeeList:[],
     orgTree:[],
@@ -87,6 +89,7 @@ export default {
           },
         });
         if(payload.showModalType==='create'){
+          yield put({type:'getTravelList'});
           yield put({
             type:'showModal',
             payload:{
@@ -100,10 +103,7 @@ export default {
       }
     },
     *getDic ({ payload }, { call, put }) {
-
-     // payload = parse(location.search.substr(1))
       const data = yield call(getDic, payload)
-
       if (data) {
         yield put({
           type: 'getDicSuccess',
@@ -111,7 +111,17 @@ export default {
         })
       }
     },
-    
+    *getTravelList ({ payload }, { call, put }) {
+      const data = yield call(travel.getList, {isBorrow:true,...payload})
+      if (data) {
+        yield put({
+          type: 'setState',
+          payload: {
+            travelList:data.data,
+          }
+        })
+      }
+    },
     *create ({ payload }, { call, put }) {
 
       const data = yield call(save, payload)
@@ -188,6 +198,7 @@ export default {
         let taskData=yield call(getTaskInfo,{taskId:payload.taskId})
         if(taskData.success){
           taskData.data.taskId=payload.taskId;
+          yield put({type:'getTravelList',payload:{borrowId:payload.busiId}});
           yield put({
             type:'showModal',
             payload:{

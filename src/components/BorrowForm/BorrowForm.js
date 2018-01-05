@@ -30,8 +30,12 @@ class BorrowForm extends React.Component {
               <td className={styles['tl']} colSpan="7">{data.type===1?'差旅借款':'其他借款'}</td>
             </tr>
             <tr>
+               <td className={styles['tc']}>出差申请单</td>
+              <td className={styles['tl']} colSpan="7">{data.travelCodes || ''}</td>
+            </tr>
+            <tr>
                <td className={styles['tc']}>原因或用途</td>
-              <td className={styles['tl']} colSpan="7">{data.remark || '其他借款'}</td>
+              <td className={styles['tl']} colSpan="7">{data.remark || ''}</td>
             </tr>
             <tr>
               <td className={styles['tc']}>金额</td>

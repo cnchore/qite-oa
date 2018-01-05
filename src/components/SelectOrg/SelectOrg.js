@@ -52,7 +52,7 @@ class SelectOrg extends React.Component {
       return <TreeNode title={item.orgName} key={item.id} />;
     });
     //console.log(orgTree);
-    const treeNodes = loop(orgTree);
+    const treeNodes = loop(orgTree || []);
     const onSelect = (selectedKeys, info) => {
       console.log('onSelect:',selectedKeys[0],info.selectedNodes[0].props.title);
     }

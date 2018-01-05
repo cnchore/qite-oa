@@ -282,6 +282,7 @@ const modal = ({
         case '5'://重新申请
           break;
         case '6'://同意，待完善资料
+          _reasonStr="同意，待完善资料";
           break;
         case '7'://完善资料并办结
           break;

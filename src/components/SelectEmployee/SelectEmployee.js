@@ -99,7 +99,7 @@ class SelectEmployee extends React.Component {
       return <TreeNode title={item.orgName} key={item.id} />;
     });
     //console.log(orgTree);
-    const treeNodes = loop(orgTree);
+    const treeNodes = loop(orgTree || []);
     const onSelect = (selectedKeys, info) => {
       //找员工
       queryList({orgId:selectedKeys[0],includeChildOrgId:true,isDisable:false}).then(res=>{

@@ -55,7 +55,11 @@ class PaymentForm extends React.Component {
           <td colSpan="4">{data && data.bankName && data.bankName}</td>
         </tr>
         <tr>
-          <td>对应采购合同号</td>
+          <td>对应合同单号</td>
+          <td colSpan="4">{data && data.contractCodes && data.contractCodes}</td>
+        </tr>
+        <tr>
+          <td>对应采购单号</td>
           <td colSpan="4">{data && data.purchaseCodes && data.purchaseCodes}</td>
         </tr>
         <tr>

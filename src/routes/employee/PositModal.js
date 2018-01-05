@@ -57,7 +57,7 @@ const modal = ({
     }
     return <TreeNode title={item.orgName} key={item.id} />;
   });
-  const treeNodes = loop(orgTree);
+  const treeNodes = loop(orgTree || []);
   const onSelect = (selectedKeys, info) => {
     onTreeSelect(info.selectedNodes[0].key);
     //console.log('onSelect:', info.selectedNodes[0].key);

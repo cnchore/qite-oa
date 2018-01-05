@@ -49,6 +49,7 @@ const modal = ({
   taskData={},
   auditLoading,
   onGoback,
+  contractList,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -84,6 +85,7 @@ const modal = ({
         let _a=`,${data.purchaseIds}`;
         data.purchaseCodes=purchaseList.filter(f=>_a.indexOf(`,${f.id}`)>-1).map(m=>m.code).join();
       }
+      data.contractCodes=data.contractCodes && data.contractCodes.join() || "";
       //console.log('-----',data)
       if(item.id){
         data.id=item.id;
@@ -171,7 +173,8 @@ const modal = ({
       message.info('必须上传发票等附件哦，亲')
     }
   }
-  const purchaseOption=purchaseList.map(pur=><Option key={pur.id}>{pur.code}</Option>)
+  const purchaseOption=purchaseList && purchaseList[0]&&purchaseList.map(pur=><Option key={pur.id}>{pur.code}</Option>) || null;
+  const contractOption=contractList && contractList[0]&&contractList.map(contract=><Option key={contract.code}>{contract.code}</Option>) || null;
   const typeOption=dicList && dicList[0] && dicList.map(d=><Option key={d.dicValue}>{d.dicName}</Option>)
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -273,6 +276,20 @@ const modal = ({
             
           </Col>
          
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            合同申请单：
+          </Col>
+          <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}}>
+              {getFieldDecorator('contractCodes', {
+                initialValue:typeof item.contractCodes ==='string'?item.contractCodes.split(','):[],
+              })(<Select mode="multiple" >{contractOption}</Select>)}
+              
+            </FormItem>
+            
+          </Col>
         </Row>
         <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>

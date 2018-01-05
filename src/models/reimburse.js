@@ -86,13 +86,13 @@ export default {
         });
         if(payload.showModalType==='create'){
           yield put({
-            type:'reimburse/getPurchaseList',
+            type:'getPurchaseList',
             payload:{
               isChooseReimburse:true
             }
           });
           yield put({
-            type:'reimburse/getBorrowList',
+            type:'getBorrowList',
             payload:{
               isReimburse:true,
             }

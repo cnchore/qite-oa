@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,DatePicker,InputNumber,TreeSelect } from 'antd'
+import { Form, Radio,Input,Modal,Row,Col,Button,Icon,Affix,message,DatePicker,InputNumber,TreeSelect,Select } from 'antd'
 import moment from 'moment';
 import config from '../../utils/config'
 // import uploadImageCallBack from '../../services/uploadImageCallBack'
@@ -15,7 +15,7 @@ const confirm = Modal.confirm
 //const { RangePicker } = DatePicker
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item
-//const Option =Select.Option;
+const Option =Select.Option;
 const TreeNode = TreeSelect.TreeNode;
 
 const formItemLayout = {
@@ -52,6 +52,7 @@ const modal = ({
   auditLoading,
   onGoback,
   orgTree,
+  travelList,
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -85,6 +86,14 @@ const modal = ({
       }
       if(data.orgId!==undefined){
         data.orgName=getTreeOrgNameById(orgTree,data.orgId);
+      }
+      data.travelIds=data.travelIds && data.travelIds.join();
+      if(data.travelIds){
+        let _a=`,${data.travelIds}`;
+        data.travelCodes=travelList.filter(f=>_a.indexOf(`,${f.id}`)>-1).map(m=>m.code).join();
+      }else{
+        data.travelIds="";
+        data.travelCodes="";
       }
       if(item.id){
         data.id=item.id;
@@ -155,7 +164,9 @@ const modal = ({
       }
       return <TreeNode title={t.orgName} key={t.id} value={String(t.id)}/>;
     });
-  const treeNodes = loop(orgTree);
+  const treeNodes = loop(orgTree || []);
+  const travelOption=travelList && travelList[0]&&travelList.map(tra=><Option key={tra.id}>{tra.code}</Option>) || null;
+
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -262,7 +273,7 @@ const modal = ({
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label-require']}>
             借款金额：
           </Col>
-          <Col xs={18} md={8} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+          <Col xs={18} md={20} xl={13} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem >
               {getFieldDecorator('payAmount', {
                 initialValue:item.payAmount?item.payAmount:0,
@@ -276,6 +287,23 @@ const modal = ({
             </FormItem>
             <FormItem >元，大写：{changeMoneyToChinese((item.payAmount || 0))}</FormItem>
           </Col>
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}>
+          <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            出差申请单：
+          </Col>
+          <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+            <FormItem style={{width:'100%'}}>
+              {getFieldDecorator('travelIds', {
+                initialValue:typeof item.travelIds ==='string'?item.travelIds.split(','):[],
+              })(<Select mode="multiple" >{travelOption}</Select>)}
+              
+            </FormItem>
+            
+          </Col>
+        </Row>
+        <Row gutter={24} className={styles['q-detail']}>
+
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             原因或用途：
           </Col>

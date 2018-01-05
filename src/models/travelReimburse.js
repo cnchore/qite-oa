@@ -89,12 +89,12 @@ export default {
         });
         if(payload.showModalType==='create'){
           yield put({
-            type:'travelReimburse/getBorrowList',
+            type:'getBorrowList',
             payload:{
               isTravelReimburse:true,
             }
           });
-          yield put({type:'travelReimburse/getTravelList'});
+          yield put({type:'getTravelList'});
           yield put({
             type:'showModal',
             payload:{

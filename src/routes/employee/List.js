@@ -92,9 +92,9 @@ const List = ({ onUserChange,onResetPwd, onEditItem,onTreeSelect,onAuditConfig,l
     }
     return <TreeNode title={item.orgName} key={item.id} />;
   });
-  const treeNodes = loop(orgTree);
+  const treeNodes = loop(orgTree || []);
   const onSelect = (selectedKeys, info) => {
-    onTreeSelect(info.selectedNodes[0].key);
+    if(info && info.selectedNodes && info.selectedNodes[0]){onTreeSelect(info.selectedNodes[0].key);}
     //console.log('onSelect:', info.selectedNodes[0].key);
   }
   return (

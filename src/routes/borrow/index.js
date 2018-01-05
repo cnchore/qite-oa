@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Borrow = ({ location, dispatch, borrow, loading }) => {
-  const { list,fileList,dicList,employeeList, taskData,orgTree,
+  const { list,fileList,dicList,employeeList, taskData,orgTree,travelList,
     pagination, currentItem, modalVisible, modalType } = borrow
   const { pageSize } = pagination
 
@@ -17,7 +17,7 @@ const Borrow = ({ location, dispatch, borrow, loading }) => {
     fileList,
     employeeList,
     orgTree,
-    // detailList,
+    travelList,
     dicList,
     taskData,
     // isEditable,
@@ -97,12 +97,18 @@ const Borrow = ({ location, dispatch, borrow, loading }) => {
     },
     onEditItem (item) {
       dispatch({
+        type:'borrow/getTravelList',
+        payload:{
+          borrowId:item.id,
+        }
+      });
+      dispatch({
         type: 'borrow/editItem',
         payload: {
           modalType: 'update',
           currentItem: item,
         },
-      })
+      });
     },
   }
 
@@ -123,6 +129,7 @@ const Borrow = ({ location, dispatch, borrow, loading }) => {
     },
     
     onAdd () {
+      dispatch({type:'borrow/getTravelList'});
       dispatch({
         type: 'borrow/showModal',
         payload: {
@@ -131,7 +138,7 @@ const Borrow = ({ location, dispatch, borrow, loading }) => {
           detailList:[],
           taskData:{},
         },
-      })
+      });
     },
    
   }

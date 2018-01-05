@@ -1,4 +1,5 @@
 import { query,queryById,save,deleteById,submit,queryEmployee,getDic,getPurchaseList } from '../services/payment'
+import * as contract from '../services/contract'
 import { config } from '../utils'
 import { parse } from 'qs'
 import { message } from 'antd'
@@ -20,6 +21,7 @@ export default {
     employeeList:[],
     purchaseList:[],
     taskData:{},
+    contractList:[],
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -88,7 +90,8 @@ export default {
           },
         });
         if(payload.showModalType==='create'){
-          yield put({type:'payment/getPurchaseList'});
+          yield put({type:'getPurchaseList'});
+          yield put({type:'getContractList'});
           yield put({
             type:'showModal',
             payload:{
@@ -109,6 +112,16 @@ export default {
         })
       }
     },
+    *getContractList ({ payload }, { call, put }) {
+      const data = yield call(contract.getList, {isPayment:true,...payload});
+      if (data) {
+        yield put({
+          type: 'setState',
+          payload: {contractList:data.data},
+        })
+      }
+    },
+    
     *create ({ payload }, { call, put }) {
       const data = yield call(save, payload)
       if (data.success) {
@@ -186,6 +199,7 @@ export default {
         if(taskData.success){
           taskData.data.taskId=payload.taskId;
           yield put({type:'getPurchaseList',payload:{payId:payload.busiId}});
+          yield put({type:'getContractList'});
           yield put({
             type:'showModal',
             payload:{
@@ -283,7 +297,7 @@ export default {
       return { ...state, modalVisible: false }
     },
     setState(state,action){
-      return {...state,currentItem:action.payload}
+      return {...state,...action.payload}
     },
     setFileList(state,action){
       return {...state,fileList:action.payload}

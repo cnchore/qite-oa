@@ -54,7 +54,7 @@ const modal = ({
       return <TreeNode title={t.orgName} key={t.id} value={String(t.id)}/>;
     });
   //console.log(orgTree);
-  const treeNodes = loop(orgTree);
+  const treeNodes = loop(orgTree || []);
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">

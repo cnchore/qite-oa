@@ -7,7 +7,8 @@ import Filter from './Filter'
 import Modal from './Modal'
 
 const Payment = ({ location, dispatch, payment, loading }) => {
-  const { list,fileList,dicList,purchaseList,employeeList,taskData, pagination, currentItem, modalVisible, modalType } = payment
+  const { list,fileList,dicList,purchaseList,employeeList,taskData,contractList,
+    pagination, currentItem, modalVisible, modalType } = payment
   const { pageSize } = pagination
 
   const modalProps = {
@@ -17,6 +18,7 @@ const Payment = ({ location, dispatch, payment, loading }) => {
     employeeList,
     dicList,
     purchaseList,
+    contractList,
     taskData,
     maskClosable: false,
     submitLoading:loading.effects['payment/submit'],
@@ -96,6 +98,9 @@ const Payment = ({ location, dispatch, payment, loading }) => {
     },
     onEditItem (item) {
       dispatch({
+        type:'payment/getContractList'
+      });
+      dispatch({
         type:'payment/getPurchaseList',
         payload:{
           payId:item.id,
@@ -128,6 +133,9 @@ const Payment = ({ location, dispatch, payment, loading }) => {
     },
     
     onAdd () {
+      dispatch({
+        type:'payment/getContractList'
+      });
       dispatch({
         type:'payment/getPurchaseList'
       });

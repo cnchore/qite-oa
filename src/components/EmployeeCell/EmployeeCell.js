@@ -105,7 +105,7 @@ class EmployeeCell extends React.Component {
       return <TreeNode title={item.orgName} key={item.id} />;
     });
     //console.log(orgTree);
-    const treeNodes = loop(orgTree);
+    const treeNodes = loop(orgTree || []);
     const onSelect = (selectedKeys, info) => {
       let { selectedRow} =this.state;
       selectedRow.orgId=selectedKeys[0];
