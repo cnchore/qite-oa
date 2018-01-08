@@ -4,6 +4,7 @@ import { Icon, Switch } from 'antd'
 import styles from './Layout.less'
 import { config } from '../../utils'
 import Menus from './Menu'
+import { Link } from 'dva/router'
 
 const Sider = ({ siderFold, darkTheme, location, navOpenKeys, changeOpenKeys, menu }) => {
   const menusProps = {
@@ -19,9 +20,9 @@ const Sider = ({ siderFold, darkTheme, location, navOpenKeys, changeOpenKeys, me
     <div>
       {
         !darkTheme?
-          <div className={styles.logo}>
+          <Link className={styles.logo} to="/">
             <img alt={'logo'} src={config.logo} />
-          </div>
+          </Link>
         :<div style={{height:'47px'}}></div>
       }
       <Menus {...menusProps} />

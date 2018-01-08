@@ -1,9 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Menu, Icon, Popover,Switch } from 'antd'
-import styles from './Header.less'
-import Menus from './Menu'
-import { classnames,config } from '../../utils'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Menu, Icon, Popover,Switch } from 'antd';
+import styles from './Header.less';
+import Menus from './Menu';
+import { Link } from 'dva/router'
+
+import { classnames,config } from '../../utils';
 const SubMenu = Menu.SubMenu
 
 const Header = ({ user, logout,toEditPwd, switchSider,changeTheme,darkTheme,isDashboard, siderFold, isNavbar, menuPopoverVisible, location, switchMenuPopover, navOpenKeys, changeOpenKeys, menu }) => {
@@ -37,10 +39,10 @@ const Header = ({ user, logout,toEditPwd, switchSider,changeTheme,darkTheme,isDa
           }
           </div>
       }
-      <div className={classnames(styles.title,{[styles.light]:darkTheme && isDashboard })}>
+      <Link to="/" className={classnames(styles.title,{[styles.light]:darkTheme && isDashboard })}>
       {darkTheme?<img alt={'logo'} src={config.logoThree} />:null}
       {config.name}
-      </div>
+      </Link>
       <div className={styles.rightWarpper}>
         {
           !siderFold ? 

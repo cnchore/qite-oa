@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
 import List from './List'
-import Filter from './Filter'
+import Filter from '../waiting/Filter'
 
 const Complete = ({ location, dispatch, complete, loading }) => {
   const { list,dicList,pagination } = complete

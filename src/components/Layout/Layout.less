@@ -68,7 +68,7 @@
       margin: @logoMargin;
       transition: @transition-ease-out;
       overflow: hidden;
-      
+      display: block;
       img {
         width: 80px;
         // margin-right: 8px;
@@ -404,6 +404,9 @@
   :global .ant-spin-container {
     height: 100vh;
   }
+}
+:global .ant-calendar-picker-container{
+   box-shadow: 4px 4px 20px 0 #ccc;
 }
 @media (max-width: 767px) {
   .layout {

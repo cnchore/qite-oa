@@ -31,16 +31,19 @@ const Filter = ({
   const handleFields = (fields) => {
     const { applyTimeStr,receiveTimeStr,auditTimeStr } = fields
     if (applyTimeStr.length) {
-      fields.applyTimeStart =applyTimeStr[0].format('YYYY-MM-DD')
-      fields.applyTimeEnd=applyTimeStr[1].format('YYYY-MM-DD')
+      fields.applyTimeStart =applyTimeStr[0].format('YYYY-MM-DD');
+      fields.applyTimeEnd=applyTimeStr[1].format('YYYY-MM-DD');
+      fields.applyTimeStr=null;
     }
     if (receiveTimeStr.length) {
-      fields.receiveTimeStart =receiveTimeStr[0].format('YYYY-MM-DD')
-      fields.receiveTimeEnd=receiveTimeStr[1].format('YYYY-MM-DD')
+      fields.receiveTimeStart =receiveTimeStr[0].format('YYYY-MM-DD');
+      fields.receiveTimeEnd=receiveTimeStr[1].format('YYYY-MM-DD');
+      fields.receiveTimeStr=null;
     }
     if (auditTimeStr.length) {
-      fields.auditTimeStart =auditTimeStr[0].format('YYYY-MM-DD')
-      fields.auditTimeEnd=auditTimeStr[1].format('YYYY-MM-DD')
+      fields.auditTimeStart =auditTimeStr[0].format('YYYY-MM-DD');
+      fields.auditTimeEnd=auditTimeStr[1].format('YYYY-MM-DD');
+      fields.auditTimeStr=null;
     }
     return fields
   }
@@ -72,7 +75,8 @@ const Filter = ({
     fields = handleFields(fields)
     onFilterChange(fields)
   }
-  const { applyNameLike,applyTimeStr,receiveTimeStr,auditTimeStr,auditerNameLike,busiCodeLike,state,flowNameLike } = filter
+  const { applyNameLike,applyTimeStr,receiveTimeStr,auditTimeStr,
+    auditerNameLike,busiCodeLike,state,flowNameLike,maxAmount,minAmount } = filter
 
   let initialApplyTime = [],initialReceiveTime=[],initialAuditTime=[];
   if (filter.applyTimeStr && filter.applyTimeStr[0]) {
@@ -101,7 +105,7 @@ const Filter = ({
   return (
     <Row gutter={24}>
       
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
+      <Col {...ColProps} xl={{ span: 8 }} md={{ span: 12 }} >
         <FilterItem label="申请时间">
           {getFieldDecorator('applyTimeStr', { 
             initialValue:initialApplyTime,
@@ -112,7 +116,7 @@ const Filter = ({
           )}
         </FilterItem>
       </Col>
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
+      <Col {...ColProps} xl={{ span: 8 }} md={{ span: 12 }} >
         <FilterItem label="接收时间">
           {getFieldDecorator('receiveTimeStr', { 
             initialValue:initialReceiveTime,
@@ -123,7 +127,7 @@ const Filter = ({
           )}
         </FilterItem>
       </Col>
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
+      <Col {...ColProps} xl={{ span: 8 }} md={{ span: 12 }} >
         <FilterItem label="审批时间">
           {getFieldDecorator('auditTimeStr', { 
             initialValue:initialAuditTime,
@@ -134,27 +138,38 @@ const Filter = ({
           )}
         </FilterItem>
       </Col>
-      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }}>
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 12 }}>
         {getFieldDecorator('applyNameLike', 
           { initialValue: applyNameLike 
           })(<Search placeholder="申请人" size="large" onSearch={handleSubmit} />)}
       </Col>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }}>
         {getFieldDecorator('auditerNameLike', 
           { initialValue: auditerNameLike 
           })(<Search placeholder="审核人" size="large" onSearch={handleSubmit} />)}
       </Col>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }}>
         {getFieldDecorator('flowNameLike', 
           { initialValue: flowNameLike 
           })(<Search placeholder="流程名称" size="large" onSearch={handleSubmit} />)}
+      </Col>
+      
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }}>
+        {getFieldDecorator('minAmount', 
+          { initialValue: minAmount 
+          })(<Search placeholder="最小总金额" size="large" onSearch={handleSubmit} />)}
+      </Col>
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }}>
+        {getFieldDecorator('maxAmount', 
+          { initialValue: maxAmount 
+          })(<Search placeholder="最大总金额" size="large" onSearch={handleSubmit} />)}
       </Col>
       <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
         <FilterItem label="申请类型">
           {getFieldDecorator('busiCodeLike', { 
             initialValue:busiCodeLike?busiCodeLike:null,
           })(
-            <Select style={{ width: '100%' }} >{dicOption}</Select> 
+            <Select style={{ width: '100%' }} allowClear>{dicOption}</Select> 
           )}
         </FilterItem>
       </Col>
@@ -163,12 +178,12 @@ const Filter = ({
           {getFieldDecorator('state', { 
             initialValue:state? state:null,
           })(
-            <Select style={{ width: '100%' }}>{stateOption}</Select>
+            <Select style={{ width: '100%' }} allowClear>{stateOption}</Select>
           )}
         </FilterItem>
       </Col>
       
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }} >
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 24 }} >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>
             <Button icon="reload" size="large" onClick={handleReset}>重置</Button>

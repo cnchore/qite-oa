@@ -373,7 +373,7 @@ const modal = ({
                 rules: [{required: true,message:'不能为空',},],
               })(
                 <Cascader disabled={taskData && taskData.taskId && item.state!==-1}
-                  size="large"
+                  size="large" placeholder="请选择"
                   options={city}
                 />
               )}

@@ -345,7 +345,7 @@ const getDateDiff=(a,b)=>{
   if(!a || !b) return 0;
   let _a=typeof a ==='string'?new Date(a).getTime():a;
   let _b=typeof b ==='string'?new Date(b).getTime():b;
-  return Math.abs(_a - _b) / (1000 * 60 * 60 * 24);
+  return (Math.abs(_a - _b) / (1000 * 60 * 60 * 24)).toFixed(2);
 }
 const handerMsgLinkClick=(readFn,readPayload,linkTo,linkPayload)=>{
  readFn && readFn(readPayload || {});

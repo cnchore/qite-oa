@@ -9,7 +9,7 @@ import {getWaitAction,getMsgAction,getQueryStringArgs} from '../../../utils'
 function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
   knowledgeList,waitList,signList,msgInfo,warningInfo,quickData }) {
   const { photo, orgName, realName} = userInfo;
-  const noticeListOption=noticeList && noticeList.list[0] && noticeList.list.filter(f=>f.isRead===false).map((item,index)=>{
+  const noticeListOption=noticeList && noticeList.list[0] && noticeList.list.filter(f=>f.isRead===false).slice(0,2).map((item,index)=>{
    return <div key={`notice-list${index}`} className={styles['notice-list']} onClick={e=>{noticeList && noticeList.linkto && noticeList.linkto(item.id)}}>{index+1}.{item.title}</div>;}) 
   || [];
   // console.log('msgInfo.msgVisable:',msgInfo.msgVisable);
@@ -22,7 +22,7 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
               <div>流程名称：{item.flowName}</div>
             </div>
             <div className={styles.listAction}>
-              <div className={styles['listAction-icon']}><Icon type="down" /></div>
+              <div className={styles['listAction-icon']}><i /></div>
               <div className={styles['listAction-button']}>{getWaitAction(item)}</div>
             </div>
           </div>
@@ -36,7 +36,7 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
                 <div>流程名称：{item.flowName}</div>
               </div>
               <div className={styles.listAction}>
-                <div className={styles['listAction-icon']}><Icon type="down" /></div>
+                <div className={styles['listAction-icon']}><i /></div>
                 <div className={styles['listAction-button']}><a onClick={e=>signList.linkto(record.taskId)}>签收</a></div>
               </div>
             </div>
@@ -176,7 +176,7 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
             </Col>
             <Col span={24}>
               <div className={cs(styles.h3t2,styles.warning)}>
-                <div className={styles.title}><span><i className="iconfont icon-tongzhi1"/>超时处理公示栏</span><span className={styles.more}>更多</span></div>
+                <div className={styles.title}><span><i className="iconfont icon-tongzhi1"/>超时处理公示栏</span></div>
                 
                 {warningInfoOption || <div className={styles['warning-list']}>暂无超时公告</div>}
               </div>

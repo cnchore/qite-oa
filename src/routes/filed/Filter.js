@@ -31,16 +31,19 @@ const Filter = ({
   const handleFields = (fields) => {
     const { applyTimeStr,receiveTimeStr,auditTimeStr } = fields
     if (applyTimeStr.length) {
-      fields.applyTimeStart =applyTimeStr[0].format('YYYY-MM-DD')
-      fields.applyTimeEnd=applyTimeStr[1].format('YYYY-MM-DD')
+      fields.applyTimeStart =applyTimeStr[0].format('YYYY-MM-DD');
+      fields.applyTimeEnd=applyTimeStr[1].format('YYYY-MM-DD');
+      fields.applyTimeStr=null;
     }
     if (receiveTimeStr.length) {
-      fields.receiveTimeStart =receiveTimeStr[0].format('YYYY-MM-DD')
-      fields.receiveTimeEnd=receiveTimeStr[1].format('YYYY-MM-DD')
+      fields.receiveTimeStart =receiveTimeStr[0].format('YYYY-MM-DD');
+      fields.receiveTimeEnd=receiveTimeStr[1].format('YYYY-MM-DD');
+      fields.receiveTimeStr=null;
     }
     if (auditTimeStr.length) {
-      fields.auditTimeStart =auditTimeStr[0].format('YYYY-MM-DD')
-      fields.auditTimeEnd=auditTimeStr[1].format('YYYY-MM-DD')
+      fields.auditTimeStart =auditTimeStr[0].format('YYYY-MM-DD');
+      fields.auditTimeEnd=auditTimeStr[1].format('YYYY-MM-DD');
+      fields.auditTimeStr=null;
     }
     return fields
   }
@@ -72,7 +75,8 @@ const Filter = ({
     fields = handleFields(fields)
     onFilterChange(fields)
   }
-  const { applyNameLike,applyTimeStr,receiveTimeStr,auditTimeStr,auditerNameLike,busiCodeLike,flowNameLike,nodeNameLike } = filter
+  const { applyNameLike,applyTimeStr,receiveTimeStr,auditTimeStr,auditerNameLike,
+    minAmount,maxAmount,busiCodeLike,flowNameLike,nodeNameLike } = filter
 
   let initialApplyTime = [],initialReceiveTime=[],initialAuditTime=[];
   if (filter.applyTimeStr && filter.applyTimeStr[0]) {
@@ -134,12 +138,12 @@ const Filter = ({
           )}
         </FilterItem>
       </Col>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }}>
         {getFieldDecorator('applyNameLike', 
           { initialValue: applyNameLike 
           })(<Search placeholder="申请人" size="large" onSearch={handleSubmit} />)}
       </Col>
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }}>
         {getFieldDecorator('auditerNameLike', 
           { initialValue: auditerNameLike 
           })(<Search placeholder="审核人" size="large" onSearch={handleSubmit} />)}
@@ -149,6 +153,16 @@ const Filter = ({
        {getFieldDecorator('nodeNameLike', 
           { initialValue: nodeNameLike?nodeNameLike:null, 
           })(<Search placeholder="当前阶段" size="large" onSearch={handleSubmit} />)}
+      </Col>
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }}>
+        {getFieldDecorator('minAmount', 
+          { initialValue: minAmount 
+          })(<Search placeholder="最小总金额" size="large" onSearch={handleSubmit} />)}
+      </Col>
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }}>
+        {getFieldDecorator('maxAmount', 
+          { initialValue: maxAmount 
+          })(<Search placeholder="最大总金额" size="large" onSearch={handleSubmit} />)}
       </Col>
       <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
         <FilterItem label="申请类型">
@@ -160,7 +174,7 @@ const Filter = ({
         </FilterItem>
       </Col>
       
-      <Col {...ColProps} xl={{ span: 4 }} md={{ span: 16 }} >
+      <Col {...ColProps} xl={{ span: 6 }} md={{ span: 24 }} >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button icon="search" type="primary" size="large" className="margin-right" onClick={handleSubmit}>查询</Button>
             <Button icon="reload" size="large" onClick={handleReset}>重置</Button>
