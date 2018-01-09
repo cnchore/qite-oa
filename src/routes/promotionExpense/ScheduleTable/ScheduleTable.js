@@ -151,10 +151,7 @@ class ScheduleTable extends React.Component {
   }
   del(_index){
     const data =this.props.dataSource[0]?this.props.dataSource.filter((item,index)=>index!==_index):[];
-    
-    // this.setState({data});
-    if(this.props.callbackParent)this.props.callbackParent(data);
-    //this.getActualExpense(data);
+    if(this.props.callbackParent)this.props.callbackParent(data[0]?data:[{id:-1}]);
   }
   editDone(index, type) {
     let data  = this.props.dataSource;
@@ -170,8 +167,8 @@ class ScheduleTable extends React.Component {
     this.props.setIsEditable && this.props.setIsEditable(findIsEditable(data));
   }
   render() {
-    let data = this.props.dataSource;
-    const dataSource = data.map((item) => {
+    let data = this.props.dataSource || [];
+    const dataSource = data.filter(f=>f.id!==-1).map((item) => {
       const obj = {};
       Object.keys(item).forEach((key) => {
         obj[key] = key === 'key' || key === 'id' ? item[key] : item[key].value;

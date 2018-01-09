@@ -61,6 +61,10 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
       title: '流程名称',
       dataIndex: 'flowName',
       key: 'flowName',
+    },{
+      title: '总金额',
+      dataIndex: 'amount',
+      key: 'amount',
     }, {
       title: '创建时间',
       dataIndex: 'applyTime',width:170,
@@ -97,7 +101,7 @@ const List = ({ onEditItem,goBackEidt,location, ...tableProps }) => {
         {...tableProps}
         // className={classnames({ [styles.table]: true})}
         bordered
-        scroll={{ x: 1280 }}
+        scroll={{ x: 1380 }}
         columns={columns}
         simple
         rowKey={record => record.taskId}

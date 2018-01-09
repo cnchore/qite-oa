@@ -102,7 +102,7 @@ const modal = ({
       }else if(defaultDetailList[0]){
         _defaultDetailList=defaultDetailList;
       }
-      _defaultDetailList.map((f,index)=>{
+      _defaultDetailList.filter(d=>d.id!==-1).map((f,index)=>{
         if(f.id) data[`detailList[${index}].id`]=f.id;
         data[`detailList[${index}].costDetail`]=f.costDetail.value;
         data[`detailList[${index}].costAmount`]=f.costAmount.value;
@@ -114,7 +114,7 @@ const modal = ({
       }else if(defaultScheduleList[0]){
         _defaultScheduleList=defaultScheduleList;
       }
-      _defaultScheduleList.map((s,index)=>{
+      _defaultScheduleList.filter(d=>d.id!==-1).map((s,index)=>{
         if(s.id) data[`scheduleList[${index}].id`]=s.id;
         data[`scheduleList[${index}].content`]=s.content.value;       //重要工作内容（String）
         data[`scheduleList[${index}].finishTimeStr`]=s.finishTimeStr.value; //完成时间（String）

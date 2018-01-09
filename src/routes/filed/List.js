@@ -27,6 +27,10 @@ const List = ({ location, ...tableProps }) => {
       title: '流程名称',
       dataIndex: 'flowName',
       key: 'flowName',
+    },{
+      title: '总金额',
+      dataIndex: 'amount',
+      key: 'amount',
     }, {
       title: '创建时间',
       dataIndex: 'applyTime',width:170,
