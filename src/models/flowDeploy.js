@@ -40,10 +40,10 @@ export default {
             type: 'query',
             payload: location.query,
           })
-          dispatch({
-            type: 'getPDPage',
-            payload: location.query,
-          })
+          // dispatch({
+          //   type: 'getPDPage',
+          //   payload: location.query,
+          // })
           dispatch({
             type: 'getDic',
             payload: {dicType:'flowType_item'},

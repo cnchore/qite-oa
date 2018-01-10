@@ -18,7 +18,7 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
             <div>{index+1}.</div>
             <div className={styles.listCenter}>
               <div>申请人：{item.applyName}{<span style={{ color: item.urgency?'#f00':'' }} >{item.urgency?'（紧急）':''}</span>}</div>
-              <div>申请时间：{item.applyTime && item.applyName.substr(0,10)}</div>
+              <div>申请时间：{item.applyTime && item.applyTime.substr(0,10)}</div>
               <div>流程名称：{item.flowName}</div>
             </div>
             <div className={styles.listAction}>
@@ -32,7 +32,7 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
               <div>{index+1}.</div>
               <div className={styles.listCenter}>
                 <div>申请人：{item.applyName}</div>
-                <div>申请时间：{item.applyTime && item.applyName.substr(0,10)}</div>
+                <div>申请时间：{item.applyTime && item.applyTime.substr(0,10)}</div>
                 <div>流程名称：{item.flowName}</div>
               </div>
               <div className={styles.listAction}>
@@ -52,6 +52,30 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
             </Tooltip>
   }) || null;
   // console.log('warningInfoOption:',warningInfoOption);
+  const getLeft=(e)=>{
+    let offset=e.offsetLeft;
+    if(e.offsetParent!=null) offset+=getLeft(e.offsetParent);
+    return offset;
+  }
+  const handerPopover=(index,visb)=>{
+    if(visb){
+      let pop=document.querySelector(`.pop-body-${index}`);
+      if(pop){
+        try{
+          let sel=styles[`quick-apply-icon${index+1}`];
+          let par=document.querySelector(`.${sel}`);
+          let par0Left=getLeft(document.querySelector(`.${styles['quick-apply-icon1']}`));
+          let parLeft=getLeft(par);
+          pop.style.setProperty("left",`${par0Left}px`);
+          let arrow=pop.querySelector('.ant-popover-arrow');
+          if(arrow){
+            let l=parLeft + 16 - par0Left;
+            arrow.style.setProperty("left",`${l}px`);
+          }
+        }catch(e){}
+      }
+    }
+  }
   const quickApplyOption=quickData && quickData.shortcut && quickData.shortcut[0] && quickData.shortcut.filter(f=>f.isShortcut).slice(0,4).map((item,index)=>{
     let contentData=quickData.shortcut.filter(ff=>ff.parentId===item.id) || [];
     let _list=contentData.map((item,index)=>{
@@ -62,7 +86,8 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
 
     }) || null;
     let content=<Row className={styles.content}>{_list}</Row>;
-    return <Popover key={`quick-apply${index}`} content={content} trigger="hover" placement="bottomLeft" arrowPointAtCenter overlayClassName={styles.popover}>
+    return <Popover key={`quick-apply${index}`} content={content} trigger="hover" placement="bottomLeft" arrowPointAtCenter 
+          overlayClassName={cs(styles.popover,`pop-body-${index}`)} onVisibleChange={e=>handerPopover(index,e)}>
             <div className={styles[`quick-apply-icon${index+1}`]}>
               <i className={`iconfont ${item.iconUrl}`}/>
               <div>{item.menuName}</div>

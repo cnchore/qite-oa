@@ -17,7 +17,7 @@ class Dashboard extends PureComponent {
     const darkTheme=getTheme();
     // console.log('dashboard-props:',this.props);
     
-    if(darkTheme){
+    if(true){
       //home props
       const waitInfo={
         number: waitData && waitData.total || 0,

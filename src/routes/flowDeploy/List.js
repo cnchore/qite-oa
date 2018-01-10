@@ -63,9 +63,18 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
       key: 'diagramResourceName',
     },
   ]
+      // <Table
+      //   {...pdListProps}
+      //   title={()=>(<h3>流程定义列表</h3>)}
+      //   bordered
+      //   scroll={{ x: 867 }}
+      //   columns={pdColumns}
+      //   simple
+      //   rowKey={record => record.id}
+      // />
 
   return (
-    <div>
+    // <div>
       <Table
         {...tableProps}
         title={()=>(<h3>部署列表</h3>)}
@@ -75,16 +84,7 @@ const List = ({ onSubmit,dicList, onEditItem, location, ...tableProps }) => {
         simple
         rowKey={record => record.id}
       />
-      <Table
-        {...pdListProps}
-        title={()=>(<h3>流程定义列表</h3>)}
-        bordered
-        scroll={{ x: 867 }}
-        columns={pdColumns}
-        simple
-        rowKey={record => record.id}
-      />
-    </div>
+    // </div>
   )
 }
 

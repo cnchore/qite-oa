@@ -14,6 +14,8 @@ const ColProps = {
 }
 
 const Filter = ({
+  filter,
+  onSearch,
   onDeploy,
   dicList,
   form: {
@@ -25,23 +27,40 @@ const Filter = ({
   //const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
 
   const handleSubmit = () => {
-    let fields = getFieldsValue()
+    let fields = getFieldsValue();
     let file=document.getElementById('deployfile').files[0];
     
     fields.file=file;
     
     onDeploy(fields);
   }
-
+  const handleSearch =()=>{
+    let fields = getFieldsValue();
+    onSearch({category:fields.category,nameLike:fields.fileName});
+  }
+  const handleReset = () => {
+    const fields = getFieldsValue();
+    for (let item in fields) {
+      if ({}.hasOwnProperty.call(fields, item)) {
+        if (fields[item] instanceof Array) {
+          fields[item] = []
+        } else {
+          fields[item] = undefined
+        }
+      }
+    }
+    setFieldsValue(fields);
+    handleSearch();
+  }
   const dicOption=dicList && dicList[0] && dicList.map(dic=><Option key={dic.dicValue}>{dic.dicName}</Option>)
-
+  const { category, nameLike } = filter;
   return (
     <Form name='fileform'>
     <Row gutter={24}>
       <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }}>
         <FilterItem label="流程类别">
           {getFieldDecorator('category',{ 
-            initialValue: 'MC' 
+            initialValue: category || null
           })(<Select style={{width:'100%'}}>{dicOption}</Select>)}
         </FilterItem>
       </Col>
@@ -49,7 +68,7 @@ const Filter = ({
       <Col {...ColProps} xl={{ span: 6 }} md={{ span: 8 }} >
         <FilterItem label="流程名称">
           {getFieldDecorator('fileName', { 
-            initialValue:null,
+            initialValue: nameLike || null,
           })(
             <Input />
           )}
@@ -64,14 +83,14 @@ const Filter = ({
       </Col>
       
       <Col {...ColProps} xl={{ span: 6 }} md={{ span: 24 }} >
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-         
-          <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button icon="plus" size="large" type="primary" onClick={handleSubmit}>部署</Button>
-          </div>
+            <Button icon="search" size="large" type="primary" onClick={handleSearch}>查询</Button>
+            <Button icon="reload" size="large"  onClick={handleReset}>重置</Button>
         </div>
       </Col>
     </Row>
+    
     </Form>
   )
 }

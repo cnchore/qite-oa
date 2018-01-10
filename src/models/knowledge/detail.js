@@ -1,6 +1,7 @@
 import pathToRegexp from 'path-to-regexp'
 import { queryById,getOrg } from '../../services/knowledge'
 import { treeToArray } from '../../utils'
+import {read} from '../../services/app';
 
 export default {
 
@@ -33,6 +34,9 @@ export default {
       const data = yield call(queryById, payload)
       const { success, message, status, ...other } = data
       if (success) {
+        if(other.data.state===1){
+          yield call(read,{sId:other.data.id,type:3});
+        }
         yield put({
           type: 'querySuccess',
           payload: {

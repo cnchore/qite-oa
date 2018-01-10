@@ -131,7 +131,7 @@ const Ad = ({ location, dispatch, ad, loading }) => {
           page: 1,
           pageSize,
         },
-      }))
+      }));
     },
     
     onAdd () {

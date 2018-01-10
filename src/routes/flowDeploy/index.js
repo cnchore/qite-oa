@@ -1,14 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-// import { routerRedux } from 'dva/router'
-import { connect } from 'dva'
-import List from './List'
-import Filter from './Filter'
-import Modal from './Modal'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { routerRedux } from 'dva/router';
+import { connect } from 'dva';
+import List from './List';
+import Filter from './Filter';
+import Modal from './Modal';
 
 const FlowDeploy = ({ location, dispatch, flowDeploy, loading }) => {
-  const { list,pdList,dicList,pagination,pdPagination, currentItem, modalVisible } = flowDeploy
-  
+  const { list,pdList,dicList,pagination,pdPagination, currentItem, modalVisible } = flowDeploy;
+  const { pageSize } = pagination;
   const modalProps = {
     item: currentItem,
     visible: modalVisible,
@@ -59,14 +59,34 @@ const FlowDeploy = ({ location, dispatch, flowDeploy, loading }) => {
             page:page.current,
             pageSize:page.pageSize,
           }
-        })
+        });
       }
     }
   }
 
   const filterProps = {
     dicList,
-    
+    filter:{
+      ...location.query,
+    },
+    onSearch(data){
+      // dispatch({
+      //   type:'flowDeploy/query',
+      //   payload:data,
+      // });
+      dispatch(routerRedux.push({
+        pathname: location.pathname,
+        query: {
+          ...data,
+          page: 1,
+          pageSize,
+        },
+      }));
+      // dispatch({
+      //   type:'flowDeploy/getPDPage',
+      //   payload:data,
+      // });
+    },
     onDeploy (data) {
       dispatch({
         type: 'flowDeploy/deploy',
