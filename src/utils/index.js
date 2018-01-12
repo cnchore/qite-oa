@@ -349,7 +349,7 @@ const getDateDiff=(a,b)=>{
 }
 const handerMsgLinkClick=(readFn,readPayload,linkTo,linkPayload)=>{
  readFn && readFn(readPayload || {});
- linkTo && linkTo(linkPayload || {});
+ linkTo && linkPayload && linkTo(linkPayload || {});
 }
   const getMsgAction=(item,readFn,linkTo)=>{
     let codeStr=item.code && item.code || null,
@@ -361,42 +361,41 @@ const handerMsgLinkClick=(readFn,readPayload,linkTo,linkPayload)=>{
       content=`[ ${_code} ${item.flowName && item.flowName || ''}] ${t}`,
       _time=item.expirationTime && (new Date()-new Date(item.expirationTime)) || 0,
       _times=_time!==0?getHMS(_time):'0 时';
-      //hideMsg
     //taskId
     if(_msgType===1){
       // 待办
-      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true},linkTo,{pathname:'/waiting'})}>{content}</a>;
+      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true,msgType:1,linkTo})}>{content}</a>;
       //<Link to={`/waiting`}>{content}</Link>
     }else if(_msgType===2){
       // 待签收
-      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true},linkTo,{pathname:'/waiting'})}>{content}</a>;
+      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true,msgType:2,linkTo})}>{content}</a>;
       //<Link to={`/waitSigin`}>{content}</Link>
-    }else if(_msgType===3){
+    }else if(_msgType===3){//----
       // 预警
-      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2})}>{`预警：${content.replace(t,'')} 待办，将于 ${_times} 后过期，请尽快处理`}</a>;
+      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true,msgType:_msgType,linkTo})}>{`预警：${content.replace(t,'')} 待办，将于 ${_times} 后过期，请尽快处理`}</a>;
       //`预警：${content.replace(t,'')} 待办，将于 ${_times} 后过期，请尽快处理`
-    } else if(_msgType===4){
+    } else if(_msgType===4){//----
       // 超时
       if(item.notNeedEleA){
         return `${content.replace(t,'')} 待办，已超时 ${_times} `;
       }
-      return <span onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2})}>{`${content.replace(t,'')} 待办，已超时 ${_times} `}</span>;
+      return <span onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true,msgType:_msgType,linkTo})}>{`${content.replace(t,'')} 待办，已超时 ${_times} `}</span>;
     }else if(_msgType===5){
       // 超时公告
       if(item.notNeedEleA){
         return `超时公告：${content.replace(t,'')} 待办，超时 ${_times} 未处理`
       }
       return <span onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2})}>{`超时公告：${content.replace(t,'')} 待办，超时 ${_times} 未处理`}</span>;
-    }else if(_msgType===10){
+    }else if(_msgType===10){//----
       // 预警
-      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2})}>{`预警：${content.replace(t,'')} 签收，将于 ${_times} 后过期，请尽快处理`}</a>;
+      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true,msgType:_msgType,linkTo})}>{`预警：${content.replace(t,'')} 签收，将于 ${_times} 后过期，请尽快处理`}</a>;
       //`预警：${content.replace(t,'')} 签收，将于 ${_times} 后过期，请尽快处理`
-    } else if(_msgType===11){
+    } else if(_msgType===11){//----
       // 超时
       if(item.notNeedEleA){
         return `${content.replace(t,'')} 签收，已超时 ${_times} `
       }
-      return <span onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2})}>{`${content.replace(t,'')} 签收，已超时 ${_times} `}</span>;
+      return <span onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true,msgType:_msgType,linkTo})}>{`${content.replace(t,'')} 签收，已超时 ${_times} `}</span>;
     }else if(_msgType===12){
       // 超时公告
       if(item.notNeedEleA){
@@ -415,13 +414,13 @@ const handerMsgLinkClick=(readFn,readPayload,linkTo,linkPayload)=>{
       // 入库通知申请人领料
       return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2})}>{`${content.replace(t,'')} 已有货品入库，请至仓库领取`}</a>;
       //`${content.replace(t,'')} 已有货品入库，请至仓库领取`
-    }else if(_msgType===6){
+    }else if(_msgType===6){//----state=-1
       // 退回
-      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true},linkTo,{pathname:'/waiting'})}>{content}</a>;
+      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true,msgType:_msgType,linkTo})}>{content}</a>;
       //<Link to={`/waiting`}>{content}</Link>
-    }else if(_msgType===7){
+    }else if(_msgType===7){//----state=-2
       // 待完善资料
-      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true},linkTo,{pathname:'/waiting'})}>{content}</a>;
+      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true,msgType:_msgType,linkTo})}>{content}</a>;
       //<Link to={`/waiting`}>{content}</Link>
     }else if(_msgType===16){
       // 申请通过通知相关人
@@ -431,9 +430,9 @@ const handerMsgLinkClick=(readFn,readPayload,linkTo,linkPayload)=>{
       // 申请通过通知相关人
       return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2})}>{`可以报餐啦，不要忘记哦，亲`}</a>;
       //`可以报餐啦，不要忘记哦，亲`
-    }else if(_msgType===18){
+    }else if(_msgType===18){//----state=-1
       // 超时未销假消息通知
-      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true},linkTo,{pathname:'/waiting'})}>{content}</a>;
+      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true,msgType:_msgType,linkTo})}>{content}</a>;
       //<Link to={`/waiting`}>{content}</Link>
     }else if(codeType&&id!==-1){
       switch(codeType){
@@ -550,7 +549,7 @@ const handerMsgLinkClick=(readFn,readPayload,linkTo,linkPayload)=>{
     return '新消息';
   };
 
-  const getWaitAction=(record,fromPath="/dashboard")=>{
+  const getWaitAction=(record,fromPath="/dashboard",onlyNeedUrl=false)=>{
     let _url=`taskId=${record.taskId}&busiId=${record.busiId}&from=${fromPath}&t=${Math.random()}`,
         text=record.state===-2?'返回完善资料':'退回修改',
         _code=record.busiCode.substr(0,2);
@@ -563,87 +562,87 @@ const handerMsgLinkClick=(readFn,readPayload,linkTo,linkPayload)=>{
     }
     switch(record.state){
       case 1:
-      if(_code==='PE'){
-        // return <a  onClick={handerA} target="_self">办理</a>;
-        return <Link to={`/purchase?${_url}`}>办理</Link>;
-      }
-      return <Link to={`/waiting?homeTaskId=${record.taskId}&from=${fromPath}&t=${Math.random()}`}>办理</Link>;
+        if(_code==='PE'){
+          // return <a  onClick={handerA} target="_self">办理</a>;
+          return onlyNeedUrl?`/purchase?${_url}`:<Link to={`/purchase?${_url}`}>办理</Link>;
+        }
+        return onlyNeedUrl?`/waiting?homeTaskId=${record.taskId}&from=${fromPath}&t=${Math.random()}`:<Link to={`/waiting?homeTaskId=${record.taskId}&from=${fromPath}&t=${Math.random()}`}>办理</Link>;
       case -1:
       case -2:
       switch(_code){
         case 'MC':
-        return <Link to={`/missClock?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/missClock?${_url}`:<Link to={`/missClock?${_url}`}>{text}</Link>;
         case 'SC':
-        return <Link to={`/salaryChange?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/salaryChange?${_url}`:<Link to={`/salaryChange?${_url}`}>{text}</Link>;
         case 'LE':
-        return <Link to={`/leave?${_url}`}>{record.state===-2?'取消任务代理':'退回修改'}</Link>;
+        return onlyNeedUrl?`/leave?${_url}`:<Link to={`/leave?${_url}`}>{record.state===-2?'取消任务代理':'退回修改'}</Link>;
         case 'OT':
-        return <Link to={`/overtime?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/overtime?${_url}`:<Link to={`/overtime?${_url}`}>{text}</Link>;
         case 'TL':    
-        return <Link to={`/travel?${_url}`}>{record.state===-2?'取消任务代理':'退回修改'}</Link>;
+        return onlyNeedUrl?`/travel?${_url}`:<Link to={`/travel?${_url}`}>{record.state===-2?'取消任务代理':'退回修改'}</Link>;
         case 'TR':
-        return <Link to={`/travelReimburse?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/travelReimburse?${_url}`:<Link to={`/travelReimburse?${_url}`}>{text}</Link>;
         case 'CT':  
-        return <Link to={`/contract?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/contract?${_url}`:<Link to={`/contract?${_url}`}>{text}</Link>;
         case 'UC':
-        return <Link to={`/useCar?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/useCar?${_url}`:<Link to={`/useCar?${_url}`}>{text}</Link>;
         case 'PA':
-        return <Link to={`/purchaseApply?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/purchaseApply?${_url}`:<Link to={`/purchaseApply?${_url}`}>{text}</Link>;
         case 'PE':
-        return <Link to={`/purchase?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/purchase?${_url}`:<Link to={`/purchase?${_url}`}>{text}</Link>;
         // return <a  onClick={handerA} target="_self">{text}</a>;
         case 'PT':
-        return <Link to={`/payment?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/payment?${_url}`:<Link to={`/payment?${_url}`}>{text}</Link>;
         case 'RT':
-        return <Link to={`/recruit?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/recruit?${_url}`:<Link to={`/recruit?${_url}`}>{text}</Link>;
         case 'DN':
-        return <Link to={`/dimission?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/dimission?${_url}`:<Link to={`/dimission?${_url}`}>{text}</Link>;
         case 'RR':
-        return <Link to={`/regular?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/regular?${_url}`:<Link to={`/regular?${_url}`}>{text}</Link>;
         case 'RE':
-        return <Link to={`/reimburse?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/reimburse?${_url}`:<Link to={`/reimburse?${_url}`}>{text}</Link>;
         case 'BD':
-        return <Link to={`/budget?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/budget?${_url}`:<Link to={`/budget?${_url}`}>{text}</Link>;
         case 'NE':
-        return <Link to={`/notice?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/notice?${_url}`:<Link to={`/notice?${_url}`}>{text}</Link>;
         case 'LW':
-        return <Link to={`/legwork?${_url}`}>{record.state===-2?'取消任务代理':'退回修改'}</Link>;
+        return onlyNeedUrl?`/legwork?${_url}`:<Link to={`/legwork?${_url}`}>{record.state===-2?'取消任务代理':'退回修改'}</Link>;
         case 'AR'://广告费用报销
-        return <Link to={`/adReimburse?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/adReimburse?${_url}`:<Link to={`/adReimburse?${_url}`}>{text}</Link>;
         case 'AD'://广告投放
-        return <Link to={`/ad?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/ad?${_url}`:<Link to={`/ad?${_url}`}>{text}</Link>;
         case 'SP'://促销活动支持
-        return <Link to={`/salesPromotion?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/salesPromotion?${_url}`:<Link to={`/salesPromotion?${_url}`}>{text}</Link>;
         case 'PX'://促销活动费用报销
-        return <Link to={`/promotionExpense?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/promotionExpense?${_url}`:<Link to={`/promotionExpense?${_url}`}>{text}</Link>;
         case 'SM'://样板房折扣申请
-        return <Link to={`/sampleRoom?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/sampleRoom?${_url}`:<Link to={`/sampleRoom?${_url}`}>{text}</Link>;
         case 'MG'://常规物料及礼品制作
-        return <Link to={`/materialGift?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/materialGift?${_url}`:<Link to={`/materialGift?${_url}`}>{text}</Link>;
         case 'TN'://常规物料及礼品制作
-        return <Link to={`/train?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/train?${_url}`:<Link to={`/train?${_url}`}>{text}</Link>;
         case 'CD'://名片制作
-        return <Link to={`/card?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/card?${_url}`:<Link to={`/card?${_url}`}>{text}</Link>;
         case 'SR'://售后问题处理
-        return <Link to={`/sampleReplace?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/sampleReplace?${_url}`:<Link to={`/sampleReplace?${_url}`}>{text}</Link>;
         case 'MS'://物料支持自助
-        return <Link to={`/materialSupport?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/materialSupport?${_url}`:<Link to={`/materialSupport?${_url}`}>{text}</Link>;
         case 'OP'://开业支持
-        return <Link to={`/open?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/open?${_url}`:<Link to={`/open?${_url}`}>{text}</Link>;
         case 'SU'://店面升级自助申请
-        return <Link to={`/shopUpgrade?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/shopUpgrade?${_url}`:<Link to={`/shopUpgrade?${_url}`}>{text}</Link>;
         case 'RS'://店面装修补贴费用申请
-        return <Link to={`/renoSubsidy?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/renoSubsidy?${_url}`:<Link to={`/renoSubsidy?${_url}`}>{text}</Link>;
         case 'SH'://建店申请
-        return <Link to={`/shop?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/shop?${_url}`:<Link to={`/shop?${_url}`}>{text}</Link>;
         case 'SL'://印章使用申请
-        return <Link to={`/seal?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/seal?${_url}`:<Link to={`/seal?${_url}`}>{text}</Link>;
         case 'PP'://领料单
-        return <Link to={`/pick?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/pick?${_url}`:<Link to={`/pick?${_url}`}>{text}</Link>;
         case 'UO'://订单加急
-        return <Link to={`/urgentOrder?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/urgentOrder?${_url}`:<Link to={`/urgentOrder?${_url}`}>{text}</Link>;
         case 'BO'://借款
-        return <Link to={`/borrow?${_url}`}>{text}</Link>;
+        return onlyNeedUrl?`/borrow?${_url}`:<Link to={`/borrow?${_url}`}>{text}</Link>;
         default :
         return null;
       }

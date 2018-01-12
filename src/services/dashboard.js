@@ -30,9 +30,9 @@ export async function getMessageList(params){
     data:params,
   })
 }
-export async function getMessage(params){
+export async function getMessageInfo(params){
   return request({
-    url:message.getList,
+    url:message.getMessageInfo,
     method:'get',
     data:params,
   })

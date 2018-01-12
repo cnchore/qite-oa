@@ -34,6 +34,7 @@ module.exports = {
     //用户管理
     message:{
       getPage:`${apiPrefix}/message/getPage`,
+      getMessageInfo:`${apiPrefix}/message/getMessageInfo`,
     },
     user:{
       login:`${apiPrefix}/user/login`,

@@ -110,7 +110,7 @@ const modal = ({
         data[`detailList[${index}].livingCost`]=f.livingCost.value;
         data[`detailList[${index}].subsidyAmount`]=f.subsidyAmount.value;
         data[`detailList[${index}].otherCost`]=f.otherCost.value;
-        data.actualExpense+=parseFloat(f.vehicleCost.value)+parseFloat(f.livingCost.value)+parseFloat(f.otherCost.value)
+        data.actualExpense+=parseFloat(f.vehicleCost.value)+parseFloat(f.livingCost.value)+parseFloat(f.subsidyAmount.value)+parseFloat(f.otherCost.value);
         
       })
       data.travelIds=data.travelIds.join();

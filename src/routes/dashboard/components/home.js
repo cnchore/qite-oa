@@ -13,7 +13,7 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
    return <div key={`notice-list${index}`} className={styles['notice-list']} onClick={e=>{noticeList && noticeList.linkto && noticeList.linkto(item.id)}}>{index+1}.{item.title}</div>;}) 
   || [];
   // console.log('msgInfo.msgVisable:',msgInfo.msgVisable);
-  const waitListOption=waitList && waitList[0] && waitList.map((item,index)=>{
+  const waitListOption=waitList && waitList[0] && waitList.slice(0,2).map((item,index)=>{
     return <div className={styles['waitList-list']} key={`waitList-list${index}`}>
             <div>{index+1}.</div>
             <div className={styles.listCenter}>
@@ -27,7 +27,7 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
             </div>
           </div>
   }) || null;
-  const signListOption=signList && signList.list && signList.list[0] && signList.list.map((item,index)=>{
+  const signListOption=signList && signList.list && signList.list[0] && signList.list.slice(0,2).map((item,index)=>{
     return  <div className={styles['signList-list']} key={`signList-list${index}`}>
               <div>{index+1}.</div>
               <div className={styles.listCenter}>
@@ -48,7 +48,7 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
   }) || null;
   const warningInfoOption=warningInfo && warningInfo.list && warningInfo.list[0] && warningInfo.list.map((item,index)=>{
     return  <Tooltip key={`warning-list${index}`} title={`${index+1}.${getMsgAction({...item,notNeedEleA:true})}。${item.createTime && item.createTime.substr(5).substr(0,11)}`}>
-              <div className={styles['warning-list']} >{index+1}.{getMsgAction(item,msgInfo.read)}。{item.createTime && item.createTime.substr(5).substr(0,11)}</div>
+              <div className={styles['warning-list']} >{index+1}.{getMsgAction(item,msgInfo.read,msgInfo.linkto)}。{item.createTime && item.createTime.substr(5).substr(0,11)}</div>
             </Tooltip>
   }) || null;
   // console.log('warningInfoOption:',warningInfoOption);

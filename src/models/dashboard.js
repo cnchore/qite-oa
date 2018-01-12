@@ -1,8 +1,8 @@
-import { getMyTaskToDoPage,getMessageList,getMessage,getNoticeList,
+import { getMyTaskToDoPage,getMessageList,getMessageInfo,getNoticeList,
   getMyCommonApply,getTaskWaitSignPage,signTask,getKnowledgeList } from '../services/dashboard';
 import {read} from '../services/app';
 import { parse } from 'qs';
-import { config } from '../utils';
+import { config,getWaitAction } from '../utils';
 const { prefix } = config
 // import { routerRedux } from 'dva/router';
 import { message } from 'antd';
@@ -141,18 +141,50 @@ export default {
       }
     },
     *read({payload},{call,put}){
-      const data=yield call(read,payload);
+      let data;
+      if(payload && payload.msgType){
+        data =yield call(getMessageInfo,{id:payload.sId});
+      }else{
+        data=yield call(read,payload);
+      }
       if(data.success){
-        const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
-        if(userInfo&& userInfo.success && userInfo.data){
-          yield put({
-            type:'getMessageList',
-            payload:{
-              receiveUserId:userInfo.data.id,
+        if(payload.msgType && payload.linkTo){
+          if(data.data.taskVo){
+            if(payload.msgType===2 || payload.msgType===10 || payload.msgType===11){
+              payload.linkTo({pathname:'waitSign'});
+            }else{
+              let {taskId,busiId,busiCode}=data.data.taskVo;
+              let _st=1;
+              if(payload.msgType===6){
+                _st=-1;
+              }else if(payload.msgType===7){
+                _st=-2;
+              }else if(payload.msgType===18){
+                _st=-1;
+              }
+              let _record={
+                taskId,
+                busiId,
+                busiCode,
+                state:_st,
+              }
+              payload.linkTo({pathname:getWaitAction(_record,'/dashboard',true)});
             }
-          })
+          }else{
+            message.info(data.data.taskInfo);
+          }
         }
-        if(payload && payload.hideMsg){
+        if(!payload.msgType || !data.data.taskVo){
+          const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
+          if(userInfo&& userInfo.success && userInfo.data){
+            yield put({
+              type:'getMessageList',
+              payload:{
+                receiveUserId:userInfo.data.id,
+              }
+            })
+          }
+        }else if(payload.hideMsg){
           yield put({
             type:'setState',
             payload:{
@@ -191,7 +223,7 @@ export default {
     },
     
    *getKnowledgeList({payload},{call,put}){
-      const data=yield call(getKnowledgeList,{...payload});
+      const data=yield call(getKnowledgeList,{...payload,isRead:false});
       if(data.success){
         yield put({
           type:'getKnowledgeListSuccess',
