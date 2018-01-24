@@ -1,6 +1,6 @@
-import { request, config } from '../utils'
+import { config } from '../utils'
 const { api,bucket,baseURL } = config
-const { knowledge,imgUpload } = api
+const { imgUpload } = api
 
 export default function uploadImageCallBack(file,type) {
   return new Promise(

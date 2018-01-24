@@ -176,7 +176,7 @@
 }
 .listAction{
 	position: relative;
-	min-width: 120px;
+	min-width: 130px;
 	.listAction-icon{
 		position: absolute;
 		top: 5px;
@@ -253,6 +253,28 @@
 		  	color: #fff;
 		  	// text-decoration: underline;
 		  }
+		}
+		.msg-page{
+			text-align: right;
+			padding-top: 10px;
+			:global{
+				.ant-pagination-item,.ant-pagination-prev,.ant-pagination-next{
+					background-color: transparent;
+					a{
+						color: #fff;
+					}
+				}
+				.ant-pagination-options-quick-jumper{
+					input{
+						background-color: transparent;
+					}
+				}
+				.ant-pagination-disabled{
+					a{
+						color: rgba(0, 0, 0, 0.25);
+					}
+				}
+			}
 		}
 	}
 }

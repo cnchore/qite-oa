@@ -1,7 +1,7 @@
 import { login } from '../services/login'
 import { routerRedux } from 'dva/router'
 import { queryURL,config } from '../utils'
-const { prefix } = config
+const { prefix } = config;
 
 export default {
   namespace: 'login',
@@ -35,7 +35,6 @@ export default {
       if (data.success) {
         yield put({type:'loginSuccess',payload:data})
         const _from = queryURL('from')
-
         yield put({ type: 'app/query'})
         if (_from) {
           yield put(routerRedux.push(_from));

@@ -1,12 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'dva'
-import { Button, Row, Form, Input,Icon } from 'antd'
-import { config } from '../../utils'
-import styles from './index.less'
-
-const FormItem = Form.Item
-
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'dva';
+import { Button, Row, Form, Input,Icon } from 'antd';
+import { config } from '../../utils';
+import styles from './index.less';
+import version from '../../version';
+const FormItem = Form.Item;
+const { prefix } = config;
 const Login = ({
   login, 
   dispatch,
@@ -17,6 +17,8 @@ const Login = ({
     setFieldsValue,
   },
 }) => {
+  // console.log('version:',version);
+
   const { loginLoading,banner } = login
 
   function handleOk () {

@@ -10,7 +10,13 @@ const Menus = ({ siderFold, darkTheme, location, handleClickNavMenu, navOpenKeys
   // 生成树状
   const menuTree =arrayToTree(menu.filter(_ => _.mpid !== -1), 'id', 'mpid');
   const levelMap = {}
-
+  // 菜单点击事件
+  const handleLinkClick=(e,url)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    var href=window.location.origin+window.location.pathname+"#"+url;
+    window.location.replace(href);
+  }
   // 递归生成菜单
   const getMenus = (menuTreeN, siderFoldN) => {
     return menuTreeN.map(item => {
@@ -20,7 +26,7 @@ const Menus = ({ siderFold, darkTheme, location, handleClickNavMenu, navOpenKeys
         }
         return (
           <Menu.SubMenu
-            key={item.id}
+            key={String(item.id)}
             title={<span>
               {item.icon && <i className={`iconfont ${item.icon}`} />}
               {(!siderFoldN || menuTree.indexOf(item) < 0) && item.name}
@@ -31,11 +37,11 @@ const Menus = ({ siderFold, darkTheme, location, handleClickNavMenu, navOpenKeys
         )
       }
       return (
-        <Menu.Item key={item.id}>
-          <Link to={item.router}>
+        <Menu.Item key={String(item.id)}>
+          <a onClick={e=>handleLinkClick(e,item.router)}>
             {item.icon && <i className={`iconfont ${item.icon}`} />}
             {(!siderFoldN || menuTree.indexOf(item) < 0) && item.name}
-          </Link>
+          </a>
         </Menu.Item>
       )
     })
@@ -100,16 +106,16 @@ const Menus = ({ siderFold, darkTheme, location, handleClickNavMenu, navOpenKeys
     return result
   }
   if (currentMenu) {
-    defaultSelectedKeys = getPathArray(menu, currentMenu, 'mpid', 'id')
+    defaultSelectedKeys = getPathArray(menu, currentMenu, 'mpid', 'id');
   }
-
   return (
     <Menu
       {...menuProps} inlineIndent={12}
       mode={siderFold ? 'vertical' : 'inline'}
       theme={!darkTheme ? 'dark' : 'light'}
       onClick={handleClickNavMenu}
-      defaultSelectedKeys={defaultSelectedKeys}
+      openKeys={defaultSelectedKeys}
+      selectedKeys={defaultSelectedKeys && defaultSelectedKeys.slice(-1)}
     >
       {menuItems}
     </Menu>

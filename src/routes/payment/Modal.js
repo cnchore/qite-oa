@@ -176,6 +176,7 @@ const modal = ({
   const purchaseOption=purchaseList && purchaseList[0]&&purchaseList.map(pur=><Option key={pur.id}>{pur.code}</Option>) || null;
   const contractOption=contractList && contractList[0]&&contractList.map(contract=><Option key={contract.code}>{contract.code}</Option>) || null;
   const typeOption=dicList && dicList[0] && dicList.map(d=><Option key={d.dicValue}>{d.dicName}</Option>)
+  // return (<div>ddddd</div>)
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -284,7 +285,7 @@ const modal = ({
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('contractCodes', {
-                initialValue:typeof item.contractCodes ==='string'?item.contractCodes.split(','):[],
+                initialValue:typeof item.contractCodes ==='string' && item.contractCodes!="" ?item.contractCodes.split(','):[],
               })(<Select mode="multiple" >{contractOption}</Select>)}
               
             </FormItem>
@@ -298,7 +299,7 @@ const modal = ({
           <Col xs={18} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('purchaseIds', {
-                initialValue:typeof item.purchaseIds ==='string'?item.purchaseIds.split(','):[],
+                initialValue:typeof item.purchaseIds ==='string' && item.purchaseIds!=""?item.purchaseIds.split(','):[],
                 onChange:handleSelectChange,
               })(<Select mode="multiple" >{purchaseOption}</Select>)}
               

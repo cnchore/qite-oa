@@ -76,6 +76,7 @@ class Dashboard extends PureComponent {
       const msgInfo={
         list:messageData && messageData.list && messageData.list || [],
         total:messageData && messageData.total || 0,
+        pageCurrent:messageData.page || 1,
         msgVisable,
         showModal(){
           dispatch({
@@ -94,6 +95,12 @@ class Dashboard extends PureComponent {
             type:'dashboard/read',
             payload:payload,
           })
+        },
+        pageChange(page){
+          dispatch({
+            type:'dashboard/getMessageList',
+            payload:{page}
+          });
         },
         linkto(payload){
           dispatch(routerRedux.push(payload));

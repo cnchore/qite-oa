@@ -27,6 +27,7 @@ export default {
         // console.log('dashboard',localStorage.getItem(`${prefix}darkTheme`));
         // console.log('dashboard',location)
         if(location.pathname==='/dashboard' || location.pathname==='/'){
+          
           const userInfo = JSON.parse(sessionStorage.getItem(`${prefix}userInfo`));
           if(userInfo&& userInfo.success && userInfo.data){
             let uf={
@@ -119,25 +120,28 @@ export default {
             messageData:{
               list:data.data.rowsObject,
               total:data.data.total,
+              page:payload.page || 1,
             }
           }
         })
       }else{
         throw (data);
       }
-      const warningData=yield call(getMessageList,{...payload,rows:4,isRead:false,msgTypes:'4,5,11,12'});
-      if(warningData.success){
-        yield put({
-          type:'setState',
-          payload:{
-            warningData:{
-              list:warningData.data.rowsObject,
-              total:warningData.data.total,
+      if(!payload.page){
+        const warningData=yield call(getMessageList,{...payload,rows:4,isRead:false,msgTypes:'4,5,11,12'});
+        if(warningData.success){
+          yield put({
+            type:'setState',
+            payload:{
+              warningData:{
+                list:warningData.data.rowsObject,
+                total:warningData.data.total,
+              }
             }
-          }
-        })
-      }else{
-        throw (warningData);
+          })
+        }else{
+          throw (warningData);
+        }
       }
     },
     *read({payload},{call,put}){

@@ -17,6 +17,30 @@
   <% if(process.env.NODE_ENV !== 'production'){ %>
   <script src="roadhog.dll.js"></script>
 	<% } %>
+  <script type="text/javascript">
+    window.onload=function(){
+      var scriptList=document.querySelectorAll('script');
+      if(scriptList && scriptList.length){
+        var indexSrc='';
+        scriptList.forEach(item=>{
+          if(item.src && item.src.indexOf('/index.')){
+            indexSrc=item.src;
+            // break;
+          }
+        });
+        if(indexSrc){
+          var _ls=JSON.parse(localStorage.getItem('_oa_version_'));
+          if(!_ls || (_ls && _ls.data && _ls.data!==indexSrc)){
+            var version={data:indexSrc}
+            localStorage.setItem('_oa_version_',JSON.stringify(version));
+            var _url=location.origin+location.pathname+'?v='+Math.random();
+            window.location.replace(_url);
+            return;
+          }
+        }
+      }
+    }
+  </script>
 </body>
 
 </html>

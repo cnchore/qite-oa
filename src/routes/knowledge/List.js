@@ -43,6 +43,13 @@ const List = ({ onItemChange, onEditItem, location, ...tableProps }) => {
       title: '发布时间',
       dataIndex: 'publishTime',
       key: 'publishTime',
+      width:170,
+    }, {
+      title: '是否已读',
+      dataIndex: 'isRead',
+      key: 'isRead',
+      width:100,
+      render:(text)=>text?'已读':<span style={{color:'red'}}>未读</span>,
     }, {
       title: '操作',
       key: 'operation',
@@ -63,11 +70,18 @@ const List = ({ onItemChange, onEditItem, location, ...tableProps }) => {
       title: '发布时间',
       dataIndex: 'publishTime',
       key: 'publishTime',
+      width:170,
     }, {
       title: '知识点对象',
       dataIndex: 'toId',
       key: 'toId',
       render:(text)=>getOrgName(text),
+    }, {
+      title: '是否已读',
+      dataIndex: 'isRead',
+      key: 'isRead',
+      width:100,
+      render:(text)=>text?'已读':<span style={{color:'red'}}>未读</span>,
     }, {
       title: '状态',
       dataIndex: 'state',
@@ -94,7 +108,7 @@ const List = ({ onItemChange, onEditItem, location, ...tableProps }) => {
       <Table
         {...tableProps}
         bordered
-        scroll={{ x: 767 }}
+        scroll={{ x: 867 }}
         columns={columns}
         simple
         rowKey={record => record.id}

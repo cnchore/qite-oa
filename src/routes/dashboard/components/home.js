@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './home.less'
-import { Row, Col,Button,Icon,Tooltip,Popover } from 'antd'
+import { Row, Col,Button,Icon,Tooltip,Popover,Pagination } from 'antd'
 import profle from '../../../../assets/profle.png'
 import cs from 'classnames';
 import {getWaitAction,getMsgAction,getQueryStringArgs} from '../../../utils'
@@ -110,6 +110,9 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
             <div>{item.menuName}</div>
           </div>
   }) || null;
+  const onPageChange=(pageNumber)=>{
+    msgInfo.pageChange && msgInfo.pageChange(pageNumber);
+  }
   return (
     <div className={cs(styles.home,darkTheme?styles.light:'')}>
       <Row>
@@ -169,7 +172,7 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
               </Tooltip>
             </Col>
             <Col span={12}>
-              <div className={cs(styles.h3,styles.msgInfo)} onClick={msgInfo.showModal && msgInfo.showModal}>
+              <div className={cs(styles.h3,styles.msgInfo)} onClick={msgInfo.total && msgInfo.showModal && msgInfo.showModal}>
                 <div className={styles['msgInfo-icon']}>
                   <i className="iconfont icon-xiaoxi"/>
                   {msgInfo.total?<span className={styles.badge}>{msgInfo.total}</span>:null}
@@ -242,6 +245,9 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
         <div className={styles.msgbody}>
           <div className={styles.msgtitle}><i className="iconfont icon-xiaoxi"/>消息</div>
           {msgInfoOption}
+          <div className={styles['msg-page']}>
+            <Pagination showQuickJumper  defaultCurrent={msgInfo.pageCurrent} total={msgInfo.total} onChange={onPageChange} />
+          </div>
         </div>
       </div>
     </div>

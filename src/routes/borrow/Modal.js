@@ -295,7 +295,7 @@ const modal = ({
           <Col xs={18} md={20} xl={21} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('travelIds', {
-                initialValue:typeof item.travelIds ==='string'?item.travelIds.split(','):[],
+                initialValue:typeof item.travelIds ==='string' && item.travelIds!="" ?item.travelIds.split(','):[],
               })(<Select mode="multiple" >{travelOption}</Select>)}
               
             </FormItem>
