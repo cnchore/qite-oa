@@ -15,6 +15,8 @@ const { RangePicker } = DatePicker
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 const Option=Select.Option;
+const _uI=window.sessionStorage.getItem(`${config.prefix}userInfo`);
+const isMD=_uI && JSON.parse(_uI).data.isMD || false;
 const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: {
@@ -176,6 +178,7 @@ const modal = ({
   const purchaseOption=purchaseList && purchaseList[0]&&purchaseList.map(pur=><Option key={pur.id}>{pur.code}</Option>) || null;
   const contractOption=contractList && contractList[0]&&contractList.map(contract=><Option key={contract.code}>{contract.code}</Option>) || null;
   const typeOption=dicList && dicList[0] && dicList.map(d=><Option key={d.dicValue}>{d.dicName}</Option>)
+  const useUnitOption=config.useUnitList && config.useUnitList.map(u=><Option key={u}>{u}</Option>) || null;
   // return (<div>ddddd</div>)
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
@@ -335,7 +338,33 @@ const modal = ({
             </FormItem>
           </Col>
           
+      </Row>
+      {
+        isMD?
+        <Row gutter={24} className={styles['q-detail']}>
+          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+            用款单位：
+          </Col>
+          <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+            <FormItem >
+              {
+                getFieldDecorator('useUnit',{
+                  initialValue: item.useUnit || undefined,
+                  rules: [{
+                      required: true,message:'不能为空',
+                  }],
+                })(<Select
+                  style={{ width: '100%' }}
+                  placeholder="选择用款单位"
+                >
+                {useUnitOption}
+                </Select>)
+              }
+            </FormItem>
+          </Col>
         </Row>
+        :null
+      } 
       <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} className='qite-list-title'>
             <Icon type="credit-card" />收款方信息
@@ -416,7 +445,7 @@ const modal = ({
           </Col>
           
       </Row> 
-       
+      
       <Row gutter={24} className={styles['q-detail']}>
 
           <Col span={24} className='qite-list-title'>

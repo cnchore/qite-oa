@@ -37,6 +37,14 @@ class BorrowForm extends React.Component {
                <td className={styles['tc']}>原因或用途</td>
               <td className={styles['tl']} colSpan="7">{data.remark || ''}</td>
             </tr>
+            {
+              data.useUnit?
+              <tr>
+                <td className={styles['tc']}>用款单位</td>
+                <td className={styles['tl']} colSpan="7">{data.useUnit || ''}</td>
+              </tr>
+              :null
+            }
             <tr>
               <td className={styles['tc']}>金额</td>
               <td className={styles['tc']}>大写</td>

@@ -114,6 +114,14 @@ class TravelReimburseForm extends React.Component {
                <td className={styles['tc']}>借款单</td>
                <td colSpan="9" className={styles['tl']}>{data.borrowCodes || '无'}</td>
             </tr>
+            {
+              data.useUnit?
+              <tr>
+                 <td className={styles['tc']}>用款单位</td>
+                 <td colSpan="9" className={styles['tl']}>{data.useUnit || '无'}</td>
+              </tr>
+              :null
+            }
             <tr>
               <td colSpan="3"  className={styles['tl']}>报销总额(大写)：{changeMoneyToChinese(total)}</td>
               <td colSpan="3" className={styles['tl']}>借款金额：¥ {data.advanceExpense.toFixed(2) || 0}</td>

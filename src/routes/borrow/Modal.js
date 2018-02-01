@@ -17,6 +17,8 @@ const RadioGroup = Radio.Group;
 const FormItem = Form.Item
 const Option =Select.Option;
 const TreeNode = TreeSelect.TreeNode;
+const _uI=window.sessionStorage.getItem(`${config.prefix}userInfo`);
+const isMD=_uI && JSON.parse(_uI).data.isMD || false;
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -166,7 +168,8 @@ const modal = ({
     });
   const treeNodes = loop(orgTree || []);
   const travelOption=travelList && travelList[0]&&travelList.map(tra=><Option key={tra.id}>{tra.code}</Option>) || null;
-
+  const useUnitOption=config.useUnitList && config.useUnitList.map(u=><Option key={u}>{u}</Option>) || null;
+  // console.log('isMD:',isMD);
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -288,6 +291,32 @@ const modal = ({
             <FormItem >元，大写：{changeMoneyToChinese((item.payAmount || 0))}</FormItem>
           </Col>
         </Row>
+        {
+          isMD?
+          <Row gutter={24} className={styles['q-detail']}>
+            <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+              用款单位：
+            </Col>
+            <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+              <FormItem >
+                {
+                  getFieldDecorator('useUnit',{
+                    initialValue: item.useUnit || undefined,
+                    rules: [{
+                        required: true,message:'不能为空',
+                    }],
+                  })(<Select
+                    style={{ width: '100%' }}
+                    placeholder="选择用款单位"
+                  >
+                  {useUnitOption}
+                  </Select>)
+                }
+              </FormItem>
+            </Col>
+          </Row>
+          :null
+        }
         <Row gutter={24} className={styles['q-detail']}>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             出差申请单：

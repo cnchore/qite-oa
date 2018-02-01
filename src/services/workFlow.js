@@ -113,3 +113,18 @@ export async function revokeApply(params){
     data:params,
   })
 }
+
+export async function getCashierPaymentPage(params){
+  return request({
+    url:api.getCashierPaymentPage,
+    method:'get',
+    data:params,
+  })
+}
+export async function confirmCashierPayment(params){
+  return request({
+    url:api.confirmCashierPayment,
+    method:'post',
+    data:params,
+  })
+}

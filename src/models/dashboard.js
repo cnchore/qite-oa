@@ -112,7 +112,7 @@ export default {
       }
     },
     *getMessageList({payload},{call,put}){
-      const data=yield call(getMessageList,{...payload,rows:10,isRead:false,msgTypes:'1,2,3,6,7,8,9,10,13,14,15,16,17,18'});
+      const data=yield call(getMessageList,{...payload,rows:10,isRead:false,msgTypes:'1,2,3,6,7,8,9,10,13,14,15,16,17,18,19'});
       if(data.success){
         yield put({
           type:'getMessageListSuccess',

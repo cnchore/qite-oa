@@ -488,6 +488,15 @@ const Routers = function ({ history, app }) {
               cb(null, require('./routes/waitSign/detail/'))
             }, 'waitSign-detail')
           },
+        // 出纳付款
+        }, {
+          path: '/cashierPayment',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/cashierPayment'))
+              cb(null, require('./routes/cashierPayment/'))
+            }, 'cashierPayment')
+          },
         }, {
           path: '/storage',
           getComponent (nextState, cb) {

@@ -17,6 +17,7 @@ module.exports = {
   openPages: ['/login','/print'],
   apiPrefix: apiPrefixDev,
   bucket:process.env.NODE_ENV==='production'?'aihama-qite':'dc-test',
+  useUnitList:['艾臣','艾厨'],
   websocketUrl:function(){
     var _url=new window.URL(window.location.origin);
     if(_url && _websocketUrl){
@@ -36,6 +37,10 @@ module.exports = {
       getPage:`${apiPrefix}/message/getPage`,
       getMessageInfo:`${apiPrefix}/message/getMessageInfo`,
     },
+    // 出纳付款列表
+    getCashierPaymentPage:`${apiPrefixPro}/getCashierPaymentPage`,
+    // 出纳确认付款
+    confirmCashierPayment:`${apiPrefixPro}/confirmCashierPayment`,
     user:{
       login:`${apiPrefix}/user/login`,
       logout:`${apiPrefix}/user/loginOut`,

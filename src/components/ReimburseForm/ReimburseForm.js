@@ -75,6 +75,13 @@ class ReimburseForm extends React.Component {
             <tr>
               <td colSpan="5" className={styles['tl']}>借款单：{data.borrowCodes && data.borrowCodes}</td>
             </tr>
+            {
+              data.useUnit?
+              <tr>
+                <td colSpan="5" className={styles['tl']}>用款单位：{data.useUnit && data.useUnit}</td>
+              </tr>
+              :null
+            }
             <tr>
               <td  className={styles['tc']}>核销借款：</td>
               <td colSpan="2"  className={styles['tl']}>{data.loan && data.loan}</td>

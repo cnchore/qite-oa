@@ -16,7 +16,8 @@ const confirm = Modal.confirm
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item
 const Option =Select.Option;
-
+const _uI=window.sessionStorage.getItem(`${config.prefix}userInfo`);
+const isMD=_uI && JSON.parse(_uI).data.isMD || false;
 const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: {
@@ -309,6 +310,7 @@ const modal = ({
     calcExpense(item.borrowIds,data);
     // setState({currentItem:item,detailList:data});
   }
+  const useUnitOption=config.useUnitList && config.useUnitList.map(u=><Option key={u}>{u}</Option>) || null;
   return (
       <Form layout='horizontal' onSubmit={handleOk}>
         <Row gutter={24} className={styles['q-detail']}>
@@ -443,7 +445,7 @@ const modal = ({
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
             出差申请单：
           </Col>
-          <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
+          <Col xs={12} md={20} xl={22} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem style={{width:'100%'}}>
               {getFieldDecorator('travelIds', {
                 initialValue:item.travelIds && (typeof item.travelIds ==='string') ?item.travelIds.split(','):[],
@@ -451,7 +453,32 @@ const modal = ({
             </FormItem>
           </Col>
         </Row>
-          
+        {
+          isMD?
+          <Row gutter={24} className={styles['q-detail']}>
+            <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label-require']}>
+              用款单位：
+            </Col>
+            <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+              <FormItem >
+                {
+                  getFieldDecorator('useUnit',{
+                    initialValue: item.useUnit || undefined,
+                    rules: [{
+                        required: true,message:'不能为空',
+                    }],
+                  })(<Select
+                    style={{ width: '100%' }}
+                    placeholder="选择用款单位"
+                  >
+                  {useUnitOption}
+                  </Select>)
+                }
+              </FormItem>
+            </Col>
+          </Row>
+          :null
+        }   
         <EditCellTable dicList={dicList} 
           dataSource={defaultDetailList} 
           callbackParent={detailCallBack}
@@ -495,7 +522,8 @@ const modal = ({
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             <FormItem >{ item.actualExpense<0 && Math.abs(item.actualExpense) || 0}{'  元'}</FormItem>
           </Col>
-        </Row> 
+        </Row>
+
         <Row gutter={12} className={styles['q-detail']} style={{marginLeft:'2px',marginRight:'2px'}}>
           <blockquote>
             <p>

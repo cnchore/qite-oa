@@ -37,7 +37,7 @@ function Home ({ data,darkTheme,userInfo,waitInfo,signInfo,noticeList,
               </div>
               <div className={styles.listAction}>
                 <div className={styles['listAction-icon']}><i /></div>
-                <div className={styles['listAction-button']}><a onClick={e=>signList.linkto(record.taskId)}>签收</a></div>
+                <div className={styles['listAction-button']}><a onClick={e=>signList.linkto({taskId:item.taskId})}>签收</a></div>
               </div>
             </div>
   }) || null;

@@ -216,7 +216,19 @@ class TravelReimburseDetailPage extends React.Component {
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
             {data.actualExpense<0 && Math.abs(data.actualExpense) || 0}{'  元'}
           </Col>
-        </Row> 
+        </Row>
+        {
+          data.useUnit?
+          <Row gutter={24} className={styles['q-detail']}>
+            <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+            付款单位：
+            </Col>
+            <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+              {data.useUnit || '无'}
+            </Col>
+          </Row>
+          :null
+        } 
         <Row gutter={12} className={styles['q-detail']} style={{marginLeft:'2px',marginRight:'2px'}}>
           <blockquote>
             <p>

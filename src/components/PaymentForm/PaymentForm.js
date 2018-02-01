@@ -29,6 +29,14 @@ class PaymentForm extends React.Component {
           <td>用款事由</td>
           <td colSpan="4">{data && data.remark && data.remark}</td>
         </tr>
+        {
+          data && data.useUnit?
+          <tr>
+            <td>用款单位</td>
+            <td colSpan="4">{data.useUnit}</td>
+          </tr>
+          :null
+        }
         <tr>
           <td rowSpan="2">申请金额</td>
           <td>大写金额：</td>
