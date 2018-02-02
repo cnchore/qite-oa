@@ -17,7 +17,7 @@ class AdForm extends React.Component {
     
     return (
       <div >
-        <div className={styles['title']}>广告费用报销表</div>
+        <div className={styles['title']}>广告投放表</div>
         <table className={styles['table']}>
           <tbody>
             <tr>

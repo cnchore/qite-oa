@@ -328,7 +328,9 @@ const getMsgType=(t)=>{
     case 18:
     return '超时未销假通知';
     case 19:
-    return '财物已付款';
+    return '财务已付款';
+    case 20:
+    return '财务待付款';
     default:
     return '新消息';
   }
@@ -360,7 +362,7 @@ const handerMsgLinkClick=(readFn,readPayload,linkTo,linkPayload)=>{
       _code=codeStr && codeStr.split('#')[0] || '',
       t=getMsgType(item.msgType),
       _msgType=item.msgType,
-      content=_msgType===19?item.content:`[ ${_code} ${item.flowName && item.flowName || ''}] ${t}`,
+      content=_msgType===19 || _msgType===20?item.content:`[ ${_code} ${item.flowName && item.flowName || ''}] ${t}`,
       _time=item.expirationTime && (new Date()-new Date(item.expirationTime)) || 0,
       _times=_time!==0?getHMS(_time):'0 时';
     //taskId
@@ -436,8 +438,11 @@ const handerMsgLinkClick=(readFn,readPayload,linkTo,linkPayload)=>{
       return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true,msgType:_msgType,linkTo})}>{content}</a>;
       //<Link to={`/waiting`}>{content}</Link>
     }else if(_msgType===19){
-      //财物已付款
+      //财务已付款
       return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2})}>{content}</a>;
+    }else if(_msgType===20){
+      //财务待付款
+      return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true},linkTo,{pathname:'/cashierPayment'})}>{'你有一条待付款'}</a>;
     }else if((_msgType===8 || _msgType===9) && codeType&&id!==-1){
       // 审核通过/不通过
       switch(codeType){

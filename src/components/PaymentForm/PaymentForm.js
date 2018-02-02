@@ -11,6 +11,7 @@ class PaymentForm extends React.Component {
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     return (
       <table className={styles['table']}>
+      <tbody>
         <tr>
           <td colSpan="6" className={styles['title']}>{data.type?data.type.replace('申请','单'):'付款/预付款单'}</td>
         </tr>
@@ -83,30 +84,19 @@ class PaymentForm extends React.Component {
           <td colSpan="6">
             <div>
               <span>申请人：{employeeList && employeeList.realName && employeeList.realName}</span>
-              <span>部门总监：{getAuditerName(commentList,'直属副总/总监审核')}</span>
-              <span>财务总监：{getAuditerName(commentList,'财务总监审核')}</span>
-              <span>总经理：{getAuditerName(commentList,'总经理审批')}</span>
+              <span>部门总监：{getAuditerName(commentList,'一级中心副总/总监') || getAuditerName(commentList,'直属副总/总监审核')}</span>
+              <span>财务总监：{getAuditerName(commentList,'财务总监') || getAuditerName(commentList,'财务总监审核')}</span>
+              <span>总经理：{getAuditerName(commentList,'总经理') || getAuditerName(commentList,'总经理审批')}</span>
             </div>
             <div>
               <span>日期：{data && data.createTime && data.createTime.substr(0,10).replace(/-/g,'/')}</span>
-              <span>日期：{getAuditerTime(commentList,'直属副总/总监审核').substr(0,10).replace(/-/g,'/')}</span>
-              <span>日期：{getAuditerTime(commentList,'财务总监审核').substr(0,10).replace(/-/g,'/')}</span>
-              <span>日期：{getAuditerTime(commentList,'总经理审批').substr(0,10).replace(/-/g,'/')}</span>
+              <span>日期：{getAuditerTime(commentList,'一级中心副总/总监').substr(0,10).replace(/-/g,'/') || getAuditerTime(commentList,'直属副总/总监审核').substr(0,10).replace(/-/g,'/')}</span>
+              <span>日期：{getAuditerTime(commentList,'财务总监').substr(0,10).replace(/-/g,'/') || getAuditerTime(commentList,'财务总监审核').substr(0,10).replace(/-/g,'/')}</span>
+              <span>日期：{getAuditerTime(commentList,'总经理').substr(0,10).replace(/-/g,'/') || getAuditerTime(commentList,'总经理审批').substr(0,10).replace(/-/g,'/')}</span>
             </div>
           </td>
         </tr>
-        <tr>
-          <td colSpan="6">
-            <div>
-              <span>会计：{getAuditerName(commentList,'财务复核')}</span>
-              <span className={styles['span3']}>出纳：</span>
-            </div>
-            <div>
-              <span>日期：{getAuditerTime(commentList,'财务复核').substr(0,10).replace(/-/g,'/')}</span>
-              <span className={styles['span3']}>日期：</span>
-            </div>
-          </td>
-        </tr>
+        </tbody>
       </table>
       )
   }

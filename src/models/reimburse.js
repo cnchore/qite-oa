@@ -25,6 +25,7 @@ export default {
     borrowList:[],
     taskData:{},
     isEditable:false,
+    isMD:false,
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -304,7 +305,8 @@ export default {
       return {...state,...action.payload}
     },
     showModal (state, action) {
-      return { ...state, ...action.payload, modalVisible: true }
+      let isMD=window.sessionStorage.getItem(`${prefix}userInfo`) && JSON.parse(window.sessionStorage.getItem(`${prefix}userInfo`)).data.isMD || false;
+      return { ...state, ...action.payload,isMD, modalVisible: true }
     },
 
     hideModal (state) {

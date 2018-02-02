@@ -17,8 +17,6 @@ const confirm = Modal.confirm
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item
 const Option =Select.Option;
-const _uI=window.sessionStorage.getItem(`${config.prefix}userInfo`);
-const isMD=_uI && JSON.parse(_uI).data.isMD || false;
 const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: {
@@ -37,6 +35,7 @@ const twoFormItemLayout = {
 
 const modal = ({
   item = {},
+  isMD,
   onOk,
   title,
   onCancel,

@@ -49,7 +49,7 @@ export default {
       
       
       if (userInfo && userInfo.data) {
-        payload={...payload,rows:payload.pageSize}
+        payload={...payload,rows:payload.pageSize,parentOrgCode:'Market'}
         const data = yield call(getCashierPaymentPage, payload)
         if(data && data.success){
           yield put({

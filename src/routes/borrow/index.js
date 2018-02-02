@@ -8,7 +8,7 @@ import Modal from './Modal'
 
 const Borrow = ({ location, dispatch, borrow, loading }) => {
   const { list,fileList,dicList,employeeList, taskData,orgTree,travelList,
-    pagination, currentItem, modalVisible, modalType } = borrow
+    pagination, currentItem, modalVisible, modalType,isMD } = borrow
   const { pageSize } = pagination
 
   const modalProps = {
@@ -20,7 +20,7 @@ const Borrow = ({ location, dispatch, borrow, loading }) => {
     travelList,
     dicList,
     taskData,
-    // isEditable,
+    isMD,
     maskClosable: false,
     submitLoading:loading.effects['borrow/submit'],
     confirmLoading: loading.effects[`borrow/${modalType}`],

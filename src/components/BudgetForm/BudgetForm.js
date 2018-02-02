@@ -62,11 +62,11 @@ class BudgetForm extends React.Component {
             {defaultRows && defaultRows}
             <tr>
               <td className={styles['tc']}>部门负责人</td>
-              <td className={styles['tl']}>{getAuditerName(commentList,'直属副总/总监审核')}</td>
+              <td className={styles['tl']}>{getAuditerName(commentList,'一级中心副总/总监') || getAuditerName(commentList,'直属副总/总监审核')}</td>
               <td className={styles['tc']}>财务总监</td>
-              <td className={styles['tl']}>{getAuditerName(commentList,'财务总监审核')}</td>
+              <td className={styles['tl']}>{getAuditerName(commentList,'财务总监') || getAuditerName(commentList,'财务总监审核')}</td>
               <td className={styles['tc']}>总经理</td>
-              <td className={styles['tl']} colSpan="2">{getAuditerName(commentList,'总经理审批')}</td>
+              <td className={styles['tl']} colSpan="2">{getAuditerName(commentList,'总经理') || getAuditerName(commentList,'总经理审批')}</td>
             </tr>
           </tbody>
         </table>

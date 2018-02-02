@@ -8,7 +8,7 @@ import Modal from './Modal'
 
 const Reimburse = ({ location, dispatch, reimburse, loading }) => {
   const { list,fileList,dicList,detailList,taskData,purchaseList,employeeList, borrowList,
-    pagination, currentItem, modalVisible, modalType,isEditable } = reimburse
+    pagination, currentItem, modalVisible, modalType,isEditable,isMD } = reimburse
   const { pageSize } = pagination
 
   const modalProps = {
@@ -22,6 +22,7 @@ const Reimburse = ({ location, dispatch, reimburse, loading }) => {
     taskData,
     isEditable,
     borrowList,
+    isMD,
     maskClosable: false,
     submitLoading:loading.effects['reimburse/submit'],
     confirmLoading: loading.effects[`reimburse/${modalType}`],

@@ -44,7 +44,7 @@ const List = ({ onEditItem,location, ...tableProps }) => {
     }
     return <div>
         {link}
-        <a onClick={e=>handleSign(item)}>付款</a>
+        {!item.isPay?<a onClick={e=>handleSign(item)}>付款</a>:null}
       </div>
   }
   const columns = [

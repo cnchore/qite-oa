@@ -8,7 +8,7 @@ import Modal from './Modal'
 
 const Payment = ({ location, dispatch, payment, loading }) => {
   const { list,fileList,dicList,purchaseList,employeeList,taskData,contractList,
-    pagination, currentItem, modalVisible, modalType } = payment
+    pagination, currentItem, modalVisible, modalType,isMD } = payment
   const { pageSize } = pagination
 
   const modalProps = {
@@ -20,6 +20,7 @@ const Payment = ({ location, dispatch, payment, loading }) => {
     purchaseList,
     contractList,
     taskData,
+    isMD,
     maskClosable: false,
     submitLoading:loading.effects['payment/submit'],
     confirmLoading: loading.effects[`payment/${modalType}`],
