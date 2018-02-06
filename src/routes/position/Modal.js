@@ -23,7 +23,7 @@ const modal = ({
   postLevelList,
   form: {
     getFieldDecorator,
-    validateFields,
+    validateFieldsAndScroll,
     getFieldsValue,
     setFieldsValue,
   },
@@ -33,11 +33,11 @@ const modal = ({
     item.orgId=orgKey;
   }
   const handleOk = () => {
-    validateFields((errors) => {
+    validateFieldsAndScroll((errors,values) => {
       if (errors) {
         return
       }
-      const data = {...getFieldsValue()}
+      const data = {...values}
       let _ls=orgList.filter(item=>String(item.id)===data.orgId);
       //console.log('orgParentId:',_ls[0].parentId)
       if(_ls && _ls[0]){

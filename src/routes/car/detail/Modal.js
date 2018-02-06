@@ -20,18 +20,18 @@ const modal = ({
   onOk,
   form: {
     getFieldDecorator,
-    validateFields,
+    validateFieldsAndScroll,
     getFieldsValue,
   },
   ...modalProps
 }) => {
   const dateTimeFormat="YYYY-MM-DD";// HH:mm:ss
   const handleOk = () => {
-    validateFields((errors) => {
+    validateFieldsAndScroll((errors,values) => {
       if (errors) {
         return
       }
-      const data = {...getFieldsValue()}
+      const data = {...values}
       data.maintainDateStartStr=data.maintainDateStartStr?data.maintainDateStartStr.format(dateTimeFormat):null;
       data.maintainDateEndStr=data.maintainDateEndStr?data.maintainDateEndStr.format(dateTimeFormat):null;
       

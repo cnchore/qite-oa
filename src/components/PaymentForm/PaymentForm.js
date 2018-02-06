@@ -22,7 +22,7 @@ class PaymentForm extends React.Component {
           <td colSpan="3">{employeeList && employeeList.realName && employeeList.realName}</td>
         </tr>
         <tr>
-          <td rowSpan="4">付款方信息</td>
+          <td rowSpan={data && data.useUnit?5:4}>付款方信息</td>
           <td>用款部门</td>
           <td colSpan="4">{employeeList && employeeList.postList && employeeList.postList[0].orgName && employeeList.postList[0].orgName}</td>
         </tr>

@@ -21,17 +21,17 @@ const modal = ({
   list,
   form: {
     getFieldDecorator,
-    validateFields,
+    validateFieldsAndScroll,
     getFieldsValue,
   },
   ...modalProps
 }) => {
   const handleOk = () => {
-    validateFields((errors) => {
+    validateFieldsAndScroll((errors,values) => {
       if (errors) {
         return
       }
-      const data = {...getFieldsValue()}
+      const data = {...values}
       if(item.parentId===undefined){
         data.parentId=0;
       } 

@@ -78,7 +78,7 @@ const modal = ({
   setNeedEvalRemark,
   form: {
     getFieldDecorator,
-    validateFields,
+    validateFieldsAndScroll,
     getFieldsValue,
     setFieldsValue,
   },
@@ -91,11 +91,11 @@ const modal = ({
 
   const getFields=()=>{
     let data={};
-    validateFields((errors) => {
+    validateFieldsAndScroll((errors,values) => {
       if (errors) {
         return {}
       }
-      data= {...getFieldsValue()}
+      data= {...values}
       if(isTrainer){
         data.isNeedSave=true;
         data.id=taskData.busiData.id;
