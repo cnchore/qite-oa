@@ -25,7 +25,7 @@ const modal = ({
   ...modalProps
 }) => {
   const handleOk = () => {
-    validateFieldsAndScroll((errors,values) => {
+    validateFieldsAndScroll({scroll:{offsetBottom:30}},(errors,values) => {
       if (errors) {
         return
       }

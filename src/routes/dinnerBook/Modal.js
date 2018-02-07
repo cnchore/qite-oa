@@ -43,7 +43,7 @@ const modal = ({
   const getFields=()=>{
     let fields={},index=0;
     let _data=null;
-    validateFieldsAndScroll((err,values) => {
+    validateFieldsAndScroll({scroll:{offsetBottom:30}},(err,values) => {
       if (err) {
         return null;
       }

@@ -75,7 +75,7 @@ const modal = ({
     item.orgId=orgKey;
   }
   const handleOk = () => {
-    validateFieldsAndScroll((errors,values) => {
+    validateFieldsAndScroll({scroll:{offsetBottom:30}},(errors,values) => {
       if (errors) {
         return
       }

@@ -27,7 +27,7 @@ const modal = ({
 }) => {
   const dateTimeFormat="YYYY-MM-DD";// HH:mm:ss
   const handleOk = () => {
-    validateFieldsAndScroll((errors,values) => {
+    validateFieldsAndScroll({scroll:{offsetBottom:30}},(errors,values) => {
       if (errors) {
         return
       }

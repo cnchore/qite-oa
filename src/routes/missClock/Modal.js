@@ -51,7 +51,7 @@ const modal = ({
   const dateTimeFormat='YYYY-MM-DD HH:mm:ss'
   const getFields=()=>{
     let data=null;
-    validateFieldsAndScroll((err,values) => {
+    validateFieldsAndScroll({scroll:{offsetBottom:30}},(err,values) => {
       if (err) {
         return null;
       }
