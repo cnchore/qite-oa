@@ -184,6 +184,7 @@ export default {
       if(mcData.success&& userInfo.data){
         let taskData=yield call(getTaskInfo,{taskId:payload.taskId})
         if(taskData.success){
+          yield put({type:'getDic'});
           taskData.data.taskId=payload.taskId;
           yield put({
             type:'showModal',

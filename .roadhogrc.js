@@ -50,8 +50,11 @@ export default {
       "production": {
         "publicPath": "/",
         // "output": {
-        //   "filename": "[name].[chunkhash].js",
-        //   "chunkFilename": "[chunkhash].async.js"
+          // "path":path.resolve('../qite-oa'),
+          // "filename": "dist/[hash:7]/[name].js",
+          // "chunkFilename": "dist/[hash:7]/[id].chunk.js"
+          // "filename": "[name].[chunkhash].js",
+          // "chunkFilename": "[chunkhash].async.js"
         // },
         "extraBabelPlugins": [
           "transform-runtime",

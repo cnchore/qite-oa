@@ -80,9 +80,7 @@ const modal = ({
       }
       data.useTimeStr=data.useTimeStr?data.useTimeStr.format(dateTimeFormat):null;
       data.returnTimeStr=data.returnTimeStr?data.returnTimeStr.format(dateTimeFormat):null;
-      
-      
-      //console.log('-----',data)
+      // console.log('-----',data)
       if(item.id){
         data.id=item.id;
         data.code=item.code;
@@ -139,6 +137,7 @@ const modal = ({
               delete _formItem.returnTime;
               delete _formItem.createTime;
               delete _formItem.updateTime;
+              delete _formItem.attachList;
               onAudit(_formItem,taskItem)
             }else{
               onAudit(formItem,taskItem)

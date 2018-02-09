@@ -30,10 +30,10 @@ module.exports = function (config, env) {
   if (env === 'production') {
     // config.entry.lib=vendors
     config.output.publicPath='';
-    // config.output.path=path.resolve(__dirname,'build');
-    config.output.filename = '[name].[chunkhash].js';
+    config.output.path=path.resolve(__dirname,'dist');
+    config.output.filename = '[hash:7]/[name].js';
     // config.output.chunkFilename = '[chunkhash].async.js';
-    config.output.chunkFilename = '[name].[chunkhash:5].chunk.js';
+    config.output.chunkFilename = '[hash:7]/[name].chunk.js';
     // config.output.library='[name]'
     config.plugins[3] = new ExtractTextPlugin('[contenthash:20].css');   // 注 2
     config.plugins.push(

@@ -46,9 +46,9 @@
     "rc-tween-one": "^1.0.0",
     "react-router": "^4.1.1",
     "roadhog": "^0.6.0",
+    "socket.io-client": "^2.0.3",
     "wangeditor": "^2.1.23",
-    "webpack-chunk-hash": "^0.4.0",
-    "socket.io-client":"^2.0.3"
+    "webpack-chunk-hash": "^0.4.0"
   },
   "pre-commit": [
     "lint"
