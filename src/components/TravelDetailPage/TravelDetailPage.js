@@ -66,6 +66,9 @@ class TravelDetailPage extends React.Component {
         <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
           {data.createTime || data.createTimeStr}
         </Col>
+      </Row>
+      <Row gutter={24} className={styles['q-detail']}>
+
         <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
           代理人：
         </Col>
@@ -75,7 +78,7 @@ class TravelDetailPage extends React.Component {
          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
           同行人：
         </Col>
-        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+        <Col xs={18} md={8} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
           
           {data.colleaguesNames?data.colleaguesNames:'无'}
         </Col>
@@ -83,7 +86,7 @@ class TravelDetailPage extends React.Component {
         <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px',paddingLeft:'0px' }} className={styles['q-detail-label']}>
           预计出差时间：
         </Col>
-        <Col xs={12} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+        <Col xs={18} md={20} xl={14} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
           {data.travelTimeStartStr || data.travelTimeStart || '无'} 
           <span className='q-pd-8'>至</span>
           {data.travelTimeEndStr || data.travelTimeEnd || '无'}
@@ -94,7 +97,7 @@ class TravelDetailPage extends React.Component {
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' ,paddingLeft:'0px'}} className={styles['q-detail-label']}>
           出差地点：
         </Col>
-        <Col xs={12} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
           {`${data.province?data.province:''}${data.city?data.city:''}${data.area?data.area:''}${data.address?data.address:''}`}
 
         </Col>
@@ -104,13 +107,7 @@ class TravelDetailPage extends React.Component {
         <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
           {data.customers?data.customers:'无'}
         </Col>
-          <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
-          出差事由：
-        </Col>
-        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-         
-          {data.remark?data.remark:'无'}
-        </Col>
+          
         <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
           出行方式：
         </Col>
@@ -126,6 +123,13 @@ class TravelDetailPage extends React.Component {
           {`¥ ${data.expense?data.expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):0}`}
           <span className='q-pd-8'>大写：</span>
           {changeMoneyToChinese(data.expense)}
+        </Col>
+        <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
+          出差事由：
+        </Col>
+        <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+         
+          {data.remark?data.remark:'无'}
         </Col>
       </Row>
       <Row gutter={12} className={styles['q-detail']} style={{marginLeft:'2px',marginRight:'2px'}}>
