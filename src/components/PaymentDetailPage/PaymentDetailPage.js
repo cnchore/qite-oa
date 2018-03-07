@@ -32,7 +32,7 @@ class PaymentDetailPage extends React.Component {
             部门：
           </Col>
           <Col xs={18} md={8} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {employeeList.postList?(employeeList.postList[0].orgName ||'无'):'无'}
+            {employeeList.postList?(employeeList.postList[0].orgParentName ||''):''}/{employeeList.postList?(employeeList.postList[0].orgName ||'无'):'无'}
           </Col>
           <Col xs={6} md={4} xl={2} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             岗位：
