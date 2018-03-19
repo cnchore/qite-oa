@@ -94,7 +94,10 @@ class ReimburseForm extends React.Component {
           <span>审批：{getAuditerName(commentList,'总经理') || getAuditerName(commentList,'总经理审批')}</span>
           <span>会计主管：{getAuditerName(commentList,'财务总监') || getAuditerName(commentList,'财务总监复核')}</span>
           <span>复核：{getAuditerName(commentList,'总经理审批')}</span>
-          <span>部门负责：{getAuditerName(commentList,'一级中心副总/总监') || getAuditerName(commentList,'直属副总/总监审批')}</span>
+          <span>部门负责人：{
+             getAuditerName(commentList,'一级中心副总/总监') 
+          || getAuditerName(commentList,'直属副总/总监审批')
+          || getAuditerName(commentList,'厂长')}</span>
           <span>经办人：{employeeList && employeeList.realName && employeeList.realName}</span>
         </div>
       </div>

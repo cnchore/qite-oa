@@ -136,7 +136,9 @@ class TravelReimburseForm extends React.Component {
           </tbody>
         </table>
         <div className={styles['footer']}>
-          <span>部门负责人：{getAuditerName(commentList,'一级中心副总/总监')}</span>
+          <span>部门负责人：{
+             getAuditerName(commentList,'一级中心副总/总监')
+          || getAuditerName(commentList,'厂长')}</span>
           <span>财务主管：{getAuditerName(commentList,'财务总监') || getAuditerName(commentList,'财务总监复核')}</span>
           <span></span>
         </div>

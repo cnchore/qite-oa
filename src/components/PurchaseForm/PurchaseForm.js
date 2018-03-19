@@ -102,7 +102,9 @@ class PurchaseForm extends React.Component {
         </div>
         {getTable()}
         <div className={styles['footer']}>
-          <span>部门负责人：{getAuditerName(commentList,'一级中心副总/总监') }</span>
+          <span>部门负责人：{
+            getAuditerName(commentList,'一级中心副总/总监')
+          || getAuditerName(commentList,'厂长') }</span>
           <span>采购询价：{getAuditerName(commentList,'采购询价')}</span>
           <span></span>
         </div>

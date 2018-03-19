@@ -53,8 +53,11 @@ class BorrowForm extends React.Component {
               <td className={styles['tl']} colSpan="3">{data.payAmount || '0'}</td>
             </tr>
             <tr>
-              <td className={styles['tc']} >主管批示</td>
-              <td className={styles['tl']} colSpan="3">{getAuditerName(commentList,'一级中心副总/总监') || getAuditerName(commentList,'部门主管/经理审核')}</td>
+              <td className={styles['tc']} >主管批示</td> 
+              <td className={styles['tl']} colSpan="3">{
+                getAuditerName(commentList,'一级中心副总/总监') 
+              || getAuditerName(commentList,'部门主管/经理审核')
+              || getAuditerName(commentList,'厂长')}</td>
               <td className={styles['tc-span15']} >财会意见</td>
               <td className={styles['tl']} colSpan="3">{getAuditerName(commentList,'财务总监') || getAuditerName(commentList,'财务总监审核')}</td>
             </tr>
