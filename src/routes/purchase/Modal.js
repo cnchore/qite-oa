@@ -415,6 +415,11 @@ const modal = ({
       }
     }
   }
+  // 2018-3-20,因后台无法及时修改流程配置，需前端在采购询价和确定采购环节，添加转办操作
+  if(_use==='purInquiry' || _use==='purConfirm'){
+    taskData.actionMap={...taskData.actionMap,8:"转办"};
+  }
+  
   const actionRadio=taskData.actionMap?Object.keys(taskData.actionMap).map(act=><Radio value={act} key={act}>{taskData.actionMap[act]}</Radio>):null;
   const bigOption=dicList.filter(f=>f.dicType==='buyType_Big').map(dic=><Option key={dic.dicValue}>{dic.dicName}{dic.remark?` (${dic.remark})`:''}</Option>)
   // let typeOption=null;

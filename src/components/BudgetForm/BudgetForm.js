@@ -9,7 +9,7 @@ class BudgetForm extends React.Component {
     const { data,employeeList,commentList } = this.props
     const userInfo=JSON.parse(sessionStorage.getItem(`${config.prefix}userInfo`))
     let defaultRows=[],total=0;
-
+    console.log('commentList:',commentList)
     const getCreateDate=()=>{
       let _date=data.createTime && new Date(data.createTime) || new Date();
       return `${_date.getFullYear()}年${_date.getMonth()+1}月${_date.getDate()}日`
@@ -65,7 +65,8 @@ class BudgetForm extends React.Component {
                 <div>
                   <span >部门负责人：{
                      getAuditerName(commentList,'一级中心副总/总监') 
-                  || getAuditerName(commentList,'直属副总/总监审核')}</span>
+                  || getAuditerName(commentList,'直属副总/总监审核') 
+                  || getAuditerName(commentList,'厂长')}</span>
                   <span >财务总监：{
                      getAuditerName(commentList,'财务总监') 
                   || getAuditerName(commentList,'财务总监审核')}</span>

@@ -65,7 +65,7 @@ class BorrowForm extends React.Component {
               <td className={styles['tc']} >单位负责人签章</td>
               <td className={styles['tl']} colSpan="3">{getAuditerName(commentList,'总经理') || getAuditerName(commentList,'中心副总/中心总监审核')}</td>
                <td className={styles['tc-span15']} >发起人</td>
-              <td className={styles['tl']} colSpan="3">{employeeList.realName || '无'}</td>
+              <td className={styles['tl']} colSpan="3">{employeeList && employeeList.realName || '无'}</td>
             </tr>
           </tbody>
         </table>

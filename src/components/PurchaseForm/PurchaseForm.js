@@ -111,7 +111,7 @@ class PurchaseForm extends React.Component {
         <div className={styles['footer']}>
           <span>批准：{getAuditerName(commentList,'总经理') || getAuditerName(commentList,'总经理审批')}</span>
           <span>复核：{getAuditerName(commentList,'财务复核') || getAuditerName(commentList,'财务核价')}</span>
-          <span>制单：{userInfo && userInfo.data && userInfo.data.employeeVo && userInfo.data.employeeVo.realName && userInfo.data.employeeVo.realName}</span>
+          <span>制单：{data.applyName}</span>
         </div>
       </div>
       )
