@@ -28,7 +28,8 @@ class FileList extends React.Component {
   state = {
     previewVisible:false,
     previewImage:null,
-    previewName:''
+    previewName:'',
+    previewIndex:0,
   }
   componentWillReceiveProps(nextProps){
     // console.log('fileList nextProps:',nextProps)
@@ -81,31 +82,37 @@ class FileList extends React.Component {
   handleCancel=()=>{
     this.setState({previewVisible:false});
   }
-  handlePreview=(file)=>{
+  handlePreview=(index)=>{
     this.setState({
-      previewImage:this.getThumbUrl(file,true),
-      previewName:file.name,
+      // previewImage:this.getThumbUrl(file,true),
+      // previewName:file.name,
+      previewIndex:index,
       previewVisible:true,
     });
   }
   render () {
-    const {previewVisible,previewImage,previewName }= this.state; 
+    const {previewVisible,previewIndex }= this.state; 
     const { fileList,showRemoveIcon,onRemove } = this.props;
-    const _imgs=[{src:previewImage,name:previewName}]
+    // const _imgs=[{src:previewImage,name:previewName}]
     const handleRemove=(file)=>{
       if(onRemove){
         onRemove(file);
       }
     }
-    const _fileList = fileList.map((file,index)=>{
+    let _fileList=[],_imgs=[];
+    fileList.map((file,index)=>{
         // 
       let thumbUrl=this.getThumbUrl(file);
-      return (
+      _imgs.push({
+        src:thumbUrl,
+        name:file.name,
+      });
+      _fileList.push(
         <Col key={index} md={24} xl={12} className={styles['file-container']}>
           <Row key={file.uid} className={styles['file-list']} style={{margin:'0px'}} type="flex" justify="space-around" align="middle">
             <Col key={index+1+Math.random()} span={4}>
               { thumbUrl?
-                <img className={styles.fileImg} src={thumbUrl} alt={file.name} onClick={e=>this.handlePreview(file)} />
+                <img className={styles.fileImg} src={thumbUrl} alt={file.name} onClick={e=>this.handlePreview(index)} />
                 :null
               }
             </Col>
@@ -125,6 +132,7 @@ class FileList extends React.Component {
               <a
               href={file.url}
               target="_blank"
+              download={file.name}
               >
                 <Icon type="download" style={{ fontSize: 18 }} />
               </a>
@@ -144,6 +152,7 @@ class FileList extends React.Component {
           <ImgViewer 
             visible={previewVisible}
             onCancel={this.handleCancel}
+            visIndex={previewIndex}
             imgs={_imgs} />
           :null
         }

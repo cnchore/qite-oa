@@ -134,27 +134,33 @@ class FileUpload extends React.Component {
   handleCancel=()=>{
     this.setState({previewVisible:false});
   }
-  handlePreview=(file)=>{
+  handlePreview=(index)=>{
     this.setState({
-      previewImage:this.getThumbUrl(file,true),
-      previewName:file.name,
+      // previewImage:this.getThumbUrl(file,true),
+      // previewName:file.name,
+      previewIndex:index,
       previewVisible:true,
     });
   }
   render () {
     const fileData={bucket:`${config.bucket}`,type:'qiteOa'};
-    const {previewVisible,previewImage,previewName }= this.state; 
-    const _imgs=[{src:previewImage,name:previewName}]
+    const {previewVisible,previewIndex }= this.state; 
+    // const _imgs=[{src:previewImage,name:previewName}]
     const { prefixCls,fileList,showPreviewIcon, showRemoveIcon,defaultFileList } = this.props
     // console.log('defaultFileList:',defaultFileList);
-    const _fileList = defaultFileList.filter(f=>f.uid!=='invalid').map((file,index)=>{
+    let _fileList=[],_imgs=[]; 
+    defaultFileList.filter(f=>f.uid!=='invalid').map((file,index)=>{
       let thumbUrl=this.getThumbUrl(file);
-      return (
+      _imgs.push({
+        src:thumbUrl,
+        name:file.name,
+      });
+      _fileList.push(
          <Col md={24} xl={12} className={styles['file-col']} key={`file-${index}`}>
           <Row key={file.uid} gutter={0} className={styles['file-list']} style={{margin:'0px'}} type="flex" justify="space-around" align="middle">
             <Col span={4}  className={styles['file-img-div']}>
               { (thumbUrl)?
-                <img className={styles.fileImg} src={thumbUrl} alt={file.name} onClick={e=>this.handlePreview(file)}/>
+                <img className={styles.fileImg} src={thumbUrl} alt={file.name} onClick={e=>this.handlePreview(index)}/>
                 :<Icon type="loading" />
               }
             </Col>
@@ -173,6 +179,7 @@ class FileUpload extends React.Component {
               <a
               href={file.url}
               target="_blank"
+              download={file.name}
               >
                 <Icon type="download" style={{ fontSize: 18 }} />
               </a>
@@ -188,8 +195,8 @@ class FileUpload extends React.Component {
               <div className={styles['close']} onClick={()=>this.handleRemove(file)}><Icon type="close" /></div>
               <Icon type="loading" />
               <p>上传中，请耐心等待...</p>
-            </div>}
-
+            </div>
+          }
         </Col>
       );
     });
@@ -204,6 +211,7 @@ class FileUpload extends React.Component {
             name="avatar"
             showUploadList={false}
             data={fileData}
+            multiple={true}
             //accept={this.acceptList.join()}
             action={`${config.baseURL()}${config.api.imgUpload}`}
             beforeUpload={this.beforeUpload}
@@ -222,6 +230,7 @@ class FileUpload extends React.Component {
            <ImgViewer 
             visible={previewVisible}
             onCancel={this.handleCancel}
+            visIndex={previewIndex}
             imgs={_imgs} />
           :null
         }

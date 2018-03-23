@@ -25,6 +25,7 @@ class CommentTable extends React.Component {
         title: '办理人',
         dataIndex: 'auditerName',
         key: 'auditerName',
+        render:(text,record)=>record.byAgentUserName?`(${record.byAgentUserName}委托给)${text}`:text,
       }, {
         title: '审批意见',width:250,
         dataIndex: 'approvalOpinion',

@@ -9,7 +9,7 @@ class ImgViewer extends React.Component{
 	  prop: 'value'
 	};
 	state ={
-		index:0,
+		index:this.props.visIndex!==undefined?this.props.visIndex:0,
 		imgStyles:{},
 		ratio:.5,
 		deg:0,
@@ -30,13 +30,13 @@ class ImgViewer extends React.Component{
 		// console.log('componentWillReceiveProps',nextProps)
 		//nextProps.imgs[0].src;
 	};
-	loadImage(src){
+	loadImage(src,index){
 		let self=this;
 		let _img=new Image();
 		_img.src=src;
 		_img.onload=function(){
 			self.setState({
-				index:0,
+				index:index,
 				imgStyles:{},
 				ratio:.5,
 				deg:0,
@@ -238,15 +238,29 @@ class ImgViewer extends React.Component{
       e.preventDefault();
     }
 	};
-
+	handerNext(t){
+		const {imgs} = this.props;
+		const {index} = this.state;
+		if(imgs && imgs[0]){
+			let len=imgs.length -1;
+			let _index=index + t;
+			if(_index>=0 && _index<=len){
+				this.setState({index:_index});
+			}
+		}
+	};
 	render(){
 		const {index,imgStyles,ratio,action,status} = this.state;
 		const {imgs,visible} =this.props;
-		// console.log('visible',visible)
-		let _title=imgs[index].name,
-				_src=imgs[index].src;
+		// console.log('imgs',imgs,index)
+		if(!imgs || (imgs && !imgs[index])){
+			return null;
+		}
+		let _title=imgs[index].name?imgs[index].name:'',
+				_src=imgs[index].src,
+				imgLength=imgs.length?(imgs.length-1):0;
 		if(status!==2 && status!==3){
-			this.loadImage(_src);
+			this.loadImage(_src,index);
 		}
 		return(
 			<div className={cs(styles['img-viewer']:true,visible?styles['show']:'')} ref="viewer">
@@ -283,16 +297,18 @@ class ImgViewer extends React.Component{
 					<Icon type="close" />
 				</div>
 				<div className={styles['tooltips']}>
-					{_title && _title}
+					{_title && _title}<span>[{index+1}/{imgLength+1}]</span>
 				</div>
 				<div className={styles['tools']}>
-					<Icon type="plus" className={ratio===4?styles['disable']:''} onClick={e=>this.handerEnlarge()} />
-					<Icon type="minus" className={ratio===.3?styles['disable']:''}  onClick={e=>this.handerNarrow()} />
-					<i className={cs('anticon',styles['real-size'])} onClick={e=>this.zoomTo(0,true)}></i>
-					<Icon type="reload" className={styles['reverse-rotate']} onClick={e=>this.handerRotate(-90)} />
-					<Icon type="reload" className={styles['cis-rotate']} onClick={e=>this.handerRotate(90)} />
-					<Icon type="arrows-alt" className={styles['reverse-flip']} onClick={e=>this.handerScale('horizontal')}/>
-					<Icon type="arrows-alt" className={styles['cis-flip']} onClick={e=>this.handerScale('vertical')}/>
+					<Icon title="上一个" type="left" className={index===0?styles['disable']:''} onClick={e=>this.handerNext(-1)} />
+					<Icon title="下一个" type="right" className={index===imgLength?styles['disable']:''} onClick={e=>this.handerNext(1)} />
+					<Icon title="放大"  type="plus" className={ratio===4?styles['disable']:''} onClick={e=>this.handerEnlarge()} />
+					<Icon title="缩小" type="minus" className={ratio===.3?styles['disable']:''}  onClick={e=>this.handerNarrow()} />
+					<i title="实际大小" className={cs('anticon',styles['real-size'])} onClick={e=>this.zoomTo(0,true)}></i>
+					<Icon title="逆时针旋转" type="reload" className={styles['reverse-rotate']} onClick={e=>this.handerRotate(-90)} />
+					<Icon title="顺时针旋转" type="reload" className={styles['cis-rotate']} onClick={e=>this.handerRotate(90)} />
+					<Icon title="左右翻转" type="arrows-alt" className={styles['reverse-flip']} onClick={e=>this.handerScale('horizontal')}/>
+					<Icon title="上下翻转" type="arrows-alt" className={styles['cis-flip']} onClick={e=>this.handerScale('vertical')}/>
 				</div>
 			</div>
 		)

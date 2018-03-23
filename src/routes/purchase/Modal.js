@@ -77,6 +77,7 @@ const modal = ({
   const _use=taskDefinitionKey?taskDefinitionKey.split('_')[0]:'';
   //状态：新增，编辑，退回修改，审批（询价，确定采购）
   //新增：item.state===undefined;
+  const taskAgentName=taskData.taskAgentVo?taskData.taskAgentVo.userName:null;
   
   const getFields = () => {
     let data=null;
@@ -456,7 +457,7 @@ const modal = ({
         <Row gutter={24} className={styles['q-detail']}>
           <Col span={24} style={{display:'flex',justifyContent:'space-between',marginBottom:'24px',paddingBottom:'12px',borderBottom:'1px solid #d9d9d9'}}>
             <div className='qite-title'>
-            <Icon type={item.id?'edit':'plus'} />{taskData && taskData.taskVo && taskData.taskVo.nodeName?taskData.taskVo.nodeName:title}</div>
+            <Icon type={item.id?'edit':'plus'} />{taskData && taskData.taskVo && taskData.taskVo.nodeName?taskData.taskVo.nodeName:title}<span>{taskAgentName?`（${taskAgentName}的委托）`:''}</span></div>
            
             <Affix target={()=>document.getElementById('layout-main')} style={{minWidth:'310px',textAlign:'right'}}>
                 {taskData && taskData.taskId?(
