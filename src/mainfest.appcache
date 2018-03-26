@@ -1,0 +1,13 @@
+CACHE MANIFEST
+# 2018-03-26 v0.0.2
+3logo.png
+antd/iconfont.woff
+static/light-bg0.0372e9d1.jpg
+static/banner1.2d9611da.jpg
+static/banner2.09e45a63.jpg
+index.html
+
+NETWORK:
+
+FALLBACK:
+/html/ /offline.html

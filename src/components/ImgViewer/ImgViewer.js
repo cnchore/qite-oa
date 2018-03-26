@@ -34,6 +34,7 @@ class ImgViewer extends React.Component{
 		let self=this;
 		let _img=new Image();
 		_img.src=src;
+		// self.setState({status:0});
 		_img.onload=function(){
 			self.setState({
 				index:index,
@@ -92,8 +93,14 @@ class ImgViewer extends React.Component{
     	_ratio=1;
     }
 		if(typeof _ratio==='number' && !isNaN(_ratio) && _ratio>=.3 && _ratio<=4){
-			const newWidth = imgNaturalWidth * _ratio;
-	    const newHeight = imgNaturalHeight * _ratio;
+			let newWidth = imgNaturalWidth * _ratio;
+	    let newHeight = imgNaturalHeight * _ratio;
+	    if(init){
+	    	let _offsetWidth=document.body.offsetWidth;
+				let _offsetHeight=document.body.offsetHeight;
+				newWidth=newWidth>_offsetWidth?_offsetWidth:newWidth;
+				newHeight=newHeight>_offsetHeight?_offsetHeight:newHeight;
+	    }
 	    const _margin=this.offset(margin,imgWidth,imgHeight,newWidth,newHeight,init);
 	    const marginLeft=_margin.marginLeft;
 	    const marginTop=_margin.marginTop;
@@ -245,7 +252,7 @@ class ImgViewer extends React.Component{
 			let len=imgs.length -1;
 			let _index=index + t;
 			if(_index>=0 && _index<=len){
-				this.setState({index:_index});
+				this.setState({index:_index,status:0});
 			}
 		}
 	};
@@ -263,7 +270,7 @@ class ImgViewer extends React.Component{
 			this.loadImage(_src,index);
 		}
 		return(
-			<div className={cs(styles['img-viewer']:true,visible?styles['show']:'')} ref="viewer">
+			<div  className={cs("q-viewer",styles['img-viewer']:true,visible?styles['show']:'')} ref="viewer">
 				{
 					status===2?
 						<div className={styles['main-img']}>

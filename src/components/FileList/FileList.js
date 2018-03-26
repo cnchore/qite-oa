@@ -104,7 +104,7 @@ class FileList extends React.Component {
         // 
       let thumbUrl=this.getThumbUrl(file);
       _imgs.push({
-        src:thumbUrl,
+        src:this.getThumbUrl(file,true),
         name:file.name,
       });
       _fileList.push(
