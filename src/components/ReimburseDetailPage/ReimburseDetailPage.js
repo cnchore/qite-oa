@@ -25,6 +25,12 @@ class ReimburseDetailPage extends React.Component {
       }
       return c.toFixed(2);
     }
+    const getPayable=(a,b)=>{
+      if(b){
+        return b;
+      }
+      return (getTotalAmount() - (a || 0)).toFixed(2);
+    }
     const columns =[{
         title:'序号',
         dataIndex:'index',width:60,
@@ -163,7 +169,7 @@ class ReimburseDetailPage extends React.Component {
             应付款：
           </Col>
           <Col xs={18} md={20} xl={6} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
-            {data.payable || '0'}{'  元'}
+            {getPayable(data.loan,data.payable) || '0'}{'  元'}
           </Col>
         </Row>
         

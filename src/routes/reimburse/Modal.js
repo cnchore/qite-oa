@@ -120,13 +120,13 @@ const modal = ({
       }
       if(data.borrowIds){
         data.borrowCodes=borrowList.filter(f=>String(data.borrowIds)===String(f.id)).map(m=>m.code).join();
-        data.loan=item.loan;//getBorrowTotal(data.borrowIds).toFixed(2);
-        data.payable=item.payable;//(getCostTotal().toFixed(2) - data.loan).toFixed(2);
         // data.borrowIds=data.borrowIds.join();
       }else{
         data.borrowIds='';
         data.borrowCodes='';
       }
+      data.loan=item.loan || 0;//getBorrowTotal(data.borrowIds).toFixed(2);
+      data.payable=item.payable || 0;//(getCostTotal().toFixed(2) - data.loan).toFixed(2);
 
       if(item.id){
         data.id=item.id;

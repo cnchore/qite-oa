@@ -103,11 +103,17 @@
 .msgInfo,
 .knowledgeInfo{
 	text-align: center;
-	display: -webkit-box;
-  -webkit-box-pack:center;
-  -webkit-box-align:center;
-  -webkit-box-orient:vertical;
-  cursor: pointer;
+	// 兼容性不好
+	// display: -webkit-box;
+	// -webkit-box-pack:center;
+	// -webkit-box-align:center;
+	// -webkit-box-orient:vertical;
+	// -webkit-box-flex:1;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+   cursor: pointer;
+   flex-direction: column;
 }
 .waitInfo-icon,
 .signInfo-icon,

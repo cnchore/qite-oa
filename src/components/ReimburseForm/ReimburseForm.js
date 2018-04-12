@@ -23,6 +23,12 @@ class ReimburseForm extends React.Component {
         </tr>
       )
     })
+    const getPayable=(a,b)=>{
+      if(b){
+        return b;
+      }
+      return (totalAmount - (a || 0)).toFixed(2);
+    }
     if(data && data.detailList && data.detailList.length<4){
         for(var i=0;i<(4-data.detailList.length);i++){
           defaultRows.push(
@@ -84,9 +90,9 @@ class ReimburseForm extends React.Component {
             }
             <tr>
               <td  className={styles['tc']}>核销借款：</td>
-              <td colSpan="2"  className={styles['tl']}>{data.loan && data.loan}</td>
+              <td colSpan="2"  className={styles['tl']}>{data.loan && data.loan || 0}</td>
               <td  className={styles['tc']}>应付款：</td>
-              <td  className={styles['tl']}>{data.payable && data.payable}</td>
+              <td  className={styles['tl']}>{getPayable(data.loan,data.payable)}</td>
             </tr>
           </tbody>
         </table>
