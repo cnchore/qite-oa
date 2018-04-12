@@ -27,6 +27,7 @@ import PromotionExpenseForm from '../../components/PromotionExpenseForm'
 import SalesPromotionForm from '../../components/SalesPromotionForm'
 import UrgentOrderForm from '../../components/UrgentOrderForm'
 import BorrowForm from '../../components/BorrowForm'
+import SegaApplyForm from '../../components/SegaApplyForm'
 
 import cs from 'classnames'
 class Print extends React.Component {
@@ -136,6 +137,11 @@ class Print extends React.Component {
 					printForm=<UrgentOrderForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList} dicList={printData.dicList}/>
 					// isA4=true;
 					break;
+				case 'AC'://世嘉建店申请
+					printForm=<SegaApplyForm data={printData.busiData} employeeList={printData.employeeList} commentList={printData.commentList}/>
+					// isA4=true;
+					break;
+					
 			}
 		}else{
 			return <div>错误：无可打印表单</div>

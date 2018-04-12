@@ -430,6 +430,14 @@ module.exports = {
       save:`${apiPrefixPro}/urgentOrder/save`,
       deleteById:`${apiPrefixPro}/urgentOrder/deleteById`,
     },
+    // 世嘉建店申请
+    segaApply:{
+      query:`${apiPrefixPro}/shopApply/getPage`,
+      queryById:`${apiPrefixPro}/shopApply/getById`,
+      getList:`${apiPrefixPro}/shopApply/getList`,
+      save:`${apiPrefixPro}/shopApply/save`,
+      deleteById:`${apiPrefixPro}/shopApply/deleteById`,
+    },
     //公务车管理
     car:{
       query:`${apiPreLogi}/car/getPage`,

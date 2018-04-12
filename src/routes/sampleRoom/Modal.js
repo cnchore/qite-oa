@@ -353,16 +353,20 @@ const modal = ({
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>
             申请折扣：
           </Col>
-          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-conent']}>
+          <Col xs={18} md={8} xl={5} style={{ paddingLeft:'0px' }} className={styles['q-detail-flex-conent']}>
             <FormItem >
-              {getFieldDecorator('applyDiscount', {
-                initialValue: item.applyDiscount,
+              {getFieldDecorator('discount', {
+                initialValue: isNaN(Number(item.discount))?100:Number(item.discount),
                 rules: [
                   {
                     required: true,message:'不能为空',
                   },
                 ],
-              })(<Input/>)}
+              })(<InputNumber
+                  min={0}
+                  max={100}
+                  formatter={value => `${value}%`}
+                  parser={value => value.replace('%', '')} />)}
             </FormItem>
           </Col>
           <Col xs={6} md={4} xl={3} style={{ paddingRight:'0px' }} className={styles['q-detail-label']}>

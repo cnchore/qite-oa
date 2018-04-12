@@ -754,6 +754,23 @@ const Routers = function ({ history, app }) {
             }, 'shop-detail')
           },
         },{
+          // 世嘉建店申请
+          path: '/segaApply',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/segaApply'))
+              cb(null, require('./routes/segaApply/'))
+            }, 'segaApply')
+          },
+        }, {
+          path: 'segaApply/:id',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/segaApply/detail'))
+              cb(null, require('./routes/segaApply/detail/'))
+            }, 'segaApply-detail')
+          },
+        },{
           // 借款申请
          path: '/borrow',
           getComponent (nextState, cb) {

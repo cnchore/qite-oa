@@ -541,7 +541,8 @@ const handerMsgLinkClick=(readFn,readPayload,linkTo,linkPayload)=>{
         //<Link to={`/renoSubsidy/${id}`}>{content}</Link>
         case 'SH'://建店申请
         return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true},null,{pathname:`/shop/${id}`})}>{content}</a>;
-        //<Link to={`/shop/${id}`}>{content}</Link>
+        case 'AC'://世嘉建店申请
+        return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true},null,{pathname:`/segaApply/${id}`})}>{content}</a>;
         case 'SL'://印章使用申请
         return <a onClick={e=>handerMsgLinkClick(readFn,{sId:item.id,type:2,hideMsg:true},null,{pathname:`/seal/${id}`})}>{content}</a>;
         //<Link to={`/seal/${id}`}>{content}</Link>
@@ -645,6 +646,8 @@ const handerMsgLinkClick=(readFn,readPayload,linkTo,linkPayload)=>{
         return onlyNeedUrl?`/renoSubsidy?${_url}`:<Link to={`/renoSubsidy?${_url}`}>{text}</Link>;
         case 'SH'://建店申请
         return onlyNeedUrl?`/shop?${_url}`:<Link to={`/shop?${_url}`}>{text}</Link>;
+        case 'AC'://世嘉建店申请
+        return onlyNeedUrl?`/segaApply?${_url}`:<Link to={`/segaApply?${_url}`}>{text}</Link>;
         case 'SL'://印章使用申请
         return onlyNeedUrl?`/seal?${_url}`:<Link to={`/seal?${_url}`}>{text}</Link>;
         case 'PP'://领料单

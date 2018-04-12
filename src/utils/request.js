@@ -96,13 +96,12 @@ export default function request (options) {
       && response.data.message==='login_timeout' && window.location.hash.indexOf('#/login')===-1){
       message.error('登录已过期，请重新登录');
       window.location.href=window.location.origin+window.location.pathname+'#/login?'+Math.random();
-    }else{
-      return {
-        success: true,
-        message: statusText,
-        status,
-        ...data,
-      }
+    }
+    return {
+      success: true,
+      message: data.message || statusText,
+      status,
+      ...data,
     }
   }).catch((error) => {
     const { response } = error

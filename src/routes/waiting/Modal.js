@@ -43,6 +43,7 @@ import PromotionExpenseDetailPage from '../../components/PromotionExpenseDetailP
 import SalesPromotionDetailPage from '../../components/SalesPromotionDetailPage'
 import UrgentOrderDetailPage from '../../components/UrgentOrderDetailPage'
 import BorrowDetailPage from '../../components/BorrowDetailPage'
+import SegaApplyDetailPage from '../../components/SegaApplyDetailPage'
 
 const confirm = Modal.confirm
 const FormItem = Form.Item
@@ -262,6 +263,10 @@ const modal = ({
       case 'UO'://印章使用申请
         detailpage=<UrgentOrderDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} dicList={taskData.dicList || []} />
         break;
+      case 'AC'://世嘉建店申请
+        detailpage=<SegaApplyDetailPage data={taskData.busiData} employeeList={taskData.userVo.employeeVo} />
+        break;
+        
     }
   }
   const handleActChange=(e)=>{

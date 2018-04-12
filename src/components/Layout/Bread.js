@@ -48,8 +48,9 @@ const Bread = ({ menu,darkTheme }) => {
     getPathArray(current)
   }
   if(_pathname!=='/dinnerBook' && pathArray && pathArray[0] && pathArray.filter(f=>f.name==='我的申请').length){
+
     let __pathName=pathArray.slice(-1)[0].router;
-    // console.log(__pathName)
+    // console.log(pathArray)
     let _code=__pathName.substr(1);
     code=`${_code.substr(0,1).toUpperCase()}${_code.substr(1)}`;
   }

@@ -79,7 +79,7 @@ class SampleRoomForm extends React.Component {
               <td className={styles['tc']}>小区地址</td>
               <td colSpan='7' className={styles['tc']}>{data.address || '无'}</td>
               <td className={styles['tc']}>申请折扣</td>
-              <td colSpan="3" className={styles['tc']}>{data.applyDiscount || ''}</td>
+              <td colSpan="3" className={styles['tc']}>{data.discount || '100'}%</td>
             </tr>
             
             <tr>
@@ -122,7 +122,7 @@ class SampleRoomForm extends React.Component {
               <td className={styles['tc']} colSpan="2">主动营销部总监</td>
               <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'部门总监')}</td>
               <td className={styles['tc']} colSpan="3">财务部</td>
-              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'财务部会计')}</td>
+              <td className={styles['tc']} colSpan="2">{getAuditerName(commentList,'财务总监') || getAuditerName(commentList,'财务部会计')}</td>
             </tr>
             <tr>
               <td className={styles['tc']} >订单中心</td>

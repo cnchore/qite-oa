@@ -47,6 +47,7 @@ import PromotionExpenseDetailPage from '../../../components/PromotionExpenseDeta
 import SalesPromotionDetailPage from '../../../components/SalesPromotionDetailPage'
 import UrgentOrderDetailPage from '../../../components/UrgentOrderDetailPage'
 import BorrowDetailPage from '../../../components/BorrowDetailPage'
+import SegaApplyDetailPage from '../../../components/SegaApplyDetailPage'
 
 const Detail = ({ completeDetail }) => {
   const { data,employeeList,dicList,taskNode } = completeDetail
@@ -195,6 +196,9 @@ const Detail = ({ completeDetail }) => {
         break;
       case 'UO'://订单加急申请
         detailpage=<UrgentOrderDetailPage data={data.busiData} employeeList={data.userVo.employeeVo} dicList={dicList} />
+        break;
+      case 'AC'://世嘉建店申请
+        detailpage=<SegaApplyDetailPage data={data.busiData} employeeList={data.userVo.employeeVo}/>
         break;
     }
   }
